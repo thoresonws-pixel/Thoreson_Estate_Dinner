@@ -211,18 +211,140 @@
         #rsvp {
             background: rgba(0,0,0,0.2);
         }
-        .form-container {
+        .rsvp-container {
             width: 100%;
-            max-width: 700px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(201, 162, 39, 0.3);
-            border-radius: 10px;
-            padding: 20px;
+            max-width: 500px;
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 2px solid #8b7355;
+            box-shadow: 
+                0 0 0 1px #a08060,
+                0 0 0 4px #2a2520,
+                0 0 0 6px #8b7355,
+                0 15px 40px rgba(0,0,0,0.4);
+            padding: 40px;
         }
-        .form-container iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
+        .rsvp-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .form-label {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2a2520;
+            letter-spacing: 1px;
+        }
+        .form-input, .form-textarea {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 18px;
+            padding: 12px 15px;
+            border: 1px solid #8b7355;
+            background: rgba(255,255,255,0.7);
+            color: #2a2520;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .form-input:focus, .form-textarea:focus {
+            border-color: #c9a227;
+            background: rgba(255,255,255,0.9);
+        }
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: #8b7355;
+            font-style: italic;
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px 0;
+        }
+        .radio-label input[type="radio"] {
+            display: none;
+        }
+        .radio-custom {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #8b7355;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .radio-label input[type="radio"]:checked + .radio-custom {
+            border-color: #c9a227;
+        }
+        .radio-label input[type="radio"]:checked + .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #c9a227;
+            border-radius: 50%;
+        }
+        .radio-text {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 17px;
+            color: #3a3028;
+            font-style: italic;
+        }
+        .form-button {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 16px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 15px 30px;
+            background: #2a2520;
+            color: #e8e0d0;
+            border: 2px solid #8b7355;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .form-button:hover {
+            background: #8b7355;
+            color: #f5f0e6;
+        }
+        .form-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .form-message {
+            text-align: center;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 18px;
+            font-style: italic;
+            padding: 15px;
+            display: none;
+        }
+        .form-message.success {
+            display: block;
+            color: #2a5a2a;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4a7c4a;
+        }
+        .form-message.error {
+            display: block;
+            color: #5a2a2a;
+            background: rgba(175, 76, 76, 0.2);
+            border: 1px solid #7c4a4a;
         }
         
         /* Cocktail Menu Section */
@@ -397,11 +519,22 @@
             .section-subtitle {
                 font-size: 14px;
             }
-            .form-container {
-                padding: 10px;
+            .rsvp-container {
+                padding: 25px 20px;
             }
-            .form-container iframe {
-                height: 700px;
+            .form-label {
+                font-size: 14px;
+            }
+            .form-input, .form-textarea {
+                font-size: 16px;
+                padding: 10px 12px;
+            }
+            .radio-text {
+                font-size: 15px;
+            }
+            .form-button {
+                font-size: 14px;
+                padding: 12px 20px;
             }
             .menu-container {
                 padding: 30px 25px;
@@ -499,8 +632,66 @@
         <h2 class="section-title">RSVP</h2>
         <p class="section-subtitle">Kindly respond by February 1st</p>
         
-        <div class="form-container">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSezQ99Orc5dvvlxnPLi3Jw_dkn8kNPwVu0GnxbRd0nTM61-Xg/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        <div class="rsvp-container">
+            <form id="rsvpForm" class="rsvp-form">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" name="name" class="form-input" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Will You Be Attending?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="attending" value="Yes" required>
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes, I shall attend</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="attending" value="No">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Regretfully, I must decline</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="attending" value="Maybe">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">I am yet uncertain</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Role Preference</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="role" value="Big dramatic role">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">A prominent role with secrets and intrigue</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="role" value="Quieter supporting role">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">A supporting role, observing from the shadows</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="role" value="No preference">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Surprise me</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Additional Notes <span style="font-weight: normal; font-style: italic;">(optional)</span></label>
+                    <textarea name="notes" class="form-textarea" placeholder="Dietary restrictions, questions, or other matters..."></textarea>
+                </div>
+                
+                <button type="submit" class="form-button">
+                    <span class="button-text">Send Response</span>
+                </button>
+                
+                <div id="formMessage" class="form-message"></div>
+            </form>
         </div>
     </section>
 
@@ -574,6 +765,59 @@
     </footer>
 
     <script>
+        // RSVP Form Submission to Google Forms
+        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSezQ99Orc5dvvlxnPLi3Jw_dkn8kNPwVu0GnxbRd0nTM61-Xg/formResponse';
+        
+        document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const button = form.querySelector('.form-button');
+            const message = document.getElementById('formMessage');
+            const buttonText = button.querySelector('.button-text');
+            
+            // Get form values
+            const name = form.querySelector('input[name="name"]').value;
+            const attending = form.querySelector('input[name="attending"]:checked')?.value || '';
+            const role = form.querySelector('input[name="role"]:checked')?.value || '';
+            const notes = form.querySelector('textarea[name="notes"]').value;
+            
+            // Disable button
+            button.disabled = true;
+            buttonText.textContent = 'Sending...';
+            
+            // Build form data for Google Forms
+            // You'll need to replace these entry IDs with your actual form entry IDs
+            const formData = new FormData();
+            formData.append('entry.XXXXXXXXX', name);      // Replace with your Name field entry ID
+            formData.append('entry.XXXXXXXXX', attending); // Replace with your Attending field entry ID
+            formData.append('entry.XXXXXXXXX', role);      // Replace with your Role field entry ID
+            formData.append('entry.XXXXXXXXX', notes);     // Replace with your Notes field entry ID
+            
+            try {
+                // Submit to Google Forms (will fail silently due to CORS, but data goes through)
+                await fetch(GOOGLE_FORM_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData
+                });
+                
+                // Show success message
+                message.className = 'form-message success';
+                message.textContent = 'Your response has been received. We look forward to your presence.';
+                form.reset();
+                
+            } catch (error) {
+                message.className = 'form-message error';
+                message.textContent = 'Something went wrong. Please try again or contact the host.';
+            }
+            
+            // Re-enable button
+            button.disabled = false;
+            buttonText.textContent = 'Send Response';
+        });
+        
+        // Guest list loading
         async function loadGuests() {
             const guestListEl = document.getElementById('guestList');
             
