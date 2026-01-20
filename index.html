@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Thoreson Estate Dinner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e8e8e8;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            border-bottom: 1px solid #c9a227;
+            padding: 15px 0;
+            z-index: 1000;
+        }
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            list-style: none;
+        }
+        nav a {
+            color: #c9a227;
+            text-decoration: none;
+            font-size: 18px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+        nav a:hover {
+            color: #fff;
+            text-shadow: 0 0 10px #c9a227;
+        }
+        
+        /* Sections */
+        section {
+            min-height: 100vh;
+            padding: 100px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Invitation Section */
+        #invitation {
+            justify-content: center;
+        }
+        .invitation-card {
+            width: 100%;
+            max-width: 550px;
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 3px solid #8b7355;
+            box-shadow: 
+                0 0 0 1px #a08060,
+                0 0 0 6px #2a2520,
+                0 0 0 8px #8b7355,
+                0 20px 60px rgba(0,0,0,0.5);
+            padding: 40px 35px;
+            position: relative;
+            overflow: hidden;
+        }
+        .invitation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 50 L50 100 L0 50 Z' fill='none' stroke='%23c9a22720' stroke-width='0.5'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .corner {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #8b7355;
+        }
+        .corner-tl { top: 15px; left: 15px; border-right: none; border-bottom: none; }
+        .corner-tr { top: 15px; right: 15px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: 15px; left: 15px; border-right: none; border-top: none; }
+        .corner-br { bottom: 15px; right: 15px; border-left: none; border-top: none; }
+        .invite-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 25px;
+        }
+        .ornament {
+            font-size: 28px;
+            color: #8b7355;
+        }
+        .estate-name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #2a2520;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .estate-sub {
+            font-size: 14px;
+            color: #8b7355;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: -15px;
+        }
+        .divider {
+            width: 150px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #8b7355, transparent);
+        }
+        .summons {
+            font-size: 16px;
+            color: #5a4a3a;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .message {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 20px;
+            font-style: italic;
+            color: #3a3028;
+            line-height: 1.8;
+        }
+        .announcement {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 18px;
+            color: #2a2520;
+            font-weight: 600;
+        }
+        .detail-label {
+            font-size: 11px;
+            color: #8b7355;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .detail-line {
+            font-size: 18px;
+            color: #3a3028;
+            letter-spacing: 1px;
+        }
+        .address {
+            font-size: 15px;
+            color: #5a4a3a;
+            line-height: 1.5;
+        }
+        .attire {
+            font-size: 15px;
+            font-style: italic;
+            color: #6a5a4a;
+            letter-spacing: 1px;
+        }
+        .host-label {
+            font-size: 11px;
+            color: #8b7355;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .host-name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 24px;
+            font-style: italic;
+            color: #2a2520;
+        }
+        .bottom-ornament {
+            font-size: 20px;
+            color: #8b7355;
+            letter-spacing: 10px;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 36px;
+            color: #c9a227;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .section-subtitle {
+            font-size: 16px;
+            color: #8b7355;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        /* RSVP Section */
+        #rsvp {
+            background: rgba(0,0,0,0.2);
+        }
+        .form-container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(201, 162, 39, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .form-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        
+        /* Guest List Section */
+        #guests {
+            
+        }
+        .guest-container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(201, 162, 39, 0.3);
+            border-radius: 10px;
+            padding: 30px;
+        }
+        .guest-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .guest-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            background: rgba(201, 162, 39, 0.1);
+            border-left: 3px solid #c9a227;
+        }
+        .guest-name {
+            font-size: 20px;
+            color: #e8e8e8;
+            letter-spacing: 1px;
+        }
+        .guest-status {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .status-yes {
+            background: rgba(76, 175, 80, 0.3);
+            color: #81c784;
+        }
+        .status-maybe {
+            background: rgba(255, 193, 7, 0.3);
+            color: #ffd54f;
+        }
+        .status-no {
+            background: rgba(244, 67, 54, 0.3);
+            color: #e57373;
+        }
+        .guest-note {
+            font-size: 14px;
+            color: #888;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .loading {
+            text-align: center;
+            color: #8b7355;
+            font-style: italic;
+            padding: 40px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #5a4a3a;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            nav ul {
+                gap: 20px;
+            }
+            nav a {
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+            .invitation-card {
+                padding: 30px 25px;
+            }
+            .estate-name {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+            .message {
+                font-size: 18px;
+            }
+            .section-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#invitation">Invitation</a></li>
+            <li><a href="#rsvp">RSVP</a></li>
+            <li><a href="#guests">Guests</a></li>
+        </ul>
+    </nav>
+
+    <!-- INVITATION SECTION -->
+    <section id="invitation">
+        <div class="invitation-card">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+            
+            <div class="invite-content">
+                <div class="ornament">✦</div>
+                
+                <div>
+                    <div class="estate-name">The Thoreson Estate</div>
+                    <div class="estate-sub">Dallas, Texas</div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="summons">You Are Cordially Summoned</div>
+                
+                <div class="message">
+                    to a dinner party at the estate.<br>
+                    Mr. Thoreson has an announcement to make<br>
+                    that shall change everything.
+                </div>
+                
+                <div class="announcement">Your presence is required.</div>
+                
+                <div class="divider"></div>
+                
+                <div>
+                    <div class="detail-label">Date</div>
+                    <div class="detail-line">Saturday, the Twenty-First of March</div>
+                </div>
+                
+                <div>
+                    <div class="detail-label">Time</div>
+                    <div class="detail-line">Cocktails at Six O'Clock</div>
+                    <div class="detail-line">Dinner Promptly at Half Past</div>
+                </div>
+                
+                <div>
+                    <div class="detail-label">Location</div>
+                    <div class="address">16920 Old Pond Drive<br>Dallas, Texas 75248</div>
+                </div>
+                
+                <div class="attire">Period formal attire requested</div>
+                
+                <div class="divider"></div>
+                
+                <div>
+                    <div class="host-label">Your Host</div>
+                    <div class="host-name">Mr. William Thoreson</div>
+                </div>
+                
+                <div class="bottom-ornament">✦ ✦ ✦</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP SECTION -->
+    <section id="rsvp">
+        <h2 class="section-title">RSVP</h2>
+        <p class="section-subtitle">Kindly respond by February 1st</p>
+        
+        <div class="form-container">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe2YAQnworwizdKvqTA/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading form...</iframe>
+        </div>
+    </section>
+
+    <!-- GUEST LIST SECTION -->
+    <section id="guests">
+        <h2 class="section-title">Expected Guests</h2>
+        <p class="section-subtitle">Those who have answered the summons</p>
+        
+        <div class="guest-container">
+            <div class="guest-list" id="guestList">
+                <div class="loading">Loading guest list...</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        The Thoreson Estate — 1935
+    </footer>
+
+    <script>
+        // Google Sheets API integration
+        // Replace SHEET_ID with your actual Google Sheet ID
+        // The sheet must be published to the web (File > Share > Publish to web)
+        
+        const SHEET_ID = 'YOUR_SHEET_ID_HERE';
+        const API_KEY = 'YOUR_API_KEY_HERE'; // Optional: for higher rate limits
+        
+        // Alternative: Use the published CSV URL
+        // Go to File > Share > Publish to web > Select CSV
+        const SHEET_CSV_URL = 'YOUR_PUBLISHED_CSV_URL_HERE';
+        
+        async function loadGuests() {
+            const guestListEl = document.getElementById('guestList');
+            
+            // For now, show placeholder data
+            // Replace this with actual Google Sheets integration
+            
+            // Option 1: If using Google Sheets API
+            // const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/A:D?key=${API_KEY}`);
+            // const data = await response.json();
+            
+            // Option 2: If using published CSV (simpler, no API key needed)
+            // Uncomment and update URL when ready:
+            /*
+            try {
+                const response = await fetch(SHEET_CSV_URL);
+                const csvText = await response.text();
+                const rows = csvText.split('\n').slice(1); // Skip header
+                
+                const guests = rows.map(row => {
+                    const cols = row.split(',');
+                    return {
+                        name: cols[1], // Assuming column B is name
+                        status: cols[2] // Assuming column C is attendance
+                    };
+                }).filter(g => g.name && g.status && g.status.toLowerCase().includes('yes'));
+                
+                displayGuests(guests);
+            } catch (error) {
+                guestListEl.innerHTML = '<div class="loading">Unable to load guest list</div>';
+            }
+            */
+            
+            // Placeholder data - replace with real integration
+            const placeholderGuests = [
+                { name: 'Awaiting responses...', status: '' }
+            ];
+            
+            displayGuests(placeholderGuests);
+        }
+        
+        function displayGuests(guests) {
+            const guestListEl = document.getElementById('guestList');
+            
+            if (guests.length === 0 || (guests.length === 1 && !guests[0].status)) {
+                guestListEl.innerHTML = `
+                    <div class="loading">
+                        No confirmed guests yet.<br>
+                        <span style="font-size: 14px; margin-top: 10px; display: block;">Be the first to RSVP above!</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            guestListEl.innerHTML = guests
+                .filter(g => g.name && g.name.trim())
+                .map(guest => `
+                    <div class="guest-item">
+                        <span class="guest-name">${guest.name}</span>
+                        ${guest.status ? `<span class="guest-status status-${guest.status.toLowerCase()}">${guest.status}</span>` : ''}
+                    </div>
+                `).join('');
+        }
+        
+        // Load guests on page load
+        document.addEventListener('DOMContentLoaded', loadGuests);
+    </script>
+</body>
+</html>
