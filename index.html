@@ -685,17 +685,17 @@
                     <label class="form-label">Role Preference</label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="role" value="Big dramatic role">
+                            <input type="radio" name="role" value="Big Dramatic Role (secrets, confrontations, spotlight moments)">
                             <span class="radio-custom"></span>
                             <span class="radio-text">A prominent role with secrets and intrigue</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="role" value="Quieter supporting role">
+                            <input type="radio" name="role" value="Quieter supporting role (important clues, observing)">
                             <span class="radio-custom"></span>
                             <span class="radio-text">A supporting role, observing from the shadows</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="role" value="No preference">
+                            <input type="radio" name="role" value="No preference / surprise me">
                             <span class="radio-custom"></span>
                             <span class="radio-text">Surprise me</span>
                         </label>
@@ -828,14 +828,13 @@
             buttonText.textContent = 'Sending...';
             
             // Build form data for Google Forms
-            // You'll need to replace these entry IDs with your actual form entry IDs
             const formData = new FormData();
-            formData.append('entry.XXXXXXXXX', name);      // Replace with your Name field entry ID
-            formData.append('entry.XXXXXXXXX', attending); // Replace with your Attending field entry ID
-            formData.append('entry.XXXXXXXXX', phone);     // Replace with your Phone field entry ID
-            formData.append('entry.XXXXXXXXX', email);     // Replace with your Email field entry ID
-            formData.append('entry.XXXXXXXXX', role);      // Replace with your Role field entry ID
-            formData.append('entry.XXXXXXXXX', notes);     // Replace with your Notes field entry ID
+            formData.append('entry.242898703', name);      // Name
+            formData.append('entry.986368937', attending); // Attending
+            formData.append('entry.409042646', phone);     // Phone
+            formData.append('entry.775321918', email);     // Email
+            formData.append('entry.196909869', role);      // Role
+            formData.append('entry.404572778', notes);     // Notes
             
             try {
                 // Submit to Google Forms (will fail silently due to CORS, but data goes through)
