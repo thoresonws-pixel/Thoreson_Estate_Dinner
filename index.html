@@ -346,6 +346,15 @@
             background: rgba(175, 76, 76, 0.2);
             border: 1px solid #7c4a4a;
         }
+        .contact-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(139, 115, 85, 0.1);
+            border-left: 3px solid #c9a227;
+            margin-top: -10px;
+        }
         
         /* Cocktail Menu Section */
         #cocktails {
@@ -643,20 +652,32 @@
                     <label class="form-label">Will You Be Attending?</label>
                     <div class="radio-group">
                         <label class="radio-label">
-                            <input type="radio" name="attending" value="Yes" required>
+                            <input type="radio" name="attending" value="Yes" required onchange="toggleContactFields()">
                             <span class="radio-custom"></span>
                             <span class="radio-text">Yes, I shall attend</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="attending" value="No">
+                            <input type="radio" name="attending" value="No" onchange="toggleContactFields()">
                             <span class="radio-custom"></span>
                             <span class="radio-text">Regretfully, I must decline</span>
                         </label>
                         <label class="radio-label">
-                            <input type="radio" name="attending" value="Maybe">
+                            <input type="radio" name="attending" value="Maybe" onchange="toggleContactFields()">
                             <span class="radio-custom"></span>
                             <span class="radio-text">I am yet uncertain</span>
                         </label>
+                    </div>
+                </div>
+                
+                <div id="contactFields" class="contact-fields" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Telephone Number</label>
+                        <input type="tel" name="phone" class="form-input" placeholder="Your telephone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-input" placeholder="Your email address">
                     </div>
                 </div>
                 
@@ -765,6 +786,24 @@
     </footer>
 
     <script>
+        // Toggle contact fields based on attendance selection
+        function toggleContactFields() {
+            const attending = document.querySelector('input[name="attending"]:checked')?.value;
+            const contactFields = document.getElementById('contactFields');
+            const phoneInput = document.querySelector('input[name="phone"]');
+            const emailInput = document.querySelector('input[name="email"]');
+            
+            if (attending === 'Yes') {
+                contactFields.style.display = 'flex';
+                phoneInput.required = true;
+                emailInput.required = true;
+            } else {
+                contactFields.style.display = 'none';
+                phoneInput.required = false;
+                emailInput.required = false;
+            }
+        }
+        
         // RSVP Form Submission to Google Forms
         const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSezQ99Orc5dvvlxnPLi3Jw_dkn8kNPwVu0GnxbRd0nTM61-Xg/formResponse';
         
@@ -779,6 +818,8 @@
             // Get form values
             const name = form.querySelector('input[name="name"]').value;
             const attending = form.querySelector('input[name="attending"]:checked')?.value || '';
+            const phone = form.querySelector('input[name="phone"]').value;
+            const email = form.querySelector('input[name="email"]').value;
             const role = form.querySelector('input[name="role"]:checked')?.value || '';
             const notes = form.querySelector('textarea[name="notes"]').value;
             
@@ -791,6 +832,8 @@
             const formData = new FormData();
             formData.append('entry.XXXXXXXXX', name);      // Replace with your Name field entry ID
             formData.append('entry.XXXXXXXXX', attending); // Replace with your Attending field entry ID
+            formData.append('entry.XXXXXXXXX', phone);     // Replace with your Phone field entry ID
+            formData.append('entry.XXXXXXXXX', email);     // Replace with your Email field entry ID
             formData.append('entry.XXXXXXXXX', role);      // Replace with your Role field entry ID
             formData.append('entry.XXXXXXXXX', notes);     // Replace with your Notes field entry ID
             
@@ -806,6 +849,7 @@
                 message.className = 'form-message success';
                 message.textContent = 'Your response has been received. We look forward to your presence.';
                 form.reset();
+                document.getElementById('contactFields').style.display = 'none';
                 
             } catch (error) {
                 message.className = 'form-message error';
