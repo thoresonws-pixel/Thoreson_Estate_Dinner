@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Analysis — Thoreson Estate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+        .clue-box {
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 2px solid #8b7355;
+            box-shadow: 0 0 0 1px #a08060, 0 0 0 4px #2a2520, 0 0 0 6px #8b7355, 0 15px 40px rgba(0,0,0,0.4);
+            padding: 40px;
+            text-align: center;
+        }
+        .clue-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 24px;
+            color: #2a2520;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .clue-subtitle {
+            font-size: 16px;
+            color: #8b7355;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+        .password-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+        .password-input {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 20px;
+            padding: 12px 15px;
+            border: 1px solid #8b7355;
+            background: rgba(255,255,255,0.7);
+            color: #2a2520;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            width: 100%;
+            max-width: 250px;
+            outline: none;
+        }
+        .password-input:focus {
+            border-color: #c9a227;
+            background: rgba(255,255,255,0.9);
+        }
+        .password-input::placeholder {
+            text-transform: none;
+            letter-spacing: 1px;
+            color: #8b7355;
+        }
+        .submit-btn {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 12px 30px;
+            background: #2a2520;
+            color: #e8e0d0;
+            border: 2px solid #8b7355;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .submit-btn:hover {
+            background: #8b7355;
+            color: #f5f0e6;
+        }
+        .error-msg {
+            color: #8b4a4a;
+            font-style: italic;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        /* Locked state */
+        .locked-content {
+            display: block;
+        }
+        .unlocked-content {
+            display: none;
+        }
+        
+        /* Unlocked state */
+        .clue-box.unlocked .locked-content {
+            display: none;
+        }
+        .clue-box.unlocked .unlocked-content {
+            display: block;
+        }
+        
+        /* Revealed clue styling */
+        .reveal-header {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 20px;
+            color: #2a2520;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #8b7355;
+        }
+        .reveal-content {
+            font-size: 18px;
+            color: #3a3028;
+            line-height: 1.8;
+            text-align: left;
+        }
+        .reveal-content p {
+            margin-bottom: 15px;
+        }
+        .reveal-highlight {
+            background: rgba(201, 162, 39, 0.2);
+            padding: 15px;
+            border-left: 3px solid #c9a227;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .reveal-danger {
+            background: rgba(139, 74, 74, 0.2);
+            padding: 15px;
+            border-left: 3px solid #8b4a4a;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .skill-badge {
+            display: inline-block;
+            background: #2a2520;
+            color: #c9a227;
+            padding: 5px 15px;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="clue-box" id="clueBox">
+            
+            <!-- LOCKED STATE -->
+            <div class="locked-content">
+                <div class="clue-title">Medical Report</div>
+                <div class="clue-subtitle">This document requires medical expertise to interpret</div>
+                
+                <div class="password-group">
+                    <input type="password" id="passwordInput" class="password-input" placeholder="Enter Password">
+                    <button onclick="checkPassword()" class="submit-btn">Analyze</button>
+                </div>
+                <div class="error-msg" id="errorMsg">Incorrect password. Find someone with medical knowledge.</div>
+            </div>
+            
+            <!-- UNLOCKED STATE -->
+            <div class="unlocked-content">
+                <div class="skill-badge">Medical Analysis</div>
+                <div class="reveal-header">Preliminary Autopsy Report — William Thoreson Sr.</div>
+                <div class="reveal-content">
+                    <p>Upon examination of this medical report, the cause of death becomes clear:</p>
+                    
+                    <div class="reveal-danger">
+                        "Cause of Death: Acute poisoning. Toxicology indicates presence of <strong>Aconitine</strong> — a lethal alkaloid derived from the plant Aconitum, commonly known as <strong>Wolfsbane</strong> or <strong>Monkshood</strong>."
+                    </div>
+                    
+                    <p>Aconitine is extremely deadly. Even small amounts can cause cardiac arrest within hours. It would have been administered orally — likely in food or drink.</p>
+                    
+                    <div class="reveal-highlight">
+                        "This was not natural causes. This was not an accident. William Thoreson was murdered."
+                    </div>
+                    
+                    <p>Symptoms would have included numbness, weakness, and chest pain. Death would have occurred within 2-6 hours of ingestion.</p>
+                    
+                    <p><strong>Note:</strong> Wolfsbane grows wild in mountainous regions of Europe — particularly the Alps of Switzerland, Austria, and surrounding areas.</p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // TEST PASSWORD - change later
+        const CORRECT_PASSWORD = "open";
+        
+        function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('errorMsg');
+            const box = document.getElementById('clueBox');
+            
+            if (input.value.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
+                box.classList.add('unlocked');
+            } else {
+                error.style.display = 'block';
+                input.value = '';
+            }
+        }
+        
+        // Allow Enter key
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+    </script>
+</body>
+</html>
