@@ -610,7 +610,7 @@
     </nav>
 
     <!-- INVITATION SECTION -->
-    <section id="invitation">
+    <section id="invitation" style="display: none;">
         <div class="invitation-card">
             <div class="corner corner-tl"></div>
             <div class="corner corner-tr"></div>
@@ -670,7 +670,7 @@
     </section>
 
     <!-- RSVP SECTION -->
-    <section id="rsvp">
+    <section id="rsvp" style="display: none;">
         <h2 class="section-title">RSVP</h2>
         <p class="section-subtitle">Kindly respond by February 1st</p>
         
@@ -750,7 +750,7 @@
     </section>
 
     <!-- COCKTAIL MENU SECTION -->
-    <section id="cocktails">
+    <section id="cocktails" style="display: none;">
         <h2 class="section-title">Cocktail Menu</h2>
         <p class="section-subtitle">Libations for the evening</p>
         
@@ -803,7 +803,7 @@
     </section>
 
     <!-- GUEST LIST SECTION -->
-    <section id="guests">
+    <section id="guests" style="display: none;">
         <h2 class="section-title">Expected Guests</h2>
         <p class="section-subtitle">Those who have answered the summons</p>
         
@@ -1173,6 +1173,8 @@
                 userSession = JSON.parse(session);
                 initializeAuthenticatedView();
             }
+            // Show invitation by default
+            document.getElementById('invitation').style.display = 'block';
         });
 
         function initializeAuthenticatedView() {
@@ -1384,6 +1386,27 @@
             }
         }
         
+        // Handle section navigation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    // Hide all sections
+                    document.querySelectorAll('section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    // Show clicked section
+                    const sectionId = href.substring(1);
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.style.display = 'block';
+                        window.scrollTo(0, 0);
+                    }
+                }
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', loadGuests);
     </script>
 </body>
