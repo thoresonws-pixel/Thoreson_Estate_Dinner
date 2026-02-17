@@ -13,7 +13,7 @@ This code lets you view ALL characters' full information on any character page.
 | Character Name | IRL Name | Access Code |
 |---|---|---|
 | Scott Thoreson Jr. | Scott | 73928 |
-| Frederick Brian T. Thoreson | Brian S. | 42851 |
+| Frederick Brian T. Thoreson | Brian T. | 42851 |
 | Charlotte Clara Waverly | Clara | 56374 |
 | Miranda Leanna Hartley | Leanna | 31429 |
 | Walter Lippman | Marc | 68915 |
