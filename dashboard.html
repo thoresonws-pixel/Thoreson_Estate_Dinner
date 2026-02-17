@@ -586,7 +586,7 @@
             const cocktailsEl = document.getElementById('cocktailsContent');
             if (!cocktailsEl) return;
 
-            if (userSession.username === 'Clara') {
+            if (userSession.username === 'Clara' || userSession.role === 'master') {
                 cocktailsEl.innerHTML = `
                     <strong>The Manhattan</strong><br>
                     2 oz whiskey, 1 oz sweet vermouth, 2 dashes Angostura bitters<br>
