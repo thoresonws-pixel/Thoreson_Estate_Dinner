@@ -264,6 +264,27 @@
             cursor: not-allowed;
         }
 
+        .skill-tracking {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #c9a227;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .skill-name {
+            color: #c9a227;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .unlock-status {
+            text-align: right;
+        }
+
         .no-clues {
             text-align: center;
             padding: 40px;
@@ -716,6 +737,7 @@
             let html = '<div class="master-controls">';
 
             html += '<div class="content-title" style="margin-bottom: 20px;">Story Clue Controls</div>';
+            html += '<p style="color: #999; margin-bottom: 30px; font-size: 14px;">Click to unlock story clues for all guests</p>';
 
             Object.entries(storyClues).forEach(([key, clue]) => {
                 const isUnlocked = userSession.unlockedStoryClues.includes(key);
@@ -733,28 +755,30 @@
 
             html += '</div>';
 
-            // Show all skill-based clues for reference
-            html += '<div class="content-title">Skill-Based Clues (Reference)</div>';
-            Object.entries(clueDatabase).forEach(([skill, clue]) => {
-                if (clue.type === 'skill') {
-                    html += `
-                        <div class="clue-item">
-                            <div class="clue-title">${clue.title}</div>
-                            <div class="clue-content">${clue.content}</div>
-                        </div>
-                    `;
-                }
-            });
+            // SKILL UNLOCK TRACKING
+            html += '<div class="master-controls" style="margin-top: 30px;">';
+            html += '<div class="content-title" style="margin-bottom: 20px;">Skill Unlock Tracking</div>';
+            html += '<p style="color: #999; margin-bottom: 20px; font-size: 14px;">Track which guests have unlocked skill clues</p>';
 
-            if (userSession.username === 'TestUser1' || userSession.username === 'TestUser2') {
+            const skillNames = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"];
+            
+            skillNames.forEach(skill => {
                 html += `
-                    <div class="content-card">
-                        <button class="reset-btn" onclick="resetAccount()">Reset Testing Account</button>
+                    <div class="skill-tracking">
+                        <div class="skill-name">${skill}</div>
+                        <div class="unlock-status" id="status-${skill}">
+                            <span style="color: #999; font-size: 12px;">Waiting for scans...</span>
+                        </div>
                     </div>
                 `;
-            }
+            });
+
+            html += '</div>';
 
             document.getElementById('masterCluesContent').innerHTML = html;
+            
+            // Update tracking display
+            updateSkillTracking();
         }
 
         function unlockStoryClue(clueKey) {
@@ -786,11 +810,51 @@
             if (!userSession.unlockedSkills.includes(skill)) {
                 userSession.unlockedSkills.push(skill);
                 localStorage.setItem('userSession', JSON.stringify(userSession));
+                
+                // Track the unlock in global tracking
+                trackSkillUnlock(userSession.username, skill);
+                
                 loadCluesData();
                 alert(`✓ Skill unlocked: ${skill}`);
             } else {
                 alert(`You've already unlocked: ${skill}`);
             }
+        }
+
+        function trackSkillUnlock(username, skill) {
+            // Store unlock event for master to see
+            let unlocks = JSON.parse(localStorage.getItem('skillUnlocks') || '{}');
+            if (!unlocks[skill]) {
+                unlocks[skill] = [];
+            }
+            unlocks[skill].push({
+                username: username,
+                timestamp: new Date().toLocaleTimeString()
+            });
+            localStorage.setItem('skillUnlocks', JSON.stringify(unlocks));
+            
+            // Update master view if they're looking at master clues
+            if (userSession.role === 'master') {
+                updateSkillTracking();
+            }
+        }
+
+        function updateSkillTracking() {
+            const unlocks = JSON.parse(localStorage.getItem('skillUnlocks') || '{}');
+            const skillNames = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"];
+            
+            skillNames.forEach(skill => {
+                const statusEl = document.getElementById(`status-${skill}`);
+                if (statusEl && unlocks[skill]) {
+                    const lastUnlock = unlocks[skill][unlocks[skill].length - 1];
+                    statusEl.innerHTML = `
+                        <div style="color: #4caf50; font-size: 12px;">
+                            <strong>${unlocks[skill].length}</strong> unlock${unlocks[skill].length !== 1 ? 's' : ''}<br>
+                            Last: <strong>${lastUnlock.username}</strong> at ${lastUnlock.timestamp}
+                        </div>
+                    `;
+                }
+            });
         }
 
         function resetAccount() {
