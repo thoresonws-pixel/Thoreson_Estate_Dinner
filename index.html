@@ -861,27 +861,33 @@
             buttonText.textContent = 'Send Response';
         });
         
-        // Guest list loading
-        async function loadGuests() {
-            const guestListEl = document.getElementById('guestList');
-            
-            // Google Sheets published as CSV
-            const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTKMK7nky8MuzT4zmeFx47hR5XwI0WKd1D9DtVDQnE-DacjWFdpl-prigF70MgIW9JxbrzHA3ad0zLP/pub?gid=228313978&single=true&output=csv';
-            
-            try {
-                const response = await fetch(SHEET_CSV_URL);
-                const csvText = await response.text();
-                const rows = csvText.split('\n').slice(1); // Skip header
-                
-                const guests = rows
-                    .map(row => row.trim())
-                    .filter(name => name && name.length > 0);
-                
-                displayGuests(guests);
-            } catch (error) {
-                console.error('Error loading guests:', error);
-                guestListEl.innerHTML = '<div class="loading">Unable to load guest list</div>';
-            }
+        // Guest List Data - Character Names with IRL Names
+        const charactersList = [
+            { id: "scott-thoreson-jr", name: "Scott Thoreson Jr.", irlName: "Scott" },
+            { id: "frederick-brian-thoreson", name: "Frederick Brian T. Thoreson", irlName: "Brian S." },
+            { id: "charlotte-clara-waverly", name: "Charlotte Clara Waverly", irlName: "Clara" },
+            { id: "leanna-midday-miranda-hartley", name: "Miranda Leanna Hartley", irlName: "Leanna" },
+            { id: "walter-lippman", name: "Walter Lippman", irlName: "Marc" },
+            { id: "maisy-maan-de-kok-sophie", name: "Sophie Maisy Vanderpool", irlName: "Maisy" },
+            { id: "vivienne-ashford", name: "Vivienne Ashford", irlName: "Hannah" },
+            { id: "dj-strickland-david", name: "David Richardson", irlName: "DJ" },
+            { id: "peter-hammann-raymond", name: "Raymond Hammond", irlName: "Peter" },
+            { id: "arash-fan-marcus", name: "Marcus Brennan", irlName: "Arash" },
+            { id: "becky-piroga-victoria", name: "Victoria Ashworth", irlName: "Becky" },
+            { id: "thomas-bradford", name: "Thomas Bradford", irlName: "Brian S." },
+            { id: "margaret-ashford", name: "Margaret Ashford", irlName: "Katie" },
+            { id: "dorothy-wells", name: "Dorothy Wells", irlName: "Michelle" },
+            { id: "charles-sterling", name: "Charles Sterling", irlName: "Jeff" },
+            { id: "patricia-chamberlain", name: "Patricia Chamberlain", irlName: "Casey" },
+            { id: "victoria-grant", name: "Victoria Grant", irlName: "Krystal" },
+            { id: "elizabeth-monroe", name: "Elizabeth Monroe", irlName: "Lindsey" },
+            { id: "james-sterling", name: "James Sterling", irlName: "Bradey" },
+            { id: "william-chamberlain", name: "William Chamberlain", irlName: "Alexander" },
+            { id: "robert-chamberlain", name: "Robert Chamberlain", irlName: "Jesse" }
+        ];
+        
+        function loadGuests() {
+            displayGuests(charactersList);
         }
         
         function displayGuests(guests) {
@@ -893,7 +899,14 @@
             }
             
             guestListEl.innerHTML = guests
-                .map(name => `<div class="guest-item"><span class="guest-bullet">✦</span><span class="guest-name">${name}</span></div>`)
+                .map(character => `
+                    <a href="character.html?id=${character.id}" style="text-decoration: none; color: inherit;">
+                        <div class="guest-item">
+                            <span class="guest-bullet">✦</span>
+                            <span class="guest-name">${character.name} (${character.irlName})</span>
+                        </div>
+                    </a>
+                `)
                 .join('');
         }
         
