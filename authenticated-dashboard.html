@@ -574,7 +574,7 @@
             <li><a href="#cocktails">Cocktails</a></li>
             <li><a href="#guests">Guests</a></li>
             <li><a href="#character">Character Background</a></li>
-            <li><a href="#clues">Clues</a></li>
+            <li><a href="#discoveries">Discoveries</a></li>
             <li id="masterNav" style="display:none;"><a href="#masterclues">Master Clues</a></li>
             <li style="position: fixed; right: 20px; top: 15px;"><a href="#" onclick="logout(); return false;">Logout</a></li>
 
@@ -793,8 +793,8 @@
     </section>
 
     <!-- CLUES SECTION -->
-    <section id="clues" style="display: none;">
-        <h2 class="section-title">Clues</h2>
+    <section id="discoveries" style="display: none;">
+        <h2 class="section-title">Discoveries</h2>
         <button onclick="openQRScanner()" style="background: #c9a227; color: #1a1a2e; border: none; padding: 12px 30px; font-size: 16px; cursor: pointer; border-radius: 3px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px;">📱 Scan QR Code</button>
         <div id="cluesContent"></div>
     </section>
@@ -947,12 +947,12 @@
             }
 
             if (userSession.role === 'master') {
-                userSession.unlockedSkills = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"];
+                userSession.unlockedSkills = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical", "Bartender"];
                 localStorage.setItem('userSession', JSON.stringify(userSession));
             }
 
             loadCharacterData();
-            loadCluesData();
+            loadDiscoveriesData();
             if (userSession.role === 'master') {
                 loadMasterClues();
             }
@@ -985,7 +985,7 @@
             document.getElementById('characterContent').innerHTML = html;
         }
 
-        function loadCluesData() {
+        function loadDiscoveriesData() {
             let html = '';
 
             if (userSession.skills && userSession.skills.length > 0) {
@@ -1021,7 +1021,7 @@
                 html = '<div style="text-align: center; padding: 40px; color: #999; font-style: italic;">No clues unlocked yet...</div>';
             }
 
-            document.getElementById('cluesContent').innerHTML = html;
+            document.getElementById('discoveriesContent').innerHTML = html;
         }
 
         function loadMasterClues() {
@@ -1054,7 +1054,7 @@
             if (!userSession.unlockedSkills.includes(skill)) {
                 userSession.unlockedSkills.push(skill);
                 localStorage.setItem('userSession', JSON.stringify(userSession));
-                loadCluesData();
+                loadDiscoveriesData();
                 alert(`✓ Unlocked: ${skill}`);
             }
         }
@@ -1064,7 +1064,7 @@
             if (!userSession.unlockedStoryClues.includes(clueKey)) {
                 userSession.unlockedStoryClues.push(clueKey);
                 localStorage.setItem('userSession', JSON.stringify(userSession));
-                loadCluesData();
+                loadDiscoveriesData();
                 loadMasterClues();
             }
         }
