@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Thoreson Estate Dinner</title>
+    <title>The Thoreson Estate Dinner</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -11,14 +11,14 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Cormorant Garamond', Georgia, serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
             color: #e8e8e8;
         }
-
+        
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -29,320 +29,539 @@
             padding: 15px 0;
             z-index: 1000;
         }
-
         nav ul {
             display: flex;
             justify-content: center;
             gap: 40px;
             list-style: none;
-            flex-wrap: wrap;
         }
-
         nav a {
             color: #c9a227;
             text-decoration: none;
-            font-size: 16px;
-            letter-spacing: 2px;
+            font-size: 18px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             transition: all 0.3s;
-            cursor: pointer;
         }
-
         nav a:hover {
             color: #fff;
             text-shadow: 0 0 10px #c9a227;
         }
-
-        nav a.active {
-            color: #fff;
-            text-shadow: 0 0 10px #c9a227;
-        }
-
-        .logout-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #c9a227;
-            color: #1a1a2e;
-            border: none;
-            padding: 8px 16px;
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 3px;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            z-index: 999;
-        }
-
-        .logout-btn:hover {
-            background: #e8c55a;
-            transform: scale(1.05);
-        }
-
+        
+        /* Sections */
         section {
-            display: none;
             min-height: 100vh;
             padding: 100px 20px 60px;
-            max-width: 1000px;
-            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        section.active {
-            display: block;
+        
+        /* Invitation Section */
+        #invitation {
+            justify-content: center;
         }
-
-        .section-title {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 48px;
-            color: #c9a227;
-            margin-bottom: 40px;
+        .invitation-card {
+            width: 100%;
+            max-width: 550px;
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 3px solid #8b7355;
+            box-shadow: 
+                0 0 0 1px #a08060,
+                0 0 0 6px #2a2520,
+                0 0 0 8px #8b7355,
+                0 20px 60px rgba(0,0,0,0.5);
+            padding: 40px 35px;
+            position: relative;
+            overflow: hidden;
+        }
+        .invitation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 50 L50 100 L0 50 Z' fill='none' stroke='%23c9a22720' stroke-width='0.5'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .corner {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #8b7355;
+        }
+        .corner-tl { top: 15px; left: 15px; border-right: none; border-bottom: none; }
+        .corner-tr { top: 15px; right: 15px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: 15px; left: 15px; border-right: none; border-top: none; }
+        .corner-br { bottom: 15px; right: 15px; border-left: none; border-top: none; }
+        .invite-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            letter-spacing: 2px;
+            gap: 25px;
         }
-
-        .content-card {
-            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
-            border: 2px solid #c9a227;
-            border-radius: 5px;
-            padding: 40px;
-            margin-bottom: 30px;
+        .ornament {
+            font-size: 28px;
+            color: #8b7355;
         }
-
-        .content-title {
+        .estate-name {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: 24px;
-            color: #c9a227;
-            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: 700;
+            color: #2a2520;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            letter-spacing: 2px;
         }
-
-        .content-text {
-            font-size: 16px;
-            line-height: 1.8;
-            color: #e8e8e8;
-        }
-
-        .content-list {
-            list-style: none;
-            padding-left: 20px;
-        }
-
-        .content-list li {
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-
-        .content-list li:before {
-            content: "✦ ";
-            color: #c9a227;
-            margin-right: 10px;
-        }
-
-        .clue-item {
-            background: rgba(201, 162, 39, 0.1);
-            border-left: 3px solid #c9a227;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 3px;
-        }
-
-        .clue-title {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: 20px;
-            color: #c9a227;
-            margin-bottom: 10px;
-        }
-
-        .clue-content {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #e8e8e8;
-        }
-
-        .locked-clue {
-            background: rgba(0, 0, 0, 0.3);
-            border-left: 3px solid #666;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 3px;
-        }
-
-        .locked-clue .clue-title {
-            color: #999;
-        }
-
-        .locked-message {
-            color: #999;
-            font-style: italic;
-        }
-
-        .qr-scanner-btn {
-            background: #c9a227;
-            color: #1a1a2e;
-            border: none;
-            padding: 14px 30px;
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 3px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-            transition: all 0.3s;
-            margin-bottom: 30px;
-        }
-
-        .qr-scanner-btn:hover {
-            background: #e8c55a;
-            transform: scale(1.05);
-        }
-
-        .reset-btn {
-            background: #d32f2f;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            font-family: 'Cormorant Garamond', Georgia, serif;
+        .estate-sub {
             font-size: 14px;
-            cursor: pointer;
-            border-radius: 3px;
-            letter-spacing: 1px;
+            color: #8b7355;
+            letter-spacing: 6px;
             text-transform: uppercase;
-            transition: all 0.3s;
-            margin-top: 20px;
+            margin-top: -15px;
         }
-
-        .reset-btn:hover {
-            background: #b71c1c;
-            transform: scale(1.05);
+        .divider {
+            width: 150px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #8b7355, transparent);
         }
-
-        .master-controls {
-            background: rgba(201, 162, 39, 0.1);
-            border: 2px solid #c9a227;
-            padding: 30px;
-            border-radius: 5px;
-            margin-bottom: 30px;
+        .summons {
+            font-size: 16px;
+            color: #5a4a3a;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
-
-        .control-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            margin-bottom: 15px;
-            border-radius: 3px;
-        }
-
-        .control-item-title {
-            font-size: 18px;
-            color: #c9a227;
-        }
-
-        .unlock-all-btn {
-            background: #4caf50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 3px;
+        .message {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-
-        .unlock-all-btn:hover {
-            background: #45a049;
-            transform: scale(1.05);
-        }
-
-        .unlock-all-btn.unlocked {
-            background: #999;
-            cursor: not-allowed;
-        }
-
-        .skill-tracking {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #c9a227;
-            padding: 15px;
-            margin-bottom: 12px;
-            border-radius: 3px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .skill-name {
-            color: #c9a227;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .unlock-status {
-            text-align: right;
-        }
-
-        .no-clues {
-            text-align: center;
-            padding: 40px;
-            color: #999;
+            font-size: 20px;
             font-style: italic;
+            color: #3a3028;
+            line-height: 1.8;
         }
-
-        .guest-list-inline {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .guest-card-inline {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #c9a227;
-            padding: 15px;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .guest-card-inline:hover {
-            border-color: #fff;
-            background: rgba(201, 162, 39, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .guest-card-inline-name {
-            color: #c9a227;
-            font-size: 16px;
+        .announcement {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 18px;
+            color: #2a2520;
             font-weight: 600;
+        }
+        .detail-label {
+            font-size: 11px;
+            color: #8b7355;
+            letter-spacing: 4px;
+            text-transform: uppercase;
             margin-bottom: 5px;
         }
-
-        .guest-card-inline-irl {
-            color: #999;
-            font-size: 12px;
-            margin-bottom: 10px;
+        .detail-line {
+            font-size: 18px;
+            color: #3a3028;
+            letter-spacing: 1px;
         }
-
-        .guest-card-inline-desc {
-            color: #e8e8e8;
-            font-size: 13px;
+        .address {
+            font-size: 15px;
+            color: #5a4a3a;
             line-height: 1.5;
         }
-
-        @media (max-width: 768px) {
+        .attire {
+            font-size: 15px;
+            font-style: italic;
+            color: #6a5a4a;
+            letter-spacing: 1px;
+        }
+        .host-label {
+            font-size: 11px;
+            color: #8b7355;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+        .host-name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 24px;
+            font-style: italic;
+            color: #2a2520;
+        }
+        .bottom-ornament {
+            font-size: 20px;
+            color: #8b7355;
+            letter-spacing: 10px;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 36px;
+            color: #c9a227;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .section-subtitle {
+            font-size: 16px;
+            color: #8b7355;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        /* RSVP Section */
+        #rsvp {
+            background: rgba(0,0,0,0.2);
+        }
+        .rsvp-container {
+            width: 100%;
+            max-width: 500px;
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 2px solid #8b7355;
+            box-shadow: 
+                0 0 0 1px #a08060,
+                0 0 0 4px #2a2520,
+                0 0 0 6px #8b7355,
+                0 15px 40px rgba(0,0,0,0.4);
+            padding: 40px;
+        }
+        .rsvp-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .form-label {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2a2520;
+            letter-spacing: 1px;
+        }
+        .form-input, .form-textarea {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 18px;
+            padding: 12px 15px;
+            border: 1px solid #8b7355;
+            background: rgba(255,255,255,0.7);
+            color: #2a2520;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .form-input:focus, .form-textarea:focus {
+            border-color: #c9a227;
+            background: rgba(255,255,255,0.9);
+        }
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: #8b7355;
+            font-style: italic;
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 8px 0;
+        }
+        .radio-label input[type="radio"] {
+            display: none;
+        }
+        .radio-custom {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #8b7355;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .radio-label input[type="radio"]:checked + .radio-custom {
+            border-color: #c9a227;
+        }
+        .radio-label input[type="radio"]:checked + .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #c9a227;
+            border-radius: 50%;
+        }
+        .radio-text {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 17px;
+            color: #3a3028;
+            font-style: italic;
+        }
+        .form-button {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 16px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 15px 30px;
+            background: #2a2520;
+            color: #e8e0d0;
+            border: 2px solid #8b7355;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .form-button:hover {
+            background: #8b7355;
+            color: #f5f0e6;
+        }
+        .form-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .form-message {
+            text-align: center;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 18px;
+            font-style: italic;
+            padding: 15px;
+            display: none;
+        }
+        .form-message.success {
+            display: block;
+            color: #2a5a2a;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4a7c4a;
+        }
+        .form-message.error {
+            display: block;
+            color: #5a2a2a;
+            background: rgba(175, 76, 76, 0.2);
+            border: 1px solid #7c4a4a;
+        }
+        .contact-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(139, 115, 85, 0.1);
+            border-left: 3px solid #c9a227;
+            margin-top: -10px;
+        }
+        
+        /* Cocktail Menu Section */
+        #cocktails {
+            background: rgba(0,0,0,0.1);
+        }
+        .menu-container {
+            width: 100%;
+            max-width: 450px;
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 2px solid #8b7355;
+            box-shadow: 
+                0 0 0 1px #a08060,
+                0 0 0 4px #2a2520,
+                0 0 0 6px #8b7355,
+                0 15px 40px rgba(0,0,0,0.4);
+            padding: 40px;
+            text-align: center;
+        }
+        .menu-section {
+            margin-bottom: 10px;
+        }
+        .menu-header {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #2a2520;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .menu-item {
+            margin-bottom: 18px;
+        }
+        .drink-name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: #2a2520;
+            margin-bottom: 4px;
+        }
+        .drink-desc {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 16px;
+            font-style: italic;
+            color: #5a4a3a;
+            letter-spacing: 1px;
+        }
+        .menu-divider {
+            font-size: 18px;
+            color: #8b7355;
+            margin: 25px 0;
+        }
+        
+        /* Guest List Section */
+        #guests {
+            
+        }
+        .guest-container {
+            width: 100%;
+            max-width: 500px;
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 2px solid #8b7355;
+            box-shadow: 
+                0 0 0 1px #a08060,
+                0 0 0 4px #2a2520,
+                0 0 0 6px #8b7355,
+                0 15px 40px rgba(0,0,0,0.4);
+            padding: 30px 40px;
+        }
+        .guest-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .guest-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+        }
+        .guest-item:last-child {
+            border-bottom: none;
+        }
+        .guest-bullet {
+            color: #8b7355;
+            font-size: 12px;
+        }
+        .guest-name {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 20px;
+            color: #2a2520;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+        .loading {
+            text-align: center;
+            color: #5a4a3a;
+            font-style: italic;
+            padding: 30px;
+            font-size: 18px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #5a4a3a;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
             nav ul {
-                gap: 20px;
+                gap: 15px;
             }
-
             nav a {
+                font-size: 12px;
+                letter-spacing: 1px;
+            }
+            section {
+                padding: 80px 15px 40px;
+            }
+            .invitation-card {
+                padding: 25px 20px;
+            }
+            .corner {
+                width: 40px;
+                height: 40px;
+            }
+            .corner-tl, .corner-tr, .corner-bl, .corner-br {
+                top: 10px;
+                left: 10px;
+            }
+            .corner-tr, .corner-br {
+                left: auto;
+                right: 10px;
+            }
+            .corner-bl, .corner-br {
+                top: auto;
+                bottom: 10px;
+            }
+            .estate-name {
+                font-size: 22px;
+                letter-spacing: 2px;
+            }
+            .summons {
+                font-size: 12px;
+                letter-spacing: 2px;
+            }
+            .message {
+                font-size: 16px;
+            }
+            .announcement {
+                font-size: 16px;
+            }
+            .detail-line {
+                font-size: 16px;
+            }
+            .address {
                 font-size: 14px;
             }
-
-            .content-card {
-                padding: 20px;
+            .host-name {
+                font-size: 20px;
+            }
+            .section-title {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+            .section-subtitle {
+                font-size: 14px;
+            }
+            .rsvp-container {
+                padding: 25px 20px;
+            }
+            .form-label {
+                font-size: 14px;
+            }
+            .form-input, .form-textarea {
+                font-size: 16px;
+                padding: 10px 12px;
+            }
+            .radio-text {
+                font-size: 15px;
+            }
+            .form-button {
+                font-size: 14px;
+                padding: 12px 20px;
+            }
+            .menu-container {
+                padding: 30px 25px;
+            }
+            .menu-header {
+                font-size: 18px;
+            }
+            .drink-name {
+                font-size: 18px;
+            }
+            .drink-desc {
+                font-size: 14px;
+            }
+            .guest-container {
+                padding: 20px 25px;
+            }
+            .guest-name {
+                font-size: 18px;
             }
         }
     </style>
@@ -350,339 +569,421 @@
 <body>
     <nav>
         <ul>
-            <li><a id="homeTab" class="tab-link active">Home</a></li>
-            <li><a id="characterTab" class="tab-link">Character Background</a></li>
-            <li><a id="cluesTab" class="tab-link">Clues</a></li>
-            <li id="masterCluesNav" style="display: none;"><a id="masterCluesTab" class="tab-link">Master Clues</a></li>
+            <li><a href="#invitation">Invitation</a></li>
+            <li><a href="#rsvp">RSVP</a></li>
+            <li><a href="#cocktails">Cocktails</a></li>
+            <li><a href="#guests">Guests</a></li>
+            <li><a href="#character">Character Background</a></li>
+            <li><a href="#clues">Clues</a></li>
+            <li id="masterNav" style="display:none;"><a href="#masterclues">Master Clues</a></li>
+            <li style="position: fixed; right: 20px; top: 15px;"><a href="#" onclick="logout(); return false;">Logout</a></li>
+
         </ul>
     </nav>
 
-    <button class="logout-btn" onclick="logout()">Logout</button>
+    <!-- INVITATION SECTION -->
+    <section id="invitation">
+        <div class="invitation-card">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+            
+            <div class="invite-content">
+                <div class="ornament">✦</div>
+                
+                <div>
+                    <div class="estate-name">The Thoreson Estate</div>
+                </div>
+                
+                <div class="divider"></div>
+                
+                <div class="summons">You Are Cordially Summoned</div>
+                
+                <div class="message">
+                    to a dinner party at the estate.<br>
+                    Mr. Thoreson has an announcement to make<br>
+                    that shall change everything.
+                </div>
+                
+                <div class="announcement">Your presence is required.</div>
+                
+                <div class="divider"></div>
+                
+                <div>
+                    <div class="detail-label">Date</div>
+                    <div class="detail-line">Saturday, the Twenty-First of March</div>
+                    <div class="detail-line">Nineteen Thirty-Five</div>
+                </div>
+                
+                <div>
+                    <div class="detail-label">Time</div>
+                    <div class="detail-line">Cocktails at Six O'Clock</div>
+                    <div class="detail-line">Dinner Promptly at Half Past</div>
+                </div>
+                
+                <div>
+                    <div class="detail-label">Location</div>
+                    <div class="address">16920 Old Pond Drive<br>Dallas, Texas 75248</div>
+                </div>
+                
+                <div class="attire">1930s formal attire requested</div>
+                
+                <div class="divider"></div>
+                
+                <div>
+                    <div class="host-label">Your Host</div>
+                    <div class="host-name">Mr. William Thoreson</div>
+                </div>
+                
+                <div class="bottom-ornament">✦ ✦ ✦</div>
+            </div>
+        </div>
+    </section>
 
-    <!-- HOME SECTION -->
-    <section id="homeSection" class="active">
-        <h1 class="section-title">The Thoreson Estate</h1>
+    <!-- RSVP SECTION -->
+    <section id="rsvp">
+        <h2 class="section-title">RSVP</h2>
+        <p class="section-subtitle">Kindly respond by February 1st</p>
         
-        <!-- INVITATION -->
-        <div class="content-card">
-            <div class="content-title">You Are Cordially Invited</div>
-            <div class="content-text">
-                to a dinner party at<br>
-                <strong>The Thoreson Estate</strong><br>
-                <br>
-                March 21st, 1935<br>
-                7:00 PM<br>
-                <br>
-                Black Tie Optional<br>
-                RSVP to Scott Thoreson Jr.
+        <div class="rsvp-container">
+            <form id="rsvpForm" class="rsvp-form">
+                <div class="form-group">
+                    <label class="form-label">Your Name</label>
+                    <input type="text" name="name" class="form-input" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Will You Be Attending?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="attending" value="Yes" required onchange="toggleContactFields()">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Yes, I shall attend</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="attending" value="No" onchange="toggleContactFields()">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Regretfully, I must decline</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="attending" value="Maybe" onchange="toggleContactFields()">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">I am yet uncertain</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="contactFields" class="contact-fields" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Telephone Number</label>
+                        <input type="tel" name="phone" class="form-input" placeholder="Your telephone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-input" placeholder="Your email address">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Role Preference</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="role" value="Big Dramatic Role (secrets, confrontations, spotlight moments)">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">A prominent role with secrets and intrigue</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="role" value="Quieter supporting role (important clues, observing)">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">A supporting role, observing from the shadows</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="role" value="No preference / surprise me">
+                            <span class="radio-custom"></span>
+                            <span class="radio-text">Surprise me</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Additional Notes <span style="font-weight: normal; font-style: italic;">(optional)</span></label>
+                    <textarea name="notes" class="form-textarea" placeholder="Dietary restrictions, questions, or other matters..."></textarea>
+                </div>
+                
+                <button type="submit" class="form-button">
+                    <span class="button-text">Send Response</span>
+                </button>
+                
+                <div id="formMessage" class="form-message"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- COCKTAIL MENU SECTION -->
+    <section id="cocktails">
+        <h2 class="section-title">Cocktail Menu</h2>
+        <p class="section-subtitle">Libations for the evening</p>
+        
+        <div class="menu-container">
+            <div class="menu-section">
+                <div class="menu-header">Spirits</div>
+                
+                <div class="menu-item">
+                    <div class="drink-name">Old Fashioned</div>
+                    <div class="drink-desc">Whiskey, Sugar, Bitters, Orange Peel</div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="drink-name">Gin Rickey</div>
+                    <div class="drink-desc">Gin, Lime, Soda Water</div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="drink-name">Bee's Knees</div>
+                    <div class="drink-desc">Gin, Honey, Lime</div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="drink-name">Cuba Libre</div>
+                    <div class="drink-desc">Rum, Cola, Lime</div>
+                </div>
+            </div>
+            
+            <div class="menu-divider">✦</div>
+            
+            <div class="menu-section">
+                <div class="menu-header">Temperance</div>
+                
+                <div class="menu-item">
+                    <div class="drink-name">Shirley Temple</div>
+                    <div class="drink-desc">Ginger Ale, Grenadine, Cherry</div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="drink-name">Virgin Cuba Libre</div>
+                    <div class="drink-desc">Cola, Lime</div>
+                </div>
+                
+                <div class="menu-item">
+                    <div class="drink-name">Mineral Water</div>
+                    <div class="drink-desc">Sparkling, with Lemon or Lime</div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- GUEST LIST -->
-        <div class="content-card">
-            <div class="content-title">Expected Guests</div>
-            <p style="color: #999; font-size: 14px; margin-bottom: 20px;">Click to view public information about each guest</p>
-            <div id="homeGuestList" class="guest-list-inline">
-                <!-- Populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- COCKTAILS -->
-        <div class="content-card">
-            <div class="content-title">Cocktails</div>
-            <div class="content-text" id="cocktailsContent">
-                An exquisite selection of cocktails will be served before dinner.<br><br>
-                <strong>The Manhattan</strong> - A classic blend of whiskey, vermouth, and bitters<br><br>
-                <strong>The Martini</strong> - Gin and vermouth, stirred to perfection<br><br>
-                <strong>The Daiquiri</strong> - Rum, lime juice, and simple syrup<br><br>
-                <strong>The Sidecar</strong> - Cognac, Cointreau, and lemon juice<br><br>
-                <strong>Champagne</strong> - A selection of fine French champagnes
+    <!-- GUEST LIST SECTION -->
+    <section id="guests">
+        <h2 class="section-title">Expected Guests</h2>
+        <p class="section-subtitle">Those who have answered the summons</p>
+        
+        <div class="guest-container">
+            <div class="guest-list" id="guestList">
+                <div class="loading">Loading guest list...</div>
             </div>
         </div>
     </section>
 
     <!-- CHARACTER BACKGROUND SECTION -->
-    <section id="characterSection">
-        <h1 class="section-title" id="characterName">Character Name</h1>
-        <div id="characterContent">
-            <!-- Populated by JavaScript -->
-        </div>
+    <section id="character" style="display: none;">
+        <h2 class="section-title" id="characterName">Character Name</h2>
+        <div id="characterContent"></div>
     </section>
 
     <!-- CLUES SECTION -->
-    <section id="cluesSection">
-        <h1 class="section-title">Clues</h1>
-        <button class="qr-scanner-btn" onclick="openQRScanner()">📱 Scan QR Code</button>
-        <div id="cluesContent">
-            <!-- Populated by JavaScript -->
-        </div>
+    <section id="clues" style="display: none;">
+        <h2 class="section-title">Clues</h2>
+        <button onclick="openQRScanner()" style="background: #c9a227; color: #1a1a2e; border: none; padding: 12px 30px; font-size: 16px; cursor: pointer; border-radius: 3px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px;">📱 Scan QR Code</button>
+        <div id="cluesContent"></div>
     </section>
 
-    <!-- MASTER CLUES SECTION (SCOTT ONLY) -->
-    <section id="masterCluesSection">
-        <h1 class="section-title">Master Clues</h1>
-        <div id="masterCluesContent">
-            <!-- Populated by JavaScript -->
-        </div>
+    <!-- MASTER CLUES SECTION -->
+    <section id="masterclues" style="display: none;">
+        <h2 class="section-title">Master Clues Control</h2>
+        <div id="masterCluesContent"></div>
     </section>
+
+    <footer>
+        The Thoreson Estate — 1935
+    </footer>
 
     <script>
-        // Clue definitions
-        const clueDatabase = {
-            "Accounting": {
-                type: "skill",
-                skill: "Accounting",
-                title: "Financial Ledger",
-                content: "Hidden in the study: detailed financial records revealing mysterious payments to 'T.H.' over many years, large sums that don't correspond to any known business expenses."
-            },
-            "Botany": {
-                type: "skill",
-                skill: "Botany",
-                title: "Botanical Analysis",
-                content: "The flowers in the garden contain traces of Wolfsbane - a deadly poison. Someone has been cultivating this dangerous plant very carefully."
-            },
-            "French": {
-                type: "skill",
-                skill: "French",
-                title: "French Correspondence",
-                content: "A letter written in French, hidden in the library, reveals a decades-long affair and two children born from it. The emotional devastation is evident in every word."
-            },
-            "Investigation": {
-                type: "skill",
-                skill: "Investigation",
-                title: "Crime Scene Evidence",
-                content: "Detailed forensic analysis of the dining room reveals traces of poison in Will's wine glass. The poison was administered sometime during the first course."
-            },
-            "Legal": {
-                type: "skill",
-                skill: "Legal",
-                title: "Forged Documents",
-                content: "A will dated 30 years ago shows clear signs of forgery. The original company documents reveal that Will Thoreson stole his business partner's company through manipulation and false documents."
-            },
-            "Medical": {
-                type: "skill",
-                skill: "Medical",
-                title: "Autopsy Report",
-                content: "Medical examination confirms death by Wolfsbane poisoning. The poison was administered orally, likely mixed into food or drink. Death would have occurred within 2-3 hours of ingestion."
+        // Toggle contact fields based on attendance selection
+        function toggleContactFields() {
+            const attending = document.querySelector('input[name="attending"]:checked')?.value;
+            const contactFields = document.getElementById('contactFields');
+            const phoneInput = document.querySelector('input[name="phone"]');
+            const emailInput = document.querySelector('input[name="email"]');
+            
+            if (attending === 'Yes') {
+                contactFields.style.display = 'flex';
+                phoneInput.required = true;
+                emailInput.required = true;
+            } else {
+                contactFields.style.display = 'none';
+                phoneInput.required = false;
+                emailInput.required = false;
             }
-        };
-
-        const storyClues = {
-            "willsDeath": {
-                title: "Will's Death Announced",
-                content: "William Thoreson Sr. has been found dead in the study. The death appears sudden and mysterious. An investigation is underway."
-            },
-            "businessBetrayal": {
-                title: "Business Partner Betrayal Discovered",
-                content: "Documents have surfaced revealing that Will Thoreson stole his business partner Robert Hartley's company 25 years ago through forged documents and manipulation. Robert Hartley died shortly after, officially ruled a suicide."
-            },
-            "illegitimateChild": {
-                title: "Illegitimate Child Revealed",
-                content: "It has been discovered that Will Thoreson had an illegitimate child with Margaret Hartley, Robert's wife. The child was secretly supported with company funds for decades."
-            },
-            "poisoning": {
-                title: "Poisoning Suspected",
-                content: "Evidence suggests Will Thoreson was poisoned. Wolfsbane, a deadly toxin, has been found in traces at the scene. This was not a natural death."
-            },
-            "mirandasIdentity": {
-                title: "Miranda's True Identity",
-                content: "Miranda Hartley, Will's longtime assistant, is revealed to be Robert Hartley's daughter. She has been gathering evidence of Will's crimes for 25 years, waiting for the right moment."
+        }
+        
+        // RSVP Form Submission to Google Forms
+        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSezQ99Orc5dvvlxnPLi3Jw_dkn8kNPwVu0GnxbRd0nTM61-Xg/formResponse';
+        
+        document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const button = form.querySelector('.form-button');
+            const message = document.getElementById('formMessage');
+            const buttonText = button.querySelector('.button-text');
+            
+            // Get form values
+            const name = form.querySelector('input[name="name"]').value;
+            const attending = form.querySelector('input[name="attending"]:checked')?.value || '';
+            const phone = form.querySelector('input[name="phone"]').value;
+            const email = form.querySelector('input[name="email"]').value;
+            const role = form.querySelector('input[name="role"]:checked')?.value || '';
+            const notes = form.querySelector('textarea[name="notes"]').value;
+            
+            // Disable button
+            button.disabled = true;
+            buttonText.textContent = 'Sending...';
+            
+            // Build form data for Google Forms
+            const formData = new FormData();
+            formData.append('entry.242898703', name);      // Name
+            formData.append('entry.986368937', attending); // Attending
+            formData.append('entry.409042646', phone);     // Phone
+            formData.append('entry.775321918', email);     // Email
+            formData.append('entry.196909869', role);      // Role
+            formData.append('entry.404572778', notes);     // Notes
+            
+            try {
+                // Submit to Google Forms (will fail silently due to CORS, but data goes through)
+                await fetch(GOOGLE_FORM_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: formData
+                });
+                
+                // Show success message
+                message.className = 'form-message success';
+                message.textContent = 'Your response has been received. We look forward to your presence.';
+                form.reset();
+                document.getElementById('contactFields').style.display = 'none';
+                
+            } catch (error) {
+                message.className = 'form-message error';
+                message.textContent = 'Something went wrong. Please try again or contact the host.';
             }
-        };
-
-        // Character data (simplified - full data would be loaded)
-        const characterData = {
+            
+            // Re-enable button
+            button.disabled = false;
+            buttonText.textContent = 'Send Response';
+        });
+        
+        // Guest List Data - Character Names with IRL Names
+        const charactersList = [
+        
+        // CHARACTER DATA
+        const characterDatabase = {
             "Scott": {
                 character: "Scott Thoreson Jr.",
-                backstory: "Eldest son of William Thoreson Sr. and family attorney. You've built a successful career managing both Thoreson Toys business and personal family affairs.",
+                backstory: "Eldest son of William Thoreson Sr. and family attorney.",
                 knowledge: "You know your father's business dealings but not his personal secrets.",
                 secret: "None - you genuinely don't know what your father plans to announce tonight.",
-                goals: [
-                    "Keep the evening smooth and organized",
-                    "Find out what your father's announcement is",
-                    "Manage any family drama that arises"
-                ],
+                goals: ["Keep the evening smooth", "Find out the announcement", "Manage family drama"],
                 relationships: [
-                    { name: "William Thoreson Sr.", relation: "Your father - respected but formal relationship" },
-                    { name: "Frederick Thoreson", relation: "Your younger brother - warm but different life choices" },
-                    { name: "Miranda Hartley", relation: "Your legal assistant for 10 years - trusted completely" }
+                    { name: "William Thoreson Sr.", relation: "Your father" },
+                    { name: "Frederick Thoreson", relation: "Your younger brother" }
                 ]
             },
             "BrianT": {
                 character: "Frederick Brian T. Thoreson",
-                backstory: "You're Scott's younger brother, and you've never had much interest in anything serious. You don't have a job, don't have ambitions, and you're perfectly fine with that. You spend your days doing whatever entertains you.",
-                knowledge: "You know your father is wealthy but you don't really know anything about his business.",
-                secret: "None - you don't really have secrets because you don't care enough to hide anything.",
-                goals: [
-                    "Enjoy the free food and drinks",
-                    "Have a good time",
-                    "Maybe meet some interesting people"
-                ],
+                backstory: "You're Scott's younger brother - carefree, just here for the fun.",
+                knowledge: "You don't really know anything about business.",
+                secret: "None - you don't care enough to have secrets.",
+                goals: ["Enjoy free food and drinks", "Have a good time"],
                 relationships: [
-                    { name: "William Thoreson Sr.", relation: "Your father - he gives you money, you don't ask why" },
-                    { name: "Scott Thoreson Jr.", relation: "Your older brother - he's way too serious about everything" }
+                    { name: "William Thoreson Sr.", relation: "Your father" },
+                    { name: "Scott Thoreson Jr.", relation: "Your serious brother" }
                 ]
             }
-            // More characters would be added here...
+        };
+
+        const clueDatabase = {
+            "Accounting": { type: "skill", title: "Financial Ledger", content: "Hidden records revealing mysterious payments to T.H." },
+            "Botany": { type: "skill", title: "Botanical Analysis", content: "Wolfsbane - a deadly poison carefully cultivated." },
+            "French": { type: "skill", title: "French Correspondence", content: "A letter revealing a decades-long affair and children." },
+            "Investigation": { type: "skill", title: "Crime Scene Evidence", content: "Traces of poison in Will's wine glass." },
+            "Legal": { type: "skill", title: "Forged Documents", content: "Will stole his business partner's company through fraud." },
+            "Medical": { type: "skill", title: "Autopsy Report", content: "Death by Wolfsbane poisoning administered orally." }
+        };
+
+        const storyClues = {
+            "willsDeath": { title: "Will's Death Announced", content: "William Thoreson Sr. has been found dead." },
+            "businessBetrayal": { title: "Business Partner Betrayal", content: "Documents reveal Will stole his partner's company." },
+            "illegitimateChild": { title: "Illegitimate Child", content: "Will had a secret child with Margaret Hartley." },
+            "poisoning": { title: "Poisoning Suspected", content: "Wolfsbane found - not a natural death." },
+            "mirandasIdentity": { title: "Miranda's True Identity", content: "Miranda Hartley is Robert's daughter seeking justice." }
         };
 
         let userSession = null;
 
-        // Character guest list data
-        const guestListData = [
-            { character: "Scott Thoreson Jr.", irlName: "Scott", desc: "Eldest son and family attorney" },
-            { character: "Frederick Brian T. Thoreson", irlName: "BrianT", desc: "Younger son, carefree" },
-            { character: "Charlotte Clara Waverly", irlName: "Clara", desc: "Household manager and bartender" },
-            { character: "Miranda Leanna Hartley", irlName: "Leanna", desc: "Scott's legal assistant" },
-            { character: "Walter Lippman", irlName: "Marc", desc: "Journalist for the Dallas Herald" },
-            { character: "Sophie Maisy Vanderpool", irlName: "Maisy", desc: "Marc's new wife" },
-            { character: "Vivienne Ashford", irlName: "Hannah", desc: "Young Thoreson cousin" },
-            { character: "David Richardson", irlName: "DJ", desc: "Family cousin" },
-            { character: "Raymond Hammond", irlName: "Peter", desc: "Business Manager of Thoreson Toys" },
-            { character: "Marcus Brennan", irlName: "Arash", desc: "Major investor" },
-            { character: "Victoria Ashworth", irlName: "Becky", desc: "Major investor" },
-            { character: "Thomas Bradford", irlName: "BrianS", desc: "Business rival" },
-            { character: "Margaret Ashford", irlName: "Katie", desc: "Family friend" },
-            { character: "Dorothy Wells", irlName: "Michelle", desc: "Society figure" },
-            { character: "Charles Sterling", irlName: "Jeff", desc: "Retired banker" },
-            { character: "Patricia Chamberlain", irlName: "Casey", desc: "Family friend" },
-            { character: "Victoria Grant", irlName: "Krystal", desc: "Business partner's wife" },
-            { character: "Elizabeth Monroe", irlName: "Lindsey", desc: "Family elder" },
-            { character: "James Sterling", irlName: "Bradey", desc: "Young family member" },
-            { character: "William Chamberlain", irlName: "Alexander", desc: "Young ward" },
-            { character: "Robert Chamberlain", irlName: "Jesse", desc: "Young ward" }
-        ];
-
-        // Initialize on page load
         window.addEventListener('load', function() {
             const session = localStorage.getItem('userSession');
-            if (!session) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            userSession = JSON.parse(session);
-            
-            // If master, auto-unlock all skills
-            if (userSession.role === 'master') {
-                userSession.unlockedSkills = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"];
-            }
-            
-            initializeUI();
-            loadCharacterData();
-            loadCluesData();
-            loadCocktailContent();
-
-            if (userSession.role === 'master') {
-                document.getElementById('masterCluesNav').style.display = 'block';
-                loadMasterClues();
+            if (session) {
+                userSession = JSON.parse(session);
+                initializeAuthenticatedView();
             }
         });
 
-        function initializeUI() {
-            // Set up tab navigation
-            document.getElementById('homeTab').addEventListener('click', () => showSection('homeSection'));
-            document.getElementById('characterTab').addEventListener('click', () => showSection('characterSection'));
-            document.getElementById('cluesTab').addEventListener('click', () => showSection('cluesSection'));
+        function initializeAuthenticatedView() {
+            document.getElementById('character').style.display = 'block';
+            document.getElementById('clues').style.display = 'block';
             if (userSession.role === 'master') {
-                document.getElementById('masterCluesTab').addEventListener('click', () => showSection('masterCluesSection'));
+                document.getElementById('masterNav').style.display = 'block';
+                document.getElementById('masterclues').style.display = 'block';
             }
 
-            // Load guest list in home section
-            loadGuestListInHome();
-            
-            // Load cocktail recipes if user is Clara
-            loadCocktailContent();
-        }
-
-        function loadGuestListInHome() {
-            const guestListEl = document.getElementById('homeGuestList');
-            if (!guestListEl) return;
-
-            guestListEl.innerHTML = guestListData
-                .map(guest => `
-                    <div class="guest-card-inline">
-                        <div class="guest-card-inline-name">${guest.character}</div>
-                        <div class="guest-card-inline-irl">(${guest.irlName})</div>
-                        <div class="guest-card-inline-desc">${guest.desc}</div>
-                    </div>
-                `)
-                .join('');
-        }
-
-        function loadCocktailContent() {
-            const cocktailsEl = document.getElementById('cocktailsContent');
-            if (!cocktailsEl) return;
-
-            if (userSession.username === 'Clara' || userSession.role === 'master') {
-                cocktailsEl.innerHTML = `
-                    <strong>The Manhattan</strong><br>
-                    2 oz whiskey, 1 oz sweet vermouth, 2 dashes Angostura bitters<br>
-                    Stir with ice, strain into coupe glass, garnish with cherry<br><br>
-
-                    <strong>The Martini</strong><br>
-                    2.5 oz gin, 0.5 oz dry vermouth<br>
-                    Stir with ice, strain into martini glass, garnish with olive or lemon twist<br><br>
-
-                    <strong>The Daiquiri</strong><br>
-                    2 oz rum, 1 oz fresh lime juice, 0.75 oz simple syrup<br>
-                    Shake with ice, strain into coupe glass<br><br>
-
-                    <strong>The Sidecar</strong><br>
-                    1.5 oz cognac, 1 oz Cointreau, 0.75 oz fresh lemon juice<br>
-                    Shake with ice, strain into coupe glass, garnish with lemon twist<br><br>
-
-                    <strong>Champagne</strong><br>
-                    Serve chilled. A selection of fine French champagnes including vintage and non-vintage varieties.
-                `;
+            if (userSession.role === 'master') {
+                userSession.unlockedSkills = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"];
+                localStorage.setItem('userSession', JSON.stringify(userSession));
             }
-        }
 
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-            // Show selected section
-            document.getElementById(sectionId).classList.add('active');
-
-            // Update nav
-            document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
-            if (sectionId === 'homeSection') document.getElementById('homeTab').classList.add('active');
-            else if (sectionId === 'characterSection') document.getElementById('characterTab').classList.add('active');
-            else if (sectionId === 'cluesSection') document.getElementById('cluesTab').classList.add('active');
-            else if (sectionId === 'masterCluesSection') document.getElementById('masterCluesTab').classList.add('active');
+            loadCharacterData();
+            loadCluesData();
+            if (userSession.role === 'master') {
+                loadMasterClues();
+            }
         }
 
         function loadCharacterData() {
-            const charData = characterData[userSession.username] || characterData["Scott"]; // Default to Scott
-            document.getElementById('characterName').textContent = charData.character;
+            const charData = characterDatabase[userSession.username];
+            if (!charData) return;
 
+            document.getElementById('characterName').textContent = charData.character;
             let html = `
-                <div class="content-card">
-                    <div class="content-title">Backstory</div>
-                    <div class="content-text">${charData.backstory}</div>
-                </div>
-                <div class="content-card">
-                    <div class="content-title">What You Know</div>
-                    <div class="content-text">${charData.knowledge}</div>
-                </div>
-                <div class="content-card">
-                    <div class="content-title">Your Secrets</div>
-                    <div class="content-text">${charData.secret}</div>
-                </div>
-                <div class="content-card">
-                    <div class="content-title">Your Goals for Tonight</div>
-                    <ul class="content-list">
-                        ${charData.goals.map(goal => `<li>${goal}</li>`).join('')}
+                <div style="background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%); border: 2px solid #c9a227; border-radius: 5px; padding: 40px; margin-bottom: 30px;">
+                    <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 20px; text-transform: uppercase;">Backstory</div>
+                    <div style="font-size: 16px; line-height: 1.8; color: #e8e8e8; margin-bottom: 30px;">${charData.backstory}</div>
+
+                    <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 20px; text-transform: uppercase;">What You Know</div>
+                    <div style="font-size: 16px; line-height: 1.8; color: #e8e8e8; margin-bottom: 30px;">${charData.knowledge}</div>
+
+                    <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 20px; text-transform: uppercase;">Your Goals</div>
+                    <ul style="list-style: none; padding-left: 20px; margin-bottom: 30px;">
+                        ${charData.goals.map(g => `<li style="margin-bottom: 8px;"><span style="color: #c9a227;">✦</span> ${g}</li>`).join('')}
                     </ul>
-                </div>
-                <div class="content-card">
-                    <div class="content-title">Key Relationships</div>
-                    <ul class="content-list">
-                        ${charData.relationships.map(rel => `<li><strong>${rel.name}</strong> - ${rel.relation}</li>`).join('')}
+
+                    <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 20px; text-transform: uppercase;">Relationships</div>
+                    <ul style="list-style: none; padding-left: 20px;">
+                        ${charData.relationships.map(r => `<li style="margin-bottom: 8px; font-size: 16px;"><strong>${r.name}</strong> - ${r.relation}</li>`).join('')}
                     </ul>
                 </div>
             `;
-
             document.getElementById('characterContent').innerHTML = html;
         }
 
@@ -692,61 +993,49 @@
             if (userSession.skills && userSession.skills.length > 0) {
                 userSession.skills.forEach(skill => {
                     const clue = clueDatabase[skill];
-                    const isUnlocked = userSession.unlockedSkills.includes(skill);
+                    const isUnlocked = userSession.unlockedSkills && userSession.unlockedSkills.includes(skill);
 
                     if (isUnlocked) {
                         html += `
-                            <div class="clue-item">
-                                <div class="clue-title">✦ ${clue.title}</div>
-                                <div class="clue-content">${clue.content}</div>
-                            </div>
-                        `;
-                    } else {
-                        html += `
-                            <div class="locked-clue">
-                                <div class="clue-title">${clue.title}</div>
-                                <div class="locked-message">Locked - Scan QR code at the party to unlock</div>
+                            <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid #c9a227; padding: 20px; margin-bottom: 20px; border-radius: 3px;">
+                                <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${clue.title}</div>
+                                <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${clue.content}</div>
                             </div>
                         `;
                     }
                 });
             }
 
-            // Add story clues
-            Object.entries(storyClues).forEach(([key, clue]) => {
-                const isUnlocked = userSession.unlockedStoryClues.includes(key);
-
-                if (isUnlocked) {
-                    html += `
-                        <div class="clue-item">
-                            <div class="clue-title">✦ ${clue.title}</div>
-                            <div class="clue-content">${clue.content}</div>
-                        </div>
-                    `;
-                }
-            });
+            if (userSession.unlockedStoryClues) {
+                Object.entries(storyClues).forEach(([key, clue]) => {
+                    if (userSession.unlockedStoryClues.includes(key)) {
+                        html += `
+                            <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid #c9a227; padding: 20px; margin-bottom: 20px; border-radius: 3px;">
+                                <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${clue.title}</div>
+                                <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${clue.content}</div>
+                            </div>
+                        `;
+                    }
+                });
+            }
 
             if (html === '') {
-                html = '<div class="no-clues">No clues unlocked yet. Check back as the evening unfolds...</div>';
+                html = '<div style="text-align: center; padding: 40px; color: #999; font-style: italic;">No clues unlocked yet...</div>';
             }
 
             document.getElementById('cluesContent').innerHTML = html;
         }
 
         function loadMasterClues() {
-            let html = '<div class="master-controls">';
-
-            html += '<div class="content-title" style="margin-bottom: 20px;">Story Clue Controls</div>';
-            html += '<p style="color: #999; margin-bottom: 30px; font-size: 14px;">Click to unlock story clues for all guests</p>';
+            let html = '<div style="background: rgba(201, 162, 39, 0.1); border: 2px solid #c9a227; padding: 30px; border-radius: 5px; margin-bottom: 30px;">';
+            html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 24px; color: #c9a227; margin-bottom: 20px;">Story Clue Controls</div>';
 
             Object.entries(storyClues).forEach(([key, clue]) => {
-                const isUnlocked = userSession.unlockedStoryClues.includes(key);
+                const isUnlocked = userSession.unlockedStoryClues && userSession.unlockedStoryClues.includes(key);
                 html += `
-                    <div class="control-item">
-                        <div class="control-item-title">${clue.title}</div>
-                        <button class="unlock-all-btn ${isUnlocked ? 'unlocked' : ''}" 
-                                onclick="unlockStoryClue('${key}')"
-                                ${isUnlocked ? 'disabled' : ''}>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(0, 0, 0, 0.3); margin-bottom: 15px; border-radius: 3px;">
+                        <div style="font-size: 18px; color: #c9a227;">${clue.title}</div>
+                        <button onclick="unlockStoryClue('${key}')" style="background: ${isUnlocked ? '#999' : '#4caf50'}; color: white; border: none; padding: 10px 20px; cursor: pointer;" ${isUnlocked ? 'disabled' : ''}>
                             ${isUnlocked ? 'Unlocked' : 'Unlock for All'}
                         </button>
                     </div>
@@ -754,126 +1043,89 @@
             });
 
             html += '</div>';
-
-            // SKILL UNLOCK TRACKING
-            html += '<div class="master-controls" style="margin-top: 30px;">';
-            html += '<div class="content-title" style="margin-bottom: 20px;">Skill Unlock Tracking</div>';
-            html += '<p style="color: #999; margin-bottom: 20px; font-size: 14px;">Track which guests have unlocked skill clues</p>';
-
-            const skillNames = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"];
-            
-            skillNames.forEach(skill => {
-                html += `
-                    <div class="skill-tracking">
-                        <div class="skill-name">${skill}</div>
-                        <div class="unlock-status" id="status-${skill}">
-                            <span style="color: #999; font-size: 12px;">Waiting for scans...</span>
-                        </div>
-                    </div>
-                `;
-            });
-
-            html += '</div>';
-
             document.getElementById('masterCluesContent').innerHTML = html;
-            
-            // Update tracking display
-            updateSkillTracking();
-        }
-
-        function unlockStoryClue(clueKey) {
-            if (!userSession.unlockedStoryClues.includes(clueKey)) {
-                userSession.unlockedStoryClues.push(clueKey);
-                localStorage.setItem('userSession', JSON.stringify(userSession));
-
-                // Reload clues for current user
-                loadCluesData();
-
-                // Reload master clues UI
-                if (userSession.role === 'master') {
-                    loadMasterClues();
-                }
-            }
         }
 
         function openQRScanner() {
-            // For now, this will be a simple modal
-            // In a real implementation, this would use the browser's camera API
-            const skill = prompt("Enter the skill name you want to unlock:\nAccounting, Botany, French, Investigation, Legal, Medical");
-
-            if (skill) {
-                unlockSkill(skill);
-            }
+            const skill = prompt("Enter skill: Accounting, Botany, French, Investigation, Legal, Medical");
+            if (skill) unlockSkill(skill);
         }
 
         function unlockSkill(skill) {
+            if (!userSession.unlockedSkills) userSession.unlockedSkills = [];
             if (!userSession.unlockedSkills.includes(skill)) {
                 userSession.unlockedSkills.push(skill);
                 localStorage.setItem('userSession', JSON.stringify(userSession));
-                
-                // Track the unlock in global tracking
-                trackSkillUnlock(userSession.username, skill);
-                
                 loadCluesData();
-                alert(`✓ Skill unlocked: ${skill}`);
-            } else {
-                alert(`You've already unlocked: ${skill}`);
+                alert(`✓ Unlocked: ${skill}`);
             }
         }
 
-        function trackSkillUnlock(username, skill) {
-            // Store unlock event for master to see
-            let unlocks = JSON.parse(localStorage.getItem('skillUnlocks') || '{}');
-            if (!unlocks[skill]) {
-                unlocks[skill] = [];
-            }
-            unlocks[skill].push({
-                username: username,
-                timestamp: new Date().toLocaleTimeString()
-            });
-            localStorage.setItem('skillUnlocks', JSON.stringify(unlocks));
-            
-            // Update master view if they're looking at master clues
-            if (userSession.role === 'master') {
-                updateSkillTracking();
-            }
-        }
-
-        function updateSkillTracking() {
-            const unlocks = JSON.parse(localStorage.getItem('skillUnlocks') || '{}');
-            const skillNames = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"];
-            
-            skillNames.forEach(skill => {
-                const statusEl = document.getElementById(`status-${skill}`);
-                if (statusEl && unlocks[skill]) {
-                    const lastUnlock = unlocks[skill][unlocks[skill].length - 1];
-                    statusEl.innerHTML = `
-                        <div style="color: #4caf50; font-size: 12px;">
-                            <strong>${unlocks[skill].length}</strong> unlock${unlocks[skill].length !== 1 ? 's' : ''}<br>
-                            Last: <strong>${lastUnlock.username}</strong> at ${lastUnlock.timestamp}
-                        </div>
-                    `;
-                }
-            });
-        }
-
-        function resetAccount() {
-            if (confirm('Are you sure you want to reset this account? All unlocked content will be cleared.')) {
-                userSession.unlockedSkills = [];
-                userSession.unlockedStoryClues = [];
+        function unlockStoryClue(clueKey) {
+            if (!userSession.unlockedStoryClues) userSession.unlockedStoryClues = [];
+            if (!userSession.unlockedStoryClues.includes(clueKey)) {
+                userSession.unlockedStoryClues.push(clueKey);
                 localStorage.setItem('userSession', JSON.stringify(userSession));
                 loadCluesData();
                 loadMasterClues();
-                alert('Account reset complete!');
             }
         }
 
         function logout() {
-            if (confirm('Are you sure you want to logout?')) {
+            if (confirm('Logout?')) {
                 localStorage.removeItem('userSession');
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }
         }
+
+            { id: "scott-thoreson-jr", name: "Scott Thoreson Jr.", irlName: "Scott" },
+            { id: "frederick-brian-thoreson", name: "Frederick Brian T. Thoreson", irlName: "Brian S." },
+            { id: "charlotte-clara-waverly", name: "Charlotte Clara Waverly", irlName: "Clara" },
+            { id: "leanna-midday-miranda-hartley", name: "Miranda Leanna Hartley", irlName: "Leanna" },
+            { id: "walter-lippman", name: "Walter Lippman", irlName: "Marc" },
+            { id: "maisy-maan-de-kok-sophie", name: "Sophie Maisy Vanderpool", irlName: "Maisy" },
+            { id: "vivienne-ashford", name: "Vivienne Ashford", irlName: "Hannah" },
+            { id: "dj-strickland-david", name: "David Richardson", irlName: "DJ" },
+            { id: "peter-hammann-raymond", name: "Raymond Hammond", irlName: "Peter" },
+            { id: "arash-fan-marcus", name: "Marcus Brennan", irlName: "Arash" },
+            { id: "becky-piroga-victoria", name: "Victoria Ashworth", irlName: "Becky" },
+            { id: "thomas-bradford", name: "Thomas Bradford", irlName: "Brian S." },
+            { id: "margaret-ashford", name: "Margaret Ashford", irlName: "Katie" },
+            { id: "dorothy-wells", name: "Dorothy Wells", irlName: "Michelle" },
+            { id: "charles-sterling", name: "Charles Sterling", irlName: "Jeff" },
+            { id: "patricia-chamberlain", name: "Patricia Chamberlain", irlName: "Casey" },
+            { id: "victoria-grant", name: "Victoria Grant", irlName: "Krystal" },
+            { id: "elizabeth-monroe", name: "Elizabeth Monroe", irlName: "Lindsey" },
+            { id: "james-sterling", name: "James Sterling", irlName: "Bradey" },
+            { id: "william-chamberlain", name: "William Chamberlain", irlName: "Alexander" },
+            { id: "robert-chamberlain", name: "Robert Chamberlain", irlName: "Jesse" }
+        ];
+        
+        function loadGuests() {
+            displayGuests(charactersList);
+        }
+        
+        function displayGuests(guests) {
+            const guestListEl = document.getElementById('guestList');
+            
+            if (guests.length === 0) {
+                guestListEl.innerHTML = '<div class="loading">Awaiting responses...</div>';
+                return;
+            }
+            
+            guestListEl.innerHTML = guests
+                .map(character => `
+                    <a href="character.html?id=${character.id}" style="text-decoration: none; color: inherit;">
+                        <div class="guest-item">
+                            <span class="guest-bullet">✦</span>
+                            <span class="guest-name">${character.name} (${character.irlName})</span>
+                        </div>
+                    </a>
+                `)
+                .join('');
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadGuests);
     </script>
 </body>
 </html>
