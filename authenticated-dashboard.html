@@ -1079,27 +1079,28 @@
             }
         }
 
-            { id: "scott-thoreson-jr", name: "Scott Thoreson Jr.", irlName: "Scott" },
-            { id: "frederick-brian-thoreson", name: "Frederick Brian T. Thoreson", irlName: "Brian S." },
-            { id: "charlotte-clara-waverly", name: "Charlotte Clara Waverly", irlName: "Clara" },
-            { id: "leanna-midday-miranda-hartley", name: "Miranda Leanna Hartley", irlName: "Leanna" },
-            { id: "walter-lippman", name: "Walter Lippman", irlName: "Marc" },
-            { id: "maisy-maan-de-kok-sophie", name: "Sophie Maisy Vanderpool", irlName: "Maisy" },
-            { id: "vivienne-ashford", name: "Vivienne Ashford", irlName: "Hannah" },
-            { id: "dj-strickland-david", name: "David Richardson", irlName: "DJ" },
-            { id: "peter-hammann-raymond", name: "Raymond Hammond", irlName: "Peter" },
-            { id: "arash-fan-marcus", name: "Marcus Brennan", irlName: "Arash" },
-            { id: "becky-piroga-victoria", name: "Victoria Ashworth", irlName: "Becky" },
-            { id: "thomas-bradford", name: "Thomas Bradford", irlName: "Brian S." },
-            { id: "margaret-ashford", name: "Margaret Ashford", irlName: "Katie" },
-            { id: "dorothy-wells", name: "Dorothy Wells", irlName: "Michelle" },
-            { id: "charles-sterling", name: "Charles Sterling", irlName: "Jeff" },
-            { id: "patricia-chamberlain", name: "Patricia Chamberlain", irlName: "Casey" },
-            { id: "victoria-grant", name: "Victoria Grant", irlName: "Krystal" },
-            { id: "elizabeth-monroe", name: "Elizabeth Monroe", irlName: "Lindsey" },
-            { id: "james-sterling", name: "James Sterling", irlName: "Bradey" },
-            { id: "william-chamberlain", name: "William Chamberlain", irlName: "Alexander" },
-            { id: "robert-chamberlain", name: "Robert Chamberlain", irlName: "Jesse" }
+            const charactersList = [
+            { id: "scott-thoreson-jr", name: "Scott Thoreson Jr.", irlName: "Scott", publicDesc: "Eldest son of William Thoreson Sr. and family attorney. Professional, measured, and the one who holds the family together." },
+            { id: "frederick-brian-thoreson", name: "Frederick Brian T. Thoreson", irlName: "BrianT", publicDesc: "Younger son. Carefree, easygoing, here for the food and drinks." },
+            { id: "charlotte-clara-waverly", name: "Charlotte Clara Waverly", irlName: "Clara", publicDesc: "Thoreson household manager and bartender. Professional, efficient, observant, and trusted by the family." },
+            { id: "leanna-midday-miranda-hartley", name: "Miranda Leanna Hartley", irlName: "Leanna", publicDesc: "Scott's personal legal assistant for the past decade. Professional, efficient, devoted to her work." },
+            { id: "walter-lippman", name: "Walter Lippman", irlName: "Marc", publicDesc: "Journalist for the Dallas Herald investigating the Thoreson family. Charming, curious, and newly married." },
+            { id: "maisy-maan-de-kok-sophie", name: "Sophie Maisy Vanderpool", irlName: "Maisy", publicDesc: "Marc's new wife and assistant. Young, enthusiastic, intelligent, and recently married." },
+            { id: "vivienne-ashford", name: "Vivienne Ashford", irlName: "Hannah", publicDesc: "Young Thoreson cousin, recently returned from summer in France. Irreverent and fluent in French." },
+            { id: "dj-strickland-david", name: "David Richardson", irlName: "DJ", publicDesc: "Thoreson family cousin. Charismatic, people-person, and managing the investigation phases tonight." },
+            { id: "peter-hammann-raymond", name: "Raymond Hammond", irlName: "Peter", publicDesc: "Business Manager of Thoreson Toys for the past 15 years. Serious, analytical, deeply invested." },
+            { id: "arash-fan-marcus", name: "Marcus Brennan", irlName: "Arash", publicDesc: "Major investor in Thoreson Toys. Thoughtful, observant, and calm under pressure." },
+            { id: "becky-piroga-victoria", name: "Victoria Ashworth", irlName: "Becky", publicDesc: "Major investor in Thoreson Toys. Sharp observer, excellent at reading people." },
+            { id: "thomas-bradford", name: "Thomas Bradford", irlName: "BrianS", publicDesc: "Business rival and competitor in the toy manufacturing industry. Charming and competitive." },
+            { id: "margaret-ashford", name: "Margaret Ashford", irlName: "Katie", publicDesc: "Long-time family friend and society figure. Warm, practical, deeply invested in the family." },
+            { id: "dorothy-wells", name: "Dorothy Wells", irlName: "Michelle", publicDesc: "Society figure and businesswoman's wife. Sharp, intelligent, excellent at noticing inconsistencies." },
+            { id: "charles-sterling", name: "Charles Sterling", irlName: "Jeff", publicDesc: "Retired banker and distant family member. Traditional, proper, concerned about family reputation." },
+            { id: "patricia-chamberlain", name: "Patricia Chamberlain", irlName: "Casey", publicDesc: "Widow with independent means. Perceptive, observant, long-time friend of the Thoreson family." },
+            { id: "victoria-grant", name: "Victoria Grant", irlName: "Krystal", publicDesc: "Business partner's wife. Intelligent, perceptive about business implications, and sophisticated." },
+            { id: "elizabeth-monroe", name: "Elizabeth Monroe", irlName: "Lindsey", publicDesc: "Family elder and matriarch figure. Organized, systematic, knowledgeable about family history." },
+            { id: "james-sterling", name: "James Sterling", irlName: "Bradey", publicDesc: "Young family member, son of Charles Sterling. Eager, observant, trying to seem mature." },
+            { id: "william-chamberlain", name: "William Chamberlain", irlName: "Alexander", publicDesc: "Young ward of Patricia Chamberlain. Smart and trying to be taken seriously." },
+            { id: "robert-chamberlain", name: "Robert Chamberlain", irlName: "Jesse", publicDesc: "Oldest of the young people. Thoughtful, observant, protective of his guardian Patricia." }
         ];
         
         function loadGuests() {
@@ -1116,14 +1117,32 @@
             
             guestListEl.innerHTML = guests
                 .map(character => `
-                    <a href="character.html?id=${character.id}" style="text-decoration: none; color: inherit;">
-                        <div class="guest-item">
-                            <span class="guest-bullet">✦</span>
-                            <span class="guest-name">${character.name} (${character.irlName})</span>
+                    <div class="guest-item" onclick="toggleGuestInfo(this)" style="cursor: pointer;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                            <div>
+                                <span class="guest-bullet">✦</span>
+                                <span class="guest-name">${character.name} (${character.irlName})</span>
+                            </div>
+                            <span class="guest-toggle">▼</span>
                         </div>
-                    </a>
+                        <div class="guest-info" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #c9a227;">
+                            <div style="font-size: 14px; color: #e8e8e8; line-height: 1.6;">${character.publicDesc}</div>
+                        </div>
+                    </div>
                 `)
                 .join('');
+        }
+
+        function toggleGuestInfo(element) {
+            const info = element.querySelector('.guest-info');
+            const toggle = element.querySelector('.guest-toggle');
+            if (info.style.display === 'none') {
+                info.style.display = 'block';
+                toggle.style.transform = 'rotate(180deg)';
+            } else {
+                info.style.display = 'none';
+                toggle.style.transform = 'rotate(0deg)';
+            }
         }
         
         document.addEventListener('DOMContentLoaded', loadGuests);
