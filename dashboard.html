@@ -541,9 +541,16 @@
             }
 
             userSession = JSON.parse(session);
+            
+            // If master, auto-unlock all skills
+            if (userSession.role === 'master') {
+                userSession.unlockedSkills = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"];
+            }
+            
             initializeUI();
             loadCharacterData();
             loadCluesData();
+            loadCocktailContent();
 
             if (userSession.role === 'master') {
                 document.getElementById('masterCluesNav').style.display = 'block';
