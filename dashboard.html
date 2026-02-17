@@ -271,6 +271,46 @@
             font-style: italic;
         }
 
+        .guest-list-inline {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .guest-card-inline {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #c9a227;
+            padding: 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .guest-card-inline:hover {
+            border-color: #fff;
+            background: rgba(201, 162, 39, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .guest-card-inline-name {
+            color: #c9a227;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .guest-card-inline-irl {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .guest-card-inline-desc {
+            color: #e8e8e8;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
         @media (max-width: 768px) {
             nav ul {
                 gap: 20px;
@@ -301,19 +341,42 @@
     <!-- HOME SECTION -->
     <section id="homeSection" class="active">
         <h1 class="section-title">The Thoreson Estate</h1>
+        
+        <!-- INVITATION -->
         <div class="content-card">
-            <div class="content-title">Welcome</div>
+            <div class="content-title">You Are Cordially Invited</div>
             <div class="content-text">
-                You have been invited to a dinner party at the Thoreson Estate on March 21, 1935. 
-                This evening promises to be unforgettable.
+                to a dinner party at<br>
+                <strong>The Thoreson Estate</strong><br>
+                <br>
+                March 21st, 1935<br>
+                7:00 PM<br>
+                <br>
+                Black Tie Optional<br>
+                RSVP to Scott Thoreson Jr.
             </div>
         </div>
+
+        <!-- GUEST LIST -->
         <div class="content-card">
-            <div class="content-title">Navigation</div>
-            <ul class="content-list">
-                <li>Character Background - Learn about who you are</li>
-                <li>Clues - Discover secrets as the night unfolds</li>
-            </ul>
+            <div class="content-title">Expected Guests</div>
+            <p style="color: #999; font-size: 14px; margin-bottom: 20px;">Click to view public information about each guest</p>
+            <div id="homeGuestList" class="guest-list-inline">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- COCKTAILS -->
+        <div class="content-card">
+            <div class="content-title">Cocktails</div>
+            <div class="content-text">
+                An exquisite selection of cocktails will be served before dinner.<br><br>
+                <strong>The Manhattan</strong> - A classic blend of whiskey, vermouth, and bitters<br><br>
+                <strong>The Martini</strong> - Gin and vermouth, stirred to perfection<br><br>
+                <strong>The Daiquiri</strong> - Rum, lime juice, and simple syrup<br><br>
+                <strong>The Sidecar</strong> - Cognac, Cointreau, and lemon juice<br><br>
+                <strong>Champagne</strong> - A selection of fine French champagnes
+            </div>
         </div>
     </section>
 
@@ -444,6 +507,31 @@
 
         let userSession = null;
 
+        // Character guest list data
+        const guestListData = [
+            { character: "Scott Thoreson Jr.", irlName: "Scott", desc: "Eldest son and family attorney" },
+            { character: "Frederick Brian T. Thoreson", irlName: "BrianT", desc: "Younger son, carefree" },
+            { character: "Charlotte Clara Waverly", irlName: "Clara", desc: "Household manager and bartender" },
+            { character: "Miranda Leanna Hartley", irlName: "Leanna", desc: "Scott's legal assistant" },
+            { character: "Walter Lippman", irlName: "Marc", desc: "Journalist for the Dallas Herald" },
+            { character: "Sophie Maisy Vanderpool", irlName: "Maisy", desc: "Marc's new wife" },
+            { character: "Vivienne Ashford", irlName: "Hannah", desc: "Young Thoreson cousin" },
+            { character: "David Richardson", irlName: "DJ", desc: "Family cousin" },
+            { character: "Raymond Hammond", irlName: "Peter", desc: "Business Manager of Thoreson Toys" },
+            { character: "Marcus Brennan", irlName: "Arash", desc: "Major investor" },
+            { character: "Victoria Ashworth", irlName: "Becky", desc: "Major investor" },
+            { character: "Thomas Bradford", irlName: "BrianS", desc: "Business rival" },
+            { character: "Margaret Ashford", irlName: "Katie", desc: "Family friend" },
+            { character: "Dorothy Wells", irlName: "Michelle", desc: "Society figure" },
+            { character: "Charles Sterling", irlName: "Jeff", desc: "Retired banker" },
+            { character: "Patricia Chamberlain", irlName: "Casey", desc: "Family friend" },
+            { character: "Victoria Grant", irlName: "Krystal", desc: "Business partner's wife" },
+            { character: "Elizabeth Monroe", irlName: "Lindsey", desc: "Family elder" },
+            { character: "James Sterling", irlName: "Bradey", desc: "Young family member" },
+            { character: "William Chamberlain", irlName: "Alexander", desc: "Young ward" },
+            { character: "Robert Chamberlain", irlName: "Jesse", desc: "Young ward" }
+        ];
+
         // Initialize on page load
         window.addEventListener('load', function() {
             const session = localStorage.getItem('userSession');
@@ -471,6 +559,24 @@
             if (userSession.role === 'master') {
                 document.getElementById('masterCluesTab').addEventListener('click', () => showSection('masterCluesSection'));
             }
+
+            // Load guest list in home section
+            loadGuestListInHome();
+        }
+
+        function loadGuestListInHome() {
+            const guestListEl = document.getElementById('homeGuestList');
+            if (!guestListEl) return;
+
+            guestListEl.innerHTML = guestListData
+                .map(guest => `
+                    <div class="guest-card-inline">
+                        <div class="guest-card-inline-name">${guest.character}</div>
+                        <div class="guest-card-inline-irl">(${guest.irlName})</div>
+                        <div class="guest-card-inline-desc">${guest.desc}</div>
+                    </div>
+                `)
+                .join('');
         }
 
         function showSection(sectionId) {
