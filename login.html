@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Thoreson Estate Dinner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-card {
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 3px solid #8b7355;
+            box-shadow: 
+                0 0 0 1px #a08060,
+                0 0 0 6px #2a2520,
+                0 0 0 8px #8b7355,
+                0 20px 60px rgba(0,0,0,0.5);
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 36px;
+            color: #2a2520;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #8b7355;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: #2a2520;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #8b7355;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 16px;
+            color: #2a2520;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #c9a227;
+            box-shadow: 0 0 10px rgba(201, 162, 39, 0.3);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background: #c9a227;
+            color: #2a2520;
+            border: none;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .login-button:hover {
+            background: #e8c55a;
+            transform: scale(1.02);
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .info-text {
+            font-size: 12px;
+            color: #8b7355;
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+
+        .corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #8b7355;
+        }
+
+        .corner-tl { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+        .corner-tr { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+        .corner-br { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+        .login-card {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+
+            <h1 class="title">The Thoreson Estate</h1>
+            <p class="subtitle">March 21, 1935</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Name</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Enter your name" 
+                        required
+                        autocomplete="off"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="code">Access Code</label>
+                    <input 
+                        type="text" 
+                        id="code" 
+                        name="code" 
+                        placeholder="5-digit code" 
+                        required
+                        autocomplete="off"
+                        maxlength="5"
+                        inputmode="numeric"
+                    >
+                </div>
+
+                <button type="submit" class="login-button">Enter</button>
+            </form>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <p class="info-text">
+                Enter your name and the access code provided to you to view your character information.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // User database with credentials and skills
+        const users = {
+            "Scott": { code: "61493", role: "master", skills: [] },
+            "BrianT": { code: "42851", role: "guest", skills: [] },
+            "Clara": { code: "56374", role: "guest", skills: [] },
+            "Leanna": { code: "31429", role: "guest", skills: [] },
+            "Marc": { code: "68915", role: "guest", skills: [] },
+            "Maisy": { code: "25837", role: "guest", skills: [] },
+            "Hannah": { code: "84126", role: "guest", skills: ["French"] },
+            "DJ": { code: "91564", role: "guest", skills: [] },
+            "Peter": { code: "17382", role: "guest", skills: ["Accounting"] },
+            "Arash": { code: "73649", role: "guest", skills: [] },
+            "Becky": { code: "45928", role: "guest", skills: [] },
+            "BrianS": { code: "52847", role: "guest", skills: [] },
+            "Katie": { code: "29175", role: "guest", skills: [] },
+            "Michelle": { code: "63841", role: "guest", skills: [] },
+            "Jeff": { code: "34759", role: "guest", skills: [] },
+            "Casey": { code: "85214", role: "guest", skills: [] },
+            "Krystal": { code: "72938", role: "guest", skills: [] },
+            "Lindsey": { code: "41876", role: "guest", skills: [] },
+            "Bradey": { code: "96523", role: "guest", skills: [] },
+            "Alexander": { code: "51783", role: "guest", skills: [] },
+            "Jesse": { code: "28764", role: "guest", skills: [] },
+            "TestUser1": { code: "00000", role: "testing", skills: [] },
+            "TestUser2": { code: "00001", role: "testing", skills: ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"] }
+        };
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const code = document.getElementById('code').value.trim();
+            const errorMsg = document.getElementById('errorMessage');
+
+            // Validate credentials
+            if (users[username] && users[username].code === code) {
+                // Store login info in localStorage
+                const userSession = {
+                    username: username,
+                    role: users[username].role,
+                    skills: users[username].skills,
+                    unlockedSkills: [],
+                    unlockedStoryClues: [],
+                    loginTime: new Date().toISOString()
+                };
+
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+
+                // Redirect to dashboard
+                window.location.href = 'dashboard.html';
+            } else {
+                errorMsg.textContent = 'Invalid name or code. Please try again.';
+                errorMsg.style.display = 'block';
+                document.getElementById('code').value = '';
+            }
+        });
+
+        // Check if already logged in
+        window.addEventListener('load', function() {
+            const session = localStorage.getItem('userSession');
+            if (session) {
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>
