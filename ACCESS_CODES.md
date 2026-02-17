@@ -2,7 +2,7 @@
 
 ## MASTER CODE (For You)
 ```
-73928
+61493
 ```
 This code lets you view ALL characters' full information on any character page.
 
