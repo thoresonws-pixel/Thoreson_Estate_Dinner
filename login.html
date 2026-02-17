@@ -240,7 +240,7 @@
                 localStorage.setItem('userSession', JSON.stringify(userSession));
 
                 // Redirect to dashboard
-                window.location.href = 'dashboard.html';
+                window.location.href = 'authenticated-dashboard.html';
             } else {
                 errorMsg.textContent = 'Invalid name or code. Please try again.';
                 errorMsg.style.display = 'block';
@@ -252,7 +252,7 @@
         window.addEventListener('load', function() {
             const session = localStorage.getItem('userSession');
             if (session) {
-                window.location.href = 'dashboard.html';
+                window.location.href = 'authenticated-dashboard.html';
             }
         });
     </script>
