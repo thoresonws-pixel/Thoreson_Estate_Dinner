@@ -1270,8 +1270,8 @@
                 html += `
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(0, 0, 0, 0.3); margin-bottom: 15px; border-radius: 3px;">
                         <div style="font-size: 18px; color: #c9a227;">${clue.title}</div>
-                        <button onclick="unlockStoryClue('${key}')" style="background: ${isUnlocked ? '#999' : '#4caf50'}; color: white; border: none; padding: 10px 20px; cursor: pointer;" ${isUnlocked ? 'disabled' : ''}>
-                            ${isUnlocked ? 'Unlocked' : 'Unlock for All'}
+                        <button onclick="toggleStoryClue('${key}')" style="background: ${isUnlocked ? '#e74c3c' : '#4caf50'}; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 3px;">
+                            ${isUnlocked ? 'Lock' : 'Unlock for All'}
                         </button>
                     </div>
                 `;
@@ -1296,14 +1296,19 @@
             }
         }
 
-        function unlockStoryClue(clueKey) {
+        function toggleStoryClue(clueKey) {
             if (!userSession.unlockedStoryClues) userSession.unlockedStoryClues = [];
-            if (!userSession.unlockedStoryClues.includes(clueKey)) {
+            const index = userSession.unlockedStoryClues.indexOf(clueKey);
+            if (index === -1) {
+                // Unlock
                 userSession.unlockedStoryClues.push(clueKey);
-                localStorage.setItem('userSession', JSON.stringify(userSession));
-                loadDiscoveriesData();
-                loadMasterClues();
+            } else {
+                // Lock
+                userSession.unlockedStoryClues.splice(index, 1);
             }
+            localStorage.setItem('userSession', JSON.stringify(userSession));
+            loadDiscoveriesData();
+            loadMasterClues();
         }
 
         function logout() {
