@@ -369,7 +369,7 @@
         <!-- COCKTAILS -->
         <div class="content-card">
             <div class="content-title">Cocktails</div>
-            <div class="content-text">
+            <div class="content-text" id="cocktailsContent">
                 An exquisite selection of cocktails will be served before dinner.<br><br>
                 <strong>The Manhattan</strong> - A classic blend of whiskey, vermouth, and bitters<br><br>
                 <strong>The Martini</strong> - Gin and vermouth, stirred to perfection<br><br>
@@ -443,12 +443,6 @@
                 skill: "Medical",
                 title: "Autopsy Report",
                 content: "Medical examination confirms death by Wolfsbane poisoning. The poison was administered orally, likely mixed into food or drink. Death would have occurred within 2-3 hours of ingestion."
-            },
-            "Bartender": {
-                type: "skill",
-                skill: "Bartender",
-                title: "Cocktail Recipes",
-                content: "<strong>The Manhattan</strong> - 2 oz whiskey, 1 oz sweet vermouth, 2 dashes Angostura bitters. Stir with ice, strain into coupe glass, garnish with cherry.<br><br><strong>The Martini</strong> - 2.5 oz gin, 0.5 oz dry vermouth. Stir with ice, strain into martini glass, garnish with olive or lemon twist.<br><br><strong>The Daiquiri</strong> - 2 oz rum, 1 oz fresh lime juice, 0.75 oz simple syrup. Shake with ice, strain into coupe glass.<br><br><strong>The Sidecar</strong> - 1.5 oz cognac, 1 oz Cointreau, 0.75 oz fresh lemon juice. Shake with ice, strain into coupe glass, garnish with lemon twist.<br><br><strong>Champagne</strong> - Serve chilled. A selection of fine French champagnes including vintage and non-vintage varieties."
             }
         };
 
@@ -568,6 +562,9 @@
 
             // Load guest list in home section
             loadGuestListInHome();
+            
+            // Load cocktail recipes if user is Clara
+            loadCocktailContent();
         }
 
         function loadGuestListInHome() {
@@ -583,6 +580,34 @@
                     </div>
                 `)
                 .join('');
+        }
+
+        function loadCocktailContent() {
+            const cocktailsEl = document.getElementById('cocktailsContent');
+            if (!cocktailsEl) return;
+
+            if (userSession.username === 'Clara') {
+                cocktailsEl.innerHTML = `
+                    <strong>The Manhattan</strong><br>
+                    2 oz whiskey, 1 oz sweet vermouth, 2 dashes Angostura bitters<br>
+                    Stir with ice, strain into coupe glass, garnish with cherry<br><br>
+
+                    <strong>The Martini</strong><br>
+                    2.5 oz gin, 0.5 oz dry vermouth<br>
+                    Stir with ice, strain into martini glass, garnish with olive or lemon twist<br><br>
+
+                    <strong>The Daiquiri</strong><br>
+                    2 oz rum, 1 oz fresh lime juice, 0.75 oz simple syrup<br>
+                    Shake with ice, strain into coupe glass<br><br>
+
+                    <strong>The Sidecar</strong><br>
+                    1.5 oz cognac, 1 oz Cointreau, 0.75 oz fresh lemon juice<br>
+                    Shake with ice, strain into coupe glass, garnish with lemon twist<br><br>
+
+                    <strong>Champagne</strong><br>
+                    Serve chilled. A selection of fine French champagnes including vintage and non-vintage varieties.
+                `;
+            }
         }
 
         function showSection(sectionId) {
