@@ -2,7 +2,7 @@
 
 ## MASTER CODE (For You)
 ```
-THORESON1935
+12345
 ```
 This code lets you view ALL characters' full information on any character page.
 
@@ -12,27 +12,27 @@ This code lets you view ALL characters' full information on any character page.
 
 | Character Name | IRL Name | Access Code |
 |---|---|---|
-| Scott Thoreson Jr. | Scott | SCOTT-7M2K |
-| Frederick Brian T. Thoreson | Brian S. | BRIAN-4L9T |
-| Charlotte Clara Waverly | Clara | CLARA-5P8X |
-| Miranda Leanna Hartley | Leanna | LEANN-3Q1W |
-| Walter Lippman | Marc | MARC-6N7J |
-| Sophie Maisy Vanderpool | Maisy | MAISY-2H5B |
-| Vivienne Ashford | Hannah | HANNAH-8V4K |
-| David Richardson | DJ | DJ-9R2F |
-| Raymond Hammond | Peter | PETER-1Y6C |
-| Marcus Brennan | Arash | ARASH-7G3D |
-| Victoria Ashworth | Becky | BECKY-4K8L |
-| Thomas Bradford | Brian S. | THOMAS-5E7M |
-| Margaret Ashford | Katie | MARGA-2W9Z |
-| Dorothy Wells | Michelle | DOROTHY-6X1P |
-| Charles Sterling | Jeff | CHARLES-3T4Q |
-| Patricia Chamberlain | Casey | PATRICIA-8V5K |
-| Victoria Grant | Krystal | VICTORIA-7J2X |
-| Elizabeth Monroe | Lindsey | ELIZABETH-4N8L |
-| James Sterling | Bradey | JAMES-9S6B |
-| William Chamberlain | Alexander | WILLIAM-5C1W |
-| Robert Chamberlain | Jesse | ROBERT-2H7Y |
+| Scott Thoreson Jr. | Scott | 73928 |
+| Frederick Brian T. Thoreson | Brian S. | 42851 |
+| Charlotte Clara Waverly | Clara | 56374 |
+| Miranda Leanna Hartley | Leanna | 31429 |
+| Walter Lippman | Marc | 68915 |
+| Sophie Maisy Vanderpool | Maisy | 25837 |
+| Vivienne Ashford | Hannah | 84126 |
+| David Richardson | DJ | 91564 |
+| Raymond Hammond | Peter | 17382 |
+| Marcus Brennan | Arash | 73649 |
+| Victoria Ashworth | Becky | 45928 |
+| Thomas Bradford | Brian S. | 52847 |
+| Margaret Ashford | Katie | 29175 |
+| Dorothy Wells | Michelle | 63841 |
+| Charles Sterling | Jeff | 34759 |
+| Patricia Chamberlain | Casey | 85214 |
+| Victoria Grant | Krystal | 72938 |
+| Elizabeth Monroe | Lindsey | 41876 |
+| James Sterling | Bradey | 96523 |
+| William Chamberlain | Alexander | 51783 |
+| Robert Chamberlain | Jesse | 28764 |
 
 ---
 
