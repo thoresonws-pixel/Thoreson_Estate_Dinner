@@ -1263,23 +1263,18 @@
         });
 
         function initializeAuthenticatedView() {
-            // Hide invitation and cocktails for authenticated users
-            document.getElementById('invNav').style.display = 'none';
-            document.getElementById('cocktailNav').style.display = 'none';
-            document.getElementById('invOption').style.display = 'none';
-            document.getElementById('cocktailOption').style.display = 'none';
+            // Hide sections that shouldn't be visible
             document.getElementById('invitation').style.display = 'none';
             document.getElementById('cocktails').style.display = 'none';
             document.getElementById('character').style.display = 'none';
             
-            // Show relevant pages
+            // Show guests by default
             document.getElementById('guests').style.display = 'block';
-            document.getElementById('discoveries').style.display = 'block';
+            document.getElementById('discoveries').style.display = 'none';
             
             if (userSession.role === 'master') {
                 document.getElementById('masterNav').style.display = 'block';
-                document.getElementById('masterOption').style.display = 'block';
-                document.getElementById('masterclues').style.display = 'block';
+                document.getElementById('masterclues').style.display = 'none';
             }
 
             if (userSession.role === 'master') {
