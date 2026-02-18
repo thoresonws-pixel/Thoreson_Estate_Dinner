@@ -30,10 +30,12 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(26, 26, 46, 0.95);
-            border-bottom: 1px solid #c9a227;
+            background: linear-gradient(180deg, rgba(26, 26, 46, 0.98) 0%, rgba(26, 26, 46, 0.95) 100%);
+            border-bottom: 2px solid #c9a227;
             padding: 15px 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
         .desktop-nav {
             display: flex;
@@ -54,35 +56,73 @@
             text-shadow: 0 0 10px #c9a227;
         }
         .mobile-nav {
-            padding: 10px 15px;
+            padding: 12px 15px;
             display: flex;
             gap: 10px;
             align-items: center;
+            justify-content: space-between;
         }
         .mobile-nav select {
             flex: 1;
-            padding: 10px;
-            background: #2a2f4a;
+            padding: 12px 15px;
+            background: rgba(42, 47, 74, 0.8);
             color: #c9a227;
             border: 1px solid #c9a227;
-            border-radius: 3px;
+            border-radius: 4px;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 14px;
+            font-size: 15px;
             letter-spacing: 1px;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        .mobile-nav select:focus {
+            outline: none;
+            background: rgba(42, 47, 74, 0.95);
+            box-shadow: 0 0 10px rgba(201, 162, 39, 0.3);
         }
         .mobile-nav select option {
             background: #1a1a2e;
             color: #c9a227;
+            padding: 10px;
+        }
+        .mobile-nav button {
+            padding: 12px 20px;
+            background: #c9a227;
+            color: #1a1a2e;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 2px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .mobile-nav button:hover {
+            background: #e8d950;
+            box-shadow: 0 0 15px rgba(201, 162, 39, 0.4);
         }
         
         /* Sections */
         section {
             min-height: 100vh;
-            padding: 100px 20px 60px;
+            padding: 120px 30px 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 48px;
+            color: #c9a227;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         
         /* Invitation Section */
@@ -397,10 +437,11 @@
                 0 0 0 1px #a08060,
                 0 0 0 4px #2a2520,
                 0 0 0 6px #8b7355,
-                0 15px 40px rgba(0,0,0,0.4);
-            padding: 40px;
+                0 20px 50px rgba(0,0,0,0.5);
+            padding: 45px;
             text-align: left;
             margin: 0;
+            border-radius: 2px;
         }
         .menu-section {
             margin-bottom: 10px;
@@ -443,27 +484,32 @@
         }
         .guest-container {
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
             border: 2px solid #8b7355;
             box-shadow: 
                 0 0 0 1px #a08060,
                 0 0 0 4px #2a2520,
                 0 0 0 6px #8b7355,
-                0 15px 40px rgba(0,0,0,0.4);
-            padding: 30px 40px;
+                0 20px 50px rgba(0,0,0,0.5);
+            padding: 40px;
+            border-radius: 2px;
         }
         .guest-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 0;
         }
         .guest-item {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(139, 115, 85, 0.2);
+            transition: background 0.3s;
+        }
+        .guest-item:hover {
+            background: rgba(201, 162, 39, 0.05);
         }
         .guest-item:last-child {
             border-bottom: none;
@@ -644,7 +690,6 @@
         <!-- Desktop nav -->
         <ul id="desktopNav" class="desktop-nav">
             <li><a href="#invitation">Invitation</a></li>
-            <li><a href="#rsvp">RSVP</a></li>
             <li><a href="#cocktails">Cocktails</a></li>
             <li><a href="#guests">Guests</a></li>
             <li><a href="#character">Character Background</a></li>
@@ -658,7 +703,6 @@
             <select id="pageSelect" onchange="navigateToPage(this.value)">
                 <option value="">Select Page...</option>
                 <option value="#invitation">Invitation</option>
-                <option value="#rsvp">RSVP</option>
                 <option value="#cocktails">Cocktails</option>
                 <option value="#guests">Guests</option>
                 <option value="#character">Character Background</option>
