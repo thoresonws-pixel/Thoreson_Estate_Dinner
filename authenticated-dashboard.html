@@ -1327,6 +1327,9 @@
                 localStorage.setItem('userSession', JSON.stringify(userSession));
             }
 
+            // Start listening for Firebase updates
+            listenForFirebaseUpdates();
+            
             loadDiscoveriesData();
             if (userSession.role === 'master') {
                 loadMasterClues();
@@ -1504,7 +1507,10 @@
             }
             localStorage.setItem('userSession', JSON.stringify(userSession));
             
-            // Broadcast to all devices
+            // Sync to Firebase
+            syncToFirebase();
+            
+            // Broadcast to local devices
             broadcastChannel.postMessage({
                 type: 'storyClueUpdate',
                 storyClues: userSession.unlockedStoryClues
@@ -1532,7 +1538,10 @@
             }
             localStorage.setItem('userSession', JSON.stringify(userSession));
             
-            // Broadcast to all devices
+            // Sync to Firebase
+            syncToFirebase();
+            
+            // Broadcast to local devices
             broadcastChannel.postMessage({
                 type: 'revelationUpdate',
                 revelations: userSession.activeRevelations
@@ -1679,6 +1688,94 @@
 
         document.addEventListener('DOMContentLoaded', loadGuests);
     </script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+    
+    <script>
+        // Your Firebase config will go here
+        // REPLACE THIS with your actual Firebase config
+        const firebaseConfig = {
+            apiKey: "PLACEHOLDER_API_KEY",
+            authDomain: "PLACEHOLDER_AUTH_DOMAIN",
+            databaseURL: "PLACEHOLDER_DATABASE_URL",
+            projectId: "PLACEHOLDER_PROJECT_ID",
+            storageBucket: "PLACEHOLDER_STORAGE_BUCKET",
+            messagingSenderId: "PLACEHOLDER_MESSAGING_SENDER_ID",
+            appId: "PLACEHOLDER_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        let firebaseReady = false;
+
+        // Test Firebase connection
+        database.ref('.info/connected').on('value', (snapshot) => {
+            if (snapshot.val() === true) {
+                console.log('✓ Connected to Firebase');
+                firebaseReady = true;
+                // Load initial data from Firebase
+                loadFirebaseData();
+            } else {
+                console.log('✗ Firebase connection lost');
+                firebaseReady = false;
+            }
+        });
+
+        // Listen for revelation updates from Firebase
+        function listenForFirebaseUpdates() {
+            if (!firebaseReady) return;
+            
+            database.ref('revelations').on('value', (snapshot) => {
+                const revelations = snapshot.val() || [];
+                if (userSession && Array.isArray(revelations)) {
+                    userSession.activeRevelations = revelations;
+                    localStorage.setItem('userSession', JSON.stringify(userSession));
+                    if (document.getElementById('discoveriesContent')) {
+                        loadDiscoveriesData();
+                    }
+                }
+            });
+
+            database.ref('storyClues').on('value', (snapshot) => {
+                const clues = snapshot.val() || [];
+                if (userSession && Array.isArray(clues)) {
+                    userSession.unlockedStoryClues = clues;
+                    localStorage.setItem('userSession', JSON.stringify(userSession));
+                    if (document.getElementById('discoveriesContent')) {
+                        loadDiscoveriesData();
+                    }
+                }
+            });
+        }
+
+        // Load initial data from Firebase
+        function loadFirebaseData() {
+            if (!firebaseReady || !userSession) return;
+            
+            database.ref('revelations').once('value').then(snapshot => {
+                userSession.activeRevelations = snapshot.val() || [];
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+            });
+
+            database.ref('storyClues').once('value').then(snapshot => {
+                userSession.unlockedStoryClues = snapshot.val() || [];
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+            });
+        }
+
+        // Sync revelations to Firebase
+        function syncToFirebase() {
+            if (!firebaseReady || !userSession) return;
+            
+            database.ref('revelations').set(userSession.activeRevelations || [])
+                .catch(error => console.error('Firebase revelation sync error:', error));
+                
+            database.ref('storyClues').set(userSession.unlockedStoryClues || [])
+                .catch(error => console.error('Firebase story clue sync error:', error));
+        }
+    </script>
+
     <script>
         // Register service worker for PWA functionality
         if ('serviceWorker' in navigator) {
