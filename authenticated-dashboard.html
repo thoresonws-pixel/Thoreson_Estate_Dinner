@@ -1250,6 +1250,23 @@
             "mirandasIdentity": { title: "Miranda's True Identity", content: "Miranda Hartley is Robert's daughter seeking justice." }
         };
 
+        // Revelations - ordered by act, can be revealed to all guests
+        const revelations = {
+            "act1": [
+                { id: "ledger", title: "Ledger Found", publicSummary: "A financial ledger with suspicious payments to 'T.H.' has been discovered." },
+                { id: "wolfsbane", title: "Poison Identified", publicSummary: "Wolfsbane traces found in Will's wine - this was not a natural death." },
+                { id: "affair", title: "Secret Affair", publicSummary: "Evidence suggests Will had a long-standing affair and secret children." }
+            ],
+            "act2": [
+                { id: "embezzlement", title: "Embezzlement Discovered", publicSummary: "Will stole millions from his original business partner thirty years ago." },
+                { id: "motive", title: "Possible Motive", publicSummary: "Multiple people had financial reasons to want Will dead." },
+                { id: "conspiracy", title: "Conspiracy Suspected", publicSummary: "Evidence suggests more than one person may have been involved." }
+            ],
+            "act3": [
+                { id: "betrayal", title: "The Final Truth", publicSummary: "The killer's identity has been revealed - it was someone trusted by the family." }
+            ]
+        };
+
         let userSession = null;
 
         window.addEventListener('load', function() {
@@ -1318,6 +1335,26 @@
         function loadDiscoveriesData() {
             let html = '';
 
+            // Show active revelations first
+            if (userSession.activeRevelations && userSession.activeRevelations.length > 0) {
+                html += '<div style="margin-bottom: 30px;">';
+                html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 18px; color: #c9a227; text-transform: uppercase; margin-bottom: 15px;">Revealed Discoveries</div>';
+                
+                Object.values(revelations).forEach(actItems => {
+                    actItems.forEach(revelation => {
+                        if (userSession.activeRevelations.includes(revelation.id)) {
+                            html += `
+                                <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid #c9a227; padding: 20px; margin-bottom: 20px; border-radius: 3px;">
+                                    <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${revelation.title}</div>
+                                    <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${revelation.publicSummary}</div>
+                                </div>
+                            `;
+                        }
+                    });
+                });
+                html += '</div>';
+            }
+
             if (userSession.skills && userSession.skills.length > 0) {
                 userSession.skills.forEach(skill => {
                     const clue = clueDatabase[skill];
@@ -1356,18 +1393,34 @@
 
         function loadMasterClues() {
             let html = '<div style="background: rgba(201, 162, 39, 0.1); border: 2px solid #c9a227; padding: 30px; border-radius: 5px; margin-bottom: 30px;">';
-            html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 24px; color: #c9a227; margin-bottom: 20px;">Story Clue Controls</div>';
+            html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 24px; color: #c9a227; margin-bottom: 20px;">Revelations Control</div>';
+            html += '<p style="color: #c9a227; margin-bottom: 20px; font-size: 14px;">Click to reveal discoveries to all guests during the acts</p>';
 
-            Object.entries(storyClues).forEach(([key, clue]) => {
-                const isUnlocked = userSession.unlockedStoryClues && userSession.unlockedStoryClues.includes(key);
-                html += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(0, 0, 0, 0.3); margin-bottom: 15px; border-radius: 3px;">
-                        <div style="font-size: 18px; color: #c9a227;">${clue.title}</div>
-                        <button onclick="toggleStoryClue('${key}')" style="background: ${isUnlocked ? '#e74c3c' : '#4caf50'}; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 3px;">
-                            ${isUnlocked ? 'Lock' : 'Unlock for All'}
-                        </button>
-                    </div>
-                `;
+            // Get active revelations
+            if (!userSession.activeRevelations) {
+                userSession.activeRevelations = [];
+            }
+
+            // Show each act's revelations
+            Object.entries(revelations).forEach(([act, items]) => {
+                html += `<div style="margin-bottom: 25px;">`;
+                html += `<div style="font-family: 'Playfair Display', Georgia, serif; font-size: 18px; color: #c9a227; text-transform: uppercase; margin-bottom: 15px;">${act}</div>`;
+                
+                items.forEach(revelation => {
+                    const isRevealed = userSession.activeRevelations.includes(revelation.id);
+                    html += `
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 12px; background: rgba(0, 0, 0, 0.3); margin-bottom: 10px; border-radius: 3px;">
+                            <div style="flex: 1;">
+                                <div style="font-size: 16px; color: #c9a227; margin-bottom: 5px;">${revelation.title}</div>
+                                <div style="font-size: 13px; color: #999;">"${revelation.publicSummary}"</div>
+                            </div>
+                            <button onclick="toggleRevelation('${revelation.id}')" style="background: ${isRevealed ? '#e74c3c' : '#4caf50'}; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 3px; white-space: nowrap; margin-left: 15px;">
+                                ${isRevealed ? 'Hide' : 'Reveal'}
+                            </button>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
             });
 
             html += '</div>';
@@ -1405,6 +1458,27 @@
             // Auto-navigate to Discoveries to show update
             setTimeout(() => {
                 navigateToPage('#discoveries');
+            }, 100);
+        }
+
+        function toggleRevelation(revelationId) {
+            if (!userSession.activeRevelations) {
+                userSession.activeRevelations = [];
+            }
+            const index = userSession.activeRevelations.indexOf(revelationId);
+            if (index === -1) {
+                // Reveal
+                userSession.activeRevelations.push(revelationId);
+            } else {
+                // Hide
+                userSession.activeRevelations.splice(index, 1);
+            }
+            localStorage.setItem('userSession', JSON.stringify(userSession));
+            loadDiscoveriesData();
+            loadMasterClues();
+            // Auto-navigate to Discoveries to show update
+            setTimeout(() => {
+                navigateAuth('#discoveries');
             }, 100);
         }
 
