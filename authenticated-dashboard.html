@@ -687,29 +687,23 @@
 </head>
 <body>
     <nav>
-        <!-- Desktop nav -->
+        <!-- Desktop nav - simplified -->
         <ul id="desktopNav" class="desktop-nav">
-            <li id="invNav" style="display:none;"><a href="#invitation">Invitation</a></li>
-            <li id="cocktailNav" style="display:none;"><a href="#cocktails">Cocktails</a></li>
-            <li><a href="#guests">Guests</a></li>
-            <li><a href="#character">Character Background</a></li>
-            <li><a href="#discoveries">Discoveries</a></li>
-            <li id="masterNav" style="display:none;"><a href="#masterclues">Master Clues</a></li>
+            <li><a href="#guests" onclick="return navigateAuth('#guests')">Guests</a></li>
+            <li><a href="#discoveries" onclick="return navigateAuth('#discoveries')">Discoveries</a></li>
+            <li id="masterNav" style="display:none;"><a href="#masterclues" onclick="return navigateAuth('#masterclues')">Master Controls</a></li>
             <li style="position: fixed; right: 20px; top: 15px;"><a href="#" onclick="logout(); return false;">Logout</a></li>
         </ul>
 
-        <!-- Mobile dropdown nav -->
+        <!-- Mobile nav - simplified -->
         <div id="mobileNav" class="mobile-nav" style="display: none;">
-            <select id="pageSelect" onchange="navigateToPage(this.value)">
-                <option value="">Select Page...</option>
-                <option id="invOption" value="#invitation" style="display:none;">Invitation</option>
-                <option id="cocktailOption" value="#cocktails" style="display:none;">Cocktails</option>
+            <select id="pageSelect" onchange="navigateAuth(this.value)">
+                <option value="">Select...</option>
                 <option value="#guests">Guests</option>
-                <option value="#character">Character Background</option>
                 <option value="#discoveries">Discoveries</option>
-                <option id="masterOption" value="#masterclues" style="display:none;">Master Clues</option>
+                <option id="masterOption" value="#masterclues" style="display:none;">Master Controls</option>
             </select>
-            <button onclick="logout();" style="margin-left: 10px; padding: 8px 15px; background: #c9a227; color: #1a1a2e; border: none; cursor: pointer; border-radius: 3px; font-family: 'Cormorant Garamond', serif; letter-spacing: 2px;">Logout</button>
+            <button onclick="logout();" style="margin-left: 10px; padding: 8px 15px; background: #c9a227; color: #1a1a2e; border: none; cursor: pointer; border-radius: 3px; font-family: 'Cormorant Garamond', serif; letter-spacing: 2px; font-size: 12px;">Logout</button>
         </div>
     </nav>
 
@@ -1289,10 +1283,10 @@
             document.getElementById('cocktailOption').style.display = 'none';
             document.getElementById('invitation').style.display = 'none';
             document.getElementById('cocktails').style.display = 'none';
+            document.getElementById('character').style.display = 'none';
             
             // Show relevant pages
             document.getElementById('guests').style.display = 'block';
-            document.getElementById('character').style.display = 'block';
             document.getElementById('discoveries').style.display = 'block';
             
             if (userSession.role === 'master') {
@@ -1306,7 +1300,6 @@
                 localStorage.setItem('userSession', JSON.stringify(userSession));
             }
 
-            loadCharacterData();
             loadDiscoveriesData();
             if (userSession.role === 'master') {
                 loadMasterClues();
@@ -1431,6 +1424,27 @@
             setTimeout(() => {
                 navigateToPage('#discoveries');
             }, 100);
+        }
+
+        function navigateAuth(pageId) {
+            if (!pageId) return false;
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            // Show selected section
+            const sectionId = pageId.substring(1);
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.style.display = 'block';
+                window.scrollTo(0, 0);
+            }
+            // Reset dropdown
+            const dropdown = document.getElementById('pageSelect');
+            if (dropdown) {
+                dropdown.value = '';
+            }
+            return false;
         }
 
         function navigateToPage(pageId) {
