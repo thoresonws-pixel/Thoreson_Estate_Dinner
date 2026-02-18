@@ -689,8 +689,8 @@
     <nav>
         <!-- Desktop nav -->
         <ul id="desktopNav" class="desktop-nav">
-            <li><a href="#invitation">Invitation</a></li>
-            <li><a href="#cocktails">Cocktails</a></li>
+            <li id="invNav" style="display:none;"><a href="#invitation">Invitation</a></li>
+            <li id="cocktailNav" style="display:none;"><a href="#cocktails">Cocktails</a></li>
             <li><a href="#guests">Guests</a></li>
             <li><a href="#character">Character Background</a></li>
             <li><a href="#discoveries">Discoveries</a></li>
@@ -702,8 +702,8 @@
         <div id="mobileNav" class="mobile-nav" style="display: none;">
             <select id="pageSelect" onchange="navigateToPage(this.value)">
                 <option value="">Select Page...</option>
-                <option value="#invitation">Invitation</option>
-                <option value="#cocktails">Cocktails</option>
+                <option id="invOption" value="#invitation" style="display:none;">Invitation</option>
+                <option id="cocktailOption" value="#cocktails" style="display:none;">Cocktails</option>
                 <option value="#guests">Guests</option>
                 <option value="#character">Character Background</option>
                 <option value="#discoveries">Discoveries</option>
@@ -1282,8 +1282,19 @@
         });
 
         function initializeAuthenticatedView() {
+            // Hide invitation and cocktails for authenticated users
+            document.getElementById('invNav').style.display = 'none';
+            document.getElementById('cocktailNav').style.display = 'none';
+            document.getElementById('invOption').style.display = 'none';
+            document.getElementById('cocktailOption').style.display = 'none';
+            document.getElementById('invitation').style.display = 'none';
+            document.getElementById('cocktails').style.display = 'none';
+            
+            // Show relevant pages
+            document.getElementById('guests').style.display = 'block';
             document.getElementById('character').style.display = 'block';
             document.getElementById('discoveries').style.display = 'block';
+            
             if (userSession.role === 'master') {
                 document.getElementById('masterNav').style.display = 'block';
                 document.getElementById('masterOption').style.display = 'block';
