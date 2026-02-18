@@ -1285,9 +1285,9 @@
             document.getElementById('cocktails').style.display = 'none';
             document.getElementById('character').style.display = 'none';
             
-            // Show guests by default
-            document.getElementById('guests').style.display = 'block';
-            document.getElementById('discoveries').style.display = 'none';
+            // Show discoveries by default (not guests)
+            document.getElementById('guests').style.display = 'none';
+            document.getElementById('discoveries').style.display = 'block';
             
             if (userSession.role === 'master') {
                 document.getElementById('masterNav').style.display = 'block';
@@ -1401,7 +1401,7 @@
                 userSession.activeRevelations = [];
             }
 
-            // Show each act's revelations
+            // Show revelations by act
             Object.entries(revelations).forEach(([act, items]) => {
                 html += `<div style="margin-bottom: 25px;">`;
                 html += `<div style="font-family: 'Playfair Display', Georgia, serif; font-size: 18px; color: #c9a227; text-transform: uppercase; margin-bottom: 15px;">${act}</div>`;
@@ -1423,7 +1423,29 @@
                 html += `</div>`;
             });
 
-            html += '</div>';
+            // Story Clues section
+            html += '<div style="margin-top: 30px; border-top: 1px solid rgba(201, 162, 39, 0.3); padding-top: 20px;">';
+            html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 18px; color: #c9a227; text-transform: uppercase; margin-bottom: 15px;">Story Clues</div>';
+            
+            if (!userSession.unlockedStoryClues) {
+                userSession.unlockedStoryClues = [];
+            }
+
+            Object.entries(storyClues).forEach(([key, clue]) => {
+                const isUnlocked = userSession.unlockedStoryClues.includes(key);
+                html += `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 12px; background: rgba(0, 0, 0, 0.3); margin-bottom: 10px; border-radius: 3px;">
+                        <div style="flex: 1;">
+                            <div style="font-size: 16px; color: #c9a227; margin-bottom: 5px;">${clue.title}</div>
+                        </div>
+                        <button onclick="toggleStoryClue('${key}')" style="background: ${isUnlocked ? '#e74c3c' : '#4caf50'}; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 3px; white-space: nowrap; margin-left: 15px;">
+                            ${isUnlocked ? 'Hide' : 'Reveal'}
+                        </button>
+                    </div>
+                `;
+            });
+
+            html += '</div></div>';
             document.getElementById('masterCluesContent').innerHTML = html;
         }
 
