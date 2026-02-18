@@ -35,7 +35,7 @@
             padding: 15px 0;
             z-index: 1000;
         }
-        nav ul {
+        .desktop-nav {
             display: flex;
             justify-content: center;
             gap: 40px;
@@ -52,6 +52,28 @@
         nav a:hover {
             color: #fff;
             text-shadow: 0 0 10px #c9a227;
+        }
+        .mobile-nav {
+            padding: 10px 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .mobile-nav select {
+            flex: 1;
+            padding: 10px;
+            background: #2a2f4a;
+            color: #c9a227;
+            border: 1px solid #c9a227;
+            border-radius: 3px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+        .mobile-nav select option {
+            background: #1a1a2e;
+            color: #c9a227;
         }
         
         /* Sections */
@@ -476,12 +498,14 @@
         
         /* Responsive */
         @media (max-width: 600px) {
-            nav ul {
-                gap: 15px;
+            .desktop-nav {
+                display: none;
             }
-            nav a {
-                font-size: 12px;
-                letter-spacing: 1px;
+            #mobileNav {
+                display: flex !important;
+            }
+            nav {
+                padding: 8px 0;
             }
             section {
                 padding: 80px 15px 40px;
@@ -585,12 +609,15 @@
 
         @media (max-width: 400px) {
             nav a {
-                font-size: 9px;
-                letter-spacing: 0.2px;
+                font-size: 8px;
+                letter-spacing: 0.1px;
             }
             nav ul {
-                gap: 6px;
-                padding: 6px 3px;
+                gap: 4px;
+                padding: 4px 2px;
+            }
+            nav li:last-child {
+                display: none;
             }
             .section-title {
                 font-size: 20px;
@@ -599,11 +626,23 @@
                 padding: 20px 15px;
             }
         }
+
+        @media (max-width: 350px) {
+            nav a {
+                font-size: 7px;
+                letter-spacing: 0px;
+            }
+            nav ul {
+                gap: 3px;
+                padding: 3px 2px;
+            }
+        }
     </style>
 </head>
 <body>
     <nav>
-        <ul>
+        <!-- Desktop nav -->
+        <ul id="desktopNav" class="desktop-nav">
             <li><a href="#invitation">Invitation</a></li>
             <li><a href="#rsvp">RSVP</a></li>
             <li><a href="#cocktails">Cocktails</a></li>
@@ -612,8 +651,22 @@
             <li><a href="#discoveries">Discoveries</a></li>
             <li id="masterNav" style="display:none;"><a href="#masterclues">Master Clues</a></li>
             <li style="position: fixed; right: 20px; top: 15px;"><a href="#" onclick="logout(); return false;">Logout</a></li>
-
         </ul>
+
+        <!-- Mobile dropdown nav -->
+        <div id="mobileNav" class="mobile-nav" style="display: none;">
+            <select id="pageSelect" onchange="navigateToPage(this.value)">
+                <option value="">Select Page...</option>
+                <option value="#invitation">Invitation</option>
+                <option value="#rsvp">RSVP</option>
+                <option value="#cocktails">Cocktails</option>
+                <option value="#guests">Guests</option>
+                <option value="#character">Character Background</option>
+                <option value="#discoveries">Discoveries</option>
+                <option id="masterOption" value="#masterclues" style="display:none;">Master Clues</option>
+            </select>
+            <button onclick="logout();" style="margin-left: 10px; padding: 8px 15px; background: #c9a227; color: #1a1a2e; border: none; cursor: pointer; border-radius: 3px; font-family: 'Cormorant Garamond', serif; letter-spacing: 2px;">Logout</button>
+        </div>
     </nav>
 
     <!-- INVITATION SECTION -->
@@ -1189,6 +1242,7 @@
             document.getElementById('discoveries').style.display = 'block';
             if (userSession.role === 'master') {
                 document.getElementById('masterNav').style.display = 'block';
+                document.getElementById('masterOption').style.display = 'block';
                 document.getElementById('masterclues').style.display = 'block';
             }
 
@@ -1318,6 +1372,22 @@
             localStorage.setItem('userSession', JSON.stringify(userSession));
             loadDiscoveriesData();
             loadMasterClues();
+        }
+
+        function navigateToPage(pageId) {
+            if (!pageId) return;
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'none';
+            });
+            // Show selected section
+            const section = document.getElementById(pageId.substring(1));
+            if (section) {
+                section.style.display = 'block';
+                window.scrollTo(0, 0);
+            }
+            // Reset dropdown
+            document.getElementById('pageSelect').value = '';
         }
 
         function logout() {
