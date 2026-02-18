@@ -1267,9 +1267,37 @@
             ]
         };
 
-        let userSession = null;
-
-        window.addEventListener('load', function() {
+        // Broadcast Channel for real-time sync across devices on same network
+        const broadcastChannel = new BroadcastChannel('thoreson-estate-sync');
+        
+        broadcastChannel.onmessage = (event) => {
+            if (event.data.type === 'revelationUpdate') {
+                // Update local revelations
+                if (!userSession.activeRevelations) {
+                    userSession.activeRevelations = [];
+                }
+                userSession.activeRevelations = event.data.revelations;
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+                
+                // Reload discoveries to show new revelations
+                if (document.getElementById('discoveriesContent')) {
+                    loadDiscoveriesData();
+                }
+            }
+            if (event.data.type === 'storyClueUpdate') {
+                // Update local story clues
+                if (!userSession.unlockedStoryClues) {
+                    userSession.unlockedStoryClues = [];
+                }
+                userSession.unlockedStoryClues = event.data.storyClues;
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+                
+                // Reload discoveries to show new clues
+                if (document.getElementById('discoveriesContent')) {
+                    loadDiscoveriesData();
+                }
+            }
+        };
             const session = localStorage.getItem('userSession');
             if (session) {
                 userSession = JSON.parse(session);
@@ -1475,11 +1503,18 @@
                 userSession.unlockedStoryClues.splice(index, 1);
             }
             localStorage.setItem('userSession', JSON.stringify(userSession));
+            
+            // Broadcast to all devices
+            broadcastChannel.postMessage({
+                type: 'storyClueUpdate',
+                storyClues: userSession.unlockedStoryClues
+            });
+            
             loadDiscoveriesData();
             loadMasterClues();
             // Auto-navigate to Discoveries to show update
             setTimeout(() => {
-                navigateToPage('#discoveries');
+                navigateAuth('#discoveries');
             }, 100);
         }
 
@@ -1496,6 +1531,13 @@
                 userSession.activeRevelations.splice(index, 1);
             }
             localStorage.setItem('userSession', JSON.stringify(userSession));
+            
+            // Broadcast to all devices
+            broadcastChannel.postMessage({
+                type: 'revelationUpdate',
+                revelations: userSession.activeRevelations
+            });
+            
             loadDiscoveriesData();
             loadMasterClues();
             // Auto-navigate to Discoveries to show update
