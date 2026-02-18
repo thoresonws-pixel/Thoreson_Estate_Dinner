@@ -14,7 +14,6 @@ self.addEventListener('install', event => {
       .then(cache => {
         return cache.addAll(urlsToCache).catch(err => {
           console.log('Cache addAll error:', err);
-          // Don't fail install if some resources fail to cache
           return Promise.resolve();
         });
       })
@@ -38,44 +37,54 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - NETWORK FIRST for instant updates
 self.addEventListener('fetch', event => {
-  // Skip non-GET requests
   if (event.request.method !== 'GET') {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Return cached version if available
-        if (response) {
-          return response;
-        }
-
-        return fetch(event.request).then(response => {
-          // Don't cache non-successful responses
-          if (!response || response.status !== 200 || response.type === 'error') {
-            return response;
-          }
-
-          // Clone the response
-          const responseToCache = response.clone();
-
-          // Cache successful GET requests
-          caches.open(CACHE_NAME)
-            .then(cache => {
+  // For HTML files - network first (always get latest for speed)
+  if (event.request.url.includes('.html')) {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          if (response && response.status === 200) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
               cache.put(event.request, responseToCache);
             });
-
+          }
           return response;
-        }).catch(() => {
-          // Return offline page or cached version if network fails
-          return caches.match(event.request)
-            .then(response => response);
-        });
-      })
-  );
+        })
+        .catch(() => {
+          // Fall back to cache if network fails (offline mode)
+          return caches.match(event.request);
+        })
+    );
+  } else {
+    // For other resources - cache first
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => {
+          if (response) {
+            return response;
+          }
+          return fetch(event.request).then(response => {
+            if (!response || response.status !== 200) {
+              return response;
+            }
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseToCache);
+            });
+            return response;
+          });
+        })
+        .catch(() => {
+          return caches.match(event.request);
+        })
+    );
+  }
 });
 
 // Listen for messages from the app

@@ -1416,6 +1416,10 @@
             localStorage.setItem('userSession', JSON.stringify(userSession));
             loadDiscoveriesData();
             loadMasterClues();
+            // Auto-navigate to Discoveries to show update
+            setTimeout(() => {
+                navigateToPage('#discoveries');
+            }, 100);
         }
 
         function navigateToPage(pageId) {
