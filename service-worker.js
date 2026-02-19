@@ -1,4 +1,4 @@
-const CACHE_NAME = 'thoreson-estate-v15';
+const CACHE_NAME = 'thoreson-estate-v16';
 const urlsToCache = [
   '/Thoreson_Estate_Dinner/',
   '/Thoreson_Estate_Dinner/index.html',

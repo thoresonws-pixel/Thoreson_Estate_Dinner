@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Thoreson Estate">
     <title>The Thoreson Estate Dinner</title>
-    <!-- v15 -->
+    <!-- v16 -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -1303,13 +1303,19 @@
 
         let userSession = null;
 
-        console.log('Dashboard v15 loaded');
+        // Firebase stubs - replace with real Firebase when ready
+        let firebaseReady = false;
+        function listenForFirebaseUpdates() { /* Firebase not configured yet */ }
+        function loadFirebaseData() { /* Firebase not configured yet */ }
+        function syncToFirebase() { /* Firebase not configured yet */ }
+
+        console.log('Dashboard v16 loaded');
 
         // Force clear old caches on load
         if ('caches' in window) {
             caches.keys().then(names => {
                 names.forEach(name => {
-                    if (name !== 'thoreson-estate-v15') {
+                    if (name !== 'thoreson-estate-v16') {
                         caches.delete(name);
                         console.log('Cleared old cache:', name);
                     }
@@ -1723,18 +1729,6 @@
         document.addEventListener('DOMContentLoaded', loadGuests);
     </script>
     <!-- Firebase disabled until configured -->
-    <!--
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
-    -->
-    
-    <script>
-        // Firebase stubs - replace with real Firebase when ready
-        let firebaseReady = false;
-        function listenForFirebaseUpdates() { /* Firebase not configured yet */ }
-        function loadFirebaseData() { /* Firebase not configured yet */ }
-        function syncToFirebase() { /* Firebase not configured yet */ }
-    </script>
 
     <script>
         // Register service worker for PWA functionality
