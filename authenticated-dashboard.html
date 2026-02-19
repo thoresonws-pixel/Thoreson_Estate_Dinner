@@ -928,6 +928,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
 
+    <!-- Character Data -->
+    <script src="characters.js"></script>
+
     <script>
         // Toggle contact fields based on attendance selection
         function toggleContactFields() {
@@ -1003,240 +1006,7 @@
             buttonText.textContent = 'Send Response';
         });
         
-        // CHARACTER DATA
-        const characterDatabase = {
-            "Scott": {
-                character: "Scott Thoreson Jr.",
-                backstory: "Eldest son of William Thoreson Sr. and family attorney.",
-                knowledge: "You know your father's business dealings but not his personal secrets.",
-                secret: "None - you genuinely don't know what your father plans to announce tonight.",
-                goals: ["Keep the evening smooth", "Find out the announcement", "Manage family drama"],
-                relationships: [
-                    { name: "William Thoreson Sr.", relation: "Your father" },
-                    { name: "Frederick Thoreson", relation: "Your younger brother" }
-                ]
-            },
-            "BrianT": {
-                character: "Frederick Brian T. Thoreson",
-                backstory: "You're Scott's younger brother - carefree, just here for the fun.",
-                knowledge: "You don't really know anything about business.",
-                secret: "None - you don't care enough to have secrets.",
-                goals: ["Enjoy free food and drinks", "Have a good time"],
-                relationships: [
-                    { name: "William Thoreson Sr.", relation: "Your father" },
-                    { name: "Scott Thoreson Jr.", relation: "Your serious brother" }
-                ]
-            },
-            "Clara": {
-                character: "Charlotte Clara Waverly",
-                backstory: "You've worked as household manager and bartender for the Thoreson family for seven years. You manage estate operations with quiet efficiency and know the house inside and out.",
-                knowledge: "You observe everything that happens in the house. You know the family's patterns, schedules, and habits.",
-                secret: "You were widowed ten years ago under circumstances you prefer not to discuss.",
-                goals: ["Keep the evening running smoothly", "Maintain professional composure", "Ensure the guests are comfortable"],
-                relationships: [
-                    { name: "Scott Thoreson Jr.", relation: "Your employer" },
-                    { name: "William Thoreson Sr.", relation: "The head of the household" }
-                ]
-            },
-            "Leanna": {
-                character: "Miranda Leanna Hartley",
-                backstory: "You work as Scott's legal assistant. Professional and competent in your role. You come from a Dallas family with business connections.",
-                knowledge: "You have access to legal documents and family business information through your work with Scott.",
-                secret: "Your father had significant business dealings with William Thoreson in the past.",
-                goals: ["Maintain your professional reputation", "Do your job well", "Understand what's happening tonight"],
-                relationships: [
-                    { name: "Scott Thoreson Jr.", relation: "Your employer" },
-                    { name: "William Thoreson Sr.", relation: "Your employer's father" }
-                ]
-            },
-            "Marc": {
-                character: "Walter Lippman",
-                backstory: "You're a journalist for the Dallas Herald covering society and business stories. You're known for thorough research and compelling writing.",
-                knowledge: "You have researched the Thoreson family and their business interests. You know about major local business events.",
-                secret: "You have a personal connection to Dallas business circles beyond just journalism.",
-                goals: ["Understand what announcement William plans to make", "Gather information about the family", "Observe how people react to events"],
-                relationships: [
-                    { name: "Sophie Vanderpool", relation: "Your assistant" },
-                    { name: "William Thoreson Sr.", relation: "Subject of your reporting" }
-                ]
-            },
-            "Hannah": {
-                character: "Vivienne Ashford",
-                backstory: "You're a Thoreson cousin recently returned from extended time in France. You're educated abroad and bring a European perspective to family gatherings.",
-                knowledge: "You've been away but maintained family connections. You know general family history and dynamics.",
-                secret: "You had personal reasons for spending time abroad.",
-                goals: ["Reconnect with family members", "Enjoy the evening", "Understand family situations"],
-                relationships: [
-                    { name: "Scott Thoreson Jr.", relation: "Your cousin" },
-                    { name: "William Thoreson Sr.", relation: "Your uncle" }
-                ]
-            },
-            "DJ": {
-                character: "David Richardson",
-                backstory: "You're a family cousin with various business interests. You're well-connected and personable, known for handling special family projects.",
-                knowledge: "You understand family dynamics and have insights into various family members' situations.",
-                secret: "You've been involved in managing some complex family matters.",
-                goals: ["Facilitate the evening's events", "Keep the family comfortable", "Handle any complications"],
-                relationships: [
-                    { name: "Scott Thoreson Jr.", relation: "Your cousin" },
-                    { name: "William Thoreson Sr.", relation: "Your uncle" }
-                ]
-            },
-            "Peter": {
-                character: "Raymond Hammond",
-                backstory: "You've been Business Manager at Thoreson Toys for fifteen years. You're an expert in company operations and finance, detail-oriented and systematic.",
-                knowledge: "You have comprehensive knowledge of the company's operations, finances, and history.",
-                secret: "You know details about the company that most people don't.",
-                goals: ["Ensure the company continues to succeed", "Understand the evening's purpose", "Protect company interests"],
-                relationships: [
-                    { name: "Scott Thoreson Jr.", relation: "Legal counsel for the company" },
-                    { name: "William Thoreson Sr.", relation: "Your employer" }
-                ]
-            },
-            "Arash": {
-                character: "Marcus Brennan",
-                backstory: "You're a major investor in Thoreson Toys for several years. You're a successful businessman with diverse holdings and analytical approach to investments.",
-                knowledge: "You understand the company's financial performance and market position as an investor.",
-                secret: "You have specific reasons for your interest in Thoreson Toys.",
-                goals: ["Understand company developments", "Protect your investment", "Network with other business people"],
-                relationships: [
-                    { name: "Victoria Ashworth", relation: "Fellow investor" },
-                    { name: "William Thoreson Sr.", relation: "Company founder" }
-                ]
-            },
-            "Becky": {
-                character: "Victoria Ashworth",
-                backstory: "You're a fellow investor in Thoreson Toys alongside Marcus. You have sharp business acumen and keen observation skills. Active in social and philanthropic circles.",
-                knowledge: "As an investor, you understand the company's performance and business dynamics.",
-                secret: "You notice things about people and situations that others might miss.",
-                goals: ["Protect your investment", "Understand business developments", "Observe how others react"],
-                relationships: [
-                    { name: "Marcus Brennan", relation: "Fellow investor" },
-                    { name: "William Thoreson Sr.", relation: "Company founder" }
-                ]
-            },
-            "BrianS": {
-                character: "Thomas Bradford",
-                backstory: "You're a competitor in the toy manufacturing industry with your own successful business. Charming and ambitious, you participate actively in the Dallas business community.",
-                knowledge: "You understand the toy industry and have observed Thoreson Toys' performance as a competitor.",
-                secret: "You have your own reasons for being interested in Thoreson business.",
-                goals: ["Network with other business people", "Understand market developments", "Enjoy the social occasion"],
-                relationships: [
-                    { name: "William Thoreson Sr.", relation: "Business competitor" },
-                    { name: "Scott Thoreson Jr.", relation: "Professional acquaintance" }
-                ]
-            },
-            "Katie": {
-                character: "Margaret Ashford",
-                backstory: "You've been a family friend for thirty years. Warm and practical, you're active in society circles and value loyalty and family bonds deeply.",
-                knowledge: "You know the family well from long association. You understand family history and relationships.",
-                secret: "Long friendships come with knowledge of both good and difficult times.",
-                goals: ["Support the family", "Maintain relationships", "Understand what's happening"],
-                relationships: [
-                    { name: "Elizabeth Monroe", relation: "Long-time family friend" },
-                    { name: "William Thoreson Sr.", relation: "Dear friend" }
-                ]
-            },
-            "Michelle": {
-                character: "Dorothy Wells",
-                backstory: "You're a prominent society figure and businesswoman. Intelligent and perceptive, you're involved in business and charitable endeavors. Well-connected in Dallas.",
-                knowledge: "You understand business and society. You observe people and situations carefully.",
-                secret: "You have insights into Dallas business circles and family matters.",
-                goals: ["Maintain social connections", "Observe developments", "Support worthy causes"],
-                relationships: [
-                    { name: "Margaret Ashford", relation: "Friend in society circles" },
-                    { name: "William Thoreson Sr.", relation: "Acquaintance in business circles" }
-                ]
-            },
-            "Jeff": {
-                character: "Charles Sterling",
-                backstory: "You're a retired banker and distant family relation. Traditional in values, you maintain interest in family matters and local business community.",
-                knowledge: "From your banking background, you understand financial and business matters.",
-                secret: "You have concerns about family reputation and proper conduct.",
-                goals: ["Maintain family honor", "Understand developments", "Ensure proper conduct"],
-                relationships: [
-                    { name: "James Sterling", relation: "Your son" },
-                    { name: "William Thoreson Sr.", relation: "Distant relation" }
-                ]
-            },
-            "Casey": {
-                character: "Patricia Chamberlain",
-                backstory: "You're an independent widow with considerable means. Guardian to two young men, you're protective and caring toward those under your care.",
-                knowledge: "You understand the situations of those close to you. You observe family and social dynamics carefully.",
-                secret: "You have reasons for your protectiveness of your wards.",
-                goals: ["Protect those under your care", "Maintain independence", "Support young people"],
-                relationships: [
-                    { name: "Jesse Chamberlain", relation: "Your ward" },
-                    { name: "Alexander Chamberlain", relation: "Your ward" }
-                ]
-            },
-            "Krystal": {
-                character: "Victoria Grant",
-                backstory: "You're the wife of a successful businessman with investments in various enterprises. Sophisticated and knowledgeable about commerce, you're active in cultural and social circles.",
-                knowledge: "Through your husband's business, you understand commercial matters and business relationships.",
-                secret: "Your family has history with the Thoreson business.",
-                goals: ["Support your husband's interests", "Maintain social connections", "Understand business developments"],
-                relationships: [
-                    { name: "William Thoreson Sr.", relation: "Business connection" },
-                    { name: "Scott Thoreson Jr.", relation: "Professional acquaintance" }
-                ]
-            },
-            "Lindsey": {
-                character: "Elizabeth Monroe",
-                backstory: "You're the family matriarch with deep knowledge of local history and family matters. Organized and methodical, you're respected for wisdom and perspective.",
-                knowledge: "You know family history better than anyone. You understand relationships and past events.",
-                secret: "As family matriarch, you know family secrets and complicated history.",
-                goals: ["Preserve family welfare", "Ensure proper conduct", "Understand developments"],
-                relationships: [
-                    { name: "Margaret Ashford", relation: "Long-time friend" },
-                    { name: "William Thoreson Sr.", relation: "Patriarch of the family" }
-                ]
-            },
-            "Bradey": {
-                character: "James Sterling",
-                backstory: "You're a young member of the Sterling family. Ambitious and eager to establish yourself in business and society, you're the son of Charles Sterling.",
-                knowledge: "You're learning about business and family matters through your father's connections.",
-                secret: "You're still developing your own understanding of family dynamics.",
-                goals: ["Prove yourself in business", "Learn from established people", "Establish your reputation"],
-                relationships: [
-                    { name: "Charles Sterling", relation: "Your father" },
-                    { name: "Alexander Chamberlain", relation: "Fellow young person" }
-                ]
-            },
-            "Alexander": {
-                character: "William Chamberlain",
-                backstory: "You're a young ward under Patricia Chamberlain's guardianship. Intelligent and thoughtful, you're interested in business and current events.",
-                knowledge: "You're learning about business and the world through your guardian's guidance.",
-                secret: "You have questions about your own circumstances and background.",
-                goals: ["Learn about business", "Establish your own path", "Understand your situation"],
-                relationships: [
-                    { name: "Patricia Chamberlain", relation: "Your guardian" },
-                    { name: "Jesse Chamberlain", relation: "Fellow ward" }
-                ]
-            },
-            "Jesse": {
-                character: "Robert Chamberlain",
-                backstory: "You're the oldest of the younger generation. Close to Patricia Chamberlain, you're thoughtful and observant. Loyal to those you care about.",
-                knowledge: "You understand Patricia's concerns and the situations of those around you.",
-                secret: "You're protective of those under Patricia's care.",
-                goals: ["Support Patricia", "Protect those you care about", "Develop your own path"],
-                relationships: [
-                    { name: "Patricia Chamberlain", relation: "Your guardian" },
-                    { name: "Alexander Chamberlain", relation: "Fellow ward" }
-                ]
-            },
-            "Maisy": {
-                character: "Sophie Vanderpool",
-                backstory: "You work as an assistant to journalist Walter Lippman at the Dallas Herald. You're intelligent and energetic, come from a merchant family background.",
-                knowledge: "Through your work with a journalist, you're learning about Dallas society and business.",
-                secret: "You have personal connections that inform your interest in various people.",
-                goals: ["Do your work well", "Learn the journalism business", "Understand what's happening"],
-                relationships: [
-                    { name: "Walter Lippman", relation: "Your employer" },
-                    { name: "William Thoreson Sr.", relation: "Subject of investigation" }
-                ]
-            }
-        };
+        // CHARACTER DATA loaded from characters.js
 
         const clueDatabase = {
             "Accounting": { type: "skill", title: "Financial Ledger Analysis", content: "The ledger contains secret monthly payments of $50 to someone listed only as <strong>'T.H.'</strong> — going back to 1911. The payments were authorized personally by Will, bypassing normal accounting. Over 24 years of hidden disbursements to an unknown recipient." },
@@ -1466,25 +1236,96 @@
                 }
 
                 document.getElementById('characterName').textContent = charData.character;
-                let html = `
-                    <div style="background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%); border: 2px solid #c9a227; border-radius: 5px; padding: 40px; margin-bottom: 30px;">
-                        <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 20px; text-transform: uppercase;">Backstory</div>
-                        <div style="font-size: 16px; line-height: 1.8; color: #e8e8e8; margin-bottom: 30px;">${charData.backstory}</div>
-
-                        <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 20px; text-transform: uppercase;">What You Know</div>
-                        <div style="font-size: 16px; line-height: 1.8; color: #e8e8e8; margin-bottom: 30px;">${charData.knowledge}</div>
-
-                        <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 20px; text-transform: uppercase;">Your Goals</div>
-                        <ul style="list-style: none; padding-left: 20px; margin-bottom: 30px;">
-                            ${charData.goals.map(g => `<li style="margin-bottom: 8px;"><span style="color: #c9a227;">✦</span> ${g}</li>`).join('')}
-                        </ul>
-
-                        <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 20px; text-transform: uppercase;">Relationships</div>
-                        <ul style="list-style: none; padding-left: 20px;">
-                            ${charData.relationships.map(r => `<li style="margin-bottom: 8px; font-size: 16px;"><strong>${r.name}</strong> - ${r.relation}</li>`).join('')}
-                        </ul>
-                    </div>
-                `;
+                
+                const sectionStyle = "font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 15px; margin-top: 35px; text-transform: uppercase; border-bottom: 1px solid rgba(201,162,39,0.3); padding-bottom: 10px;";
+                const textStyle = "font-size: 16px; line-height: 1.8; color: #e8e8e8;";
+                
+                let html = `<div style="background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%); border: 2px solid #c9a227; border-radius: 5px; padding: 30px; margin-bottom: 30px;">`;
+                
+                // BACKSTORY
+                html += `<div style="${sectionStyle}">Your Story</div>`;
+                html += `<div style="${textStyle} margin-bottom: 20px;">${charData.backstory}</div>`;
+                
+                // WHAT YOU KNOW
+                if (charData.whatYouKnow && charData.whatYouKnow.length > 0) {
+                    html += `<div style="${sectionStyle}">What You Already Know</div>`;
+                    html += `<ul style="list-style: none; padding-left: 10px;">`;
+                    charData.whatYouKnow.forEach(item => {
+                        html += `<li style="margin-bottom: 12px; font-size: 15px; line-height: 1.6; color: #e8e8e8; padding-left: 20px; position: relative;"><span style="color: #c9a227; position: absolute; left: 0;">✦</span> ${item}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+                
+                // WHAT YOU CAN SHARE
+                if (charData.whatYouCanShare && charData.whatYouCanShare.length > 0) {
+                    html += `<div style="${sectionStyle}">What You Can Share</div>`;
+                    html += `<div style="font-size: 13px; color: #8b8b8b; font-style: italic; margin-bottom: 15px;">Use these during conversation when the timing feels right.</div>`;
+                    charData.whatYouCanShare.forEach(item => {
+                        html += `<div style="background: rgba(201,162,39,0.08); border-left: 3px solid #c9a227; padding: 15px; margin-bottom: 12px; border-radius: 0 3px 3px 0;">`;
+                        html += `<div style="font-size: 15px; line-height: 1.6; color: #e8e8e8;">"${item.info}"</div>`;
+                        html += `<div style="font-size: 12px; color: #c9a227; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px;">↳ ${item.when}</div>`;
+                        html += `</div>`;
+                    });
+                }
+                
+                // HOW TO PLAY
+                if (charData.howToPlay) {
+                    html += `<div style="${sectionStyle}">How To Play This Character</div>`;
+                    html += `<div style="${textStyle} margin-bottom: 20px;">${charData.howToPlay}</div>`;
+                }
+                
+                // GOALS
+                if (charData.goals && charData.goals.length > 0) {
+                    html += `<div style="${sectionStyle}">Your Goals Tonight</div>`;
+                    html += `<ul style="list-style: none; padding-left: 10px;">`;
+                    charData.goals.forEach(g => {
+                        html += `<li style="margin-bottom: 10px; font-size: 15px; color: #e8e8e8; padding-left: 20px; position: relative;"><span style="color: #c9a227; position: absolute; left: 0;">✦</span> ${g}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+                
+                // RELATIONSHIPS
+                if (charData.relationships && charData.relationships.length > 0) {
+                    html += `<div style="${sectionStyle}">Key Relationships</div>`;
+                    html += `<ul style="list-style: none; padding-left: 10px;">`;
+                    charData.relationships.forEach(r => {
+                        html += `<li style="margin-bottom: 10px; font-size: 15px; color: #e8e8e8;"><strong style="color: #c9a227;">${r.name}</strong> — ${r.relation}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+                
+                // ITEMS CARRIED (if present)
+                if (charData.carryingItems) {
+                    html += `<div style="${sectionStyle}">Items On Your Person</div>`;
+                    html += `<div style="${textStyle}">${charData.carryingItems}</div>`;
+                }
+                
+                html += `</div>`; // close main container
+                
+                // SECRET SECTION (Miranda only)
+                if (charData.secretSection) {
+                    html += `<div style="background: linear-gradient(145deg, #2a1010 0%, #1a0a0a 100%); border: 2px solid #8b4a4a; border-radius: 5px; padding: 30px; margin-bottom: 30px;">`;
+                    html += `<div style="font-family: 'Playfair Display', Georgia, serif; font-size: 22px; color: #8b4a4a; text-transform: uppercase; text-align: center; margin-bottom: 5px;">⚠ YOUR SECRET ⚠</div>`;
+                    html += `<div style="font-size: 12px; color: #8b4a4a; text-align: center; margin-bottom: 25px; font-style: italic;">Do not share this information until the confession scene.</div>`;
+                    
+                    if (charData.trueIdentity) {
+                        html += `<div style="${sectionStyle.replace('#c9a227', '#8b4a4a')}">Your True Identity: ${charData.trueIdentity}</div>`;
+                    }
+                    if (charData.trueBackstory) {
+                        html += `<div style="${textStyle} margin-bottom: 20px;">${charData.trueBackstory}</div>`;
+                    }
+                    if (charData.trueMotivation) {
+                        html += `<div style="${sectionStyle.replace('#c9a227', '#8b4a4a')}">Your Motivation</div>`;
+                        html += `<div style="${textStyle} margin-bottom: 20px;">${charData.trueMotivation}</div>`;
+                    }
+                    if (charData.confessionGuide) {
+                        html += `<div style="${sectionStyle.replace('#c9a227', '#8b4a4a')}">The Confession — How To Play It</div>`;
+                        html += `<div style="${textStyle}">${charData.confessionGuide}</div>`;
+                    }
+                    
+                    html += `</div>`;
+                }
+                
                 document.getElementById('characterContent').innerHTML = html;
             } catch(e) {
                 document.getElementById('characterContent').innerHTML = '<div style="color: #e74c3c; padding: 20px;">Error loading character: ' + e.message + '</div>';
