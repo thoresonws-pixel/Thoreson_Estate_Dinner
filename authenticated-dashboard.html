@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Thoreson Estate">
     <title>The Thoreson Estate Dinner</title>
-    <!-- v12 -->
+    <!-- v13 -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -1303,7 +1303,19 @@
 
         let userSession = null;
 
-        console.log('Dashboard v12 loaded');
+        console.log('Dashboard v13 loaded');
+
+        // Force clear old caches on load
+        if ('caches' in window) {
+            caches.keys().then(names => {
+                names.forEach(name => {
+                    if (name !== 'thoreson-estate-v13') {
+                        caches.delete(name);
+                        console.log('Cleared old cache:', name);
+                    }
+                });
+            });
+        }
 
         // Initialize on load
         (function() {

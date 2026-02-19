@@ -1,4 +1,4 @@
-const CACHE_NAME = 'thoreson-estate-v12';
+const CACHE_NAME = 'thoreson-estate-v13';
 const urlsToCache = [
   '/Thoreson_Estate_Dinner/',
   '/Thoreson_Estate_Dinner/index.html',
@@ -7,8 +7,9 @@ const urlsToCache = [
   '/Thoreson_Estate_Dinner/manifest.json'
 ];
 
-// Install event - cache resources
+// Install event - skip waiting immediately
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
@@ -18,16 +19,16 @@ self.addEventListener('install', event => {
         });
       })
   );
-  self.skipWaiting();
 });
 
-// Activate event - clean up old caches
+// Activate event - delete ALL old caches aggressively
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -37,14 +38,14 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch event - NETWORK FIRST for instant updates
+// Fetch event - ALWAYS network first for HTML
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') {
     return;
   }
 
-  // For HTML files - network first (always get latest for speed)
-  if (event.request.url.includes('.html')) {
+  // ALL HTML and navigation requests: network only, cache as fallback
+  if (event.request.url.includes('.html') || event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
         .then(response => {
@@ -57,28 +58,21 @@ self.addEventListener('fetch', event => {
           return response;
         })
         .catch(() => {
-          // Fall back to cache if network fails (offline mode)
           return caches.match(event.request);
         })
     );
   } else {
-    // For other resources - cache first
+    // For other resources - network first too
     event.respondWith(
-      caches.match(event.request)
+      fetch(event.request)
         .then(response => {
-          if (response) {
-            return response;
-          }
-          return fetch(event.request).then(response => {
-            if (!response || response.status !== 200) {
-              return response;
-            }
+          if (response && response.status === 200) {
             const responseToCache = response.clone();
             caches.open(CACHE_NAME).then(cache => {
               cache.put(event.request, responseToCache);
             });
-            return response;
-          });
+          }
+          return response;
         })
         .catch(() => {
           return caches.match(event.request);
