@@ -197,31 +197,32 @@
     </div>
 
     <script>
-        // User database with credentials and skills
+        // User database — authentication only (code + role)
+        // Skills come from characters.js
         const users = {
-            "Scott": { code: "61493", role: "master", skills: ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"] },
-            "BrianT": { code: "42851", role: "guest", skills: [] },
-            "Clara": { code: "56374", role: "guest", skills: ["Bartender"] },
-            "Leanna": { code: "31429", role: "guest", skills: [] },
-            "Marc": { code: "68915", role: "guest", skills: [] },
-            "Maisy": { code: "25837", role: "guest", skills: [] },
-            "Hannah": { code: "84126", role: "guest", skills: ["French"] },
-            "DJ": { code: "91564", role: "guest", skills: [] },
-            "Peter": { code: "17382", role: "guest", skills: ["Accounting"] },
-            "Arash": { code: "73649", role: "guest", skills: [] },
-            "Becky": { code: "45928", role: "guest", skills: [] },
-            "BrianS": { code: "52847", role: "guest", skills: [] },
-            "Katie": { code: "29175", role: "guest", skills: [] },
-            "Michelle": { code: "63841", role: "guest", skills: [] },
-            "Jeff": { code: "34759", role: "guest", skills: [] },
-            "Casey": { code: "85214", role: "guest", skills: [] },
-            "Krystal": { code: "72938", role: "guest", skills: [] },
-            "Lindsey": { code: "41876", role: "guest", skills: [] },
-            "Bradey": { code: "96523", role: "guest", skills: [] },
-            "Alexander": { code: "51783", role: "guest", skills: [] },
-            "Jesse": { code: "28764", role: "guest", skills: [] },
-            "TestUser1": { code: "00000", role: "testing", skills: [] },
-            "TestUser2": { code: "00001", role: "testing", skills: ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical", "Bartender"] }
+            "Scott": { code: "61493", role: "master" },
+            "BrianT": { code: "42851", role: "guest" },
+            "Clara": { code: "56374", role: "guest" },
+            "Leanna": { code: "31429", role: "guest" },
+            "Marc": { code: "68915", role: "guest" },
+            "Maisy": { code: "25837", role: "guest" },
+            "Hannah": { code: "84126", role: "guest" },
+            "DJ": { code: "91564", role: "guest" },
+            "Peter": { code: "17382", role: "guest" },
+            "Arash": { code: "73649", role: "guest" },
+            "Becky": { code: "45928", role: "guest" },
+            "BrianS": { code: "52847", role: "guest" },
+            "Katie": { code: "29175", role: "guest" },
+            "Michelle": { code: "63841", role: "guest" },
+            "Jeff": { code: "34759", role: "guest" },
+            "Casey": { code: "85214", role: "guest" },
+            "Krystal": { code: "72938", role: "guest" },
+            "Lindsey": { code: "41876", role: "guest" },
+            "Bradey": { code: "96523", role: "guest" },
+            "Alexander": { code: "51783", role: "guest" },
+            "Jesse": { code: "28764", role: "guest" },
+            "TestUser1": { code: "00000", role: "testing" },
+            "TestUser2": { code: "00001", role: "testing" }
         };
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -231,21 +232,14 @@
             const code = document.getElementById('code').value.trim();
             const errorMsg = document.getElementById('errorMessage');
 
-            // Validate credentials
             if (users[username] && users[username].code === code) {
-                // Store login info in localStorage
                 const userSession = {
                     username: username,
                     role: users[username].role,
-                    skills: users[username].skills,
-                    unlockedSkills: [],
-                    unlockedStoryClues: [],
                     loginTime: new Date().toISOString()
                 };
 
                 localStorage.setItem('userSession', JSON.stringify(userSession));
-
-                // Redirect to dashboard
                 window.location.href = 'authenticated-dashboard.html';
             } else {
                 errorMsg.textContent = 'Invalid name or code. Please try again.';

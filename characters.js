@@ -8,6 +8,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Scott": {
         character: "William 'Scott' Thoreson Jr.",
+        skills: ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical"],
         backstory: "You are the eldest son of William Thoreson Sr. and Eleanor Thoreson, and the family's attorney. You studied law at SMU and built your career handling the legal affairs of several prominent Dallas families — none more important than your own. You are composed, analytical, and meticulous. Tonight, you are both a grieving son and the new patriarch of the Thoreson family. Your father invited everyone here for a 'big announcement,' but he never got to make it. Now it falls to you to find out what happened — and why.",
         whatYouKnow: [
             "Your father built Thoreson Toys from the ground up — or so you've always been told.",
@@ -43,6 +44,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "BrianT": {
         character: "Brian Thoreson",
+        skills: [],
         backstory: "You are the younger son of William Thoreson Sr. Where your brother Scott is meticulous and professional, you've always been more easygoing. You work loosely within the family business but have never been as driven as Scott or your father. You love your family, but you've always felt like the less important son — the one who wasn't going to carry the legacy. Tonight, you're here because your father asked you to be. You had no idea it would turn out like this.",
         whatYouKnow: [
             "Your father built Thoreson Toys and it's been the family business your whole life.",
@@ -78,6 +80,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Clara": {
         character: "Clara Thoreson",
+        skills: ["Bartender"],
         backstory: "You are Scott's wife and a gracious hostess who keeps the household running smoothly. You married into the Thoreson family twelve years ago and have become a steady, reliable presence. Tonight you're helping manage the evening — keeping drinks flowing and guests comfortable. You know your husband is hurting, and you want to support him while making sure everyone is taken care of.",
         whatYouKnow: [
             "Your father-in-law invited everyone for a special dinner and announcement.",
@@ -113,6 +116,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Leanna": {
         character: "Miranda Longfellow",
+        skills: [],
         backstory: "You are Scott Thoreson's legal assistant — professional, competent, and discreet. You've worked for the family for nearly ten years and are trusted with sensitive documents and family matters. You traveled to Europe last summer — Switzerland, Austria, the Alps — and came back refreshed. Tonight, you're here to support Scott during the evening his father planned.",
 
         whatYouKnow: [
@@ -158,6 +162,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Marc": {
         character: "Walter Lippman",
+        skills: [],
         backstory: "You're a journalist for the Dallas Herald, covering business and society. You've built a reputation for thorough, honest reporting. William Thoreson invited you tonight — unusual, since the Thoresons have always been private. He hinted at a major announcement that would be 'the story of the year.' You brought your assistant Sophie to help take notes. Now that Will is dead, the story just got a lot bigger.",
         whatYouKnow: [
             "William Thoreson personally invited you, promising a major announcement.",
@@ -191,6 +196,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Maisy": {
         character: "Sophie Vanderpool",
+        skills: [],
         backstory: "You work as an assistant to Walter Lippman at the Dallas Herald. You're smart, energetic, and eager to prove yourself in a field that doesn't always take young women seriously. Walter brought you tonight because Will Thoreson promised a big announcement. You come from a merchant family and understand business — you're not just here to take notes. You have your own instincts, and they're usually right.",
         whatYouKnow: [
             "Walter was personally invited by William Thoreson for a major announcement.",
@@ -224,6 +230,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Hannah": {
         character: "Vivienne Ashford",
+        skills: ["French"],
         backstory: "You're Scott and Brian's cousin on their mother's side. You spent the last several years living in Paris and traveling through France — studying art, language, and culture. You're educated, worldly, and bring a European perspective that sometimes clashes with Dallas society. You returned recently when you heard your Uncle Will was planning something important. You love your family, but you've always felt like an outsider among the business-obsessed Thoresons.",
         whatYouKnow: [
             "You're fluent in French from years living in Paris.",
@@ -258,6 +265,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "DJ": {
         character: "David Richardson",
+        skills: [],
         backstory: "You're a cousin on the Thoreson side — close enough to the family to know the dynamics, far enough removed to see them objectively. You're personable, well-connected, and the kind of person people naturally confide in. You've handled various family projects over the years — organizing events, managing property, smoothing over disputes. Tonight was supposed to be a celebration. Instead, you're helping your family navigate the worst night of their lives.",
         whatYouKnow: [
             "You know the Thoreson family well — their strengths and their tensions.",
@@ -292,6 +300,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Peter": {
         character: "Raymond Hammond",
+        skills: ["Accounting"],
         backstory: "You've been the Business Manager at Thoreson Toys for fifteen years. You know the company's finances inside and out — every ledger entry, every vendor payment, every quarterly report. You're detail-oriented, systematic, and fiercely loyal to the company. William Thoreson hired you personally, and you've always respected him. But you've also noticed things over the years that didn't quite add up — entries you couldn't explain, payments that seemed personal rather than business. You never asked questions. Maybe you should have.",
         whatYouKnow: [
             "You manage the company's books and know the financials better than anyone.",
@@ -326,6 +335,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Arash": {
         character: "Marcus Brennan",
+        skills: [],
         backstory: "You're a successful Dallas businessman with diverse investments, including a significant stake in Thoreson Toys. You're analytical, measured, and protective of your money. You invested in Thoreson Toys five years ago because the numbers were impressive — the company was a money machine. William seemed like a safe bet. But now Will is dead, and you're watching your investment very carefully. Secrets about the company's past could destroy its value overnight.",
         whatYouKnow: [
             "You invested heavily in Thoreson Toys based on its strong financial performance.",
@@ -360,6 +370,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Becky": {
         character: "Victoria Ashworth",
+        skills: [],
         backstory: "You're a sharp businesswoman who invested in Thoreson Toys alongside Marcus Brennan. You have a keen eye for detail and a talent for reading people — skills that have served you well in business. You're active in Dallas society and philanthropic circles, which means you hear things. Rumors, gossip, whispered conversations at galas. You've heard things about the Thoreson family over the years that you've filed away but never acted on. Tonight, those whispers might finally matter.",
         whatYouKnow: [
             "You invested in Thoreson Toys because of its track record, but you've always had a nagging feeling.",
@@ -394,6 +405,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "BrianS": {
         character: "Thomas Bradford",
+        skills: [],
         backstory: "You run Bradford & Sons, a competing toy manufacturer in Dallas. You've been in William Thoreson's shadow for years — his company always outperformed yours, and you could never figure out why. You're charming, ambitious, and not above using tonight's chaos to your advantage. Will invited you tonight as a courtesy between competitors, but you suspect he wanted to rub something in your face with his 'big announcement.' Now he's dead, and you're very interested in what secrets come out about how he built his empire.",
         whatYouKnow: [
             "Your company has competed with Thoreson Toys for decades. They always had an edge you couldn't explain.",
@@ -428,6 +440,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Katie": {
         character: "Margaret Ashford",
+        skills: [],
         backstory: "You've been a friend of the Thoreson family for over thirty years. You watched Scott and Brian grow up. You sat with Eleanor through difficult times. You knew William as well as anyone outside the family — or so you thought. You're warm, loyal, and fiercely protective of the people you love. But thirty years of friendship also means thirty years of small observations, overheard conversations, and quiet concerns you kept to yourself out of respect.",
         whatYouKnow: [
             "You've known the family for thirty years. You remember when the boys were small.",
@@ -463,6 +476,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Michelle": {
         character: "Dorothy Wells",
+        skills: [],
         backstory: "You're one of the most well-connected women in Dallas society. You sit on charity boards, attend every important social function, and have an uncanny ability to know what's happening in every corner of the city before anyone else does. You're intelligent, perceptive, and maintain an extensive network of social connections. You were close to the Thoresons socially, but you've always sensed that the family's public image was carefully managed.",
         whatYouKnow: [
             "You know Dallas society inside and out — who's connected to whom, and where the bodies are buried (figuratively).",
@@ -497,6 +511,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Jeff": {
         character: "Charles Sterling",
+        skills: [],
         backstory: "You're a retired banker and a distant Thoreson relation through marriage. You spent forty years in Dallas banking before retiring. You're traditional, principled, and believe in doing things the right way. You handled some of the Thoreson family's banking in the early days — back when Will was just getting the company off the ground. You remember things from that era that might be relevant now, though you've kept them to yourself out of professional discretion.",
         whatYouKnow: [
             "You handled early Thoreson banking — you remember when the company was young and growing fast.",
@@ -531,6 +546,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Casey": {
         character: "Patricia Chamberlain",
+        skills: [],
         backstory: "You're an independent widow with considerable means and a strong will. After your husband passed, you became guardian to two young men — Jesse and Alexander — whom you've raised with care and discipline. You're protective, perceptive, and don't suffer fools. You've been a friend to the Thoreson family for years, but you've always maintained a clear-eyed view of them. You knew Will had flaws, and you're not entirely surprised that secrets are surfacing tonight.",
         whatYouKnow: [
             "You've been around the Thoreson family long enough to know they're not as perfect as they appear.",
@@ -565,6 +581,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Krystal": {
         character: "Victoria Grant",
+        skills: [],
         backstory: "Your husband runs a successful import business with ties to Thoreson Toys. You're sophisticated, socially savvy, and more knowledgeable about business than most people give you credit for. You've attended Thoreson gatherings for years and have developed your own observations about the family. You're here tonight because your husband's business depends on the Thoreson relationship — but you're also genuinely curious about what Will was planning to announce.",
         whatYouKnow: [
             "Your husband's import business has worked with Thoreson Toys for years.",
@@ -599,6 +616,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Lindsey": {
         character: "Elizabeth Monroe",
+        skills: [],
         backstory: "You are the eldest member of the extended family — the matriarch whose memory stretches back further than anyone else's. You remember when Will and Eleanor were young, when the company was just starting, and when Dallas was a very different city. You're wise, dignified, and deeply loyal to the family. But you also believe that secrets poison families from the inside, and you've always suspected that the Thoreson fortune was built on something Will never talked about.",
         whatYouKnow: [
             "You remember the early days of the company — before it was just 'Thoreson Toys.'",
@@ -633,6 +651,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Bradey": {
         character: "James Sterling",
+        skills: [],
         backstory: "You're the son of Charles Sterling, the retired banker. You're young, ambitious, and eager to make your mark in Dallas business. This is your first time at a Thoreson family event, and you were excited to network. Instead, you're watching a family empire come apart in real time. You're sharp enough to follow what's happening, and you're not blinded by decades of loyalty to the Thoresons like the older generation.",
         whatYouKnow: [
             "Your father handled the Thoreson banking accounts years ago — he's mentioned it in passing.",
@@ -667,6 +686,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Alexander": {
         character: "William Chamberlain",
+        skills: [],
         backstory: "You're a young man under the guardianship of Patricia Chamberlain. You're intelligent, thoughtful, and quietly ambitious. You've grown up on the edges of Dallas high society, observing how wealth and power work from the outside looking in. You're fascinated by business and current events, and tonight's dinner was supposed to be an exciting glimpse into one of Dallas's most prominent families. It's turned into something much darker.",
         whatYouKnow: [
             "Your guardian Patricia is protective but fair. She's taught you to think for yourself.",
@@ -700,6 +720,7 @@ const characterDatabase = {
     // ══════════════════════════════════════════════
     "Jesse": {
         character: "Robert Chamberlain",
+        skills: [],
         backstory: "You're the older of Patricia Chamberlain's two wards. You're loyal, protective, and more emotionally attuned than people give you credit for. You've developed a strong bond with Patricia and feel a responsibility to watch out for Alexander. You're less interested in business than in people — you care about who's honest and who's not. Tonight, your instincts are telling you something is very wrong.",
         whatYouKnow: [
             "Patricia has raised you well. You trust her judgment about people.",

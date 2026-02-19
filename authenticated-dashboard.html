@@ -910,7 +910,6 @@
     <!-- CLUES SECTION -->
     <section id="discoveries" style="display: none;">
         <h2 class="section-title">Discoveries</h2>
-        <button onclick="openQRScanner()" style="background: #c9a227; color: #1a1a2e; border: none; padding: 12px 30px; font-size: 16px; cursor: pointer; border-radius: 3px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px;">📱 Scan QR Code</button>
         <div id="discoveriesContent"></div>
     </section>
 
@@ -930,8 +929,6 @@
 
     <!-- Character Data -->
     <script src="characters.js"></script>
-    <script src="skills.js"></script>
-    <script src="revelations.js"></script>
 
     <script>
         // Toggle contact fields based on attendance selection
@@ -1008,25 +1005,34 @@
             buttonText.textContent = 'Send Response';
         });
         
-        // CHARACTER DATA loaded from characters.js
-
         // GAME DATA loaded from external files:
         // characters.js — characterDatabase
-        // skills.js — skillsDatabase
+        // skills.js — skillsDatabase  
         // revelations.js — revelationsDatabase
+
+        // Read skills live from characters.js — single source of truth
+        function getMySkills() {
+            const charData = characterDatabase[userSession.username];
+            return charData ? (charData.skills || []) : [];
+        }
 
         // Broadcast Channel for real-time sync across devices on same network
         const broadcastChannel = new BroadcastChannel('thoreson-estate-sync');
         
         broadcastChannel.onmessage = (event) => {
+            if (!userSession) return;
             if (event.data.type === 'itemUpdate') {
-                if (userSession) {
-                    userSession.activeItems = event.data.activeItems || [];
-                    localStorage.setItem('userSession', JSON.stringify(userSession));
-                    loadDiscoveriesData();
-                }
+                userSession.activeItems = event.data.activeItems || [];
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+                loadDiscoveriesData();
+            }
+            if (event.data.type === 'skillUpdate') {
+                userSession.discoveredSkills = event.data.discoveredSkills || [];
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+                loadDiscoveriesData();
             }
         };
+
 
         let userSession = null;
 
@@ -1072,12 +1078,18 @@
                 if (userSession && Array.isArray(items)) {
                     userSession.activeItems = items;
                     localStorage.setItem('userSession', JSON.stringify(userSession));
-                    if (document.getElementById('discoveriesContent')) {
-                        loadDiscoveriesData();
-                    }
-                    if (document.getElementById('masterCluesContent') && userSession.role === 'master') {
-                        loadMasterClues();
-                    }
+                    if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
+                    if (document.getElementById('masterCluesContent') && userSession.role === 'master') loadMasterClues();
+                }
+            });
+
+            database.ref('discoveredSkills').on('value', (snapshot) => {
+                const skills = snapshot.val() || [];
+                if (userSession && Array.isArray(skills)) {
+                    userSession.discoveredSkills = skills;
+                    localStorage.setItem('userSession', JSON.stringify(userSession));
+                    if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
+                    if (document.getElementById('masterCluesContent') && userSession.role === 'master') loadMasterClues();
                 }
             });
         }
@@ -1091,15 +1103,27 @@
                 if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
                 if (document.getElementById('masterCluesContent') && userSession.role === 'master') loadMasterClues();
             });
+
+            database.ref('discoveredSkills').once('value').then(snapshot => {
+                userSession.discoveredSkills = snapshot.val() || [];
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+                if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
+                if (document.getElementById('masterCluesContent') && userSession.role === 'master') loadMasterClues();
+            });
         }
 
         function syncToFirebase() {
             if (!database || !userSession) return;
             
             database.ref('activeItems').set(userSession.activeItems || [])
-                .then(() => console.log('✓ Active items synced'))
+                .then(() => console.log('\u2713 Active items synced'))
+                .catch(e => console.error('Firebase sync error:', e));
+
+            database.ref('discoveredSkills').set(userSession.discoveredSkills || [])
+                .then(() => console.log('\u2713 Active skills synced'))
                 .catch(e => console.error('Firebase sync error:', e));
         }
+
 
         console.log('Dashboard v17 loaded');
 
@@ -1143,10 +1167,9 @@
                     document.getElementById('masterclues').style.display = 'none';
                 }
 
-                if (userSession.role === 'master') {
-                    userSession.unlockedSkills = ["Accounting", "Botany", "French", "Investigation", "Legal", "Medical", "Bartender"];
-                    localStorage.setItem('userSession', JSON.stringify(userSession));
-                }
+                // Initialize session arrays if missing
+                if (!userSession.activeItems) userSession.activeItems = [];
+                if (!userSession.discoveredSkills) userSession.discoveredSkills = [];
 
                 // Start listening for Firebase updates
                 listenForFirebaseUpdates();
@@ -1268,12 +1291,11 @@
 
         function loadDiscoveriesData() {
             if (!userSession.activeItems) userSession.activeItems = [];
+            if (!userSession.discoveredSkills) userSession.discoveredSkills = [];
             let html = '';
 
             // Show active items from revelationsDatabase
             if (userSession.activeItems.length > 0) {
-                html += '<div style="margin-bottom: 30px;">';
-                
                 Object.entries(revelationsDatabase).forEach(([actKey, act]) => {
                     const activeInAct = act.items.filter(item => userSession.activeItems.includes(item.id));
                     if (activeInAct.length > 0) {
@@ -1282,31 +1304,45 @@
                             const borderColor = item.type === 'story' ? '#8b7355' : '#c9a227';
                             html += `
                                 <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid ${borderColor}; padding: 20px; margin-bottom: 15px; border-radius: 3px;">
-                                    <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${item.title}</div>
+                                    <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">\u2726 ${item.title}</div>
                                     <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${item.summary}</div>
                                 </div>
                             `;
                         });
                     }
                 });
-                html += '</div>';
             }
 
-            // Show unlocked skill clue summaries
-            if (userSession.skills && userSession.skills.length > 0) {
-                userSession.skills.forEach(skill => {
-                    const skillData = skillsDatabase[skill];
-                    if (!skillData) return;
-                    const isUnlocked = userSession.unlockedSkills && userSession.unlockedSkills.includes(skill);
-                    if (isUnlocked) {
+            // Show skill summaries: person must HAVE the skill AND skillDiscovered must be in discoveredSkills
+            const mySkills = getMySkills();
+            if (mySkills.length > 0) {
+                mySkills.forEach(skillName => {
+                    const skillData = skillsDatabase[skillName];
+                    if (!skillData || skillName === 'Bartender') return;
+                    const discoveredKey = skillName.toLowerCase() + 'Discovered';
+                    const isDiscovered = userSession.discoveredSkills.includes(discoveredKey);
+                    if (isDiscovered) {
                         html += `
                             <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid #c9a227; padding: 20px; margin-bottom: 15px; border-radius: 3px;">
-                                <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${skillData.title}</div>
+                                <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">\u2726 ${skillData.title}</div>
                                 <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${skillData.summary}</div>
                             </div>
                         `;
                     }
                 });
+            }
+
+            // Always show Bartender recipes if user has that skill
+            if (getMySkills().includes('Bartender')) {
+                const bartender = skillsDatabase['Bartender'];
+                if (bartender) {
+                    html += `
+                        <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid #8b7355; padding: 20px; margin-bottom: 15px; border-radius: 3px;">
+                            <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">\u2726 ${bartender.title}</div>
+                            <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${bartender.summary}</div>
+                        </div>
+                    `;
+                }
             }
 
             if (html === '') {
@@ -1318,11 +1354,13 @@
 
         function loadMasterClues() {
             if (!userSession.activeItems) userSession.activeItems = [];
+            if (!userSession.discoveredSkills) userSession.discoveredSkills = [];
             
             let html = '<div style="background: rgba(201, 162, 39, 0.1); border: 2px solid #c9a227; padding: 30px; border-radius: 5px; margin-bottom: 30px;">';
             html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 24px; color: #c9a227; margin-bottom: 10px;">Master Controls</div>';
             html += '<p style="color: #8b8b8b; margin-bottom: 25px; font-size: 14px;">Toggle items to push them to all guests\' Discoveries page in real time.</p>';
 
+            // Revelations by act
             Object.entries(revelationsDatabase).forEach(([actKey, act]) => {
                 html += `<div style="margin-bottom: 25px;">`;
                 html += `<div style="font-family: 'Playfair Display', Georgia, serif; font-size: 18px; color: #c9a227; text-transform: uppercase; margin-bottom: 12px; border-bottom: 1px solid rgba(201,162,39,0.2); padding-bottom: 8px;">${act.label}</div>`;
@@ -1348,22 +1386,30 @@
                 html += `</div>`;
             });
 
-            html += '</div>';
+            // Skill Discoveries section
+            html += '<div style="margin-top: 30px; border-top: 2px solid rgba(201, 162, 39, 0.3); padding-top: 20px;">';
+            html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 5px;">Skill Discoveries</div>';
+            html += '<p style="color: #8b8b8b; margin-bottom: 15px; font-size: 13px;">Toggle on when a QR code is scanned, or use as manual backup. Only guests with the matching skill will see the summary.</p>';
+
+            Object.entries(skillsDatabase).forEach(([skillName, skillData]) => {
+                if (skillName === 'Bartender') return;
+                const discoveredKey = skillName.toLowerCase() + 'Discovered';
+                const isActive = userSession.discoveredSkills.includes(discoveredKey);
+                html += `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 12px; background: rgba(0, 0, 0, 0.3); margin-bottom: 8px; border-radius: 3px; ${isActive ? 'border-left: 3px solid #4caf50;' : ''}">
+                        <div style="flex: 1;">
+                            <div style="font-size: 16px; color: #c9a227; margin-bottom: 5px;">${skillData.title} <span style="font-size: 10px; background: #16213e; color: #c9a227; padding: 2px 6px; border-radius: 2px; margin-left: 8px; vertical-align: middle; border: 1px solid #c9a227;">${skillName}</span></div>
+                            <div style="font-size: 13px; color: #999; line-height: 1.4;">${skillData.summary}</div>
+                        </div>
+                        <button onclick="toggleSkill('${skillName}')" style="background: ${isActive ? '#e74c3c' : '#4caf50'}; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 3px; white-space: nowrap; margin-left: 15px; font-size: 13px;">
+                            ${isActive ? 'Hide' : 'Reveal'}
+                        </button>
+                    </div>
+                `;
+            });
+
+            html += '</div></div>';
             document.getElementById('masterCluesContent').innerHTML = html;
-        }
-
-        function openQRScanner() {
-            const skill = prompt("Enter skill: Accounting, Botany, French, Investigation, Legal, Medical");
-            if (skill) unlockSkill(skill);
-        }
-
-        function unlockSkill(skill) {
-            if (!userSession.unlockedSkills) userSession.unlockedSkills = [];
-            if (!userSession.unlockedSkills.includes(skill)) {
-                userSession.unlockedSkills.push(skill);
-                localStorage.setItem('userSession', JSON.stringify(userSession));
-                loadDiscoveriesData();
-            }
         }
 
         function toggleItem(itemId) {
@@ -1375,16 +1421,26 @@
                 userSession.activeItems.splice(index, 1);
             }
             localStorage.setItem('userSession', JSON.stringify(userSession));
-            
             syncToFirebase();
-            
-            broadcastChannel.postMessage({
-                type: 'itemUpdate',
-                activeItems: userSession.activeItems
-            });
-            
+            broadcastChannel.postMessage({ type: 'itemUpdate', activeItems: userSession.activeItems });
             loadMasterClues();
         }
+
+        function toggleSkill(skillName) {
+            if (!userSession.discoveredSkills) userSession.discoveredSkills = [];
+            const discoveredKey = skillName.toLowerCase() + 'Discovered';
+            const index = userSession.discoveredSkills.indexOf(discoveredKey);
+            if (index === -1) {
+                userSession.discoveredSkills.push(discoveredKey);
+            } else {
+                userSession.discoveredSkills.splice(index, 1);
+            }
+            localStorage.setItem('userSession', JSON.stringify(userSession));
+            syncToFirebase();
+            broadcastChannel.postMessage({ type: 'skillUpdate', discoveredSkills: userSession.discoveredSkills });
+            loadMasterClues();
+        }
+
 
         function navigateAuth(pageId) {
             if (!pageId) return false;
