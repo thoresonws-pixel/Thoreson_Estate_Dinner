@@ -1239,37 +1239,37 @@
         };
 
         const clueDatabase = {
-            "Accounting": { type: "skill", title: "Financial Ledger", content: "Hidden records revealing mysterious payments to T.H." },
-            "Botany": { type: "skill", title: "Botanical Analysis", content: "Wolfsbane - a deadly poison carefully cultivated." },
-            "French": { type: "skill", title: "French Correspondence", content: "A letter revealing a decades-long affair and children." },
-            "Investigation": { type: "skill", title: "Crime Scene Evidence", content: "Traces of poison in Will's wine glass." },
-            "Legal": { type: "skill", title: "Forged Documents", content: "Will stole his business partner's company through fraud." },
-            "Medical": { type: "skill", title: "Autopsy Report", content: "Death by Wolfsbane poisoning administered orally." },
-            "Bartender": { type: "skill", title: "Cocktail Recipes", content: "<strong>The Manhattan</strong> - 2 oz whiskey, 1 oz sweet vermouth, 2 dashes Angostura. Stir with ice, strain, garnish cherry.<br><br><strong>The Martini</strong> - 2.5 oz gin, 0.5 oz dry vermouth. Stir with ice, strain, garnish olive or twist.<br><br><strong>The Daiquiri</strong> - 2 oz rum, 1 oz fresh lime juice, 0.75 oz simple syrup. Shake with ice, strain.<br><br><strong>The Sidecar</strong> - 1.5 oz cognac, 1 oz Cointreau, 0.75 oz fresh lemon juice. Shake with ice, strain, garnish twist.<br><br><strong>Champagne</strong> - Serve chilled. Selection of fine French champagnes." }
+            "Accounting": { type: "skill", title: "Financial Ledger Analysis", content: "The ledger contains secret monthly payments of $50 to someone listed only as <strong>'T.H.'</strong> — going back to 1911. The payments were authorized personally by Will, bypassing normal accounting. Over 24 years of hidden disbursements to an unknown recipient." },
+            "Botany": { type: "skill", title: "Wolfsbane Identified", content: "Wolfsbane (Aconitum) is one of the deadliest plants in the world. It does <strong>not grow in Texas</strong> — it requires the cool mountain climates of the <strong>Swiss Alps</strong>. Someone would have had to travel to Europe to obtain it." },
+            "French": { type: "skill", title: "Margaret's Letter (Translated)", content: "A letter from Margaret Hartley to Will, written in French. She pleads with him to support <strong>both children</strong> — not just his own. She mentions a safe in the study with combination <strong>9-12-11</strong>, containing documents about the children's true parentage." },
+            "Investigation": { type: "skill", title: "Background Check — Miranda", content: "Miranda Longfellow's identity is fabricated. Her real name is <strong>Miranda Hartley</strong> — daughter of Robert Hartley, Will's original business partner. She changed her name and has been working as Scott's legal assistant for nearly <strong>ten years</strong>." },
+            "Legal": { type: "skill", title: "Forged Transfer Documents", content: "The company ownership transfer from Robert Hartley to Will Thoreson is <strong>fraudulent</strong>. Robert's signature doesn't match known samples, the document is dated one day before Robert's death, and the notary 'James Crawford' has no record in Dallas County." },
+            "Medical": { type: "skill", title: "Autopsy — Cause of Death", content: "Will died of acute <strong>Aconitine poisoning</strong> — a toxin from Wolfsbane. It was administered orally, likely in food or drink. Symptoms include numbness, weakness, and cardiac arrest within 2-6 hours. <strong>This was murder.</strong>" },
+            "Bartender": { type: "skill", title: "Cocktail Recipes", content: "<strong>The Manhattan</strong> — 2 oz whiskey, 1 oz sweet vermouth, 2 dashes Angostura. Stir with ice, strain, garnish cherry.<br><br><strong>The Martini</strong> — 2.5 oz gin, 0.5 oz dry vermouth. Stir with ice, strain, garnish olive or twist.<br><br><strong>The Daiquiri</strong> — 2 oz rum, 1 oz fresh lime juice, 0.75 oz simple syrup. Shake with ice, strain.<br><br><strong>The Sidecar</strong> — 1.5 oz cognac, 1 oz Cointreau, 0.75 oz fresh lemon juice. Shake with ice, strain, garnish twist.<br><br><strong>Champagne</strong> — Serve chilled." }
         };
 
         const storyClues = {
-            "willsDeath": { title: "Will's Death Announced", content: "William Thoreson Sr. has been found dead." },
-            "businessBetrayal": { title: "Business Partner Betrayal", content: "Documents reveal Will stole his partner's company." },
-            "illegitimateChild": { title: "Illegitimate Child", content: "Will had a secret child with Margaret Hartley." },
-            "poisoning": { title: "Poisoning Suspected", content: "Wolfsbane found - not a natural death." },
-            "mirandasIdentity": { title: "Miranda's True Identity", content: "Miranda Hartley is Robert's daughter seeking justice." }
+            "willsDeath": { title: "Will's Death", content: "William Thoreson Sr. was found dead this evening. The family has gathered to learn the truth about what happened." },
+            "businessBetrayal": { title: "The Stolen Company", content: "Thoreson Toys was originally <strong>Thoreson & Hartley Toys</strong>. Will used forged documents to seize full ownership after his partner Robert Hartley's death in 1910." },
+            "illegitimateChild": { title: "Will's Secret Child", content: "Will had an affair with Margaret Hartley — Robert's wife. They had a child together: <strong>Taylor Hartley (T.H.)</strong>, who Will secretly supported with monthly payments for over 24 years." },
+            "poisoning": { title: "Murder by Poison", content: "Will was killed by <strong>Aconitine</strong>, a toxin from Wolfsbane. It was slipped into his food or drink. The plant only grows in the <strong>Swiss Alps</strong> — someone traveled to Europe to get it." },
+            "mirandasIdentity": { title: "Miranda Unmasked", content: "Miranda Longfellow is really <strong>Miranda Hartley</strong> — Robert's daughter. She changed her name, infiltrated the family as Scott's assistant, and has been hiding in plain sight for ten years." }
         };
 
         // Revelations - ordered by act, can be revealed to all guests
         const revelations = {
             "act1": [
-                { id: "ledger", title: "Ledger Found", publicSummary: "A financial ledger with suspicious payments to 'T.H.' has been discovered." },
-                { id: "wolfsbane", title: "Poison Identified", publicSummary: "Wolfsbane traces found in Will's wine - this was not a natural death." },
-                { id: "affair", title: "Secret Affair", publicSummary: "Evidence suggests Will had a long-standing affair and secret children." }
+                { id: "ledger", title: "Suspicious Ledger", publicSummary: "A financial ledger shows secret monthly payments of $50 to someone identified only as <strong>'T.H.'</strong> — going back over 24 years. Will authorized them personally." },
+                { id: "wolfsbane", title: "Cause of Death: Poison", publicSummary: "Will was poisoned with <strong>Aconitine</strong>, a deadly toxin from Wolfsbane. It was administered in his food or drink. This was not natural causes — <strong>this was murder</strong>." },
+                { id: "affair", title: "The Affair Revealed", publicSummary: "Will had a long-standing affair with <strong>Margaret Hartley</strong> — the wife of his business partner Robert. Margaret had two children: one Robert's, one Will's." }
             ],
             "act2": [
-                { id: "embezzlement", title: "Embezzlement Discovered", publicSummary: "Will stole millions from his original business partner thirty years ago." },
-                { id: "motive", title: "Possible Motive", publicSummary: "Multiple people had financial reasons to want Will dead." },
-                { id: "conspiracy", title: "Conspiracy Suspected", publicSummary: "Evidence suggests more than one person may have been involved." }
+                { id: "embezzlement", title: "The Stolen Company", publicSummary: "The company was originally <strong>Thoreson & Hartley Toys</strong>. When Robert Hartley died in 1910, Will used <strong>forged documents</strong> to seize full ownership. He stole his partner's company." },
+                { id: "motive", title: "The Secret Heir", publicSummary: "The mysterious <strong>'T.H.'</strong> in the ledger is <strong>Taylor Hartley</strong> — Will's illegitimate child with Margaret. Will set up a secret trust fund but abandoned Margaret's other child entirely." },
+                { id: "conspiracy", title: "The Poison Trail", publicSummary: "Wolfsbane only grows in the <strong>Swiss Alps</strong>. It cannot be purchased — someone had to travel to Europe and harvest it. Has anyone here been to Switzerland recently?" }
             ],
             "act3": [
-                { id: "betrayal", title: "The Final Truth", publicSummary: "The killer's identity has been revealed - it was someone trusted by the family." }
+                { id: "betrayal", title: "Miranda Unmasked", publicSummary: "Miranda Longfellow is really <strong>Miranda Hartley</strong> — Robert's abandoned daughter. She changed her name, became Scott's assistant, and has been hiding inside the family for <strong>ten years</strong>." }
             ]
         };
 
