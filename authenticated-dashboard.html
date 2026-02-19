@@ -1731,36 +1731,23 @@
     <!-- Firebase disabled until configured -->
 
     <script>
-        // Register service worker for PWA functionality
+        // TEMPORARY: Nuke service worker and all caches, then reload once
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/Thoreson_Estate_Dinner/service-worker.js')
-                    .then(registration => {
-                        console.log('✓ Service Worker registered');
-                        
-                        // Check for updates periodically
-                        setInterval(() => {
-                            registration.update();
-                        }, 60000); // Check every minute
-                        
-                        // Listen for updates
-                        registration.addEventListener('updatefound', () => {
-                            const newWorker = registration.installing;
-                            newWorker.addEventListener('statechange', () => {
-                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                    // New version available
-                                    console.log('✓ Update available');
-                                    // Optional: show update notification
-                                    if (confirm('A newer version is available. Update now?')) {
-                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
-                                        window.location.reload();
-                                    }
-                                }
-                            });
-                        });
-                    })
-                    .catch(error => console.log('Service Worker registration failed:', error));
-            });
+            const alreadyNuked = sessionStorage.getItem('sw-nuked-v16');
+            if (!alreadyNuked) {
+                sessionStorage.setItem('sw-nuked-v16', 'true');
+                navigator.serviceWorker.getRegistrations().then(registrations => {
+                    const unregisterPromises = registrations.map(r => r.unregister());
+                    return Promise.all(unregisterPromises);
+                }).then(() => {
+                    if ('caches' in window) {
+                        return caches.keys().then(names => Promise.all(names.map(n => caches.delete(n))));
+                    }
+                }).then(() => {
+                    console.log('Service worker nuked, reloading...');
+                    window.location.reload(true);
+                });
+            }
         }
     </script>
 </body>
