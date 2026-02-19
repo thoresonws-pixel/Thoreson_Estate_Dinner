@@ -10,6 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Thoreson Estate">
     <title>The Thoreson Estate Dinner</title>
+    <!-- v12 -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -1300,17 +1301,21 @@
             }
         };
 
-        document.addEventListener('DOMContentLoaded', function() {
+        let userSession = null;
+
+        console.log('Dashboard v12 loaded');
+
+        // Initialize on load
+        (function() {
             const session = localStorage.getItem('userSession');
             if (session) {
                 userSession = JSON.parse(session);
                 initializeAuthenticatedView();
-            }
-            // Show invitation by default if not logged in
-            if (!session) {
+            } else {
+                // Show invitation by default if not logged in
                 document.getElementById('invitation').style.display = 'block';
             }
-        });
+        })();
 
         function initializeAuthenticatedView() {
             // Hide sections that shouldn't be visible
