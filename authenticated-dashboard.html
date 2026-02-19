@@ -687,6 +687,7 @@
     <nav>
         <!-- Horizontal nav -->
         <ul id="desktopNav" class="desktop-nav">
+            <li><a href="#character" onclick="return navigateAuth('#character')">Character</a></li>
             <li><a href="#guests" onclick="return navigateAuth('#guests')">Guests</a></li>
             <li><a href="#discoveries" onclick="return navigateAuth('#discoveries')">Discoveries</a></li>
             <li id="masterNav" style="display:none;"><a href="#masterclues" onclick="return navigateAuth('#masterclues')">Master Controls</a></li>
@@ -1330,6 +1331,7 @@
             // Start listening for Firebase updates
             listenForFirebaseUpdates();
             
+            loadCharacterData();
             loadDiscoveriesData();
             if (userSession.role === 'master') {
                 loadMasterClues();
