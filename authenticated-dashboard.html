@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Thoreson Estate">
     <title>The Thoreson Estate Dinner</title>
-    <!-- v16 -->
+    <!-- v17 -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -924,6 +924,10 @@
         The Thoreson Estate — 1935
     </footer>
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+
     <script>
         // Toggle contact fields based on attendance selection
         function toggleContactFields() {
@@ -1305,11 +1309,95 @@
 
         // Firebase stubs - replace with real Firebase when ready
         let firebaseReady = false;
-        function listenForFirebaseUpdates() { /* Firebase not configured yet */ }
-        function loadFirebaseData() { /* Firebase not configured yet */ }
-        function syncToFirebase() { /* Firebase not configured yet */ }
+        let database = null;
 
-        console.log('Dashboard v16 loaded');
+        // Initialize Firebase
+        try {
+            const firebaseConfig = {
+                apiKey: "AIzaSyApHrYubqWrR4m0ihdpq6Ym40jv4HTQ5i0",
+                authDomain: "thoreson-estate.firebaseapp.com",
+                databaseURL: "https://thoreson-estate-default-rtdb.firebaseio.com",
+                projectId: "thoreson-estate",
+                storageBucket: "thoreson-estate.firebasestorage.app",
+                messagingSenderId: "182924616892",
+                appId: "1:182924616892:web:8153e1c69895cee665dcb9",
+                measurementId: "G-MXHFH3FL00"
+            };
+            firebase.initializeApp(firebaseConfig);
+            database = firebase.database();
+            
+            // Test connection
+            database.ref('.info/connected').on('value', (snapshot) => {
+                if (snapshot.val() === true) {
+                    console.log('✓ Connected to Firebase');
+                    firebaseReady = true;
+                    loadFirebaseData();
+                } else {
+                    console.log('✗ Firebase disconnected');
+                    firebaseReady = false;
+                }
+            });
+        } catch(e) {
+            console.log('Firebase init error:', e.message);
+        }
+
+        function listenForFirebaseUpdates() {
+            if (!database) return;
+            
+            database.ref('revelations').on('value', (snapshot) => {
+                const revs = snapshot.val() || [];
+                if (userSession && Array.isArray(revs)) {
+                    userSession.activeRevelations = revs;
+                    localStorage.setItem('userSession', JSON.stringify(userSession));
+                    if (document.getElementById('discoveriesContent')) {
+                        loadDiscoveriesData();
+                    }
+                }
+            });
+
+            database.ref('storyClues').on('value', (snapshot) => {
+                const clues = snapshot.val() || [];
+                if (userSession && Array.isArray(clues)) {
+                    userSession.unlockedStoryClues = clues;
+                    localStorage.setItem('userSession', JSON.stringify(userSession));
+                    if (document.getElementById('discoveriesContent')) {
+                        loadDiscoveriesData();
+                    }
+                }
+            });
+        }
+
+        function loadFirebaseData() {
+            if (!database || !userSession) return;
+            
+            database.ref('revelations').once('value').then(snapshot => {
+                userSession.activeRevelations = snapshot.val() || [];
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+                if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
+                if (document.getElementById('masterCluesContent') && userSession.role === 'master') loadMasterClues();
+            });
+
+            database.ref('storyClues').once('value').then(snapshot => {
+                userSession.unlockedStoryClues = snapshot.val() || [];
+                localStorage.setItem('userSession', JSON.stringify(userSession));
+                if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
+                if (document.getElementById('masterCluesContent') && userSession.role === 'master') loadMasterClues();
+            });
+        }
+
+        function syncToFirebase() {
+            if (!database || !userSession) return;
+            
+            database.ref('revelations').set(userSession.activeRevelations || [])
+                .then(() => console.log('✓ Revelations synced'))
+                .catch(e => console.error('Firebase sync error:', e));
+                
+            database.ref('storyClues').set(userSession.unlockedStoryClues || [])
+                .then(() => console.log('✓ Story clues synced'))
+                .catch(e => console.error('Firebase sync error:', e));
+        }
+
+        console.log('Dashboard v17 loaded');
 
         // Force clear old caches on load
         if ('caches' in window) {
@@ -1728,7 +1816,7 @@
 
         document.addEventListener('DOMContentLoaded', loadGuests);
     </script>
-    <!-- Firebase disabled until configured -->
+    <!-- Firebase configured -->
 
     <script>
         // TEMPORARY: Nuke service worker and all caches, then reload once
