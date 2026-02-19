@@ -1299,13 +1299,17 @@
                 }
             }
         };
+
+        document.addEventListener('DOMContentLoaded', function() {
             const session = localStorage.getItem('userSession');
             if (session) {
                 userSession = JSON.parse(session);
                 initializeAuthenticatedView();
             }
-            // Show invitation by default
-            document.getElementById('invitation').style.display = 'block';
+            // Show invitation by default if not logged in
+            if (!session) {
+                document.getElementById('invitation').style.display = 'block';
+            }
         });
 
         function initializeAuthenticatedView() {
