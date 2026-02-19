@@ -930,6 +930,8 @@
 
     <!-- Character Data -->
     <script src="characters.js"></script>
+    <script src="skills.js"></script>
+    <script src="revelations.js"></script>
 
     <script>
         // Toggle contact fields based on attendance selection
@@ -1008,68 +1010,19 @@
         
         // CHARACTER DATA loaded from characters.js
 
-        const clueDatabase = {
-            "Accounting": { type: "skill", title: "Financial Ledger Analysis", content: "The ledger contains secret monthly payments of $50 to someone listed only as <strong>'T.H.'</strong> — going back to 1911. The payments were authorized personally by Will, bypassing normal accounting. Over 24 years of hidden disbursements to an unknown recipient." },
-            "Botany": { type: "skill", title: "Wolfsbane Identified", content: "Wolfsbane (Aconitum) is one of the deadliest plants in the world. It does <strong>not grow in Texas</strong> — it requires the cool mountain climates of the <strong>Swiss Alps</strong>. Someone would have had to travel to Europe to obtain it." },
-            "French": { type: "skill", title: "Margaret's Letter (Translated)", content: "A letter from Margaret Hartley to Will, written in French. She pleads with him to support <strong>both children</strong> — not just his own. She mentions a safe in the study with combination <strong>9-12-11</strong>, containing documents about the children's true parentage." },
-            "Investigation": { type: "skill", title: "Background Check — Miranda", content: "Miranda Longfellow's identity is fabricated. Her real name is <strong>Miranda Hartley</strong> — daughter of Robert Hartley, Will's original business partner. She changed her name and has been working as Scott's legal assistant for nearly <strong>ten years</strong>." },
-            "Legal": { type: "skill", title: "Forged Transfer Documents", content: "The company ownership transfer from Robert Hartley to Will Thoreson is <strong>fraudulent</strong>. Robert's signature doesn't match known samples, the document is dated one day before Robert's death, and the notary 'James Crawford' has no record in Dallas County." },
-            "Medical": { type: "skill", title: "Autopsy — Cause of Death", content: "Will died of acute <strong>Aconitine poisoning</strong> — a toxin from Wolfsbane. It was administered orally, likely in food or drink. Symptoms include numbness, weakness, and cardiac arrest within 2-6 hours. <strong>This was murder.</strong>" },
-            "Bartender": { type: "skill", title: "Cocktail Recipes", content: "<strong>The Manhattan</strong> — 2 oz whiskey, 1 oz sweet vermouth, 2 dashes Angostura. Stir with ice, strain, garnish cherry.<br><br><strong>The Martini</strong> — 2.5 oz gin, 0.5 oz dry vermouth. Stir with ice, strain, garnish olive or twist.<br><br><strong>The Daiquiri</strong> — 2 oz rum, 1 oz fresh lime juice, 0.75 oz simple syrup. Shake with ice, strain.<br><br><strong>The Sidecar</strong> — 1.5 oz cognac, 1 oz Cointreau, 0.75 oz fresh lemon juice. Shake with ice, strain, garnish twist.<br><br><strong>Champagne</strong> — Serve chilled." }
-        };
-
-        const storyClues = {
-            "willsDeath": { title: "Will's Death", content: "William Thoreson Sr. was found dead this evening. The family has gathered to learn the truth about what happened." },
-            "businessBetrayal": { title: "The Stolen Company", content: "Thoreson Toys was originally <strong>Thoreson & Hartley Toys</strong>. Will used forged documents to seize full ownership after his partner Robert Hartley's death in 1910." },
-            "illegitimateChild": { title: "Will's Secret Child", content: "Will had an affair with Margaret Hartley — Robert's wife. They had a child together: <strong>Taylor Hartley (T.H.)</strong>, who Will secretly supported with monthly payments for over 24 years." },
-            "poisoning": { title: "Murder by Poison", content: "Will was killed by <strong>Aconitine</strong>, a toxin from Wolfsbane. It was slipped into his food or drink. The plant only grows in the <strong>Swiss Alps</strong> — someone traveled to Europe to get it." },
-            "mirandasIdentity": { title: "Miranda Unmasked", content: "Miranda Longfellow is really <strong>Miranda Hartley</strong> — Robert's daughter. She changed her name, infiltrated the family as Scott's assistant, and has been hiding in plain sight for ten years." }
-        };
-
-        // Revelations - ordered by act, can be revealed to all guests
-        const revelations = {
-            "act1": [
-                { id: "ledger", title: "Suspicious Ledger", publicSummary: "A financial ledger shows secret monthly payments of $50 to someone identified only as <strong>'T.H.'</strong> — going back over 24 years. Will authorized them personally." },
-                { id: "wolfsbane", title: "Cause of Death: Poison", publicSummary: "Will was poisoned with <strong>Aconitine</strong>, a deadly toxin from Wolfsbane. It was administered in his food or drink. This was not natural causes — <strong>this was murder</strong>." },
-                { id: "affair", title: "The Affair Revealed", publicSummary: "Will had a long-standing affair with <strong>Margaret Hartley</strong> — the wife of his business partner Robert. Margaret had two children: one Robert's, one Will's." }
-            ],
-            "act2": [
-                { id: "embezzlement", title: "The Stolen Company", publicSummary: "The company was originally <strong>Thoreson & Hartley Toys</strong>. When Robert Hartley died in 1910, Will used <strong>forged documents</strong> to seize full ownership. He stole his partner's company." },
-                { id: "motive", title: "The Secret Heir", publicSummary: "The mysterious <strong>'T.H.'</strong> in the ledger is <strong>Taylor Hartley</strong> — Will's illegitimate child with Margaret. Will set up a secret trust fund but abandoned Margaret's other child entirely." },
-                { id: "conspiracy", title: "The Poison Trail", publicSummary: "Wolfsbane only grows in the <strong>Swiss Alps</strong>. It cannot be purchased — someone had to travel to Europe and harvest it. Has anyone here been to Switzerland recently?" }
-            ],
-            "act3": [
-                { id: "betrayal", title: "Miranda Unmasked", publicSummary: "Miranda Longfellow is really <strong>Miranda Hartley</strong> — Robert's abandoned daughter. She changed her name, became Scott's assistant, and has been hiding inside the family for <strong>ten years</strong>." }
-            ]
-        };
+        // GAME DATA loaded from external files:
+        // characters.js — characterDatabase
+        // skills.js — skillsDatabase
+        // revelations.js — revelationsDatabase
 
         // Broadcast Channel for real-time sync across devices on same network
         const broadcastChannel = new BroadcastChannel('thoreson-estate-sync');
         
         broadcastChannel.onmessage = (event) => {
-            if (event.data.type === 'revelationUpdate') {
-                // Update local revelations
-                if (!userSession.activeRevelations) {
-                    userSession.activeRevelations = [];
-                }
-                userSession.activeRevelations = event.data.revelations;
-                localStorage.setItem('userSession', JSON.stringify(userSession));
-                
-                // Reload discoveries to show new revelations
-                if (document.getElementById('discoveriesContent')) {
-                    loadDiscoveriesData();
-                }
-            }
-            if (event.data.type === 'storyClueUpdate') {
-                // Update local story clues
-                if (!userSession.unlockedStoryClues) {
-                    userSession.unlockedStoryClues = [];
-                }
-                userSession.unlockedStoryClues = event.data.storyClues;
-                localStorage.setItem('userSession', JSON.stringify(userSession));
-                
-                // Reload discoveries to show new clues
-                if (document.getElementById('discoveriesContent')) {
+            if (event.data.type === 'itemUpdate') {
+                if (userSession) {
+                    userSession.activeItems = event.data.activeItems || [];
+                    localStorage.setItem('userSession', JSON.stringify(userSession));
                     loadDiscoveriesData();
                 }
             }
@@ -1114,24 +1067,16 @@
         function listenForFirebaseUpdates() {
             if (!database) return;
             
-            database.ref('revelations').on('value', (snapshot) => {
-                const revs = snapshot.val() || [];
-                if (userSession && Array.isArray(revs)) {
-                    userSession.activeRevelations = revs;
+            database.ref('activeItems').on('value', (snapshot) => {
+                const items = snapshot.val() || [];
+                if (userSession && Array.isArray(items)) {
+                    userSession.activeItems = items;
                     localStorage.setItem('userSession', JSON.stringify(userSession));
                     if (document.getElementById('discoveriesContent')) {
                         loadDiscoveriesData();
                     }
-                }
-            });
-
-            database.ref('storyClues').on('value', (snapshot) => {
-                const clues = snapshot.val() || [];
-                if (userSession && Array.isArray(clues)) {
-                    userSession.unlockedStoryClues = clues;
-                    localStorage.setItem('userSession', JSON.stringify(userSession));
-                    if (document.getElementById('discoveriesContent')) {
-                        loadDiscoveriesData();
+                    if (document.getElementById('masterCluesContent') && userSession.role === 'master') {
+                        loadMasterClues();
                     }
                 }
             });
@@ -1140,15 +1085,8 @@
         function loadFirebaseData() {
             if (!database || !userSession) return;
             
-            database.ref('revelations').once('value').then(snapshot => {
-                userSession.activeRevelations = snapshot.val() || [];
-                localStorage.setItem('userSession', JSON.stringify(userSession));
-                if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
-                if (document.getElementById('masterCluesContent') && userSession.role === 'master') loadMasterClues();
-            });
-
-            database.ref('storyClues').once('value').then(snapshot => {
-                userSession.unlockedStoryClues = snapshot.val() || [];
+            database.ref('activeItems').once('value').then(snapshot => {
+                userSession.activeItems = snapshot.val() || [];
                 localStorage.setItem('userSession', JSON.stringify(userSession));
                 if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
                 if (document.getElementById('masterCluesContent') && userSession.role === 'master') loadMasterClues();
@@ -1158,12 +1096,8 @@
         function syncToFirebase() {
             if (!database || !userSession) return;
             
-            database.ref('revelations').set(userSession.activeRevelations || [])
-                .then(() => console.log('✓ Revelations synced'))
-                .catch(e => console.error('Firebase sync error:', e));
-                
-            database.ref('storyClues').set(userSession.unlockedStoryClues || [])
-                .then(() => console.log('✓ Story clues synced'))
+            database.ref('activeItems').set(userSession.activeItems || [])
+                .then(() => console.log('✓ Active items synced'))
                 .catch(e => console.error('Firebase sync error:', e));
         }
 
@@ -1333,51 +1267,42 @@
         }
 
         function loadDiscoveriesData() {
+            if (!userSession.activeItems) userSession.activeItems = [];
             let html = '';
 
-            // Show active revelations first
-            if (userSession.activeRevelations && userSession.activeRevelations.length > 0) {
+            // Show active items from revelationsDatabase
+            if (userSession.activeItems.length > 0) {
                 html += '<div style="margin-bottom: 30px;">';
-                html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 18px; color: #c9a227; text-transform: uppercase; margin-bottom: 15px;">Revealed Discoveries</div>';
                 
-                Object.values(revelations).forEach(actItems => {
-                    actItems.forEach(revelation => {
-                        if (userSession.activeRevelations.includes(revelation.id)) {
+                Object.entries(revelationsDatabase).forEach(([actKey, act]) => {
+                    const activeInAct = act.items.filter(item => userSession.activeItems.includes(item.id));
+                    if (activeInAct.length > 0) {
+                        html += `<div style="font-family: 'Playfair Display', Georgia, serif; font-size: 16px; color: #8b8b8b; text-transform: uppercase; margin-bottom: 10px; margin-top: 20px;">${act.label}</div>`;
+                        activeInAct.forEach(item => {
+                            const borderColor = item.type === 'story' ? '#8b7355' : '#c9a227';
                             html += `
-                                <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid #c9a227; padding: 20px; margin-bottom: 20px; border-radius: 3px;">
-                                    <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${revelation.title}</div>
-                                    <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${revelation.publicSummary}</div>
+                                <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid ${borderColor}; padding: 20px; margin-bottom: 15px; border-radius: 3px;">
+                                    <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${item.title}</div>
+                                    <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${item.summary}</div>
                                 </div>
                             `;
-                        }
-                    });
+                        });
+                    }
                 });
                 html += '</div>';
             }
 
+            // Show unlocked skill clue summaries
             if (userSession.skills && userSession.skills.length > 0) {
                 userSession.skills.forEach(skill => {
-                    const clue = clueDatabase[skill];
+                    const skillData = skillsDatabase[skill];
+                    if (!skillData) return;
                     const isUnlocked = userSession.unlockedSkills && userSession.unlockedSkills.includes(skill);
-
                     if (isUnlocked) {
                         html += `
-                            <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid #c9a227; padding: 20px; margin-bottom: 20px; border-radius: 3px;">
-                                <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${clue.title}</div>
-                                <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${clue.content}</div>
-                            </div>
-                        `;
-                    }
-                });
-            }
-
-            if (userSession.unlockedStoryClues) {
-                Object.entries(storyClues).forEach(([key, clue]) => {
-                    if (userSession.unlockedStoryClues.includes(key)) {
-                        html += `
-                            <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid #c9a227; padding: 20px; margin-bottom: 20px; border-radius: 3px;">
-                                <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${clue.title}</div>
-                                <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${clue.content}</div>
+                            <div style="background: rgba(201, 162, 39, 0.1); border-left: 3px solid #c9a227; padding: 20px; margin-bottom: 15px; border-radius: 3px;">
+                                <div style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #c9a227; margin-bottom: 10px;">✦ ${skillData.title}</div>
+                                <div style="font-size: 16px; line-height: 1.6; color: #e8e8e8;">${skillData.summary}</div>
                             </div>
                         `;
                     }
@@ -1385,37 +1310,37 @@
             }
 
             if (html === '') {
-                html = '<div style="text-align: center; padding: 40px; color: #999; font-style: italic;">No clues unlocked yet...</div>';
+                html = '<div style="text-align: center; padding: 40px; color: #999; font-style: italic;">No discoveries yet. The investigation is just beginning...</div>';
             }
 
             document.getElementById('discoveriesContent').innerHTML = html;
         }
 
         function loadMasterClues() {
+            if (!userSession.activeItems) userSession.activeItems = [];
+            
             let html = '<div style="background: rgba(201, 162, 39, 0.1); border: 2px solid #c9a227; padding: 30px; border-radius: 5px; margin-bottom: 30px;">';
-            html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 24px; color: #c9a227; margin-bottom: 20px;">Revelations Control</div>';
-            html += '<p style="color: #c9a227; margin-bottom: 20px; font-size: 14px;">Click to reveal discoveries to all guests during the acts</p>';
+            html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 24px; color: #c9a227; margin-bottom: 10px;">Master Controls</div>';
+            html += '<p style="color: #8b8b8b; margin-bottom: 25px; font-size: 14px;">Toggle items to push them to all guests\' Discoveries page in real time.</p>';
 
-            // Get active revelations
-            if (!userSession.activeRevelations) {
-                userSession.activeRevelations = [];
-            }
-
-            // Show revelations by act
-            Object.entries(revelations).forEach(([act, items]) => {
+            Object.entries(revelationsDatabase).forEach(([actKey, act]) => {
                 html += `<div style="margin-bottom: 25px;">`;
-                html += `<div style="font-family: 'Playfair Display', Georgia, serif; font-size: 18px; color: #c9a227; text-transform: uppercase; margin-bottom: 15px;">${act}</div>`;
+                html += `<div style="font-family: 'Playfair Display', Georgia, serif; font-size: 18px; color: #c9a227; text-transform: uppercase; margin-bottom: 12px; border-bottom: 1px solid rgba(201,162,39,0.2); padding-bottom: 8px;">${act.label}</div>`;
                 
-                items.forEach(revelation => {
-                    const isRevealed = userSession.activeRevelations.includes(revelation.id);
+                act.items.forEach(item => {
+                    const isActive = userSession.activeItems.includes(item.id);
+                    const typeBadge = item.type === 'story' 
+                        ? '<span style="font-size: 10px; background: #8b7355; color: white; padding: 2px 6px; border-radius: 2px; margin-left: 8px; vertical-align: middle;">STORY</span>'
+                        : '<span style="font-size: 10px; background: #c9a227; color: #1a1a2e; padding: 2px 6px; border-radius: 2px; margin-left: 8px; vertical-align: middle;">EVIDENCE</span>';
+                    
                     html += `
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 12px; background: rgba(0, 0, 0, 0.3); margin-bottom: 10px; border-radius: 3px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 12px; background: rgba(0, 0, 0, 0.3); margin-bottom: 8px; border-radius: 3px; ${isActive ? 'border-left: 3px solid #4caf50;' : ''}">
                             <div style="flex: 1;">
-                                <div style="font-size: 16px; color: #c9a227; margin-bottom: 5px;">${revelation.title}</div>
-                                <div style="font-size: 13px; color: #999;">"${revelation.publicSummary}"</div>
+                                <div style="font-size: 16px; color: #c9a227; margin-bottom: 5px;">${item.title}${typeBadge}</div>
+                                <div style="font-size: 13px; color: #999; line-height: 1.4;">${item.summary}</div>
                             </div>
-                            <button onclick="toggleRevelation('${revelation.id}')" style="background: ${isRevealed ? '#e74c3c' : '#4caf50'}; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 3px; white-space: nowrap; margin-left: 15px;">
-                                ${isRevealed ? 'Hide' : 'Reveal'}
+                            <button onclick="toggleItem('${item.id}')" style="background: ${isActive ? '#e74c3c' : '#4caf50'}; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 3px; white-space: nowrap; margin-left: 15px; font-size: 13px;">
+                                ${isActive ? 'Hide' : 'Reveal'}
                             </button>
                         </div>
                     `;
@@ -1423,29 +1348,7 @@
                 html += `</div>`;
             });
 
-            // Story Clues section
-            html += '<div style="margin-top: 30px; border-top: 1px solid rgba(201, 162, 39, 0.3); padding-top: 20px;">';
-            html += '<div style="font-family: \'Playfair Display\', Georgia, serif; font-size: 18px; color: #c9a227; text-transform: uppercase; margin-bottom: 15px;">Story Clues</div>';
-            
-            if (!userSession.unlockedStoryClues) {
-                userSession.unlockedStoryClues = [];
-            }
-
-            Object.entries(storyClues).forEach(([key, clue]) => {
-                const isUnlocked = userSession.unlockedStoryClues.includes(key);
-                html += `
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; padding: 12px; background: rgba(0, 0, 0, 0.3); margin-bottom: 10px; border-radius: 3px;">
-                        <div style="flex: 1;">
-                            <div style="font-size: 16px; color: #c9a227; margin-bottom: 5px;">${clue.title}</div>
-                        </div>
-                        <button onclick="toggleStoryClue('${key}')" style="background: ${isUnlocked ? '#e74c3c' : '#4caf50'}; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 3px; white-space: nowrap; margin-left: 15px;">
-                            ${isUnlocked ? 'Hide' : 'Reveal'}
-                        </button>
-                    </div>
-                `;
-            });
-
-            html += '</div></div>';
+            html += '</div>';
             document.getElementById('masterCluesContent').innerHTML = html;
         }
 
@@ -1460,68 +1363,27 @@
                 userSession.unlockedSkills.push(skill);
                 localStorage.setItem('userSession', JSON.stringify(userSession));
                 loadDiscoveriesData();
-                alert(`✓ Unlocked: ${skill}`);
             }
         }
 
-        function toggleStoryClue(clueKey) {
-            if (!userSession.unlockedStoryClues) userSession.unlockedStoryClues = [];
-            const index = userSession.unlockedStoryClues.indexOf(clueKey);
+        function toggleItem(itemId) {
+            if (!userSession.activeItems) userSession.activeItems = [];
+            const index = userSession.activeItems.indexOf(itemId);
             if (index === -1) {
-                // Unlock
-                userSession.unlockedStoryClues.push(clueKey);
+                userSession.activeItems.push(itemId);
             } else {
-                // Lock
-                userSession.unlockedStoryClues.splice(index, 1);
+                userSession.activeItems.splice(index, 1);
             }
             localStorage.setItem('userSession', JSON.stringify(userSession));
             
-            // Sync to Firebase
             syncToFirebase();
             
-            // Broadcast to local devices
             broadcastChannel.postMessage({
-                type: 'storyClueUpdate',
-                storyClues: userSession.unlockedStoryClues
+                type: 'itemUpdate',
+                activeItems: userSession.activeItems
             });
             
-            loadDiscoveriesData();
             loadMasterClues();
-            // Auto-navigate to Discoveries to show update
-            setTimeout(() => {
-                navigateAuth('#discoveries');
-            }, 100);
-        }
-
-        function toggleRevelation(revelationId) {
-            if (!userSession.activeRevelations) {
-                userSession.activeRevelations = [];
-            }
-            const index = userSession.activeRevelations.indexOf(revelationId);
-            if (index === -1) {
-                // Reveal
-                userSession.activeRevelations.push(revelationId);
-            } else {
-                // Hide
-                userSession.activeRevelations.splice(index, 1);
-            }
-            localStorage.setItem('userSession', JSON.stringify(userSession));
-            
-            // Sync to Firebase
-            syncToFirebase();
-            
-            // Broadcast to local devices
-            broadcastChannel.postMessage({
-                type: 'revelationUpdate',
-                revelations: userSession.activeRevelations
-            });
-            
-            loadDiscoveriesData();
-            loadMasterClues();
-            // Auto-navigate to Discoveries to show update
-            setTimeout(() => {
-                navigateAuth('#discoveries');
-            }, 100);
         }
 
         function navigateAuth(pageId) {
