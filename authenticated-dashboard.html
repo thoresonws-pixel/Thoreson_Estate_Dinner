@@ -682,6 +682,126 @@
                 padding: 3px 2px;
             }
         }
+        /* QR Scanner Modal */
+        .scanner-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .scanner-overlay.active { display: flex; }
+        .scanner-header {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 22px; color: #c9a227;
+            margin-bottom: 20px; text-align: center;
+        }
+        .scanner-box {
+            width: 100%; max-width: 400px;
+            border: 2px solid #c9a227;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+        }
+        .scanner-close {
+            margin-top: 25px;
+            padding: 12px 40px;
+            background: transparent;
+            color: #c9a227;
+            border: 1px solid #c9a227;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 16px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        .scanner-close:hover { background: rgba(201, 162, 39, 0.15); }
+        .scanner-status {
+            color: #8b8b8b;
+            font-style: italic;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* Skill Content Modal */
+        .skill-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .skill-modal-overlay.active { display: flex; }
+        .skill-modal {
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 2px solid #8b7355;
+            box-shadow: 0 0 0 1px #a08060, 0 0 0 4px #2a2520, 0 0 0 6px #8b7355, 0 15px 40px rgba(0,0,0,0.4);
+            padding: 35px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        .skill-modal .skill-badge {
+            display: inline-block; background: #2a2520; color: #c9a227;
+            padding: 5px 15px; font-size: 12px; letter-spacing: 2px;
+            text-transform: uppercase; margin-bottom: 20px;
+        }
+        .skill-modal .reveal-header {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 20px; color: #2a2520; margin-bottom: 20px;
+            padding-bottom: 15px; border-bottom: 1px solid #8b7355;
+        }
+        .skill-modal .reveal-content {
+            font-size: 18px; color: #3a3028; line-height: 1.8; text-align: left;
+        }
+        .skill-modal .reveal-content p { margin-bottom: 15px; }
+        .skill-modal .reveal-highlight {
+            background: rgba(201, 162, 39, 0.2); padding: 15px;
+            border-left: 3px solid #c9a227; margin: 20px 0; font-style: italic;
+        }
+        .skill-modal .reveal-danger {
+            background: rgba(139, 74, 74, 0.2); padding: 15px;
+            border-left: 3px solid #8b4a4a; margin: 20px 0; font-style: italic;
+        }
+        .skill-modal .letter-text {
+            background: rgba(201, 162, 39, 0.15); padding: 20px;
+            border: 1px solid rgba(201, 162, 39, 0.3); margin: 20px 0;
+            font-style: italic; line-height: 2;
+        }
+        .skill-modal-close {
+            margin-top: 25px;
+            padding: 12px 40px;
+            background: #2a2520;
+            color: #e8e0d0;
+            border: 2px solid #8b7355;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 14px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+        .skill-modal-close:hover { background: #8b7355; color: #f5f0e6; }
+
+        .skill-denied {
+            color: #8b4a4a;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 20px;
+            padding: 30px;
+            text-align: center;
+        }
+        .skill-denied p { margin-top: 15px; font-size: 16px; color: #666; font-family: 'Cormorant Garamond', Georgia, serif; }
     </style>
 </head>
 <body>
@@ -691,6 +811,7 @@
             <li><a href="#character" onclick="return navigateAuth('#character')">Character</a></li>
             <li><a href="#guests" onclick="return navigateAuth('#guests')">Guests</a></li>
             <li><a href="#discoveries" onclick="return navigateAuth('#discoveries')">Discoveries</a></li>
+            <li id="scanNav" style="display:none;"><a href="#" onclick="openScanner(); return false;">Scan</a></li>
             <li id="masterNav" style="display:none;"><a href="#masterclues" onclick="return navigateAuth('#masterclues')">Master Controls</a></li>
             <li><a href="#" onclick="logout(); return false;">Logout</a></li>
         </ul>
@@ -919,9 +1040,25 @@
         <div id="masterCluesContent"></div>
     </section>
 
+    <!-- QR Scanner Modal -->
+    <div class="scanner-overlay" id="scannerOverlay">
+        <div class="scanner-header">Scan Evidence</div>
+        <div class="scanner-box" id="scannerBox"></div>
+        <div class="scanner-status" id="scannerStatus">Position the QR code within the frame</div>
+        <button class="scanner-close" onclick="closeScanner()">Cancel</button>
+    </div>
+
+    <!-- Skill Content Modal -->
+    <div class="skill-modal-overlay" id="skillModalOverlay" onclick="if(event.target===this)closeSkillModal()">
+        <div class="skill-modal" id="skillModalContent"></div>
+    </div>
+
     <footer>
         The Thoreson Estate — 1935
     </footer>
+
+    <!-- QR Scanner -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
@@ -1167,6 +1304,12 @@
                 if (userSession.role === 'master') {
                     document.getElementById('masterNav').style.display = 'block';
                     document.getElementById('masterclues').style.display = 'none';
+                }
+
+                // Show Scan nav for characters who have skills (not Bartender-only)
+                var scanSkills = getMySkills().filter(function(s) { return s !== 'Bartender'; });
+                if (scanSkills.length > 0) {
+                    document.getElementById('scanNav').style.display = 'block';
                 }
 
                 // Initialize session arrays if missing
@@ -1441,6 +1584,115 @@
             syncToFirebase();
             broadcastChannel.postMessage({ type: 'skillUpdate', discoveredSkills: userSession.discoveredSkills });
             loadMasterClues();
+        }
+
+        // ── QR SCANNER ──────────────────────────────────────────
+        let html5QrCode = null;
+
+        function openScanner() {
+            const overlay = document.getElementById('scannerOverlay');
+            overlay.classList.add('active');
+            document.getElementById('scannerStatus').textContent = 'Starting camera...';
+
+            html5QrCode = new Html5Qrcode('scannerBox');
+            html5QrCode.start(
+                { facingMode: 'environment' },
+                { fps: 10, qrbox: { width: 250, height: 250 } },
+                onScanSuccess,
+                function() {} // ignore scan failures (no QR in frame yet)
+            ).then(function() {
+                document.getElementById('scannerStatus').textContent = 'Position the QR code within the frame';
+            }).catch(function(err) {
+                document.getElementById('scannerStatus').textContent = 'Camera access denied. Please allow camera permissions.';
+                console.error('Scanner error:', err);
+            });
+        }
+
+        function closeScanner() {
+            if (html5QrCode) {
+                html5QrCode.stop().then(function() {
+                    html5QrCode.clear();
+                    html5QrCode = null;
+                }).catch(function() {
+                    html5QrCode = null;
+                });
+            }
+            document.getElementById('scannerOverlay').classList.remove('active');
+        }
+
+        function onScanSuccess(decodedText) {
+            // Stop scanning immediately
+            closeScanner();
+
+            // Parse QR code — expected format: THORESON:SkillName
+            if (!decodedText.startsWith('THORESON:')) {
+                showSkillDenied('Unrecognized Document', 'This does not appear to be a valid estate document.');
+                return;
+            }
+
+            var skillName = decodedText.substring(9); // everything after "THORESON:"
+            var skillData = skillsDatabase[skillName];
+
+            if (!skillData) {
+                showSkillDenied('Unknown Document', 'This document type is not recognized.');
+                return;
+            }
+
+            // Check if this user has the required skill
+            var mySkills = getMySkills();
+            if (!mySkills.includes(skillName)) {
+                showSkillDenied(
+                    'Restricted Document',
+                    'This document requires <strong>' + skillName.toLowerCase() + '</strong> expertise to analyze. Perhaps someone else at the table can help?'
+                );
+                return;
+            }
+
+            // User has the skill — show the expert content
+            showSkillContent(skillName, skillData);
+
+            // Write discovery to Firebase
+            markSkillDiscovered(skillName);
+        }
+
+        function showSkillContent(skillName, skillData) {
+            var modal = document.getElementById('skillModalContent');
+            var content = skillData.expert || skillData.summary;
+            modal.innerHTML =
+                '<div class="skill-badge">' + (skillData.badge || skillName) + '</div>' +
+                '<div class="reveal-header">' + (skillData.header || skillData.title) + '</div>' +
+                '<div class="reveal-content">' + content + '</div>' +
+                '<button class="skill-modal-close" onclick="closeSkillModal()">Close</button>';
+            document.getElementById('skillModalOverlay').classList.add('active');
+        }
+
+        function showSkillDenied(title, message) {
+            var modal = document.getElementById('skillModalContent');
+            modal.innerHTML =
+                '<div class="skill-denied">' +
+                    '<div>' + title + '</div>' +
+                    '<p>' + message + '</p>' +
+                '</div>' +
+                '<button class="skill-modal-close" onclick="closeSkillModal()">Close</button>';
+            document.getElementById('skillModalOverlay').classList.add('active');
+        }
+
+        function closeSkillModal() {
+            document.getElementById('skillModalOverlay').classList.remove('active');
+        }
+
+        function markSkillDiscovered(skillName) {
+            if (!database) return;
+            var key = skillName.toLowerCase() + 'Discovered';
+            database.ref('discoveredSkills').once('value').then(function(snapshot) {
+                var current = snapshot.val() || [];
+                if (current.indexOf(key) === -1) {
+                    current.push(key);
+                    database.ref('discoveredSkills').set(current)
+                        .then(function() { console.log('Skill discovered via scan:', key); })
+                        .catch(function(e) { console.error('Firebase write error:', e); });
+                }
+            });
         }
 
 
