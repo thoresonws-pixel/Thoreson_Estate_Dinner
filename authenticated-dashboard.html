@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Thoreson Estate">
     <title>The Thoreson Estate Dinner</title>
-    <!-- v14 -->
+    <!-- v15 -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -1303,13 +1303,13 @@
 
         let userSession = null;
 
-        console.log('Dashboard v14 loaded');
+        console.log('Dashboard v15 loaded');
 
         // Force clear old caches on load
         if ('caches' in window) {
             caches.keys().then(names => {
                 names.forEach(name => {
-                    if (name !== 'thoreson-estate-v14') {
+                    if (name !== 'thoreson-estate-v15') {
                         caches.delete(name);
                         console.log('Cleared old cache:', name);
                     }
@@ -1722,92 +1722,18 @@
 
         document.addEventListener('DOMContentLoaded', loadGuests);
     </script>
+    <!-- Firebase disabled until configured -->
+    <!--
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+    -->
     
     <script>
-        // Your Firebase config will go here
-        // REPLACE THIS with your actual Firebase config
-        const firebaseConfig = {
-            apiKey: "PLACEHOLDER_API_KEY",
-            authDomain: "PLACEHOLDER_AUTH_DOMAIN",
-            databaseURL: "PLACEHOLDER_DATABASE_URL",
-            projectId: "PLACEHOLDER_PROJECT_ID",
-            storageBucket: "PLACEHOLDER_STORAGE_BUCKET",
-            messagingSenderId: "PLACEHOLDER_MESSAGING_SENDER_ID",
-            appId: "PLACEHOLDER_APP_ID"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
+        // Firebase stubs - replace with real Firebase when ready
         let firebaseReady = false;
-
-        // Test Firebase connection
-        database.ref('.info/connected').on('value', (snapshot) => {
-            if (snapshot.val() === true) {
-                console.log('✓ Connected to Firebase');
-                firebaseReady = true;
-                // Load initial data from Firebase
-                loadFirebaseData();
-            } else {
-                console.log('✗ Firebase connection lost');
-                firebaseReady = false;
-            }
-        });
-
-        // Listen for revelation updates from Firebase
-        function listenForFirebaseUpdates() {
-            if (!firebaseReady) return;
-            
-            database.ref('revelations').on('value', (snapshot) => {
-                const revelations = snapshot.val() || [];
-                if (userSession && Array.isArray(revelations)) {
-                    userSession.activeRevelations = revelations;
-                    localStorage.setItem('userSession', JSON.stringify(userSession));
-                    if (document.getElementById('discoveriesContent')) {
-                        loadDiscoveriesData();
-                    }
-                }
-            });
-
-            database.ref('storyClues').on('value', (snapshot) => {
-                const clues = snapshot.val() || [];
-                if (userSession && Array.isArray(clues)) {
-                    userSession.unlockedStoryClues = clues;
-                    localStorage.setItem('userSession', JSON.stringify(userSession));
-                    if (document.getElementById('discoveriesContent')) {
-                        loadDiscoveriesData();
-                    }
-                }
-            });
-        }
-
-        // Load initial data from Firebase
-        function loadFirebaseData() {
-            if (!firebaseReady || !userSession) return;
-            
-            database.ref('revelations').once('value').then(snapshot => {
-                userSession.activeRevelations = snapshot.val() || [];
-                localStorage.setItem('userSession', JSON.stringify(userSession));
-            });
-
-            database.ref('storyClues').once('value').then(snapshot => {
-                userSession.unlockedStoryClues = snapshot.val() || [];
-                localStorage.setItem('userSession', JSON.stringify(userSession));
-            });
-        }
-
-        // Sync revelations to Firebase
-        function syncToFirebase() {
-            if (!firebaseReady || !userSession) return;
-            
-            database.ref('revelations').set(userSession.activeRevelations || [])
-                .catch(error => console.error('Firebase revelation sync error:', error));
-                
-            database.ref('storyClues').set(userSession.unlockedStoryClues || [])
-                .catch(error => console.error('Firebase story clue sync error:', error));
-        }
+        function listenForFirebaseUpdates() { /* Firebase not configured yet */ }
+        function loadFirebaseData() { /* Firebase not configured yet */ }
+        function syncToFirebase() { /* Firebase not configured yet */ }
     </script>
 
     <script>
