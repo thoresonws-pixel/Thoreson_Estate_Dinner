@@ -7,29 +7,78 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Cormorant Garamond', Georgia, serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100vh; color: #e8e8e8; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
         .container { width: 100%; max-width: 500px; }
-        .clue-box { background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%); border: 2px solid #8b7355; box-shadow: 0 0 0 1px #a08060, 0 0 0 4px #2a2520, 0 0 0 6px #8b7355, 0 15px 40px rgba(0,0,0,0.4); padding: 40px; text-align: center; }
-        .clue-title { font-family: 'Playfair Display', Georgia, serif; font-size: 24px; color: #2a2520; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .clue-box {
+            background: linear-gradient(145deg, #f5f0e6 0%, #e8e0d0 50%, #d4c9b5 100%);
+            border: 2px solid #8b7355;
+            box-shadow: 0 0 0 1px #a08060, 0 0 0 4px #2a2520, 0 0 0 6px #8b7355, 0 15px 40px rgba(0,0,0,0.4);
+            padding: 40px;
+            text-align: center;
+        }
+        .clue-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 24px; color: #2a2520;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+        }
         .clue-subtitle { font-size: 16px; color: #8b7355; font-style: italic; margin-bottom: 30px; }
         .password-group { display: flex; flex-direction: column; gap: 15px; align-items: center; }
-        .password-input { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; padding: 12px 15px; border: 1px solid #8b7355; background: rgba(255,255,255,0.7); color: #2a2520; text-align: center; text-transform: uppercase; letter-spacing: 3px; width: 100%; max-width: 250px; outline: none; }
+        .password-input {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 20px; padding: 12px 15px;
+            border: 1px solid #8b7355; background: rgba(255,255,255,0.7);
+            color: #2a2520; text-align: center;
+            text-transform: uppercase; letter-spacing: 3px;
+            width: 100%; max-width: 250px; outline: none;
+        }
         .password-input:focus { border-color: #c9a227; background: rgba(255,255,255,0.9); }
         .password-input::placeholder { text-transform: none; letter-spacing: 1px; color: #8b7355; }
-        .submit-btn { font-family: 'Playfair Display', Georgia, serif; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; padding: 12px 30px; background: #2a2520; color: #e8e0d0; border: 2px solid #8b7355; cursor: pointer; }
+        .submit-btn {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 14px; letter-spacing: 2px; text-transform: uppercase;
+            padding: 12px 30px; background: #2a2520; color: #e8e0d0;
+            border: 2px solid #8b7355; cursor: pointer; transition: all 0.3s;
+        }
         .submit-btn:hover { background: #8b7355; color: #f5f0e6; }
         .error-msg { color: #8b4a4a; font-style: italic; margin-top: 15px; display: none; }
         .locked-content { display: block; }
         .unlocked-content { display: none; }
         .clue-box.unlocked .locked-content { display: none; }
         .clue-box.unlocked .unlocked-content { display: block; }
-        .reveal-header { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #2a2520; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #8b7355; }
+        .reveal-header {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 20px; color: #2a2520; margin-bottom: 20px;
+            padding-bottom: 15px; border-bottom: 1px solid #8b7355;
+        }
         .reveal-content { font-size: 18px; color: #3a3028; line-height: 1.8; text-align: left; }
         .reveal-content p { margin-bottom: 15px; }
-        .reveal-highlight { background: rgba(201,162,39,0.2); padding: 15px; border-left: 3px solid #c9a227; margin: 20px 0; font-style: italic; }
-        .reveal-danger { background: rgba(139,74,74,0.2); padding: 15px; border-left: 3px solid #8b4a4a; margin: 20px 0; font-style: italic; }
-        .letter-text { background: rgba(201,162,39,0.15); padding: 20px; border: 1px solid rgba(201,162,39,0.3); margin: 20px 0; font-style: italic; line-height: 2; }
-        .skill-badge { display: inline-block; background: #2a2520; color: #c9a227; padding: 5px 15px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+        .reveal-highlight {
+            background: rgba(201, 162, 39, 0.2); padding: 15px;
+            border-left: 3px solid #c9a227; margin: 20px 0; font-style: italic;
+        }
+        .reveal-danger {
+            background: rgba(139, 74, 74, 0.2); padding: 15px;
+            border-left: 3px solid #8b4a4a; margin: 20px 0; font-style: italic;
+        }
+        .letter-text {
+            background: rgba(201, 162, 39, 0.15); padding: 20px;
+            border: 1px solid rgba(201, 162, 39, 0.3); margin: 20px 0;
+            font-style: italic; line-height: 2;
+        }
+        .skill-badge {
+            display: inline-block; background: #2a2520; color: #c9a227;
+            padding: 5px 15px; font-size: 12px; letter-spacing: 2px;
+            text-transform: uppercase; margin-bottom: 20px;
+        }
         .error-page { text-align: center; padding: 40px; color: #8b7355; }
         .error-page h2 { font-family: 'Playfair Display', Georgia, serif; margin-bottom: 15px; }
     </style>
@@ -42,6 +91,7 @@
     </div>
 
     <script src="../skills.js"></script>
+    <script src="../characters.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
     <script>
@@ -62,10 +112,13 @@
         const params = new URLSearchParams(window.location.search);
         const skillKey = params.get('skill');
 
-        function userHasSkill() {
+        // Check if scanner has this skill — reads from characters.js, not session
+        function scannerHasSkill() {
             try {
                 const session = JSON.parse(localStorage.getItem('userSession'));
-                return session && session.skills && session.skills.includes(skillKey);
+                if (!session || !session.username) return false;
+                const charData = characterDatabase[session.username];
+                return charData && charData.skills && charData.skills.includes(skillKey);
             } catch(e) { return false; }
         }
         
@@ -82,11 +135,31 @@
             
             if (!skill.password) {
                 box.classList.add('unlocked');
-                content.innerHTML = '<div class="locked-content"></div><div class="unlocked-content"><div class="skill-badge">' + skill.badge + '</div><div class="reveal-header">' + skill.header + '</div><div class="reveal-content">' + (skill.expert || skill.summary) + '</div></div>';
+                content.innerHTML =
+                    '<div class="locked-content"></div>' +
+                    '<div class="unlocked-content">' +
+                        '<div class="skill-badge">' + skill.badge + '</div>' +
+                        '<div class="reveal-header">' + skill.header + '</div>' +
+                        '<div class="reveal-content">' + (skill.expert || skill.summary) + '</div>' +
+                    '</div>';
                 return;
             }
             
-            content.innerHTML = '<div class="locked-content"><div class="clue-title">' + skill.lockedTitle + '</div><div class="clue-subtitle">' + skill.lockedSubtitle + '</div><div class="password-group"><input type="password" id="passwordInput" class="password-input" placeholder="Enter Password"><button onclick="checkPassword()" class="submit-btn">Analyze</button></div><div class="error-msg" id="errorMsg">' + skill.errorMsg + '</div></div><div class="unlocked-content"><div class="skill-badge">' + skill.badge + '</div><div class="reveal-header">' + skill.header + '</div><div class="reveal-content">' + skill.expert + '</div></div>';
+            content.innerHTML =
+                '<div class="locked-content">' +
+                    '<div class="clue-title">' + skill.lockedTitle + '</div>' +
+                    '<div class="clue-subtitle">' + skill.lockedSubtitle + '</div>' +
+                    '<div class="password-group">' +
+                        '<input type="password" id="passwordInput" class="password-input" placeholder="Enter Password">' +
+                        '<button onclick="checkPassword()" class="submit-btn">Analyze</button>' +
+                    '</div>' +
+                    '<div class="error-msg" id="errorMsg">' + skill.errorMsg + '</div>' +
+                '</div>' +
+                '<div class="unlocked-content">' +
+                    '<div class="skill-badge">' + skill.badge + '</div>' +
+                    '<div class="reveal-header">' + skill.header + '</div>' +
+                    '<div class="reveal-content">' + skill.expert + '</div>' +
+                '</div>';
             
             document.getElementById('passwordInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') checkPassword();
@@ -94,14 +167,14 @@
         }
         
         function checkPassword() {
-            const skill = skillsDatabase[skillKey];
-            const input = document.getElementById('passwordInput');
-            const error = document.getElementById('errorMsg');
-            const box = document.getElementById('clueBox');
+            var skill = skillsDatabase[skillKey];
+            var input = document.getElementById('passwordInput');
+            var error = document.getElementById('errorMsg');
+            var box = document.getElementById('clueBox');
             
             if (input.value.toLowerCase() === skill.password.toLowerCase()) {
                 box.classList.add('unlocked');
-                if (userHasSkill()) {
+                if (scannerHasSkill()) {
                     markDiscovered(skillKey);
                 }
             } else {
@@ -115,7 +188,7 @@
             var key = skillName.toLowerCase() + 'Discovered';
             database.ref('discoveredSkills').once('value').then(function(snapshot) {
                 var current = snapshot.val() || [];
-                if (!current.includes(key)) {
+                if (current.indexOf(key) === -1) {
                     current.push(key);
                     database.ref('discoveredSkills').set(current)
                         .then(function() { console.log('Skill discovered:', key); })
