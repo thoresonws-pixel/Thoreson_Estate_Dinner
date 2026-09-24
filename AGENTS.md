@@ -36,4 +36,7 @@ Test story independence meaningfully when changing loaders or shared flow behavi
 - Main deploys to development only. Production changes require a deliberate release. Never copy local emulator identities, snapshots, or unsigned tokens to a hosted environment.
 - Story content stays in packages. Extract affected legacy components incrementally rather than creating parallel engines.
 
+## Existing implementation
+
 Some existing code predates this rule and hardcodes Thoreson content, including the initial estate TV prototype. Do not describe that code as already compliant. When modifying an affected area, move its story-specific dependencies behind the package boundary as part of the change. Avoid unrelated wholesale rewrites; document remaining legacy coupling explicitly.
+
