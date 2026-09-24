@@ -24,8 +24,6 @@ Before considering work complete, ask: **Could another story use this feature by
 
 Test story independence meaningfully when changing loaders or shared flow behavior, using a small alternate fixture story where appropriate. Tests must not assume a particular estate, character, room count, or act order is universal.
 
-## Existing implementation
-
 ## Collaboration requirements
 
 - Read CONTRIBUTING.md. Work on a scoped feature branch, not directly on main.
