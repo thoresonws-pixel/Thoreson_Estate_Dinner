@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "thoreson-estate-dev",
+    "public": "dist/development",
+    "ignore": ["**/.*"],
+    "headers": [{"source":"**","headers":[
+      {"key":"Cache-Control","value":"no-store"},
+      {"key":"X-Robots-Tag","value":"noindex, nofollow"},
+      {"key":"Content-Security-Policy","value":"connect-src 'self' https://*.googleapis.com https://thoreson-estate-dev-default-rtdb.firebaseio.com wss://thoreson-estate-dev-default-rtdb.firebaseio.com https://*.firebasedatabase.app wss://*.firebasedatabase.app; worker-src 'none'"}
+    ]}]
+  },
+  "database": {"rules":"config/database.dev.rules.json"},
+  "auth": {
+    "authorizedDomains": ["localhost","thoreson-estate-dev.web.app","thoreson-estate-dev.firebaseapp.com"],
+    "providers": {"emailPassword":true,"googleSignIn":{"oAuthBrandDisplayName":"Thoreson Development","supportEmail":"thoresonws@gmail.com"}}
+  }
+}

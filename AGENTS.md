@@ -26,4 +26,14 @@ Test story independence meaningfully when changing loaders or shared flow behavi
 
 ## Existing implementation
 
+## Collaboration requirements
+
+- Read CONTRIBUTING.md. Work on a scoped feature branch, not directly on main.
+- Preserve uncommitted work. Do not reset, clean, force-push, or overwrite another contributor's changes.
+- Coordinate overlapping modules and package contract changes through an issue or PR. Avoid unrelated formatting/refactors.
+- Run `npm test` and relevant Player Lab checks. Add regression coverage for consequential multiplayer/state changes.
+- Submit a PR; main requires CI and human review. Do not bypass protections for routine feature work.
+- Main deploys to development only. Production changes require a deliberate release. Never copy local emulator identities, snapshots, or unsigned tokens to a hosted environment.
+- Story content stays in packages. Extract affected legacy components incrementally rather than creating parallel engines.
+
 Some existing code predates this rule and hardcodes Thoreson content, including the initial estate TV prototype. Do not describe that code as already compliant. When modifying an affected area, move its story-specific dependencies behind the package boundary as part of the change. Avoid unrelated wholesale rewrites; document remaining legacy coupling explicitly.

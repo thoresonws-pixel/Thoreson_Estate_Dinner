@@ -1,5 +1,20 @@
 {
   "dependencies": {
     "firebase": "^12.9.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "firebase-tools": "15.31.0"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22 <25"
+  },
+  "scripts": {
+    "dev": "node dev-lab/start.cjs",
+    "check": "node scripts/check.cjs",
+    "test": "npm run check && node --test tests/*.test.cjs",
+    "build:dev": "node scripts/build-dev.cjs",
+    "test:lab": "playwright test"
   }
 }

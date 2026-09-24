@@ -17,3 +17,9 @@ firebase-export-*/
 .DS_Store
 Thumbs.db
 *.tmp
+
+dist/
+test-results/
+playwright-report/
+
+gha-creds-*.json

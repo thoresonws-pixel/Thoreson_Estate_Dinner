@@ -1,7 +1,7 @@
 const fs=require('fs'),path=require('path'),http=require('http'),{spawn}=require('child_process');
 const {changeGame}=require('./controls.cjs');
 const root=path.resolve(__dirname,'..'),workspace=path.dirname(root),stateDir=path.join(workspace,'.player-lab-work/state');
-const storyId=process.argv[2];if(!/^[a-z0-9_]+$/.test(storyId||''))throw Error('Usage: node dev-lab/start.cjs <story_id>');
+const storyId=process.argv[2]||JSON.parse(fs.readFileSync(path.join(__dirname,'launch.json'))).storyId;if(!/^[a-z0-9_]+$/.test(storyId||''))throw Error('Usage: node dev-lab/start.cjs <story_id>');
 const story=JSON.parse(fs.readFileSync(path.join(root,'stories',storyId,'package.json'))),experience=JSON.parse(fs.readFileSync(path.join(root,'stories',storyId,story.experienceFile||'experience.json')));
 const project='demo-mystery-lab',namespace=project+'-default-rtdb',gameId='lab_'+storyId,hostUid='lab_host';
 const players=Object.entries(story.content.characters).map(([id,c])=>({uid:'lab_'+id,characterId:id,name:c.name,email:'lab_'+id+'@example.invalid'}));
@@ -10,11 +10,9 @@ fs.mkdirSync(stateDir,{recursive:true});
 const dbUrl='http://127.0.0.1:9000/.json?ns='+namespace,headers={Authorization:'Bearer owner','Content-Type':'application/json'};
 function token(uid){const now=Math.floor(Date.now()/1000);return Buffer.from(JSON.stringify({alg:'none',typ:'JWT'})).toString('base64url')+'.'+Buffer.from(JSON.stringify({iss:'lab@example.invalid',sub:'lab@example.invalid',aud:'https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit',iat:now,exp:now+3600,uid})).toString('base64url')+'.';}
 async function wait(url){for(let i=0;i<120;i++){try{await fetch(url);return;}catch{}await new Promise(r=>setTimeout(r,1000));}throw Error('Emulator did not start: '+url);}
-const javaDir=fs.readdirSync(path.join(workspace,'.player-lab-work/runtime'),{withFileTypes:true}).find(e=>e.isDirectory()&&e.name.startsWith('jdk-'))?.name;
-if(!javaDir)throw Error('Install Java 21 into .player-lab-work/runtime first.');
-const javaHome=path.join(workspace,'.player-lab-work/runtime',javaDir),cli=path.join(process.env.APPDATA,'npm/node_modules/firebase-tools/lib/bin/firebase.js');
+const {cli,env}=require('./runtime.cjs').runtime(workspace);
 const emulatorConfig=JSON.parse(fs.readFileSync(path.join(__dirname,'firebase.json')));emulatorConfig.database.rules='database.rules.json';fs.copyFileSync(path.join(root,'database.rules.json'),path.join(stateDir,'database.rules.json'));fs.writeFileSync(path.join(stateDir,'firebase.json'),JSON.stringify(emulatorConfig));
-const emulator=spawn(process.execPath,[cli,'emulators:start','--only','auth,database','--project',project,'--config',path.join(stateDir,'firebase.json')],{cwd:stateDir,env:{...process.env,JAVA_HOME:javaHome,PATH:path.join(javaHome,'bin')+path.delimiter+process.env.PATH},windowsHide:true,stdio:['ignore','pipe','pipe']});
+const emulator=spawn(process.execPath,[cli,'emulators:start','--only','auth,database','--project',project,'--config',path.join(stateDir,'firebase.json')],{cwd:stateDir,env,windowsHide:true,stdio:['ignore','pipe','pipe']});
 const log=fs.createWriteStream(path.join(stateDir,'emulators.log'),{flags:'a'});emulator.stdout.pipe(log);emulator.stderr.pipe(log);
 let server,interval;const snapshotFile=path.join(stateDir,'database.json');
 async function snapshot(){const r=await fetch(dbUrl,{headers});if(!r.ok)throw Error('Cannot persist local state');const text=await r.text();fs.writeFileSync(snapshotFile+'.tmp',text);fs.renameSync(snapshotFile+'.tmp',snapshotFile);}
