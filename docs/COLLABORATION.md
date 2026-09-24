@@ -61,6 +61,18 @@ Test the combined result even when Git merges cleanly. Two individually correct 
 
 ## Review and integrate
 
+### Checkpoint and integration policy
+
+Checkpoint automatically when a feature is ready for the user to test, the user accepts a working result, work moves to another task, or a session ends. This is event-based, not a timer that commits arbitrary unfinished files. Do not wait for the user to remember to ask for GitHub updates.
+
+1. Review the scoped diff, preserve unrelated work, and run appropriate validation. Commit and push the task branch before saying a testing checkpoint is ready. Verify the remote contains the checkpoint commit. If publishing fails, label the result **local only** and explain the blocker. Unfinished work may be pushed in a draft PR with failures and remaining work disclosed.
+2. Update the PR and inspect its current head, base, required checks, reviews, mergeability, unresolved review conversations and dependencies. A blank review decision on an unprotected feature-branch base is not approval. A user's "looks good" or "next step" triggers this assessment; it does not substitute for the required GitHub human review.
+3. If scope is complete, the PR targets main, prerequisites are integrated, the latest head has valid human approval and passing required checks, conflicts/conversations are resolved, and compatibility or development-deployment prerequisites are satisfied, the assistant may squash-merge it as part of this authorized workflow. Recheck the current head immediately before merging and use head-matching protection where supported. Never use an administrator bypass, direct push to main, or force push. Do not merge unrelated or another owner's unfinished work just because it is open.
+4. If it is not eligible, proactively report the precise next action: for example, "Pushed and tested; ready for your collaborator's review" or "Waiting for prerequisite PR #N to merge." Do not silently accumulate dependent work. Prefer an independent task from main while review is pending; if further dependent work is necessary, declare that dependency explicitly.
+5. After merging, verify the merge result and inspect development deployment status. Report **merged; deployment pending/failed** when appropriate, rather than claiming the online version is updated. Production remains a separate deliberate release. Start subsequent work from updated main, preserving any remaining local work.
+
+This policy grants routine checkpoint publication and eligible integration; it does not install a background scheduler or waive human review. No repeated merge-permission prompt is needed after these conditions are met. If the user explicitly asks to keep work local or defer integration, honor that instruction and note it in the handoff.
+
 Run `npm run test:all` for a ready PR, with focused manual Player Lab checks for affected TV/phone interactions. Shared engine changes also need meaningful alternate-story coverage. Review the final diff for unrelated edits, migrations, privacy and story independence. CI must pass and another human must approve; an AI review is useful preparation, not a substitute.
 
 After squash merge, start new work from updated main. Do not continue using the old feature branch: its original commits differ from the squash commit. Confirm work was merged or backed up before deleting branches or worktrees. Keep local game snapshots outside Git.
