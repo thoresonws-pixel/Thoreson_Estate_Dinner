@@ -10,5 +10,6 @@ test('production publishes from an explicit build, never the authoring repositor
  assert.equal(JSON.parse(fs.readFileSync('firebase.json')).hosting.public,'dist/production');
  require('../scripts/build-production.cjs');
  const {catalog}=require('../scripts/story-boundaries.cjs');
- for(const [id,p]of Object.entries(catalog(process.cwd()))){const paths=['dist/production','dist/development'];for(const prefix of paths){const file=prefix+'/stories/'+id+'/package.json';if(!fs.existsSync(file))continue;const body=fs.readFileSync(file,'utf8')+(p.story.experienceFile?fs.readFileSync(prefix+'/stories/'+id+'/'+p.story.experienceFile,'utf8'):'');for(const m of Object.values(p.memories))assert.ok(!body.includes(JSON.stringify(m.text).slice(1,-1)),id+' contains private text');}}
+ // Only inspect this test's completed build; the development test builds concurrently.
+ for(const [id,p]of Object.entries(catalog(process.cwd()))){const prefix='dist/production',file=prefix+'/stories/'+id+'/package.json';const body=fs.readFileSync(file,'utf8')+(p.story.experienceFile?fs.readFileSync(prefix+'/stories/'+id+'/'+p.story.experienceFile,'utf8'):'');for(const m of Object.values(p.memories))assert.ok(!body.includes(JSON.stringify(m.text).slice(1,-1)),id+' contains private text');}
 });
