@@ -1,0 +1,8 @@
+{
+  "projectId": "thoreson-estate-dev",
+  "apiKey": "AIzaSyDus3HyrkIV1fxeE_iUCeM24vS7fE6XMMo",
+  "appId": "1:634959998634:web:c6da20381397dab56eaad3",
+  "messagingSenderId": "634959998634",
+  "authDomain": "thoreson-estate-dev.firebaseapp.com",
+  "databaseURL": "https://thoreson-estate-dev-default-rtdb.firebaseio.com"
+}

@@ -1,0 +1,205 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin'))",
+        ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin'))"
+      }
+    },
+    "games": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".indexOn": [
+        "createdBy",
+        "createdAt",
+        "partyCode"
+      ],
+      "$gameId": {
+        ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && ((!data.exists() && newData.child(\"createdBy\").val() === auth.uid) || data.child(\"createdBy\").val() === auth.uid || data.child(\"players\").child(auth.uid).exists())",
+        ".validate": "!data.exists() || (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('storyId').val() === data.child('storyId').val() && newData.child('unlockId').val() === data.child('unlockId').val() && newData.child('gameMode').val() === data.child('gameMode').val())",
+        "players": {
+          "$uid": {
+            ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && auth.uid === $uid && !data.exists()"
+          }
+        }
+      }
+    },
+    "partyCodeIndex": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (true)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)"
+    },
+    "venues": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (true)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin')"
+    },
+    "cancelledGames": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin')",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin')"
+    },
+    "adminInvites": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin')",
+      "$code": {
+        ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (true)"
+      }
+    },
+    "photos": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "scans": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "scanLog": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "survey": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin')",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "activeItems": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "bathroomScans": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "memoryReset": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "appVersion": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "testMode": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "$other": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin')",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)"
+    },
+    "hostAccess": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true)",
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true)",
+      "$uid": {
+        ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && auth.uid === $uid)"
+      }
+    },
+    "hostAccessRequests": {
+      ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true)",
+      "$uid": {
+        ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && ((auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true) || (auth != null && auth.uid === $uid))",
+        ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && ((auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && auth.uid === $uid && !data.exists())",
+        ".validate": "newData.hasChildren(['email','displayName','requestedAt'])",
+        "email": {
+          ".validate": "newData.isString() && newData.val() === auth.token.email"
+        },
+        "displayName": {
+          ".validate": "newData.isString() && newData.val().length <= 200"
+        },
+        "requestedAt": {
+          ".validate": "newData.isNumber() && newData.val() <= now && newData.val() > now - 60000"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "gameUnlockKeys": {
+      "$key": {
+        ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && auth.token.firebase.sign_in_provider !== 'anonymous')",
+        ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && ((auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && data.exists() && data.child('active').val() === true && (!data.child('ownerUid').exists() || data.child('ownerUid').val() === auth.uid) && newData.child('ownerUid').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['id','storyId','gameMode','active','issuedAt','ownerUid','claimedAt'])",
+        "id": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "storyId": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "gameMode": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "active": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "issuedAt": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "ownerUid": {
+          ".validate": "newData.val() === auth.uid"
+        },
+        "claimedAt": {
+          ".validate": "newData.isNumber() && (data.exists() ? newData.val() === data.val() : newData.val() === now)"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "accountGameUnlocks": {
+      "$uid": {
+        ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && auth.uid === $uid)",
+        "$unlockId": {
+          ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && ((auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && auth.uid === $uid)",
+          ".validate": "newData.hasChildren(['key','storyId','gameMode','claimedAt']) && root.child('gameUnlockKeys').child(newData.child('key').val()).child('id').val() === $unlockId && root.child('gameUnlockKeys').child(newData.child('key').val()).child('ownerUid').val() === auth.uid && root.child('gameUnlockKeys').child(newData.child('key').val()).child('active').val() === true && root.child('gameUnlockKeys').child(newData.child('key').val()).child('storyId').val() === newData.child('storyId').val() && root.child('gameUnlockKeys').child(newData.child('key').val()).child('gameMode').val() === newData.child('gameMode').val()",
+          "key": {
+            ".validate": "newData.isString() && newData.val().length === 16"
+          },
+          "storyId": {
+            ".validate": "newData.isString()"
+          },
+          "gameMode": {
+            ".validate": "newData.isString()"
+          },
+          "claimedAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    },
+    "hostInvitations": {
+      "$gameId": {
+        ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid)",
+        ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid)",
+        "$inviteId": {
+          ".validate": "newData.hasChildren(['name','email','addedAt'])",
+          "name": {
+            ".validate": "newData.isString() && newData.val().length <= 100"
+          },
+          "email": {
+            ".validate": "newData.isString() && newData.val().length <= 254"
+          },
+          "addedAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "sentAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "$other": {
+            ".validate": false
+          },
+          "playerUid": {
+            ".validate": "newData.isString() && newData.val().length <= 128"
+          }
+        }
+      }
+    },
+    "developerAccess": {
+      ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (false)",
+      "$uid": {
+        ".read": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && (auth != null && auth.uid === $uid && auth.token.email_verified === true)"
+      }
+    },
+    "devMembers": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}

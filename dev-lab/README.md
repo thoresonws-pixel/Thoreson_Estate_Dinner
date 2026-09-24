@@ -22,7 +22,7 @@ Stop gracefully with:
 Invoke-WebRequest -Method Post http://127.0.0.1:5173/__lab/stop
 ```
 
-Prerequisites: Node.js, Firebase CLI, and the portable Java 21 runtime installed in `../../.player-lab-work/runtime`. The runtime was downloaded from Adoptium and SHA-256 checked against its published package metadata. Emulator and server logs are in the local state directory. `dev-lab/**` is excluded from Firebase Hosting.
+Prerequisites: Node.js 22 and Java 21. Run `npm ci` once, then `npm run dev` on Windows, macOS or Linux. Firebase CLI is installed from the lockfile. Java is found through JAVA_HOME or PATH; this computer's existing portable runtime is also supported. Emulator and server logs are in the local state directory. `dev-lab/**` is excluded from Firebase Hosting.
 
 Validation uses real emulated authentication and the shared phone action code: private inventory isolation and persistence across switches, character-only memory delivery, selected-UID puzzle-win attribution, and independent host identity. It is a testing workspace, not a claim that production authorization is fully hardened.
 
@@ -34,3 +34,11 @@ Validation uses real emulated authentication and the shared phone action code: p
 - Inspecting the billiards table assigns a personal toy to each player once. Find the Bird owner in Personal inventory. Everyone can open Play billiards or View puzzle board. Only the Bird owner's successful four-letter routine unlocks the drawer. Toys remain attached to their test accounts when switching.
 
 These changes run locally; they have not been published to the public website.
+
+### Toolbar controls
+
+Reset game clears local game/player progress (including discoveries, inventory and puzzles), keeps test identities, and starts at the story package's first step after confirmation. Progress story follows the current step's next transition immediately, bypassing timers. Jump to / Go selects any defined story step while retaining discoveries. These controls only write to the local emulator. Reload any separately opened TV/player pages after reset to clear their temporary UI state.
+
+
+All players collapses the embedded TV and opens one independent phone panel per story character in a scrollable grid, initially on Actions. The TV stays connected; use Open TV separately on another monitor. Show Actions on all returns every panel to Actions. TV + selected player closes the extra phone sessions. Single-player switching keeps the most recently selected tab. During non-investigation story phases, normal story screens still take priority.
+

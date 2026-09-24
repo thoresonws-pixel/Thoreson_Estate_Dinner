@@ -6,7 +6,18 @@
       "**/.*",
       "**/node_modules/**",
       "dev-lab/**",
-      "functions/**"
+      "functions/**",
+      "scripts/**",
+      "tests/**",
+      "config/**",
+      "development/**",
+      "dist/**",
+      "firebase.dev.json",
+      "package*.json",
+      "CONTRIBUTING.md",
+      "AGENTS.md",
+      "gha-creds-*.json",
+      "playwright.config.cjs"
     ],
     "headers": [
       {
