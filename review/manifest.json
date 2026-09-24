@@ -5,307 +5,307 @@
     {
       "original": "characters.js",
       "retained": "review/legacy/characters.js",
-      "sha256": "e3c1c442628b9d7b3898728629fb07f00f0547501178e3521c7f6045d947ddfb",
+      "sha256": "a110e2dd37b43d219a22beab7f957b2b9e7f0fc85cf5464fabf710f17dce2855",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "items.js",
       "retained": "review/legacy/items.js",
-      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "sha256": "5395c649f6ee3afcf9998b3850671eec3b081b507c118dde09bd7ebf6bed8453",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "revelations.js",
       "retained": "review/legacy/revelations.js",
-      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "sha256": "dd45ab6239c38abee634a2afcf3d0a61c16071cf881724ca8fd32d169261b215",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "skills.js",
       "retained": "review/legacy/skills.js",
-      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "sha256": "0d01495735e9fa88c2bf317f9083270b9b9e2a7ffee088b3a12681d230171077",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/_template/characters.js",
       "retained": "review/legacy/stories/_template/characters.js",
-      "sha256": "c82f8ea9ddfe4f8002cc747f83202628c26c238cdcae30d5466be07190eecf9d",
+      "sha256": "74c2b817eacbf748369ec75b2d76a7ee01da61a799b3007fb35e29a4be78e643",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/_template/items.js",
       "retained": "review/legacy/stories/_template/items.js",
-      "sha256": "32ef050ee7f4ea4a69ec8bc3a689574f15274dc8a9fd7cf97e371cedb72a2693",
+      "sha256": "793f6c3b7bcea6b2a0dfe070db6febb238c16666f7e4552df3bcba2f475ec185",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/_template/menu.js",
       "retained": "review/legacy/stories/_template/menu.js",
-      "sha256": "bb9e4a7d85d956e01ee3d1dab9fe17996275b490aef9438a6a591ce59aafa211",
+      "sha256": "c9114a38adcf8611555799b37b5207149165a1f5ccf096eb33ac908a5bb15674",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/_template/revelations.js",
       "retained": "review/legacy/stories/_template/revelations.js",
-      "sha256": "932daf8f99abed36c429c88e7d8a72bada2fdde865ac1f21e0452e478d489360",
+      "sha256": "cb04f36de86716c5859bc449e8c69e64b88a4da26585bf77eb632a2a931aa000",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/_template/skills.js",
       "retained": "review/legacy/stories/_template/skills.js",
-      "sha256": "c0bb56be7d3f9287f1f14b5fb55a74278dadeec5f6c1e837c8334891b02e163a",
+      "sha256": "4e1dcba8846a28da7bacd4262c2d814d4392292ce59e4f9f956506b34c58ca2a",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/devereaux_masquerade/characters.js",
       "retained": "review/legacy/stories/devereaux_masquerade/characters.js",
-      "sha256": "e3c1c442628b9d7b3898728629fb07f00f0547501178e3521c7f6045d947ddfb",
+      "sha256": "a110e2dd37b43d219a22beab7f957b2b9e7f0fc85cf5464fabf710f17dce2855",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/devereaux_masquerade/facts.js",
       "retained": "review/legacy/stories/devereaux_masquerade/facts.js",
-      "sha256": "e8460f0f7855bf526db1fa0b85852f7970c935d2be87717a2b687d2e4cd1d9ca",
+      "sha256": "568d05f4e3e0cdc85660202711d2aa4a089253815db7a8072e37ea0f87a4c20f",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/devereaux_masquerade/flow.js",
       "retained": "review/legacy/stories/devereaux_masquerade/flow.js",
-      "sha256": "d60e95262b6ba17f044dc0a8d89f0b227ad9387662fb860764687b6354351349",
+      "sha256": "08e478a876712b64e44284175ebaa7a39315925c74aebfe17902ccc330277530",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/devereaux_masquerade/items.js",
       "retained": "review/legacy/stories/devereaux_masquerade/items.js",
-      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "sha256": "5395c649f6ee3afcf9998b3850671eec3b081b507c118dde09bd7ebf6bed8453",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/devereaux_masquerade/quests.js",
       "retained": "review/legacy/stories/devereaux_masquerade/quests.js",
-      "sha256": "3c6d1dcd68c484e492ff8929196c581ff62a79a3b94598d54eb244dc604a5e3a",
+      "sha256": "af89274994ca57e287566fce31d47e53eb1394d30db591aa43b09476eeeddfc2",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/devereaux_masquerade/revelations.js",
       "retained": "review/legacy/stories/devereaux_masquerade/revelations.js",
-      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "sha256": "dd45ab6239c38abee634a2afcf3d0a61c16071cf881724ca8fd32d169261b215",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/devereaux_masquerade/roles.js",
       "retained": "review/legacy/stories/devereaux_masquerade/roles.js",
-      "sha256": "6e70b26a96e460a32d394ccca8ba12e330fcfe58836448c34d90f6e034bbe554",
+      "sha256": "4d3d9c2aa77a25f83eab292dae9a5817178d0eed2c3afc360ecaf57213f47ca2",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/devereaux_masquerade/skills.js",
       "retained": "review/legacy/stories/devereaux_masquerade/skills.js",
-      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "sha256": "0d01495735e9fa88c2bf317f9083270b9b9e2a7ffee088b3a12681d230171077",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/last_train_wicker_park/characters.js",
       "retained": "review/legacy/stories/last_train_wicker_park/characters.js",
-      "sha256": "e3c1c442628b9d7b3898728629fb07f00f0547501178e3521c7f6045d947ddfb",
+      "sha256": "a110e2dd37b43d219a22beab7f957b2b9e7f0fc85cf5464fabf710f17dce2855",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/last_train_wicker_park/facts.js",
       "retained": "review/legacy/stories/last_train_wicker_park/facts.js",
-      "sha256": "e8460f0f7855bf526db1fa0b85852f7970c935d2be87717a2b687d2e4cd1d9ca",
+      "sha256": "568d05f4e3e0cdc85660202711d2aa4a089253815db7a8072e37ea0f87a4c20f",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/last_train_wicker_park/flow.js",
       "retained": "review/legacy/stories/last_train_wicker_park/flow.js",
-      "sha256": "d60e95262b6ba17f044dc0a8d89f0b227ad9387662fb860764687b6354351349",
+      "sha256": "08e478a876712b64e44284175ebaa7a39315925c74aebfe17902ccc330277530",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/last_train_wicker_park/items.js",
       "retained": "review/legacy/stories/last_train_wicker_park/items.js",
-      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "sha256": "5395c649f6ee3afcf9998b3850671eec3b081b507c118dde09bd7ebf6bed8453",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/last_train_wicker_park/quests.js",
       "retained": "review/legacy/stories/last_train_wicker_park/quests.js",
-      "sha256": "3c6d1dcd68c484e492ff8929196c581ff62a79a3b94598d54eb244dc604a5e3a",
+      "sha256": "af89274994ca57e287566fce31d47e53eb1394d30db591aa43b09476eeeddfc2",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/last_train_wicker_park/revelations.js",
       "retained": "review/legacy/stories/last_train_wicker_park/revelations.js",
-      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "sha256": "dd45ab6239c38abee634a2afcf3d0a61c16071cf881724ca8fd32d169261b215",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/last_train_wicker_park/roles.js",
       "retained": "review/legacy/stories/last_train_wicker_park/roles.js",
-      "sha256": "6e70b26a96e460a32d394ccca8ba12e330fcfe58836448c34d90f6e034bbe554",
+      "sha256": "4d3d9c2aa77a25f83eab292dae9a5817178d0eed2c3afc360ecaf57213f47ca2",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/last_train_wicker_park/skills.js",
       "retained": "review/legacy/stories/last_train_wicker_park/skills.js",
-      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "sha256": "0d01495735e9fa88c2bf317f9083270b9b9e2a7ffee088b3a12681d230171077",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/characters.js",
       "retained": "review/legacy/stories/thoreson_estate_dinner/characters.js",
-      "sha256": "12fb1ee3165d0db5ed4e3b273b63af129acfc71a4d7c874341ee4cc00f0253ee",
+      "sha256": "f7e6deca0466c95f35cc0a6e8560beac627b1f02311093b1308cf347f27bade5",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/characters.js.bak",
       "retained": "review/legacy/stories/thoreson_estate_dinner/characters.js.bak",
-      "sha256": "1aa04dcaff1e181adacea0fc563da80083894070f8773aafa20903d3b1dd962f",
+      "sha256": "87401c81b04d2c35097b6b170b139b749f63219f634578dce5a85e8939a4f3c6",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/facts.js",
       "retained": "review/legacy/stories/thoreson_estate_dinner/facts.js",
-      "sha256": "e8460f0f7855bf526db1fa0b85852f7970c935d2be87717a2b687d2e4cd1d9ca",
+      "sha256": "568d05f4e3e0cdc85660202711d2aa4a089253815db7a8072e37ea0f87a4c20f",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/flow.js",
       "retained": "review/legacy/stories/thoreson_estate_dinner/flow.js",
-      "sha256": "149aba3e7f57a76b474b02e78e5b8ecf6373f345e2047d416fd838777d41dc5b",
+      "sha256": "37d9f3634d373664e4668e660d9d789c7c6c127a3f7912788e96b7eabb547129",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/items.js",
       "retained": "review/legacy/stories/thoreson_estate_dinner/items.js",
-      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "sha256": "5395c649f6ee3afcf9998b3850671eec3b081b507c118dde09bd7ebf6bed8453",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/menu.js",
       "retained": "review/legacy/stories/thoreson_estate_dinner/menu.js",
-      "sha256": "64727fe456c41b73eb1ba1bf2b128174d9d32250e2605321aae6804d779ddccf",
+      "sha256": "2ae1d2100e84b161167df13d9230bdf06d915147758e4a601ef01174ef50c639",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/quests.js",
       "retained": "review/legacy/stories/thoreson_estate_dinner/quests.js",
-      "sha256": "a48e47628f92d29e548832c937763159d0b29fc7b06dce96655b7b2cf413fc6c",
+      "sha256": "42344f15a7434f38e19f1d940eaa7d9c122ed383b714bdf538e068a801082604",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/revelations.js",
       "retained": "review/legacy/stories/thoreson_estate_dinner/revelations.js",
-      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "sha256": "dd45ab6239c38abee634a2afcf3d0a61c16071cf881724ca8fd32d169261b215",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/roles.js",
       "retained": "review/legacy/stories/thoreson_estate_dinner/roles.js",
-      "sha256": "6e70b26a96e460a32d394ccca8ba12e330fcfe58836448c34d90f6e034bbe554",
+      "sha256": "4d3d9c2aa77a25f83eab292dae9a5817178d0eed2c3afc360ecaf57213f47ca2",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thoreson_estate_dinner/skills.js",
       "retained": "review/legacy/stories/thoreson_estate_dinner/skills.js",
-      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "sha256": "0d01495735e9fa88c2bf317f9083270b9b9e2a7ffee088b3a12681d230171077",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thors_asgard/characters.js",
       "retained": "review/legacy/stories/thors_asgard/characters.js",
-      "sha256": "e3c1c442628b9d7b3898728629fb07f00f0547501178e3521c7f6045d947ddfb",
+      "sha256": "a110e2dd37b43d219a22beab7f957b2b9e7f0fc85cf5464fabf710f17dce2855",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thors_asgard/facts.js",
       "retained": "review/legacy/stories/thors_asgard/facts.js",
-      "sha256": "e8460f0f7855bf526db1fa0b85852f7970c935d2be87717a2b687d2e4cd1d9ca",
+      "sha256": "568d05f4e3e0cdc85660202711d2aa4a089253815db7a8072e37ea0f87a4c20f",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thors_asgard/flow.js",
       "retained": "review/legacy/stories/thors_asgard/flow.js",
-      "sha256": "d60e95262b6ba17f044dc0a8d89f0b227ad9387662fb860764687b6354351349",
+      "sha256": "08e478a876712b64e44284175ebaa7a39315925c74aebfe17902ccc330277530",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thors_asgard/items.js",
       "retained": "review/legacy/stories/thors_asgard/items.js",
-      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "sha256": "5395c649f6ee3afcf9998b3850671eec3b081b507c118dde09bd7ebf6bed8453",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thors_asgard/quests.js",
       "retained": "review/legacy/stories/thors_asgard/quests.js",
-      "sha256": "3c6d1dcd68c484e492ff8929196c581ff62a79a3b94598d54eb244dc604a5e3a",
+      "sha256": "af89274994ca57e287566fce31d47e53eb1394d30db591aa43b09476eeeddfc2",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thors_asgard/revelations.js",
       "retained": "review/legacy/stories/thors_asgard/revelations.js",
-      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "sha256": "dd45ab6239c38abee634a2afcf3d0a61c16071cf881724ca8fd32d169261b215",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thors_asgard/roles.js",
       "retained": "review/legacy/stories/thors_asgard/roles.js",
-      "sha256": "6e70b26a96e460a32d394ccca8ba12e330fcfe58836448c34d90f6e034bbe554",
+      "sha256": "4d3d9c2aa77a25f83eab292dae9a5817178d0eed2c3afc360ecaf57213f47ca2",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "stories/thors_asgard/skills.js",
       "retained": "review/legacy/stories/thors_asgard/skills.js",
-      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "sha256": "0d01495735e9fa88c2bf317f9083270b9b9e2a7ffee088b3a12681d230171077",
       "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
     },
     {
       "original": "authenticated-dashboard-archive.html",
       "retained": "review/legacy/authenticated-dashboard-archive.html",
-      "sha256": "b51157d9d1141f9884395f2884104c4d424975b842b2b7ba85c69b90c9e67c7b",
+      "sha256": "f79ca65eb714848450fc8f02a3eaa959b7cee4dd6008664113f70725b452bf40",
       "reason": "Historical backup/migration page; no active route links found."
     },
     {
       "original": "backup.html",
       "retained": "review/legacy/backup.html",
-      "sha256": "a9b6e651ed4fd30295e8a8c5fdaef36d53ec246f817a16dc5a39ab4e01ed669c",
+      "sha256": "c12d9442999666a55e3e0cf49a435a9745bb292f76bd5361beea5acaa952adf6",
       "reason": "Historical backup/migration page; no active route links found."
     },
     {
       "original": "migrate-archive.html",
       "retained": "review/legacy/migrate-archive.html",
-      "sha256": "b21c04d1e811dc45c05eec8b3898cc8512186e35c1ca9cff43f8989f2cd31323",
+      "sha256": "eef4de8b4164a468174212d3cba732b2b1f3f636a56c137e80769ac84f625187",
       "reason": "Historical backup/migration page; no active route links found."
     },
     {
       "original": "ACCESS_CODES.md",
       "retained": "review/legacy/ACCESS_CODES.md",
-      "sha256": "c50f3f87e40ba4fa01e88e192e3ac84444254a94de304ab4fd9ddbb4d33848e5",
+      "sha256": "e2f9d945117991cd29fd1e089807afcb341bcfff800bef8ee5cf4bff4f1d3db1",
       "reason": "Historical design/operations reference; may contain decisions worth retaining."
     },
     {
       "original": "BACKLOG.md",
       "retained": "review/legacy/BACKLOG.md",
-      "sha256": "cde35de682b397fce635eaba7f93bbc2922c23d227c1b1be51755cb9fe1efdc2",
+      "sha256": "117ac7cfd46a6d12bc06ef9dbc9d4810060bb403ea524d9b209bbffca02b07ae",
       "reason": "Historical design/operations reference; may contain decisions worth retaining."
     },
     {
       "original": "SKILL_ASSIGNMENTS_BACKUP.md",
       "retained": "review/legacy/SKILL_ASSIGNMENTS_BACKUP.md",
-      "sha256": "44b6e1db55b83a419d58c5a35350b483d65f7cd42c6f9f0c710f41777acc90b1",
+      "sha256": "0686d70ce3cc3b36ffb95e8f449cc4c33b7de0dbc6a89737b05ae02429f0d580",
       "reason": "Historical design/operations reference; may contain decisions worth retaining."
     },
     {
       "original": "TECHNICAL_REFERENCE.md",
       "retained": "review/legacy/TECHNICAL_REFERENCE.md",
-      "sha256": "6f6a860e630d811ae8d40d4a9c4abe35c35b5abc86c32706fc555d32b2143c29",
+      "sha256": "95083f32d59f0614a8d340194fca87dfcc075be3512e4bc7d6d5d8f675951244",
       "reason": "Historical design/operations reference; may contain decisions worth retaining."
     },
     {
       "original": "host_script.md",
       "retained": "review/legacy/host_script.md",
-      "sha256": "38520722d8f084a3a470eb365944a85720b7d364c297217e0ce2b867cc1e2d81",
+      "sha256": "1afefcbc4bc9a4bebd03a221df8ab0461f1d04a96c5d5cc7a98c0deff86e51f0",
       "reason": "Historical design/operations reference; may contain decisions worth retaining."
     },
     {
@@ -323,13 +323,13 @@
     {
       "original": "functions/index.js",
       "retained": "review/legacy/functions/index.js",
-      "sha256": "87e651546f9e921041caf14543a49d48777297074da733c8ac74fd1e45907092",
+      "sha256": "bd4497d0c69024883802878e8921c340230d260c232dd62b9ae717dbbd17187b",
       "reason": "Legacy story-specific notification service; not configured for deployment. Retain for service-history review."
     },
     {
       "original": "functions/package.json",
       "retained": "review/legacy/functions/package.json",
-      "sha256": "ed2f351d7d3cd6c18c586ca47eb0da987b60ae97a4cd22c0fccc30e55dbcf3ae",
+      "sha256": "bbb2e184d080f0264e094724e30380de216f2c093b2688d4d873db237bae7df2",
       "reason": "Legacy story-specific notification service; not configured for deployment. Retain for service-history review."
     }
   ]
