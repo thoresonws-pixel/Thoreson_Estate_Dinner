@@ -27,6 +27,10 @@ Test story independence meaningfully when changing loaders or shared flow behavi
 ## Collaboration requirements
 
 - Read CONTRIBUTING.md. Work on a scoped feature branch, not directly on main.
+- Follow [the collaboration workflow](docs/COLLABORATION.md). Before editing, inspect branch, working-tree changes, task ownership and overlapping open PRs. Fetch remote references and run `npm run sync:status`; never treat a failed fetch as current remote knowledge.
+- One owner per task branch; simultaneous assistants use separate worktrees. Default new work to updated main. Declare any unmerged prerequisite and PR base explicitly.
+- Save and push reviewed, scoped checkpoints. Do not automatically stash, rebase published branches, accept entire conflict sides, or discard unfamiliar files. Resolve both contributors' intended behaviors and retest the combined result.
+- Leave a PR handoff with branch/base, changes, tests, remaining work and whether changes are local, pushed, merged or deployed. Never call a pushed branch integrated or live.
 - Preserve uncommitted work. Do not reset, clean, force-push, or overwrite another contributor's changes.
 - Coordinate overlapping modules and package contract changes through an issue or PR. Avoid unrelated formatting/refactors.
 - Run `npm test` and relevant Player Lab checks. Add regression coverage for consequential multiplayer/state changes.

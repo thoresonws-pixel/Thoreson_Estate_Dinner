@@ -9,3 +9,8 @@ Can another story use this without editing the engine? Note any package contract
 
 ## Coordination
 Mention overlapping work, data compatibility, and any deployment/configuration changes.
+
+Owner, base branch and prerequisite PRs (or none). Which shared files/interfaces might another task touch? State the intended merge order for dependent PRs.
+
+## Handoff
+For work in progress: what remains, next safe step, and any unpushed/local-only work. State whether this is pushed only, merged, or deployed; do not equate these states. Update this section when ready for review.

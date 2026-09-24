@@ -1,5 +1,7 @@
 # Working together
 
+Start with [the collaboration workflow](docs/COLLABORATION.md): it explains our “sync to central” routine, safe checkpoints, overlapping work, conflict recovery and AI handoffs. Both people and their assistants follow it.
+
 Use Node.js 22 and Java 21 (Temurin recommended). Clone into a normal local folder, not a shared/synced folder used by another developer.
 
 ```
@@ -11,10 +13,10 @@ Open http://127.0.0.1:5173. No Firebase login or production credentials are need
 
 ## Each piece of work
 
-1. Agree on an issue/task and the files or interfaces it affects.
-2. Start from updated main: `git switch main`, `git pull --ff-only`, then `git switch -c feature/your-feature`.
+1. Inspect `git status --short`, fetch with `git fetch origin`, and run `npm run sync:status`. Check open work and agree on an issue/task owner and affected files or interfaces.
+2. With a clean working tree, start independent work from updated main: `git switch main`, `git pull --ff-only origin main`, then `git switch -c feature/your-feature`. Preserve existing work; dependent PRs must declare their prerequisite and base.
 3. Make a small, focused change. Run `npm run test:all`; use Player Lab for TV/phone behavior.
-4. Commit and push your feature branch. Open a pull request into main.
+4. Commit scoped checkpoints and push your feature branch. Open a draft PR early for coordination; mark ready after validation. Pushing backs up committed work, but does not merge or deploy it.
 5. The other developer reviews. CI must pass. Resolve conflicts by preserving both intended behaviors, then rerun checks. Never force-push main or accept an entire side of a conflict without understanding it.
 6. Squash-merge approved work. Delete the feature branch. Pull main before starting again.
 

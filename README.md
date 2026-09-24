@@ -21,6 +21,8 @@ Open **http://127.0.0.1:5173** for the TV, character switcher, all-player grid, 
 
 ## Daily workflow
 
+For the full human and AI “sync to central” routine, read [Collaboration](docs/COLLABORATION.md). After `git fetch origin`, `npm run sync:status` reports local work and incoming commits without changing files.
+
 1. Claim a task and agree on shared interfaces before overlapping work.
 2. Create a feature branch in your own checkout.
 3. Run `npm run test:all`, inspect the TV/phone behavior, and open a pull request.

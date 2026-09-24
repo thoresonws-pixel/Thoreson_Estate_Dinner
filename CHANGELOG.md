@@ -16,6 +16,8 @@ Record meaningful behavior, compatibility and operational changes here. Entries 
 
 ### Repository maintenance
 
+- Added a human and AI collaboration protocol, ownership and handoff templates, and read-only `npm run sync:status` diagnostics for unpublished work, remote divergence and main integration.
+
 - Moved retired story scripts, backup pages and historical documents to `review/legacy`, preserving original paths and SHA-256 checksums in the review manifest.
 - Updated onboarding and current priorities; removed stale claims that external, untracked tests form the supported suite.
 - Excluded the review area from publishing and local application serving. Included referenced legacy audio/photo/clue thumbnails in the development build.
