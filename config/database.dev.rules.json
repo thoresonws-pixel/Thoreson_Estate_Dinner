@@ -15,7 +15,12 @@
       ],
       "$gameId": {
         ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && ((!data.exists() && newData.child(\"createdBy\").val() === auth.uid) || data.child(\"createdBy\").val() === auth.uid || data.child(\"players\").child(auth.uid).exists())",
-        ".validate": "!data.exists() || (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('storyId').val() === data.child('storyId').val() && newData.child('unlockId').val() === data.child('unlockId').val() && newData.child('gameMode').val() === data.child('gameMode').val())"
+        ".validate": "!data.exists() || (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('storyId').val() === data.child('storyId').val() && newData.child('unlockId').val() === data.child('unlockId').val() && newData.child('gameMode').val() === data.child('gameMode').val())",
+        "players": {
+          "$uid": {
+            ".write": "(auth != null && (root.child('devMembers').child(auth.uid).val() === true || (auth.token.email_verified === true && auth.token.email === 'thoresonws@gmail.com'))) && auth.uid === $uid && !data.exists()"
+          }
+        }
       }
     },
     "partyCodeIndex": {

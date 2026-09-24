@@ -22,7 +22,7 @@ Stop gracefully with:
 Invoke-WebRequest -Method Post http://127.0.0.1:5173/__lab/stop
 ```
 
-Prerequisites: Node.js, Firebase CLI, and the portable Java 21 runtime installed in `../../.player-lab-work/runtime`. The runtime was downloaded from Adoptium and SHA-256 checked against its published package metadata. Emulator and server logs are in the local state directory. `dev-lab/**` is excluded from Firebase Hosting.
+Prerequisites: Node.js 22 and Java 21. Run `npm ci` once, then `npm run dev` on Windows, macOS or Linux. Firebase CLI is installed from the lockfile. Java is found through JAVA_HOME or PATH; this computer's existing portable runtime is also supported. Emulator and server logs are in the local state directory. `dev-lab/**` is excluded from Firebase Hosting.
 
 Validation uses real emulated authentication and the shared phone action code: private inventory isolation and persistence across switches, character-only memory delivery, selected-UID puzzle-win attribution, and independent host identity. It is a testing workspace, not a claim that production authorization is fully hardened.
 
