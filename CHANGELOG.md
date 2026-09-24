@@ -9,6 +9,7 @@ Record meaningful behavior, compatibility and operational changes here. Entries 
 - Isolated automated browser tests from manual Player Lab sessions, including ports, Firebase demo projects and saved state. Added setup diagnostics and retained failure traces. PR #2.
 - Added versioned story progression with stale-command rejection and pause/reconnect regression coverage. Existing saved states remain readable. PR #2.
 - Replaced profile-based administrator authority with trusted grants; protected host story progression and added direct rules tests. Administrator provisioning is required before production release. PR #3.
+- Separated personal inventories and item assignments from shared game data. Added scoped phone subscriptions, host-only assignment, explicit developer inspection, reset generations and a guarded save migration. Hosted deployments require migration checks; no migration runs automatically.
 
 ### Repository maintenance
 

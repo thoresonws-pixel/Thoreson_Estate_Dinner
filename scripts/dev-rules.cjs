@@ -5,7 +5,7 @@ function buildDevelopmentRules(base){
  function gate(o){for(const k in o){if(['.read','.write'].includes(k))o[k]='('+member+') && ('+o[k]+')';else if(typeof o[k]==='object')gate(o[k]);}}
  gate(rules.rules);
  rules.rules.games.$gameId['.write']='('+member+') && ((!data.exists() && newData.child("createdBy").val() === auth.uid) || data.child("createdBy").val() === auth.uid || (newData.exists() && data.child("players").child(auth.uid).exists()))';
- rules.rules.games.$gameId.players={$uid:{'.write':'('+member+') && auth.uid === $uid && !data.exists() && newData.exists() && root.child("games").child($gameId).child("createdBy").exists()'}};
+ rules.rules.games.$gameId.players.$uid['.write']='('+member+') && auth.uid === $uid && !data.exists() && newData.exists() && root.child("games").child($gameId).child("createdBy").exists()';
  rules.rules.devMembers={'.read':false,'.write':false};
  return rules;
 }

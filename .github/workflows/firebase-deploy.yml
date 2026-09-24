@@ -26,4 +26,5 @@ jobs:
           service_account: github-deploy@thoreson-estate.iam.gserviceaccount.com
       - name: Verify administrator migration before release
         run: node scripts/admin-access.cjs --project thoreson-estate --check
+      - run: node scripts/migrate-private-inventory.cjs --project thoreson-estate --check
       - run: npx firebase deploy --only hosting,database --project thoreson-estate --non-interactive

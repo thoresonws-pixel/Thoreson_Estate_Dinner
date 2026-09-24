@@ -118,7 +118,7 @@ The phone computes trajectory and animates locally. Winning uses a game transact
 
 All newly collected documents, recordings, evidence, keys, and tools now write to `state/tv/inventory/<reward.id>`. Story interactions use `type: inventory`, an `itemKind` such as `document`, `recording`, or `tool`, and `isEvidence: true` where relevant. Evidence is an item property, not a separate collection path.
 
-`shared-inventory.js` supplies the common read model and expandable reader for TV Group inventory, the phone Inventory tab, and the phone Case File's Collected evidence section. It merges historical evidence from `state/tv/discoveries` without deleting saved data; canonical inventory entries take precedence. Legacy puzzle completion notices are excluded. Uncollected definitions do not appear. Personal items are read separately from games/<gameId>/players/<uid>/inventory; group items remain in state/tv/inventory.
+`shared-inventory.js` supplies the common read model and expandable reader for TV Group inventory, the phone Inventory tab, and the phone Case File's Collected evidence section. It merges historical evidence from `state/tv/discoveries` without deleting saved data; canonical inventory entries take precedence. Legacy puzzle completion notices are excluded. Uncollected definitions do not appear. Personal items are read through a permission-scoped subscription at `privateSessions/<gameId>/players/<uid>/inventory`; group items remain in `state/tv/inventory`. See [private inventory](docs/PRIVATE_INVENTORY.md) for access rules and migration of older saves.
 
 ## Developer character access
 

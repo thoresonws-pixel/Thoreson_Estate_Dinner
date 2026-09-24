@@ -23,11 +23,24 @@
             seenMemories=new Set(entries.map(entry=>entry.id));showMemory();
         }
         function renderPersonal(){
-            SharedInventory.render(personal,{inventory:latest.players?.[user.uid]?.inventory||{}},pack,{title:'Personal items'});
+            if(!privateError)personal?.querySelector('[data-private-error]')?.remove();
+            SharedInventory.render(personal,{inventory:privatePlayers[user.uid]?.inventory||{}},pack,{title:'Personal items'});
+            if(privateError&&personal&&!personal.querySelector('[data-private-error]')){const error=node('p','Personal inventory is unavailable. Reopen the game to retry.');error.dataset.privateError='true';error.setAttribute('role','alert');personal.append(error);}
             if(!otherInventories)return;
-            const peers=developer?Object.entries(latest.players||{}).filter(([uid,p])=>uid!==user.uid&&Object.keys(p.inventory||{}).length):[];
+            const peers=developer?Object.entries(privatePlayers).filter(([uid,p])=>uid!==user.uid&&Object.keys(p.inventory||{}).length):[];
             const key=JSON.stringify(peers);if(otherInventories._peers===key)return;otherInventories._peers=key;otherInventories.replaceChildren();
-            for(const [uid,player]of peers){const box=node('div');box.dataset.playerId=uid;otherInventories.append(box);const name=storyPackage.content?.characters?.[player.characterId]?.name||player.displayName||'Player';SharedInventory.render(box,{inventory:player.inventory},pack,{title:name+' · Personal items (developer view)'});}
+            for(const [uid,player]of peers){const box=node('div');box.dataset.playerId=uid;otherInventories.append(box);const identity=latest.players?.[uid]||{};const name=storyPackage.content?.characters?.[identity.characterId]?.name||identity.displayName||'Player';SharedInventory.render(box,{inventory:player.inventory},pack,{title:name+' · Personal items (developer view)'});}
+        }
+        let privatePlayers={},privateError=false,stopPrivate=null,privateScope='';
+        function syncPrivate(){
+            const scope=latest?.players?.[user?.uid]?gameId+':'+user.uid+':'+developer:'';
+            if(scope===privateScope)return;
+            stopPrivate?.();stopPrivate=null;privateScope=scope;privatePlayers={};privateError=false;
+            for(const box of [personal,otherInventories])if(box){box.replaceChildren();box._inventorySignature=null;box._peers=null;}
+            if(!scope)return;
+            stopPrivate=PrivateInventory.watch({db:firebase.database(),gameId,uid:user.uid,all:developer},players=>{
+                if(privateScope!==scope)return;privatePlayers=players;privateError=false;if(pack&&latest)renderPersonal();
+            },()=>{if(privateScope!==scope)return;privateError=true;if(pack&&latest)renderPersonal();});
         }
         let developer=false,stopDeveloper=null,storyPackage=null;
         let mazeViews=[];
@@ -56,7 +69,7 @@
             }
         });
         const stopMini=()=>{mini?.dispose();mini=null;if(modal.open)modal.close();queueMicrotask(showMemory);};close.onclick=stopMini;modal.addEventListener('cancel',stopMini);
-        const detachGame=()=>{mazeViews.forEach(v=>v.dispose());mazeViews=[];if(gameRef&&gameChanged)gameRef.off('value',gameChanged);gameRef=null;pendingMemories=[];seenMemories=null;if(memoryPopup.open)memoryPopup.close();stopMini();for(const box of [personal,otherInventories])if(box){box.replaceChildren();box._inventorySignature=null;box._peers=null;}};
+        const detachGame=()=>{stopPrivate?.();stopPrivate=null;privateScope='';privatePlayers={};privateError=false;mazeViews.forEach(v=>v.dispose());mazeViews=[];if(gameRef&&gameChanged)gameRef.off('value',gameChanged);gameRef=null;pendingMemories=[];seenMemories=null;if(memoryPopup.open)memoryPopup.close();stopMini();for(const box of [personal,otherInventories])if(box){box.replaceChildren();box._inventorySignature=null;box._peers=null;}};
         const detach=()=>{stopDeveloper?.();stopDeveloper=null;developer=false;storyPackage=null;developerPanel.replaceChildren();developerPanel._developerSignature=null;generation++;detachGame();if(userRef&&userChanged)userRef.off('value',userChanged);userRef=null;pack=latest=null;signature='';memory.replaceChildren();inventory?.replaceChildren();if(inventory)inventory._inventorySignature=null;evidence.replaceChildren();evidence._inventorySignature=null;};
         function allowed(game,item){
             if(!game?.players?.[user?.uid])return false;
@@ -84,6 +97,7 @@
         }
         function render(){
             if(!pack||!latest||!user)return;
+            syncPrivate();
             const legacyCase=document.getElementById('discoveriesContent');if(legacyCase)legacyCase.hidden=pack.caseBoard?.inventoryOnly===true;
             DeveloperAccess.render(developerPanel,storyPackage,developer,latest);
             renderPersonal();
@@ -119,9 +133,9 @@
                     const config=PoolShot.challenge(item);
                     mini=PoolShot.mount(gameSurface,config,async()=>{
                         if(selectedGeneration!==generation||!allowed(latest,item))throw Error('The table is no longer active. Open it on the TV to continue.');
-                        if(!PoolShot.canUnlock(item,latest.players?.[selectedUser])){const message=node('p','Practice complete. The drawer stays shut: the designated toy owner must take the shots.');message.setAttribute('role','status');gameSurface.append(message);return;}
+                        if(!PoolShot.canUnlock(item,privatePlayers[selectedUser])){const message=node('p','Practice complete. The drawer stays shut: the designated toy owner must take the shots.');message.setAttribute('role','status');gameSurface.append(message);return;}
                         const result=await firebase.database().ref('games/'+selectedGame).transaction(game=>{
-                            if(selectedGeneration!==generation||!allowed(game,item)||!PoolShot.canUnlock(item,game.players?.[selectedUser]))return;
+                            if(selectedGeneration!==generation||!allowed(game,item)||!PoolShot.canUnlock(item,privatePlayers[selectedUser]))return;
                             game.state||={};game.state.tv||={};game.state.tv.puzzles||={};
                             if(game.state.tv.puzzles[item.id]?.solved)return;
                             game.state.tv.puzzles[item.id]={solved:true,solvedAt:Date.now(),solvedBy:selectedUser};return game;
@@ -143,7 +157,7 @@
                 detachGame();const current=++generation;gameId=snapshot.val();pack=null;latest=null;signature='';
                 if(!gameId){list.replaceChildren(node('p','Choose a game first.'));return;}
                 gameRef=firebase.database().ref('games/'+gameId);
-                gameChanged=async snapshot=>{latest=snapshot.val();if(!latest?.players?.[user.uid]){stopMini();list.replaceChildren(node('p','Join this game to use its actions.'));return;}
+                gameChanged=async snapshot=>{latest=snapshot.val();if(!latest?.players?.[user.uid]){syncPrivate();stopMini();list.replaceChildren(node('p','Join this game to use its actions.'));return;}
                     try{const story=await StoryPackage.load(latest.storyId);if(current!==generation)return;storyPackage=story;pack=story.experience;if(!pack){list.replaceChildren(node('p','No actions are available for this story.'));return;}render();}
                     catch(error){if(current===generation){stopMini();list.replaceChildren(node('p',error.message));}}
                 };gameRef.on('value',gameChanged,error=>{stopMini();list.replaceChildren(node('p',error.message));});

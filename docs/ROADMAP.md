@@ -4,7 +4,7 @@ This is the current priority list. Historical ideas are preserved in `review/leg
 
 ## Platform first
 
-1. Separate private player payloads from shared game records; migrate readers/writers and prove denied access in emulator tests.
+1. Complete private memory payload separation and membership boundaries. Personal inventory separation, migration and direct access-denial tests are implemented; see PRIVATE_INVENTORY.md for rollout requirements.
 2. Apply explicit, idempotent command validation to puzzle actions, item collection and rewards. Cover duplicate, delayed and competing inputs.
 3. Finish game membership/join boundaries, party-code ownership and photo-storage access.
 4. Extract session, inventory, memory and navigation responsibilities from large legacy UI pages, keeping behavior covered by browser tests.

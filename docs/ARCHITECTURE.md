@@ -10,6 +10,7 @@ The platform executes story packages. Stories define cast, rooms, dialogue, puzz
 | Story progression | `story-runtime.js` | Pure state transitions; Firebase adapter owns subscriptions, clock offset and transactions |
 | TV presentation | `estate-tv.js`, `flow-tv.js`, `room-interactions.js` | Render shared state; use configured rooms, steps and interactions |
 | Phone presentation and actions | dashboard, `phone-actions.js` | Selected authenticated identity; UI visibility is not authorization |
+| Personal inventory | `private-inventory.js`, `player-item-sets.js` | Permission-scoped reads; host transaction assigns story-defined items; see PRIVATE_INVENTORY.md |
 | Puzzle behavior | mechanic modules such as `cooperative-maze.js`, `pool-shot.js` | Story-supplied configuration; no estate-specific answers in engine |
 | Development simulation | `dev-lab/` | Actual emulator identities, local-only controls, no production connection |
 | Verification and deployment | `tests/`, `scripts/`, `.github/workflows/` | Reproducible checks, reviewed branches, separate development and production |
@@ -28,7 +29,7 @@ Schema compatibility is additive: no bulk database migration is required for the
 
 ## Next foundation gates before public/customer play
 
-1. **Authorization and privacy:** server-managed administrator grants and host-only story progression are implemented and tested (see ACCOUNT_AUTHORITY.md). Production RTDB rules still allow signed-in users broad reads and non-progression writes. Enforce membership boundaries, split public game projections from private player records, and extend denied-request tests. Update every legacy whole-game reader before tightening reads; rules cannot hide a child after granting a parent read. This is a release blocker, not a cosmetic task.
+1. **Authorization and privacy:** server-managed administrator grants, host-only story progression and separately protected personal inventories are implemented and tested (see ACCOUNT_AUTHORITY.md and PRIVATE_INVENTORY.md). Production RTDB rules still allow signed-in users broad shared-game reads and non-progression writes. Enforce membership boundaries and move remaining private memory payloads out of shared records/packages. Update every legacy whole-game reader before tightening reads; rules cannot hide a child after granting a parent read. This is a release blocker, not a cosmetic task.
 2. **All game commands:** migrate inventory, puzzle rewards, song reservation and individual actions to explicit shared command contracts. Each command needs identity, game, expected attempt/revision, input validation and idempotency. Avoid whole-game transactions where a smaller aggregate suffices. Client validation alone is not security. Choose an enforceable RTDB-rules design or trusted service before claiming server authority; do not introduce paid infrastructure silently.
 3. **UI composition:** extract session access, subscriptions, inventory, memories and navigation from the legacy dashboard behind those contracts. Preserve actual rendered behavior through browser tests. Avoid a framework rewrite or large formatting-only edits alongside mechanic changes.
 4. **Session compatibility:** pin story content revision, define migrations and rollback behavior, preserve stable IDs, and run a complete unrelated fixture story from setup through completion.

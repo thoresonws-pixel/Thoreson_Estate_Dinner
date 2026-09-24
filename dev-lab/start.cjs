@@ -1,5 +1,6 @@
 const fs=require('fs'),path=require('path'),http=require('http'),{spawn}=require('child_process');
 const {changeGame}=require('./controls.cjs');
+const {migrate}=require('../scripts/private-inventory-migration.cjs');
 const root=path.resolve(__dirname,'..'),workspace=path.dirname(root);
 const {settings,assertPortsAvailable}=require('./settings.cjs');
 const lab=settings(root),{stateDir,ports}=lab;
@@ -24,7 +25,10 @@ async function snapshot(){if(!lab.persist)return;const r=await fetch(dbUrl,{head
 (async()=>{
  await assertPortsAvailable(ports);emulator=startEmulators();
  await wait('http://127.0.0.1:'+ports.auth);await wait(dbUrl);
- const data=lab.persist&&fs.existsSync(snapshotFile)?JSON.parse(fs.readFileSync(snapshotFile)):{};data.users||={};data.games||={};data.platformAdmins||={};data.platformAdmins[hostUid]=true;
+ const original=lab.persist&&fs.existsSync(snapshotFile)?JSON.parse(fs.readFileSync(snapshotFile)):{};
+ const migration=migrate(original),data=migration.data;
+ if(lab.persist&&migration.changed.length)fs.writeFileSync(path.join(stateDir,'before-private-inventory-'+Date.now()+'.json'),JSON.stringify(original),{flag:'wx',mode:0o600});
+ data.users||={};data.games||={};data.platformAdmins||={};data.platformAdmins[hostUid]=true;
  if(!data.games[gameId]){const step=experience.steps.find(s=>s.type==='exploration')||experience.steps[0];data.games[gameId]={storyId,storyName:story.metadata?.name||storyId,partyName:'Player Lab',partyCode:'LOCAL-LAB',createdBy:hostUid,createdAt:Date.now(),status:'active',gameMode:'standard',unlockId:'local-only',players:{},state:{experience:{stepId:step.id,startedAt:Date.now()},tv:{}}};}
  if(!Number.isFinite(data.games[gameId].state?.experience?.startedAt))data.games[gameId].state.experience.startedAt=Date.now();
  for(const account of accounts){data.users[account.uid]||={displayName:account.name,email:account.email,role:account.uid===hostUid?'admin':'player'};data.users[account.uid].currentGameId=gameId;}
@@ -41,9 +45,12 @@ async function snapshot(){if(!lab.persist)return;const r=await fetch(dbUrl,{head
     if(req.method!=='POST'||req.headers.origin!=='http://'+req.headers.host||!req.headers['content-type']?.startsWith('application/json')){res.writeHead(403).end('Local Player Lab controls only');return;}
     let body='';for await(const chunk of req){body+=chunk;if(body.length>2048){res.writeHead(413).end();return;}}
     const command=JSON.parse(body);
-    const read=await fetch(gameUrl,{headers:{...headers,'X-Firebase-ETag':'true'}});if(!read.ok)throw Error('Cannot read test game');
-    const updated=changeGame(await read.json(),experience,players,command.action,command.stepId);
-    const saved=await fetch(gameUrl,{method:'PUT',headers:{...headers,'if-match':read.headers.get('etag')},body:JSON.stringify(updated)});
+    // Reset both branches in one local-only CAS. Do not lose concurrent updates to other lab games.
+    const reset=command.action==='reset',targetUrl=reset?dbUrl:gameUrl;
+    const read=await fetch(targetUrl,{headers:{...headers,'X-Firebase-ETag':'true'}});if(!read.ok)throw Error('Cannot read test game');
+    const previous=await read.json();const updated=changeGame(reset?previous.games[gameId]:previous,experience,players,command.action,command.stepId);
+    if(reset){previous.games[gameId]=updated;if(previous.privateSessions)delete previous.privateSessions[gameId];}
+    const saved=await fetch(targetUrl,{method:'PUT',headers:{...headers,'if-match':read.headers.get('etag')},body:JSON.stringify(reset?previous:updated)});
     if(!saved.ok)throw Error(saved.status===412?'The game changed. Try again.':'Could not update test game');
     await snapshot();res.setHeader('Content-Type','application/json');res.end(JSON.stringify({stepId:updated.state.experience.stepId}));return;
    }
