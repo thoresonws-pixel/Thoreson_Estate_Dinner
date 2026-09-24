@@ -19,7 +19,12 @@
       "gha-creds-*.json",
       "playwright.config.cjs",
       "test-results/**",
-      "playwright-report/**"
+      "playwright-report/**",
+      "review/**",
+      "docs/**",
+      "**/*.md",
+      "**/*.bak",
+      ".editorconfig"
     ],
     "headers": [
       {

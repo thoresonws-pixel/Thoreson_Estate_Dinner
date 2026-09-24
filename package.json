@@ -18,6 +18,7 @@
     "build:dev": "node scripts/build-dev.cjs",
     "test:lab": "playwright test",
     "doctor": "node scripts/doctor.cjs",
-    "test:all": "npm test && npm run test:lab"
+    "test:all": "npm test && npm run test:lab",
+    "print:links": "node scripts/print-links.cjs"
   }
 }

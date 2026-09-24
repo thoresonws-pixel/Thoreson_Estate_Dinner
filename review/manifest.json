@@ -1,0 +1,336 @@
+{
+  "reviewedAt": "2026-09-24",
+  "status": "pending owner review",
+  "entries": [
+    {
+      "original": "characters.js",
+      "retained": "review/legacy/characters.js",
+      "sha256": "e3c1c442628b9d7b3898728629fb07f00f0547501178e3521c7f6045d947ddfb",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "items.js",
+      "retained": "review/legacy/items.js",
+      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "revelations.js",
+      "retained": "review/legacy/revelations.js",
+      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "skills.js",
+      "retained": "review/legacy/skills.js",
+      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/_template/characters.js",
+      "retained": "review/legacy/stories/_template/characters.js",
+      "sha256": "c82f8ea9ddfe4f8002cc747f83202628c26c238cdcae30d5466be07190eecf9d",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/_template/items.js",
+      "retained": "review/legacy/stories/_template/items.js",
+      "sha256": "32ef050ee7f4ea4a69ec8bc3a689574f15274dc8a9fd7cf97e371cedb72a2693",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/_template/menu.js",
+      "retained": "review/legacy/stories/_template/menu.js",
+      "sha256": "bb9e4a7d85d956e01ee3d1dab9fe17996275b490aef9438a6a591ce59aafa211",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/_template/revelations.js",
+      "retained": "review/legacy/stories/_template/revelations.js",
+      "sha256": "932daf8f99abed36c429c88e7d8a72bada2fdde865ac1f21e0452e478d489360",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/_template/skills.js",
+      "retained": "review/legacy/stories/_template/skills.js",
+      "sha256": "c0bb56be7d3f9287f1f14b5fb55a74278dadeec5f6c1e837c8334891b02e163a",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/devereaux_masquerade/characters.js",
+      "retained": "review/legacy/stories/devereaux_masquerade/characters.js",
+      "sha256": "e3c1c442628b9d7b3898728629fb07f00f0547501178e3521c7f6045d947ddfb",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/devereaux_masquerade/facts.js",
+      "retained": "review/legacy/stories/devereaux_masquerade/facts.js",
+      "sha256": "e8460f0f7855bf526db1fa0b85852f7970c935d2be87717a2b687d2e4cd1d9ca",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/devereaux_masquerade/flow.js",
+      "retained": "review/legacy/stories/devereaux_masquerade/flow.js",
+      "sha256": "d60e95262b6ba17f044dc0a8d89f0b227ad9387662fb860764687b6354351349",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/devereaux_masquerade/items.js",
+      "retained": "review/legacy/stories/devereaux_masquerade/items.js",
+      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/devereaux_masquerade/quests.js",
+      "retained": "review/legacy/stories/devereaux_masquerade/quests.js",
+      "sha256": "3c6d1dcd68c484e492ff8929196c581ff62a79a3b94598d54eb244dc604a5e3a",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/devereaux_masquerade/revelations.js",
+      "retained": "review/legacy/stories/devereaux_masquerade/revelations.js",
+      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/devereaux_masquerade/roles.js",
+      "retained": "review/legacy/stories/devereaux_masquerade/roles.js",
+      "sha256": "6e70b26a96e460a32d394ccca8ba12e330fcfe58836448c34d90f6e034bbe554",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/devereaux_masquerade/skills.js",
+      "retained": "review/legacy/stories/devereaux_masquerade/skills.js",
+      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/last_train_wicker_park/characters.js",
+      "retained": "review/legacy/stories/last_train_wicker_park/characters.js",
+      "sha256": "e3c1c442628b9d7b3898728629fb07f00f0547501178e3521c7f6045d947ddfb",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/last_train_wicker_park/facts.js",
+      "retained": "review/legacy/stories/last_train_wicker_park/facts.js",
+      "sha256": "e8460f0f7855bf526db1fa0b85852f7970c935d2be87717a2b687d2e4cd1d9ca",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/last_train_wicker_park/flow.js",
+      "retained": "review/legacy/stories/last_train_wicker_park/flow.js",
+      "sha256": "d60e95262b6ba17f044dc0a8d89f0b227ad9387662fb860764687b6354351349",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/last_train_wicker_park/items.js",
+      "retained": "review/legacy/stories/last_train_wicker_park/items.js",
+      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/last_train_wicker_park/quests.js",
+      "retained": "review/legacy/stories/last_train_wicker_park/quests.js",
+      "sha256": "3c6d1dcd68c484e492ff8929196c581ff62a79a3b94598d54eb244dc604a5e3a",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/last_train_wicker_park/revelations.js",
+      "retained": "review/legacy/stories/last_train_wicker_park/revelations.js",
+      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/last_train_wicker_park/roles.js",
+      "retained": "review/legacy/stories/last_train_wicker_park/roles.js",
+      "sha256": "6e70b26a96e460a32d394ccca8ba12e330fcfe58836448c34d90f6e034bbe554",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/last_train_wicker_park/skills.js",
+      "retained": "review/legacy/stories/last_train_wicker_park/skills.js",
+      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/characters.js",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/characters.js",
+      "sha256": "12fb1ee3165d0db5ed4e3b273b63af129acfc71a4d7c874341ee4cc00f0253ee",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/characters.js.bak",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/characters.js.bak",
+      "sha256": "1aa04dcaff1e181adacea0fc563da80083894070f8773aafa20903d3b1dd962f",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/facts.js",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/facts.js",
+      "sha256": "e8460f0f7855bf526db1fa0b85852f7970c935d2be87717a2b687d2e4cd1d9ca",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/flow.js",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/flow.js",
+      "sha256": "149aba3e7f57a76b474b02e78e5b8ecf6373f345e2047d416fd838777d41dc5b",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/items.js",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/items.js",
+      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/menu.js",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/menu.js",
+      "sha256": "64727fe456c41b73eb1ba1bf2b128174d9d32250e2605321aae6804d779ddccf",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/quests.js",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/quests.js",
+      "sha256": "a48e47628f92d29e548832c937763159d0b29fc7b06dce96655b7b2cf413fc6c",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/revelations.js",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/revelations.js",
+      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/roles.js",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/roles.js",
+      "sha256": "6e70b26a96e460a32d394ccca8ba12e330fcfe58836448c34d90f6e034bbe554",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/skills.js",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/skills.js",
+      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thors_asgard/characters.js",
+      "retained": "review/legacy/stories/thors_asgard/characters.js",
+      "sha256": "e3c1c442628b9d7b3898728629fb07f00f0547501178e3521c7f6045d947ddfb",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thors_asgard/facts.js",
+      "retained": "review/legacy/stories/thors_asgard/facts.js",
+      "sha256": "e8460f0f7855bf526db1fa0b85852f7970c935d2be87717a2b687d2e4cd1d9ca",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thors_asgard/flow.js",
+      "retained": "review/legacy/stories/thors_asgard/flow.js",
+      "sha256": "d60e95262b6ba17f044dc0a8d89f0b227ad9387662fb860764687b6354351349",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thors_asgard/items.js",
+      "retained": "review/legacy/stories/thors_asgard/items.js",
+      "sha256": "4a157d5b531cbfbb111f7f1025e833c006dcabb1084bddff5c24c097b6ad8b8d",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thors_asgard/quests.js",
+      "retained": "review/legacy/stories/thors_asgard/quests.js",
+      "sha256": "3c6d1dcd68c484e492ff8929196c581ff62a79a3b94598d54eb244dc604a5e3a",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thors_asgard/revelations.js",
+      "retained": "review/legacy/stories/thors_asgard/revelations.js",
+      "sha256": "69d29fcfd4549c18274653267789decdff8699b299bb07ee875387bab20fa554",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thors_asgard/roles.js",
+      "retained": "review/legacy/stories/thors_asgard/roles.js",
+      "sha256": "6e70b26a96e460a32d394ccca8ba12e330fcfe58836448c34d90f6e034bbe554",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "stories/thors_asgard/skills.js",
+      "retained": "review/legacy/stories/thors_asgard/skills.js",
+      "sha256": "517bbcd6fd9418332bac8b8c14c3e88942db4d1016284faf111755b6d434288e",
+      "reason": "Retired JavaScript story snapshot; active loader reads JSON packages."
+    },
+    {
+      "original": "authenticated-dashboard-archive.html",
+      "retained": "review/legacy/authenticated-dashboard-archive.html",
+      "sha256": "b51157d9d1141f9884395f2884104c4d424975b842b2b7ba85c69b90c9e67c7b",
+      "reason": "Historical backup/migration page; no active route links found."
+    },
+    {
+      "original": "backup.html",
+      "retained": "review/legacy/backup.html",
+      "sha256": "a9b6e651ed4fd30295e8a8c5fdaef36d53ec246f817a16dc5a39ab4e01ed669c",
+      "reason": "Historical backup/migration page; no active route links found."
+    },
+    {
+      "original": "migrate-archive.html",
+      "retained": "review/legacy/migrate-archive.html",
+      "sha256": "b21c04d1e811dc45c05eec8b3898cc8512186e35c1ca9cff43f8989f2cd31323",
+      "reason": "Historical backup/migration page; no active route links found."
+    },
+    {
+      "original": "ACCESS_CODES.md",
+      "retained": "review/legacy/ACCESS_CODES.md",
+      "sha256": "c50f3f87e40ba4fa01e88e192e3ac84444254a94de304ab4fd9ddbb4d33848e5",
+      "reason": "Historical design/operations reference; may contain decisions worth retaining."
+    },
+    {
+      "original": "BACKLOG.md",
+      "retained": "review/legacy/BACKLOG.md",
+      "sha256": "cde35de682b397fce635eaba7f93bbc2922c23d227c1b1be51755cb9fe1efdc2",
+      "reason": "Historical design/operations reference; may contain decisions worth retaining."
+    },
+    {
+      "original": "SKILL_ASSIGNMENTS_BACKUP.md",
+      "retained": "review/legacy/SKILL_ASSIGNMENTS_BACKUP.md",
+      "sha256": "44b6e1db55b83a419d58c5a35350b483d65f7cd42c6f9f0c710f41777acc90b1",
+      "reason": "Historical design/operations reference; may contain decisions worth retaining."
+    },
+    {
+      "original": "TECHNICAL_REFERENCE.md",
+      "retained": "review/legacy/TECHNICAL_REFERENCE.md",
+      "sha256": "6f6a860e630d811ae8d40d4a9c4abe35c35b5abc86c32706fc555d32b2143c29",
+      "reason": "Historical design/operations reference; may contain decisions worth retaining."
+    },
+    {
+      "original": "host_script.md",
+      "retained": "review/legacy/host_script.md",
+      "sha256": "38520722d8f084a3a470eb365944a85720b7d364c297217e0ce2b867cc1e2d81",
+      "reason": "Historical design/operations reference; may contain decisions worth retaining."
+    },
+    {
+      "original": "stories/_template/EXPERIENCE.md",
+      "retained": "review/legacy/stories/_template/EXPERIENCE.md",
+      "sha256": "936c9df9ef4bc0f375c7d4b571fe4589149e8a7b4d504447c591e5f02dab55c5",
+      "reason": "Historical design/operations reference; may contain decisions worth retaining."
+    },
+    {
+      "original": "stories/thoreson_estate_dinner/assets/entrance-hall-v1.png",
+      "retained": "review/legacy/stories/thoreson_estate_dinner/assets/entrance-hall-v1.png",
+      "sha256": "2c9eb4707c6c92e47ed8523d47d82587a7f42bb5a48e80e1b81aa078c0374553",
+      "reason": "Superseded room art; current experience references entrance-hall-v2.png."
+    },
+    {
+      "original": "functions/index.js",
+      "retained": "review/legacy/functions/index.js",
+      "sha256": "87e651546f9e921041caf14543a49d48777297074da733c8ac74fd1e45907092",
+      "reason": "Legacy story-specific notification service; not configured for deployment. Retain for service-history review."
+    },
+    {
+      "original": "functions/package.json",
+      "retained": "review/legacy/functions/package.json",
+      "sha256": "ed2f351d7d3cd6c18c586ca47eb0da987b60ae97a4cd22c0fccc30e55dbcf3ae",
+      "reason": "Legacy story-specific notification service; not configured for deployment. Retain for service-history review."
+    }
+  ]
+}

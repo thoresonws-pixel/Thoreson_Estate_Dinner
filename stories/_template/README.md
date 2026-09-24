@@ -1,3 +1,5 @@
-# Author a JSON story package
+# Author a story package
 
-Use ../../STORY_PACKAGES.md as the current contract. The JavaScript files in this template folder are retired examples retained for historical reference; active routes do not load them. Copy a package structure, supply a new ID and story content, then add its metadata to ../catalog.json. Do not copy engine HTML pages.
+Read [the package contract](../../STORY_PACKAGES.md). Use a unique story ID and a self-contained package with its own content and assets, then add catalog metadata. Do not copy engine HTML pages.
+
+The former JavaScript examples are retained under `review/legacy/stories/_template/`; they are not the current authoring format. The coming-soon packages contain copied placeholder material and should not be treated as finished example stories.
