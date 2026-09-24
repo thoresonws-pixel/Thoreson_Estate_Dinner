@@ -2,8 +2,9 @@
   "rules": {
     "users": {
       "$uid": {
-        ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin')",
-        ".write": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin')"
+        ".read": "auth != null && (auth.uid === $uid || root.child('platformAdmins').child(auth.uid).val() === true)",
+        ".write": "auth != null && (auth.uid === $uid || root.child('platformAdmins').child(auth.uid).val() === true)",
+        ".validate": "!newData.child('role').exists() || newData.child('role').val() === 'player' || newData.child('role').val() === data.child('role').val() || (auth != null && root.child('platformAdmins').child(auth.uid).val() === true)"
       }
     },
     "games": {
@@ -14,8 +15,8 @@
         "partyCode"
       ],
       "$gameId": {
-        ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && (data.exists() || (newData.child('createdBy').val() === auth.uid && newData.child('unlockId').isString() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('storyId').val() === newData.child('storyId').val() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('gameMode').val() === newData.child('gameMode').val() && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('ownerUid').val() === auth.uid && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('active').val() === true))",
-        ".validate": "!data.exists() || (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('storyId').val() === data.child('storyId').val() && newData.child('unlockId').val() === data.child('unlockId').val() && newData.child('gameMode').val() === data.child('gameMode').val())"
+        ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && ((data.exists() && (newData.exists() || data.child('createdBy').val() === auth.uid)) || (newData.child('createdBy').val() === auth.uid && newData.child('unlockId').isString() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('storyId').val() === newData.child('storyId').val() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('gameMode').val() === newData.child('gameMode').val() && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('ownerUid').val() === auth.uid && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('active').val() === true))",
+        ".validate": "(!data.exists() || (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('storyId').val() === data.child('storyId').val() && newData.child('unlockId').val() === data.child('unlockId').val() && newData.child('gameMode').val() === data.child('gameMode').val())) && (!data.exists() || data.child('createdBy').val() === auth.uid || (newData.child('state/experience').exists() === data.child('state/experience').exists() && newData.child('state/experience/schemaVersion').val() === data.child('state/experience/schemaVersion').val() && newData.child('state/experience/revision').val() === data.child('state/experience/revision').val() && newData.child('state/experience/stepId').val() === data.child('state/experience/stepId').val() && newData.child('state/experience/startedAt').val() === data.child('state/experience/startedAt').val() && newData.child('state/experience/pausedAt').val() === data.child('state/experience/pausedAt').val()))"
       }
     },
     "partyCodeIndex": {
@@ -24,18 +25,15 @@
     },
     "venues": {
       ".read": true,
-      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'"
+      ".write": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true"
     },
     "cancelledGames": {
-      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
-      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'"
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+      ".write": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true"
     },
     "adminInvites": {
-      ".read": "auth != null",
-      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
-      "$code": {
-        ".read": true
-      }
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+      ".write": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true"
     },
     "photos": {
       ".read": "auth != null",
@@ -50,7 +48,7 @@
       ".write": false
     },
     "survey": {
-      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
       ".write": false
     },
     "activeItems": {
@@ -74,20 +72,20 @@
       ".write": false
     },
     "$other": {
-      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
       ".write": false
     },
     "hostAccess": {
-      ".read": "auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true",
-      ".write": "auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true",
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+      ".write": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
       "$uid": {
         ".read": "auth != null && auth.uid === $uid"
       }
     },
     "hostAccessRequests": {
-      ".read": "auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true",
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
       "$uid": {
-        ".read": "(auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true) || (auth != null && auth.uid === $uid)",
+        ".read": "(auth != null && root.child('platformAdmins').child(auth.uid).val() === true) || (auth != null && auth.uid === $uid)",
         ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && auth.uid === $uid && !data.exists()",
         ".validate": "newData.hasChildren(['email','displayName','requestedAt'])",
         "email": {
@@ -190,6 +188,13 @@
       ".write": false,
       "$uid": {
         ".read": "auth != null && auth.uid === $uid && auth.token.email_verified === true"
+      }
+    },
+    "platformAdmins": {
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+      ".write": false,
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid"
       }
     }
   }

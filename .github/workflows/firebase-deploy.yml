@@ -24,4 +24,6 @@ jobs:
         with:
           workload_identity_provider: projects/634959998634/locations/global/workloadIdentityPools/github/providers/actions
           service_account: github-deploy@thoreson-estate.iam.gserviceaccount.com
+      - name: Verify administrator migration before release
+        run: node scripts/admin-access.cjs --project thoreson-estate --check
       - run: npx firebase deploy --only hosting,database --project thoreson-estate --non-interactive

@@ -37,3 +37,7 @@ Hosting retains a small set of releases. Roll back through Firebase Hosting rele
 ## Incremental code organization
 
 Keep new mechanics in standalone shared modules. The dashboard and experience file remain larger legacy integration points. Extract their affected sections in focused PRs when changing them; a wholesale rewrite during workflow setup would create unnecessary merge conflicts. New stories must remain self-contained packages.
+
+## Administrator migration
+
+Platform administrator grants are managed separately from developer-site membership and game hosting. Follow [account authority and rollout](ACCOUNT_AUTHORITY.md) before releasing the new rules. Production deployment checks that a trusted grant exists; profile `role` values and old invite links cannot provision one. Local Player Lab seeds only its host grant.

@@ -24,7 +24,7 @@ async function snapshot(){if(!lab.persist)return;const r=await fetch(dbUrl,{head
 (async()=>{
  await assertPortsAvailable(ports);emulator=startEmulators();
  await wait('http://127.0.0.1:'+ports.auth);await wait(dbUrl);
- const data=lab.persist&&fs.existsSync(snapshotFile)?JSON.parse(fs.readFileSync(snapshotFile)):{};data.users||={};data.games||={};
+ const data=lab.persist&&fs.existsSync(snapshotFile)?JSON.parse(fs.readFileSync(snapshotFile)):{};data.users||={};data.games||={};data.platformAdmins||={};data.platformAdmins[hostUid]=true;
  if(!data.games[gameId]){const step=experience.steps.find(s=>s.type==='exploration')||experience.steps[0];data.games[gameId]={storyId,storyName:story.metadata?.name||storyId,partyName:'Player Lab',partyCode:'LOCAL-LAB',createdBy:hostUid,createdAt:Date.now(),status:'active',gameMode:'standard',unlockId:'local-only',players:{},state:{experience:{stepId:step.id,startedAt:Date.now()},tv:{}}};}
  if(!Number.isFinite(data.games[gameId].state?.experience?.startedAt))data.games[gameId].state.experience.startedAt=Date.now();
  for(const account of accounts){data.users[account.uid]||={displayName:account.name,email:account.email,role:account.uid===hostUid?'admin':'player'};data.users[account.uid].currentGameId=gameId;}

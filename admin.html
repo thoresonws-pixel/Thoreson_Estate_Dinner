@@ -2638,119 +2638,9 @@
     }
 
     
-    // ── ADMIN INVITE SYSTEM ───────────────────────────────────────
-    let currentInviteCode = null;
-
-    function openAdminInviteModal() {
-        document.getElementById('inviteRecipientName').value = '';
-        document.getElementById('inviteCodeDisplay').classList.remove('visible');
-        document.getElementById('inviteExpiry').classList.remove('visible');
-        document.getElementById('inviteLinkBox').classList.remove('visible');
-        document.getElementById('copyInviteLinkBtn').style.display = 'none';
-        document.getElementById('generateInviteBtn').textContent = 'Generate Invite Link';
-        document.getElementById('generateInviteBtn').disabled = false;
-        currentInviteCode = null;
-        loadExistingInvites();
-        document.getElementById('inviteOverlay').classList.add('open');
-    }
-
-    function closeInviteModal() {
-        document.getElementById('inviteOverlay').classList.remove('open');
-    }
-
-    function generateCode() {
-        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-        let code = '';
-        for (let i = 0; i < 8; i++) {
-            if (i === 4) code += '-';
-            code += chars[Math.floor(Math.random() * chars.length)];
-        }
-        return code;
-    }
-
-    async function generateAdminInvite() {
-        const btn       = document.getElementById('generateInviteBtn');
-        const recipient = document.getElementById('inviteRecipientName').value.trim() || 'Admin';
-        btn.disabled    = true;
-        btn.textContent = 'Generating…';
-
-        try {
-            const code    = generateCode();
-            const expires = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
-            const user    = auth.currentUser;
-
-            await db.ref('adminInvites/' + code).set({
-                code,
-                recipient,
-                used:       false,
-                createdAt:  new Date().toISOString(),
-                expiresAt:  expires,
-                createdBy:  user ? user.email : 'admin'
-            });
-
-            currentInviteCode = code;
-            const link = 'https://thorsmystery.com/admin-register.html?invite=' + code;
-
-            document.getElementById('inviteCodeDisplay').textContent = code;
-            document.getElementById('inviteCodeDisplay').classList.add('visible');
-            document.getElementById('inviteExpiry').textContent = 'Expires: ' + new Date(expires).toLocaleString() + ' — single use only';
-            document.getElementById('inviteExpiry').classList.add('visible');
-            document.getElementById('inviteLinkBox').textContent = link;
-            document.getElementById('inviteLinkBox').classList.add('visible');
-            document.getElementById('copyInviteLinkBtn').style.display = 'inline-block';
-
-            btn.textContent = '↻ Generate New Code';
-            btn.disabled    = false;
-
-            loadExistingInvites();
-            showToast('Invite code generated.', 'success');
-
-        } catch(err) {
-            btn.disabled    = false;
-            btn.textContent = 'Generate Invite Link';
-            showToast('Error: ' + err.message, 'error');
-        }
-    }
-
-    function copyInviteCode() {
-        const link = document.getElementById('inviteLinkBox').textContent;
-        navigator.clipboard.writeText(link).then(() => showToast('Link copied!', 'success'));
-    }
-
-    async function loadExistingInvites() {
-        const el = document.getElementById('existingInvites');
-        try {
-            const snap = await db.ref('adminInvites').orderByChild('createdAt').limitToLast(20).once('value');
-            const data = snap.val();
-            if (!data) { el.innerHTML = ''; return; }
-
-            const invites = Object.values(data).reverse();
-            el.innerHTML = '<div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:2px;color:var(--fog);text-transform:uppercase;margin-bottom:10px;">Recent Invites</div>' +
-                invites.map(inv => {
-                    const expired = new Date(inv.expiresAt) < new Date();
-                    const status  = inv.used ? '✓ Used' : expired ? '✗ Expired' : '⏳ Pending';
-                    const color   = inv.used ? 'var(--green)' : expired ? 'var(--crimson-lt)' : 'var(--amber)';
-                    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:3px;margin-bottom:6px;">
-                        <div>
-                            <span style="font-family:JetBrains Mono,monospace;font-size:13px;color:var(--accent-lt);letter-spacing:3px;">${inv.code}</span>
-                            <span style="font-size:12px;color:var(--fog);margin-left:10px;">${inv.recipient || ''}</span>
-                        </div>
-                        <div style="display:flex;align-items:center;gap:12px;">
-                            <span style="font-family:JetBrains Mono,monospace;font-size:10px;color:${color};">${status}</span>
-                            <button onclick="deleteInvite('${inv.code}')" style="background:none;border:none;color:var(--fog);cursor:pointer;font-size:14px;padding:2px 6px;opacity:0.5;transition:opacity 0.2s;" onmouseover="this.style.opacity=1;this.style.color='var(--crimson-lt)'" onmouseout="this.style.opacity=0.5;this.style.color='var(--fog)'">✕</button>
-                        </div>
-                    </div>`;
-                }).join('');
-        } catch(e) {
-            el.innerHTML = '';
-        }
-    }
-
-
-    async function deleteInvite(code) {
-        await db.ref('adminInvites/' + code).remove();
-        await loadExistingInvites();
-    }
+    // Account privileges are assigned through trusted administration, never invite links.
+    function openAdminInviteModal() { document.getElementById('inviteOverlay').classList.add('open'); }
+    function closeInviteModal() { document.getElementById('inviteOverlay').classList.remove('open'); }
 
     // ── VENUE SYSTEM ──────────────────────────────────────────────────────────
 
@@ -2999,36 +2889,10 @@
 </div>
 
 
-<!-- ── ADMIN INVITE MODAL ──────────────────────────────────── -->
 <div class="invite-overlay" id="inviteOverlay" onclick="if(event.target===this)closeInviteModal()">
     <div class="invite-modal">
-        <div class="invite-header">
-            <div class="invite-title">Generate Admin Invite</div>
-            <button class="btn-signout" onclick="closeInviteModal()">✕</button>
-        </div>
-        <div class="invite-body">
-            <p style="font-size:14px;color:var(--fog);margin-bottom:20px;line-height:1.6;">
-                Generates a one-time invite link. The recipient uses it to create an admin account.
-                The code expires in 48 hours and can only be used once.
-            </p>
-
-            <div class="form-group" style="margin-bottom:20px;">
-                <label for="inviteRecipientName">Recipient Name <span style="color:var(--fog);font-weight:400;">(for your reference)</span></label>
-                <input type="text" id="inviteRecipientName" placeholder="e.g. Dad, Marc" style="margin-top:6px;">
-            </div>
-
-            <div class="invite-code-display" id="inviteCodeDisplay">——</div>
-            <div class="invite-expiry" id="inviteExpiry"></div>
-            <div class="invite-link-box" id="inviteLinkBox"></div>
-
-            <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                <button class="btn-gold" id="generateInviteBtn" onclick="generateAdminInvite()">Generate Invite Link</button>
-                <button class="btn-ghost" id="copyInviteLinkBtn" onclick="copyInviteCode()" style="display:none;">Copy Link</button>
-                <button class="btn-ghost" onclick="closeInviteModal()">Close</button>
-            </div>
-
-            <div id="existingInvites" style="margin-top:24px;"></div>
-        </div>
+        <div class="invite-header"><div class="invite-title">Administrator access</div><button class="btn-signout" onclick="closeInviteModal()">✕</button></div>
+        <div class="invite-body"><p>Administrator access is assigned by the platform owner to an existing verified account. An invitation or profile setting cannot grant it.</p><p>Game invitations and hosting access are separate from platform administration.</p><button class="btn-ghost" onclick="closeInviteModal()">Close</button></div>
     </div>
 </div>
 
