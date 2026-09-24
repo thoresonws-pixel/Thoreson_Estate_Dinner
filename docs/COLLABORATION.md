@@ -73,6 +73,8 @@ The existing foundation work is stacked in PR order **#2 → #3 → #4 → #5 �
 
 ## AI handoff requirements
 
+To start a new assistant, give it the repository and this short instruction: “Read AGENTS.md and docs/COLLABORATION.md before changing anything. Follow them for every change, including foundation and workflow changes. Inspect the current branch and existing work, and finish with the required validation and PR handoff.” Assistants that do not automatically load AGENTS.md need this explicit direction. Repository instructions cannot guarantee AI compliance; branch protection, tests and human review remain necessary.
+
 Every assistant must inspect the current branch, status, diff and task context before editing. Never assume a clean directory or infer that unfamiliar files are garbage. No `reset --hard`, `clean`, forced checkout, force push, bulk conflict acceptance or deleting unowned work as a shortcut. If a conflict needs a design decision, preserve both versions and ask a specific question.
 
 End each session with a draft PR update or handoff containing:

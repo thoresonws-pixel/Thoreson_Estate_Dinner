@@ -26,6 +26,8 @@ Test story independence meaningfully when changing loaders or shared flow behavi
 
 ## Collaboration requirements
 
+These requirements apply to **every change**, including foundation refactors, tests, development tools, CI, security rules and edits to this ruleset. An AI assistant must read this file and the linked workflow at the start of each task, and re-read changed instructions after integrating upstream work. A foundation change is not permission to bypass architecture, ownership, review or validation requirements.
+
 - Read CONTRIBUTING.md. Work on a scoped feature branch, not directly on main.
 - Follow [the collaboration workflow](docs/COLLABORATION.md). Before editing, inspect branch, working-tree changes, task ownership and overlapping open PRs. Fetch remote references and run `npm run sync:status`; never treat a failed fetch as current remote knowledge.
 - One owner per task branch; simultaneous assistants use separate worktrees. Default new work to updated main. Declare any unmerged prerequisite and PR base explicitly.
@@ -37,6 +39,8 @@ Test story independence meaningfully when changing loaders or shared flow behavi
 - Submit a PR; main requires CI and human review. Do not bypass protections for routine feature work.
 - Main deploys to development only. Production changes require a deliberate release. Never copy local emulator identities, snapshots, or unsigned tokens to a hosted environment.
 - Story content stays in packages. Extract affected legacy components incrementally rather than creating parallel engines.
+
+Before handing off each change, explicitly check story independence, preservation of other contributors' work, compatibility/migrations, relevant tests, and the final diff. Explain material exceptions or remaining gaps in the PR. If the foundation or workflow must evolve, include the contract/documentation update and validation in the same reviewed change; do not silently weaken protections to make an implementation pass.
 
 ## Existing implementation
 
