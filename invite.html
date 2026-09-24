@@ -330,7 +330,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ThorsMystery">
-</head>
+<script src="welcome-packet.js"></script>
+<script src="story-package.js"></script></head>
 <body>
 
 <div class="page">
@@ -425,13 +426,7 @@
 
     // ── STORY CONTENT MAP ──────────────────────────────────────────
     // Each story can override these. Falls back to generic.
-    const STORY_CONTENT = {
-        thoreson_estate_dinner: {
-            bodyText: 'to a dinner party at the estate.<br>Mr. Thoreson has an announcement to make<br><em>that shall change everything.</em>',
-            host:     'Mr. William Thoreson',
-            attire:   '1930s formal attire requested &nbsp;·&nbsp; Valid photo ID required at the door'
-        }
-    };
+    
 
     // ── HELPERS ───────────────────────────────────────────────────
     function formatDate(dateStr) {
@@ -445,15 +440,7 @@
                + '<br>' + d.getFullYear();
     }
 
-    function formatTime(timeStr) {
-        if (!timeStr) return '';
-        const [h, m] = timeStr.split(':').map(Number);
-        const h12  = h > 12 ? h - 12 : h === 0 ? 12 : h;
-        const ampm = h >= 12 ? 'in the Evening' : 'in the Morning';
-        return `Cocktails at Half Past ${h12} O'Clock ${ampm}<br>`
-             + `Arrive No Later Than ${h12} O'Clock<br>`
-             + `Dinner Promptly at Half Past ${h12}`;
-    }
+    function formatTime(timeStr) { return WelcomePacket.formatTime(timeStr); }
 
     // ── LOAD GAME BY PARTY CODE ────────────────────────────────────
     async function init() {
@@ -468,34 +455,28 @@
             if (!idxSnap.exists()) { showError(); return; }
 
             // All invite fields are stored directly in the index
-            render(idxSnap.val(), code.toUpperCase());
+            await render(idxSnap.val(), code.toUpperCase());
         } catch(e) {
             showError();
         }
     }
 
-    function render(game, code) {
-        const content = STORY_CONTENT[game.storyId] || {
-            bodyText: 'to an evening of mystery and intrigue.<br><em>Nothing will be as it seems.</em>',
-            host:     'Your Host',
-            attire:   'Period attire encouraged'
-        };
-
-        // Story title
-        const title = (game.storyName || 'The Estate')
-            .replace(/^The /i, '').replace(/ Dinner$/i, '').toUpperCase();
-        document.getElementById('storyTitle').textContent = title;
+    async function render(game, code) {
+        const story = await StoryPackage.load(game.storyId);
+        const content = story.presentation?.invitation || {bodyText:'You are invited to join the mystery.',host:'Your Host',attire:'Dress comfortably.'};
+        document.getElementById('storyTitle').textContent = content.displayTitle || story.metadata.name;
 
         // Body + host + attire
         document.getElementById('inviteBody').innerHTML  = content.bodyText;
         document.getElementById('hostField').textContent  = content.host;
-        document.getElementById('attireField').textContent = content.attire;
+        const packet = WelcomePacket.clean(game.welcomePacket);
+        document.getElementById('attireField').textContent = packet?.attire || content.attire;
 
         // Date
         document.getElementById('dateField').innerHTML = formatDate(game.eventDate);
 
         // Time
-        const timeHtml = formatTime(game.eventTime);
+        const timeHtml = (packet?.cocktailTime ? 'Cocktail hour: ' + WelcomePacket.formatTime(packet.cocktailTime) : WelcomePacket.formatTime(game.eventTime)) + (packet?.dinnerTime ? '<br>Food / dinner: ' + WelcomePacket.formatTime(packet.dinnerTime) : '');
         if (timeHtml) {
             document.getElementById('timeField').innerHTML = timeHtml;
             document.getElementById('timeSection').style.display = 'block';
@@ -512,16 +493,14 @@
         document.getElementById('codeDisplay').textContent = code;
 
         // Load story scripts to get cocktail menu
-        loadStoryScript(game.storyId || 'thoreson_estate_dinner');
+        WelcomePacket.renderMenu(document.getElementById('menuSections'), packet?.menu);
+        document.getElementById('menuCard').style.display = 'block';
+        const link = document.createElement('a'); link.href = 'welcome.html?code=' + encodeURIComponent(code); link.textContent = 'Welcome packet & printable menu'; link.style.cssText = 'display:block;text-align:center;padding:20px;color:inherit;';
+        document.getElementById('menuCard').appendChild(link);
+        showContent();
     }
 
-    function loadStoryScript(storyId) {
-        const script  = document.createElement('script');
-        script.src    = 'stories/' + storyId + '/menu.js?v=' + Date.now();
-        script.onload = renderMenu;
-        script.onerror = () => showContent(); // no menu — still show everything else
-        document.head.appendChild(script);
-    }
+    async function loadStoryScript(storyId) { try { await StoryPackage.legacy(storyId);renderMenu(); } catch(error) { document.getElementById('menuSections').textContent=error.message;showContent(); } }
 
     function renderMenu() {
         if (typeof cocktailMenu === 'undefined' || !cocktailMenu.sections) {

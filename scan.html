@@ -74,37 +74,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ThorsMystery">
-</head>
+<script src="story-package.js"></script><script src="story-content.js"></script></head>
 <body>
 
-<svg class="crest" viewBox="0 0 680 860" xmlns="http://www.w3.org/2000/svg">
-  <style>.ct{font-family:'Playfair Display',Georgia,serif;fill:#c9a227}.ctd{font-family:'Playfair Display',Georgia,serif;fill:#1a1205}</style>
-  <path d="M 190,90 L 490,90 L 490,470 Q 490,575 340,660 Q 190,575 190,470 Z" fill="#1a1205" stroke="#c9a227" stroke-width="3"/>
-  <path d="M 208,108 L 472,108 L 472,468 Q 472,562 340,638 Q 208,562 208,468 Z" fill="none" stroke="#c9a227" stroke-width="1.2" stroke-dasharray="4,3"/>
-  <polygon points="375,155 295,330 345,318 308,478 420,280 362,295 400,155" fill="#c9a227"/>
-  <circle cx="210" cy="108" r="4.5" fill="#c9a227"/>
-  <circle cx="470" cy="108" r="4.5" fill="#c9a227"/>
-  <rect x="160" y="42" width="360" height="48" rx="3" fill="#c9a227"/>
-  <text x="340" y="75" text-anchor="middle" class="ctd" font-size="22" font-weight="700" letter-spacing="5">THORESON</text>
-  <rect x="100" y="220" width="98" height="100" rx="3" fill="#c9a227" opacity="0.08" stroke="#c9a227" stroke-width="1"/>
-  <text x="149" y="265" text-anchor="middle" class="ct" font-size="11" letter-spacing="1" opacity="0.8">EST.</text>
-  <text x="149" y="285" text-anchor="middle" class="ct" font-size="13" letter-spacing="1" opacity="0.8" font-weight="700">1887</text>
-  <rect x="482" y="220" width="98" height="100" rx="3" fill="#c9a227" opacity="0.08" stroke="#c9a227" stroke-width="1"/>
-  <text x="531" y="265" text-anchor="middle" class="ct" font-size="11" letter-spacing="1" opacity="0.8">DALLAS</text>
-  <text x="531" y="285" text-anchor="middle" class="ct" font-size="11" letter-spacing="1" opacity="0.8">TEXAS</text>
-  <path d="M 185,668 Q 340,715 495,668 L 478,702 Q 340,748 202,702 Z" fill="#c9a227"/>
-  <path d="M 185,668 L 202,702 L 182,720 Q 145,700 185,668 Z" fill="#a8871f"/>
-  <path d="M 495,668 L 478,702 L 498,720 Q 535,700 495,668 Z" fill="#a8871f"/>
-  <text x="340" y="702" text-anchor="middle" class="ctd" font-size="13" font-weight="700" letter-spacing="2">THORESON FAMILY ESTATE</text>
-  <line x1="208" y1="136" x2="472" y2="136" stroke="#c9a227" stroke-width="0.8" opacity="0.4"/>
-  <circle cx="260" cy="136" r="2" fill="#c9a227" opacity="0.5"/>
-  <circle cx="280" cy="136" r="2" fill="#c9a227" opacity="0.5"/>
-  <circle cx="300" cy="136" r="2" fill="#c9a227" opacity="0.5"/>
-  <circle cx="380" cy="136" r="2" fill="#c9a227" opacity="0.5"/>
-  <circle cx="400" cy="136" r="2" fill="#c9a227" opacity="0.5"/>
-  <circle cx="420" cy="136" r="2" fill="#c9a227" opacity="0.5"/>
-  <text x="340" y="790" text-anchor="middle" class="ct" font-size="13" letter-spacing="3" opacity="0.8">DALLAS, TEXAS  ·  1935</text>
-</svg>
+<div id="scanArt"></div>
 
 <div class="found">You found a clue.</div>
 <div class="sub">Bring this to the group</div>
@@ -127,28 +100,15 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  try {
-    const session = JSON.parse(localStorage.getItem('userSession'));
-    if (session && session.username && session.currentGameId) {
-      const player   = session.username;
-      const charKey  = session.character || player;
-      const gameId   = session.currentGameId;
-      const propId   = new URLSearchParams(window.location.search).get('id') || 'unknown';
-
-      // All scan data scoped to this game
-      const base = 'games/' + gameId + '/state/';
-      db.ref(base + 'scans/' + player).transaction(c => (c || 0) + 1);
-      db.ref(base + 'scanLog').push({ player, charKey, propId, time: Date.now() });
-
-      document.getElementById('status').textContent = 'Logged for ' + player;
-    } else {
-      document.getElementById('status').innerHTML =
-        '<div class="not-logged">Not logged in — scan not recorded.</div>' +
-        '<a href="signin.html" class="login-btn">Log In</a>';
-    }
-  } catch(e) {
-    document.getElementById('status').textContent = '';
-  }
-</script>
-</body>
-</html>
+  (async()=>{try {
+    const story=await StoryPackage.fromContext(db);document.title=story.metadata.name;
+    document.getElementById('scanArt').innerHTML=story.presentation?.scanPageEmblem||'';
+    const scanned=StoryContent.decodeScan(story,location.href);
+    const session=JSON.parse(localStorage.getItem('userSession'));
+    if(!session?.username||!session.currentGameId){document.getElementById('status').textContent='Sign in to your party to record this scan.';return;}
+    const player=session.username,base='games/'+session.currentGameId+'/state/';
+    await db.ref(base+'scans/'+player).transaction(n=>(n||0)+1);
+    await db.ref(base+'scanLog').push({player,charKey:session.character||player,propId:scanned.id,time:Date.now()});
+    document.getElementById('status').textContent='Logged for '+player;
+  }catch(error){document.getElementById('status').textContent=error.message;}})();
+</script></body></html>

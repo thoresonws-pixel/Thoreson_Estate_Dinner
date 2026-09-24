@@ -1,0 +1,9 @@
+(async()=>{
+ const story=await StoryPackage.fromContext(),root=document.getElementById('codes'),counts={};root.replaceChildren();document.getElementById('heading').textContent=story.metadata.name;
+ const params=new URLSearchParams(location.search),game=params.get('game');
+ const url=(route,key,value)=>{const u=new URL(route,location.href);if(key)u.searchParams.set(key,value);u.searchParams.set('story',story.id);if(game)u.searchParams.set('game',game);return u.href;};
+ const scans=story.content.scans||{},cards=(story.content.items||[]).map(item=>({label:item.category+' '+(counts[item.category]=(counts[item.category]||0)+1),description:item.label,code:url('clue.html','item',item.id)}));
+ for(const [i,skill]of (scans.printSkills||Object.keys(story.content.skills||{}).map(id=>({id,doc:id}))).entries())cards.push({label:'Skill '+(i+1),description:skill.doc,code:(scans.skillPrefixes?.[0]||('STORY:'+story.id+':'))+skill.id});
+ for(const [i,extra]of (scans.printExtras||[]).entries()){const u=new URL(extra.url,location.href);u.searchParams.set('story',story.id);if(game)u.searchParams.set('game',game);cards.push({label:'Special '+(i+1),description:extra.label,code:u.href});}
+ for(const card of cards){const row=document.createElement('article');row.className='qr-card';const title=document.createElement('h2');title.textContent=card.label;row.append(title);if(location.pathname.endsWith('qr-cheatsheet.html')){const text=document.createElement('p');text.textContent=card.description;const code=document.createElement('code');code.textContent=card.code;row.append(text,code);}else{const qr=document.createElement('div');qr.className='qr-code';row.append(qr);new QRCode(qr,{text:card.code,width:160,height:160,correctLevel:QRCode.CorrectLevel.H});}root.append(row);}
+})().catch(error=>document.getElementById('codes').textContent=error.message);

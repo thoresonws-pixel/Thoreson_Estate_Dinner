@@ -1177,7 +1177,7 @@
         <li><a href="#" onclick="showPage('home');return false;" data-navlink="home" class="nav-active">Home</a></li>
         <li><a href="#" onclick="showPage('mystery');return false;" data-navlink="mystery">The Mystery</a></li>
         <li><a href="#" onclick="showPage('stories');return false;" data-navlink="stories">Stories</a></li>
-        <li><a href="#" onclick="showPage('book');return false;" data-navlink="book">Pricing &amp; Booking</a></li>
+        <li><a href="#" onclick="showPage('book');return false;" data-navlink="book">Pricing &amp; Purchase</a></li>
         <li><a href="login.html" class="nav-cta">Player Login</a></li>
     </ul>
     <!-- Mobile nav -->
@@ -1185,7 +1185,7 @@
         <button onclick="showPage('home');return false;"   data-mobilelink="home"    class="nav-active">Home</button>
         <button onclick="showPage('mystery');return false;" data-mobilelink="mystery">The Mystery</button>
         <button onclick="showPage('stories');return false;" data-mobilelink="stories">Stories</button>
-        <button onclick="showPage('book');return false;" data-mobilelink="book">Pricing &amp; Book</button>
+        <button onclick="showPage('book');return false;" data-mobilelink="book">Pricing &amp; Buy</button>
         <button onclick="showPage('login');return false;"  data-mobilelink="login">Join</button>
     </div>
 </nav>
@@ -1205,7 +1205,7 @@
             Someone at your table is a killer — can you find them?
         </p>
         <div class="hero-actions">
-            <a href="#contact" class="btn-gold">Book an Event</a>
+            <a href="#contact" class="btn-gold">Buy the Game</a>
             <a href="#stories" class="btn-ghost">See the Stories</a>
         </div>
     </div>
@@ -1511,7 +1511,7 @@
                     <li>Priority story selection</li>
                     <li>Post-event survey & recap</li>
                 </ul>
-                <a href="#contact" class="btn-gold" style="width:100%;text-align:center;">Book This</a>
+                <a href="#contact" class="btn-gold" style="width:100%;text-align:center;">Buy This Game</a>
             </div>
 
             <div class="price-card">
@@ -1570,12 +1570,12 @@
     <div class="section-inner">
         <div class="contact-grid">
             <div>
-                <div class="section-eyebrow">Reserve Your Evening</div>
-                <h2 class="section-title">Book an Event</h2>
+                <div class="section-eyebrow">Purchase Your Mystery</div>
+                <h2 class="section-title">Buy the Game</h2>
                 <div class="section-rule"></div>
-                <p class="section-lead" style="margin-bottom:40px;">Tell us about your group and we'll reach out within 24 hours to confirm availability and details.</p>
+                <p class="section-lead" style="margin-bottom:40px;">Tell us about your group and we’ll reach out within 24 hours to confirm your package and setup details.</p>
 
-                <form id="bookingForm" onsubmit="submitBooking(event)">
+                <form id="purchaseForm" onsubmit="submitPurchaseInquiry(event)">
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
                         <div class="form-group">
                             <label class="form-label">Your Name</label>
@@ -1614,7 +1614,7 @@
                         <label class="form-label">Anything Else</label>
                         <textarea class="form-textarea" placeholder="Venue details, special occasions, questions…"></textarea>
                     </div>
-                    <button type="submit" class="btn-gold" style="width:100%;">Send Enquiry</button>
+                    <button type="submit" class="btn-gold" style="width:100%;">Send Purchase Enquiry</button>
                     <div class="form-success" id="formSuccess">✦ &nbsp; We'll be in touch within 24 hours &nbsp; ✦</div>
                 </form>
             </div>
@@ -1681,7 +1681,7 @@
         <a href="#stories">Stories</a>
         <a href="#pricing">Pricing</a>
         <a href="#testimonials">Testimonials</a>
-        <a href="#contact">Book an Event</a>
+        <a href="#contact">Buy the Game</a>
         <a href="login.html">Player Login</a>
         <a href="admin.html">GM Console</a>
     </div>
@@ -1689,9 +1689,8 @@
 </footer>
 
 <script>
-    // ── BOOKING FORM ──────────────────────────────────────────
-    function submitBooking(e) {
-        e.preventDefault();
+    // ── PURCHASE INQUIRY FORM ─────────────────────────────────
+    function submitPurchaseInquiry(e) {
         // TODO: wire to email service / Firebase when ready
         document.getElementById('formSuccess').style.display = 'block';
         e.target.querySelector('button[type=submit]').textContent = '✓ Sent';

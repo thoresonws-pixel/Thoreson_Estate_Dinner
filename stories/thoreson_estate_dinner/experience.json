@@ -1,0 +1,1555 @@
+{
+  "version": 1,
+  "title": "The Thoreson Estate",
+  "map": {
+    "image": "assets/maps/thoreson-estate-topdown-v1.png",
+    "width": 1672,
+    "height": 941,
+    "rooms": [
+      [
+        "drawing",
+        "Drawing room",
+        3,
+        8,
+        22,
+        30
+      ],
+      [
+        "dining",
+        "Dining room",
+        26,
+        7,
+        24,
+        31
+      ],
+      [
+        "kitchen",
+        "Kitchen",
+        51,
+        8,
+        21,
+        30
+      ],
+      [
+        "workshop",
+        "Toy workshop",
+        73,
+        9,
+        20,
+        30
+      ],
+      [
+        "library",
+        "Library",
+        3,
+        40,
+        15,
+        33
+      ],
+      [
+        "study",
+        "William’s study",
+        19,
+        40,
+        16,
+        33
+      ],
+      [
+        "hall",
+        "Entrance hall",
+        35,
+        39,
+        18,
+        39
+      ],
+      [
+        "billiards",
+        "Billiard room",
+        54,
+        40,
+        14,
+        33
+      ],
+      [
+        "music",
+        "Music room",
+        69,
+        40,
+        15,
+        33
+      ],
+      [
+        "conservatory",
+        "Conservatory",
+        85,
+        40,
+        13,
+        33
+      ]
+    ],
+    "roomViews": {
+      "hall": {
+        "image": "stories/thoreson_estate_dinner/assets/entrance-hall-v2.png",
+        "alt": "Empty entrance hall with a grand staircase, carved wooden toys, warm brass lamps, and a marble compass medallion."
+      },
+      "drawing": {
+        "image": "stories/thoreson_estate_dinner/assets/drawing-interior-v1.png",
+        "alt": "Drawing room with a carved fireplace, burgundy sofas, a silver tea service, and tall green-draped windows."
+      },
+      "dining": {
+        "image": "stories/thoreson_estate_dinner/assets/dining-interior-v1.png",
+        "alt": "Formal dining room with a long table set with china and crystal, a brass chandelier, and a carved silver-filled sideboard."
+      },
+      "kitchen": {
+        "image": "stories/thoreson_estate_dinner/assets/kitchen-interior-v1.png",
+        "alt": "Estate kitchen with a cast-iron range, hanging copper pans, a wooden preparation table, and a checkerboard floor."
+      },
+      "workshop": {
+        "image": "stories/thoreson_estate_dinner/assets/workshop-interior-v1.png",
+        "alt": "Toy workshop with a workbench, an unfinished wooden automaton, carving tools, clockwork toys, and a mechanical orrery."
+      },
+      "library": {
+        "image": "stories/thoreson_estate_dinner/assets/library-interior-v1.png",
+        "alt": "Library with towering bookshelves, a rolling ladder, green leather armchairs, an open atlas, and an antique globe."
+      },
+      "study": {
+        "image": "stories/thoreson_estate_dinner/assets/study-interior-v1.png",
+        "alt": "William’s private study with a green-leather writing desk, toy designs, a closed wall safe, and a fireside seating area."
+      },
+      "billiards": {
+        "image": "stories/thoreson_estate_dinner/assets/billiards-interior-v1.png",
+        "alt": "Billiard room with a green table, brass-shaded lamps, a cue rack, leather chairs, and dark walnut paneling."
+      },
+      "music": {
+        "image": "stories/thoreson_estate_dinner/assets/music-interior-v1.png",
+        "alt": "Music room with a grand piano, a violin, a brass-horn phonograph, and upholstered listening chairs."
+      },
+      "conservatory": {
+        "image": "stories/thoreson_estate_dinner/assets/conservatory-interior-v1.png",
+        "alt": "Glass-roofed conservatory with lush palms and orchids, a central fountain, wicker seating, and warm hanging lanterns."
+      }
+    },
+    "access": {
+      "study": {
+        "unlockAtStep": null,
+        "tapeLabel": "POLICE LINE · DO NOT CROSS",
+        "title": "The study is sealed",
+        "speaker": "Officer Frank Donnelly",
+        "text": "I’m sorry, but the study is off limits for now. We’re still collecting evidence and arranging for Mr. Thoreson’s body to be taken to the morgue. Please leave everything undisturbed. I’ll let you know when you may enter.",
+        "speakerId": "police_officer"
+      }
+    }
+  },
+  "steps": [
+    {
+      "id": "cocktail",
+      "type": "title",
+      "label": "Cocktail Hour",
+      "text": "Music here",
+      "phoneText": "Enjoy cocktail hour. Your questionnaire will appear when the host ends cocktail hour.",
+      "button": "End Cocktail Hour",
+      "next": "questionnaire"
+    },
+    {
+      "id": "questionnaire",
+      "type": "questionnaire",
+      "label": "Questionnaire",
+      "text": "Music here",
+      "durationSeconds": 600,
+      "expiredText": "Ready for Act 2",
+      "button": "Start Act 2",
+      "next": "act2"
+    },
+    {
+      "id": "act2",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "Ladies and gentlemen, may I have your attention. I’m Officer Frank Donnelly, Dallas Police. I’m afraid I have some very difficult news.",
+      "phoneText": "Ladies and gentlemen, may I have your attention. I’m Officer Frank Donnelly, Dallas Police. I’m afraid I have some very difficult news.",
+      "durationSeconds": 11,
+      "autoAdvance": true,
+      "next": "act2_speech_02",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_02",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "William Thoreson has been found dead in his study.",
+      "phoneText": "William Thoreson has been found dead in his study.",
+      "durationSeconds": 7,
+      "autoAdvance": true,
+      "next": "act2_speech_03",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_03",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "I cannot yet tell you precisely what happened. But I have seen enough to believe his death was no accident. Until we know otherwise, I am treating this as a murder.",
+      "phoneText": "I cannot yet tell you precisely what happened. But I have seen enough to believe his death was no accident. Until we know otherwise, I am treating this as a murder.",
+      "durationSeconds": 15,
+      "autoAdvance": true,
+      "next": "act2_speech_04",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_04",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "The storm has made the roads nearly impassable. I’ve requested a detective and transport from the morgue, but neither will reach us soon. For the moment, you have me.",
+      "phoneText": "The storm has made the roads nearly impassable. I’ve requested a detective and transport from the morgue, but neither will reach us soon. For the moment, you have me.",
+      "durationSeconds": 14,
+      "autoAdvance": true,
+      "next": "act2_speech_05",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_05",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "And I have a house full of people who knew Mr. Thoreson considerably better than I did.",
+      "phoneText": "And I have a house full of people who knew Mr. Thoreson considerably better than I did.",
+      "durationSeconds": 9,
+      "autoAdvance": true,
+      "next": "act2_speech_06",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_06",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "Some of you knew his business. Some knew his family. Some, I suspect, knew things he preferred to keep private.",
+      "phoneText": "Some of you knew his business. Some knew his family. Some, I suspect, knew things he preferred to keep private.",
+      "durationSeconds": 10,
+      "autoAdvance": true,
+      "next": "act2_speech_07",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_07",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "What seems unimportant to one person may mean a great deal to another. That is where I need your help.",
+      "phoneText": "What seems unimportant to one person may mean a great deal to another. That is where I need your help.",
+      "durationSeconds": 10,
+      "autoAdvance": true,
+      "next": "act2_speech_08",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_08",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "Stay together. Compare what you know. If you discover a document, an unusual object, or something that seems out of place, bring it to the group’s attention.",
+      "phoneText": "Stay together. Compare what you know. If you discover a document, an unusual object, or something that seems out of place, bring it to the group’s attention.",
+      "durationSeconds": 13,
+      "autoAdvance": true,
+      "next": "act2_speech_09",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_09",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "Keep a record of what you find—and remember that a suspicion is not proof.",
+      "phoneText": "Keep a record of what you find—and remember that a suspicion is not proof.",
+      "durationSeconds": 8,
+      "autoAdvance": true,
+      "next": "act2_speech_10",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_10",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "The study remains sealed while I finish examining the scene. Do not cross the police tape.",
+      "phoneText": "The study remains sealed while I finish examining the scene. Do not cross the police tape.",
+      "durationSeconds": 9,
+      "autoAdvance": true,
+      "next": "act2_speech_11",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_11",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "One more thing. The person responsible may still be under this roof.",
+      "phoneText": "One more thing. The person responsible may still be under this roof.",
+      "durationSeconds": 7,
+      "autoAdvance": true,
+      "next": "act2_speech_12",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_12",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "They may be frightened. They may appear helpful. They may even be standing beside someone they love.",
+      "phoneText": "They may be frightened. They may appear helpful. They may even be standing beside someone they love.",
+      "durationSeconds": 9,
+      "autoAdvance": true,
+      "next": "act2_speech_13",
+      "button": "Continue"
+    },
+    {
+      "id": "act2_speech_13",
+      "type": "dialogue",
+      "label": "Act 2 · A death at the estate",
+      "speakerId": "police_officer",
+      "roomId": "dining",
+      "text": "So listen carefully to one another. Now—what was William going to announce tonight?",
+      "phoneText": "So listen carefully to one another. Now—what was William going to announce tonight?",
+      "durationSeconds": 8,
+      "autoAdvance": false,
+      "next": "act2_investigation",
+      "button": "Begin investigation"
+    },
+    {
+      "id": "act2_investigation",
+      "type": "exploration",
+      "label": "Act 2 · Investigation",
+      "phoneText": "Investigate the estate together. Choose a room on the shared map."
+    }
+  ],
+  "questionnaire": {
+    "intro": "Tell us how you would like to play. You have ten minutes; you can still submit while the host is waiting to start the next act.",
+    "savedText": "Your answers are saved. Wait for your host to continue.",
+    "fields": [
+      {
+        "id": "gender",
+        "label": "Which character gender would you prefer?",
+        "options": [
+          {
+            "value": "male",
+            "label": "Male"
+          },
+          {
+            "value": "female",
+            "label": "Female"
+          },
+          {
+            "value": "any",
+            "label": "No preference"
+          }
+        ]
+      },
+      {
+        "id": "involvementScore",
+        "label": "How comfortable are you with drama and acting? (1 = very little, 10 = very comfortable)",
+        "valueType": "number",
+        "options": [
+          {
+            "value": 1,
+            "label": "1"
+          },
+          {
+            "value": 2,
+            "label": "2"
+          },
+          {
+            "value": 3,
+            "label": "3"
+          },
+          {
+            "value": 4,
+            "label": "4"
+          },
+          {
+            "value": 5,
+            "label": "5"
+          },
+          {
+            "value": 6,
+            "label": "6"
+          },
+          {
+            "value": 7,
+            "label": "7"
+          },
+          {
+            "value": 8,
+            "label": "8"
+          },
+          {
+            "value": 9,
+            "label": "9"
+          },
+          {
+            "value": 10,
+            "label": "10"
+          }
+        ]
+      }
+    ]
+  },
+  "interactions": [
+    {
+      "id": "piano_melody",
+      "roomId": "music",
+      "type": "noteSequence",
+      "name": "Grand piano",
+      "description": "Sheet music rests beside the keys. A curious cabinet across the room seems to be listening. Choose a discovered song on your phone, then play its notes here. Rhythm and speed do not matter.",
+      "keys": [
+        {
+          "id": "A4",
+          "label": "A",
+          "midi": 69,
+          "keyboard": "A"
+        },
+        {
+          "id": "As4",
+          "label": "A♯",
+          "midi": 70,
+          "keyboard": "A",
+          "black": true
+        },
+        {
+          "id": "B4",
+          "label": "B",
+          "midi": 71,
+          "keyboard": "B"
+        },
+        {
+          "id": "C5",
+          "label": "C",
+          "midi": 72,
+          "keyboard": "C"
+        },
+        {
+          "id": "Cs5",
+          "label": "C♯",
+          "midi": 73,
+          "keyboard": "C",
+          "black": true
+        },
+        {
+          "id": "D5",
+          "label": "D",
+          "midi": 74,
+          "keyboard": "D"
+        },
+        {
+          "id": "Ds5",
+          "label": "D♯",
+          "midi": 75,
+          "keyboard": "D",
+          "black": true
+        },
+        {
+          "id": "E5",
+          "label": "E",
+          "midi": 76,
+          "keyboard": "E"
+        },
+        {
+          "id": "F5",
+          "label": "F",
+          "midi": 77,
+          "keyboard": "F"
+        },
+        {
+          "id": "Fs5",
+          "label": "F♯",
+          "midi": 78,
+          "keyboard": "F",
+          "black": true
+        },
+        {
+          "id": "G5",
+          "label": "G",
+          "midi": 79,
+          "keyboard": "G"
+        },
+        {
+          "id": "Gs5",
+          "label": "G♯",
+          "midi": 80,
+          "keyboard": "G",
+          "black": true
+        }
+      ],
+      "solution": [
+        "G5",
+        "Fs5",
+        "B4",
+        "E5",
+        "D5",
+        "G5",
+        "C5",
+        "B4",
+        "E5",
+        "A4",
+        "D5"
+      ],
+      "reward": {
+        "id": "piano_compartment",
+        "name": "The listening cabinet unlocks",
+        "text": "Across the room, the little brass ear twitches. A latch clicks inside William’s Harmonic Listening Cabinet. Return to the room and inspect it."
+      }
+    },
+    {
+      "id": "evidence_bradfordLetter",
+      "type": "inventory",
+      "roomId": "workshop",
+      "name": "Bradford Patent Letter",
+      "description": "Inspect this piece of evidence.",
+      "unlockAtStep": "act2_investigation",
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "early",
+      "reward": {
+        "id": "clue_bradfordLetter",
+        "name": "Bradford Patent Letter",
+        "text": "A letter dated January 1935 from Bradford & Sons Toy Company. Thomas Bradford claims a spring-loaded mechanism in Thoreson Toys' newest line was patented by his company in 1931 and demands compensation. Will's handwritten margin note reads: 'Frivolous. Have Scott handle.'"
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_letterhead",
+      "type": "inventory",
+      "roomId": "workshop",
+      "name": "Company Letterhead — Thoreson & Hartley Toys",
+      "description": "Inspect this piece of evidence.",
+      "unlockAtStep": "act2_investigation",
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "early",
+      "reward": {
+        "id": "clue_letterhead",
+        "name": "Company Letterhead — Thoreson & Hartley Toys",
+        "text": "A piece of company letterhead bearing the name Thoreson & Hartley Toys. The current company is called Thoreson Toys — no mention of Hartley anywhere."
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_newspaper",
+      "type": "inventory",
+      "roomId": "drawing",
+      "name": "Dallas Herald — Thoreson Cleared",
+      "description": "A yellowed newspaper clipping lies on the corner desk, held flat beneath a glass paperweight.",
+      "unlockAtStep": "act2_investigation",
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "early",
+      "reward": {
+        "id": "clue_newspaper",
+        "name": "Dallas Herald — Thoreson Cleared",
+        "text": "A clipping dated March 22, 1910. Reports that William Thoreson was questioned following the death of his business partner Robert Hartley, ruled a suicide. Thoreson was cleared. The company was renamed from Thoreson & Hartley Toys to Thoreson Toys. Robert Hartley's family could not be reached for comment."
+      },
+      "isEvidence": true,
+      "itemKind": "document",
+      "parentInteraction": "drawing_corner_desk",
+      "hiddenUntilReady": true
+    },
+    {
+      "id": "evidence_incorporation",
+      "type": "inventory",
+      "roomId": "library",
+      "name": "Original Incorporation Filing",
+      "description": "Inspect this piece of evidence.",
+      "unlockAtStep": "act2_investigation",
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "early",
+      "reward": {
+        "id": "clue_incorporation",
+        "name": "Original Incorporation Filing",
+        "text": "Dallas County filing dated April 3, 1902. Lists William Thoreson and Robert Hartley as equal 50/50 partners under the name Thoreson & Hartley Toys. Both signatures present and notarized."
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_forgedDocs",
+      "type": "inventory",
+      "roomId": "billiards",
+      "name": "Open billiards drawer",
+      "description": "A company transfer document lies inside the drawer.",
+      "unlockAtStep": "act2_investigation",
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "early",
+      "reward": {
+        "id": "clue_forgedDocs",
+        "name": "Company Transfer Document",
+        "text": "A transfer document dated March 13, 1910 signing Robert Hartley's full ownership over to William Thoreson. Notarized by one James Crawford. Requires a Legal expert to examine."
+      },
+      "requiresPuzzle": "billiards_routine",
+      "hiddenUntilReady": true,
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_bankStatement",
+      "type": "inventory",
+      "roomId": "dining",
+      "name": "Bank Statement — Thoreson Toys Capital Account",
+      "description": "Inspect this piece of evidence.",
+      "unlockAtStep": "act2_investigation",
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "early",
+      "reward": {
+        "id": "clue_bankStatement",
+        "name": "Bank Statement — Thoreson Toys Capital Account",
+        "text": "A 1934 bank statement for the Thoreson Toys company account. Shows two investor deposits totaling $5,500 in January, followed by an $8,000 wire transfer to Kessler & Braun European Distributors in Hamburg in March. The account dropped from $22,000 to $14,000 overnight. Requires Banking expertise to fully analyze."
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_ledger",
+      "type": "inventory",
+      "roomId": "workshop",
+      "name": "Open toy chest",
+      "description": "Inside the chest is a company financial ledger.",
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "middle",
+      "reward": {
+        "id": "clue_ledger",
+        "name": "Financial Ledger",
+        "text": "Company financial ledger going back to 1911. Contains a recurring monthly entry of $50 listed as 'Monthly Disbursement — T.H.' — appearing every month for over 24 years. Requires an Accounting expert to examine."
+      },
+      "requiresPuzzle": "workshop_toy_sequence",
+      "hiddenUntilReady": true,
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_margaretsLetter",
+      "type": "inventory",
+      "roomId": "music",
+      "name": "Margaret's Letter",
+      "description": "A clue is placed here, but access is reserved for a later phase.",
+      "unlockAtStep": null,
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "middle",
+      "reward": {
+        "id": "clue_margaretsLetter",
+        "name": "Margaret's Letter",
+        "text": "A letter written entirely in French, addressed to William Thoreson and signed by Margaret. Requires a French speaker to translate."
+      },
+      "isEvidence": true,
+      "itemKind": "document",
+      "parentInteraction": "piano_melody"
+    },
+    {
+      "id": "evidence_birthCertificate",
+      "type": "inventory",
+      "roomId": "library",
+      "name": "Birth certificate",
+      "description": "A clue is placed here, but access is reserved for a later phase.",
+      "unlockAtStep": null,
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "middle",
+      "reward": {
+        "id": "clue_birthCertificate",
+        "name": "Birth Certificate — Taylor Hartley",
+        "text": "Dallas County birth certificate. Name: Taylor Hartley. Date of birth: March 5, 1911. Mother: Margaret Hartley. Father: William S. Thoreson. Registered March 11, 1911. County Clerk: Edgar T. Calloway."
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_margaretDeath",
+      "type": "inventory",
+      "roomId": "drawing",
+      "name": "Open maze drawer — obituary",
+      "description": "Inside the newly opened drawer lies a carefully folded newspaper obituary for Margaret Hartley.",
+      "unlockAtStep": "act2_investigation",
+      "lockedText": "The clockwork maze must be completed before this drawer opens.",
+      "placementGroup": "middle",
+      "reward": {
+        "id": "clue_margaretDeath",
+        "name": "Newspaper — Margaret Hartley Obituary",
+        "text": "A brief obituary from a Dallas newspaper, dated October 14, 1914. Margaret Hartley, formerly of Dallas, passed away leaving behind two children. Cause of death listed as accidental overdose of laudanum. No mention of surviving family beyond the children."
+      },
+      "isEvidence": true,
+      "itemKind": "document",
+      "parentInteraction": "drawing_maze_cabinet",
+      "requiresPuzzle": "drawing_maze_cabinet",
+      "hiddenUntilReady": true
+    },
+    {
+      "id": "evidence_will",
+      "type": "inventory",
+      "roomId": "study",
+      "name": "Will Thoreson's Last Will & Testament",
+      "description": "A clue is placed here, but access is reserved for a later phase.",
+      "unlockAtStep": null,
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "middle",
+      "reward": {
+        "id": "clue_will",
+        "name": "Will Thoreson's Last Will & Testament",
+        "text": "A will dated January 14, 1935, dividing the estate equally into three shares — one each to William Scott Thoreson Jr., Frederick Daniel Thoreson, and Taylor Hartley. Taylor Hartley is described as a recognized heir whose claim upon the estate Will acknowledges 'fully and without reservation.'"
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_coroner",
+      "type": "inventory",
+      "roomId": "hall",
+      "name": "Coroner's Report",
+      "description": "A clue is placed here, but access is reserved for a later phase.",
+      "unlockAtStep": null,
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "late",
+      "reward": {
+        "id": "clue_coroner",
+        "name": "Coroner's Report",
+        "text": "Preliminary autopsy report on William Thoreson. Notes unusual cardiac presentation. Requires a Medical expert to interpret."
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_travelJournal",
+      "type": "inventory",
+      "roomId": "conservatory",
+      "name": "Miranda's Travel Journal",
+      "description": "A clue is placed here, but access is reserved for a later phase.",
+      "unlockAtStep": null,
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "late",
+      "reward": {
+        "id": "clue_travelJournal",
+        "name": "Miranda's Travel Journal",
+        "text": "A personal journal belonging to Miranda Longfellow, covering her trip to Switzerland in summer 1934. One entry dated August 14 reads: 'The flowers in the Alps are remarkable — one of which definitely caught my eye.'"
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_backgroundCheck",
+      "type": "inventory",
+      "roomId": "hall",
+      "name": "Sealed investigation report",
+      "description": "A clue is placed here, but access is reserved for a later phase.",
+      "unlockAtStep": null,
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "late",
+      "reward": {
+        "id": "clue_backgroundCheck",
+        "name": "Pinkerton Background Check Results",
+        "text": "Pinkerton report on all party guests. Two name changes flagged: Walter Lippman — legal name Taylor James Hartley, born 1911, name changed 1930. Miranda Longfellow — legal name Miranda Elaine Hartley, born 1896, name changed 1920."
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "evidence_transcriptAct1",
+      "type": "inventory",
+      "roomId": "music",
+      "name": "William’s recording device",
+      "description": "Inspect this piece of evidence.",
+      "unlockAtStep": "act2_investigation",
+      "lockedText": "This evidence is not accessible yet. Its puzzle or access requirement will become available in a later phase.",
+      "placementGroup": "early",
+      "reward": {
+        "id": "clue_transcriptAct1",
+        "name": "Confession Recording — Transcript",
+        "text": "I need to confess something. Before it's too late. I don't know how much time I have left. So I'm recording this. For my family. For the truth. Robert Hartley was my partner. He was my closest friend. We built that company together. Thoreson & Hartley Toys. And I betrayed him.\n\n[static]\n\nI am not a good man. Robert found out.\n\n[static]\n\nHe was furious. Rightfully so. He came to me and said he would pull every dollar he had out of the company. That he'd burn it to the ground before he'd let me profit from it. He said I'd taken everything from him. And he was right. So I acted first. I forged his signature on a transfer document. I took the company. Everything Robert had built — I put it in my name before he could destroy it. I told myself I was protecting the business. That was a lie. I was protecting myself. Robert died the next day. I took his company.\n\n[static]\n\nIt broke him. They ruled it a suicide. But I know what really killed Robert Hartley. It was me.\n\n[static]\n\nAfter Robert died,\n\n[static]\n\nI didn't want anyone to know what I'd done.\n\n[static]\n\nThat was my doing. I've carried this guilt for twenty-five years. But tonight,\n\n[static]\n\nThough God knows I don't deserve it.\n\n[static]\n\nIt's time to tell the truth. I only pray it isn't too late."
+      },
+      "isEvidence": true,
+      "itemKind": "recording",
+      "parentInteraction": "harmonic_cabinet",
+      "requiresPuzzle": "piano_melody",
+      "hiddenUntilReady": true
+    },
+    {
+      "id": "evidence_calendar",
+      "type": "inventory",
+      "roomId": "study",
+      "name": "Office calendar",
+      "description": "A clue is placed here, but access is reserved for a later phase.",
+      "unlockAtStep": null,
+      "lockedText": "This clue is reserved until its contents and timing are defined.",
+      "placementGroup": "unassigned",
+      "reward": {
+        "id": "clue_calendar",
+        "name": "Office calendar",
+        "text": "Calendar contents have not yet been authored."
+      },
+      "isEvidence": true,
+      "itemKind": "document"
+    },
+    {
+      "id": "workshop_winding_key",
+      "type": "inventory",
+      "roomId": "study",
+      "name": "Brass winding key",
+      "description": "A small brass key rests beside a folded note. Its handle bears a tiny carved train.",
+      "reward": {
+        "id": "workshop_winding_key",
+        "name": "Brass winding key",
+        "text": "A winding key for the toy mechanism on the workshop desk."
+      },
+      "itemKind": "tool",
+      "isEvidence": false
+    },
+    {
+      "id": "workshop_toy_sequence",
+      "type": "objectSequence",
+      "roomId": "workshop",
+      "name": "Toymaker’s desk",
+      "description": "Six shallow spaces are carved into the desktop. They look made for small toys. Beneath them, an unwound mechanism guards a toy chest.",
+      "requiresInventory": "workshop_winding_key",
+      "missingItemText": "There are places for toys, but the mechanism needs a winding key. Perhaps William kept it somewhere private.",
+      "activateLabel": "Use winding key",
+      "objects": [
+        {
+          "id": "train",
+          "label": "Wooden train"
+        },
+        {
+          "id": "bird",
+          "label": "Carved bird"
+        },
+        {
+          "id": "yoyo",
+          "label": "Yo-yo"
+        },
+        {
+          "id": "soldier",
+          "label": "Toy soldier"
+        },
+        {
+          "id": "horse",
+          "label": "Rocking horse"
+        },
+        {
+          "id": "top",
+          "label": "Spinning top"
+        }
+      ],
+      "solution": [
+        "train",
+        "bird",
+        "yoyo",
+        "soldier",
+        "horse",
+        "top"
+      ],
+      "hint": "Prototype test order: Wooden train → Carved bird → Yo-yo → Toy soldier → Rocking horse → Spinning top.",
+      "reward": {
+        "id": "workshop_chest_open",
+        "name": "The toy chest opens",
+        "text": "A catch clicks beneath the desk. Return to the room and inspect the newly opened toy chest."
+      }
+    },
+    {
+      "id": "billiards_routine",
+      "type": "poolShot",
+      "roomId": "billiards",
+      "name": "Billiards table",
+      "description": "One ball rests on the felt. An alphabet chart is tucked beside the cue rack, and a concealed drawer sits beneath the table.",
+      "actionLabel": "Play billiards",
+      "maxStrikes": 3,
+      "shots": [
+        {
+          "start": {
+            "x": 180,
+            "y": 350
+          },
+          "pocket": "middle-right"
+        },
+        {
+          "start": {
+            "x": 180,
+            "y": 350
+          },
+          "pocket": "top-left"
+        },
+        {
+          "start": {
+            "x": 180,
+            "y": 350
+          },
+          "pocket": "bottom-left"
+        },
+        {
+          "start": {
+            "x": 180,
+            "y": 350
+          },
+          "pocket": "top-right"
+        }
+      ],
+      "reward": {
+        "id": "billiards_drawer_open",
+        "name": "The billiards drawer opens",
+        "text": "The routine is complete. Return to the billiards room on the TV and inspect the open drawer."
+      },
+      "personalItemSet": "inherited_toys",
+      "letterPuzzle": {
+        "itemId": "toy_bird",
+        "word": "BIRD",
+        "prompt": "An alphabet chart assigns letters to the six pockets. Which name belongs at this table, and who should take the shots?",
+        "pockets": {
+          "top-left": "A I M W",
+          "top-right": "D F N X",
+          "middle-left": "C G O Y",
+          "middle-right": "B H P Z",
+          "bottom-left": "E J R U",
+          "bottom-right": "K L Q S T V"
+        }
+      }
+    },
+    {
+      "id": "sheet_clockwork_waltz",
+      "type": "inventory",
+      "roomId": "music",
+      "name": "Sheet music: The Clockwork Waltz",
+      "description": "A loose sheet beside the piano. Collect it to add this song to the group’s sheet-music collection.",
+      "itemKind": "document",
+      "isEvidence": false,
+      "unlockAtStep": "act2_investigation",
+      "reward": {
+        "id": "score_clockwork_waltz",
+        "name": "The Clockwork Waltz",
+        "text": "C  ·  E  ·  G  ·  E  ·  D  ·  F  ·  A  ·  F  ·  E  ·  D  ·  C\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required."
+      },
+      "parentInteraction": "piano_melody",
+      "hiddenUntilReady": true
+    },
+    {
+      "id": "sheet_lanterns",
+      "type": "inventory",
+      "roomId": "music",
+      "name": "Sheet music: Lanterns on the Lake",
+      "description": "A loose sheet beside the piano. Collect it to add this song to the group’s sheet-music collection.",
+      "itemKind": "document",
+      "isEvidence": false,
+      "unlockAtStep": "act2_investigation",
+      "reward": {
+        "id": "score_lanterns",
+        "name": "Lanterns on the Lake",
+        "text": "A  ·  C  ·  E  ·  D  ·  C  ·  B  ·  D  ·  F♯  ·  E  ·  C  ·  A\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required."
+      },
+      "parentInteraction": "piano_melody",
+      "hiddenUntilReady": true
+    },
+    {
+      "id": "sheet_procession",
+      "type": "inventory",
+      "roomId": "music",
+      "name": "Sheet music: Procession in Mourning",
+      "description": "A loose sheet beside the piano. Collect it to add this song to the group’s sheet-music collection.",
+      "itemKind": "document",
+      "isEvidence": false,
+      "unlockAtStep": "act2_investigation",
+      "reward": {
+        "id": "score_procession",
+        "name": "Procession in Mourning",
+        "text": "G  ·  F♯  ·  B  ·  E  ·  D  ·  G  ·  C  ·  B  ·  E  ·  A  ·  D\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required."
+      },
+      "parentInteraction": "piano_melody",
+      "hiddenUntilReady": true
+    },
+    {
+      "id": "sheet_sparrow",
+      "type": "inventory",
+      "roomId": "music",
+      "name": "Sheet music: The Brass Sparrow",
+      "description": "A loose sheet beside the piano. Collect it to add this song to the group’s sheet-music collection.",
+      "itemKind": "document",
+      "isEvidence": false,
+      "unlockAtStep": "act2_investigation",
+      "reward": {
+        "id": "score_sparrow",
+        "name": "The Brass Sparrow",
+        "text": "E  ·  G  ·  F♯  ·  E  ·  B  ·  D  ·  C  ·  A  ·  B  ·  D  ·  E\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required."
+      },
+      "parentInteraction": "piano_melody",
+      "hiddenUntilReady": true
+    },
+    {
+      "id": "sheet_midnight",
+      "type": "inventory",
+      "roomId": "music",
+      "name": "Sheet music: Midnight at the Toy Shop",
+      "description": "A loose sheet beside the piano. Collect it to add this song to the group’s sheet-music collection.",
+      "itemKind": "document",
+      "isEvidence": false,
+      "unlockAtStep": "act2_investigation",
+      "reward": {
+        "id": "score_midnight",
+        "name": "Midnight at the Toy Shop",
+        "text": "D  ·  F  ·  A  ·  G  ·  E  ·  C  ·  E  ·  G  ·  F  ·  E  ·  D\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required."
+      },
+      "parentInteraction": "piano_melody",
+      "hiddenUntilReady": true
+    },
+    {
+      "id": "harmonic_cabinet",
+      "roomId": "music",
+      "type": "inspection",
+      "name": "Harmonic Listening Cabinet",
+      "description": "William’s unmistakable craftsmanship is everywhere: a polished wooden cabinet, exposed clockwork gears and a tiny toy conductor poised with his baton raised. An absurdly large brass ear sprouts from one side, aimed at the piano. The hand-engraved plaque reads: W. THORESON — AUTOMATIC MUSICAL APPRECIATOR. Only William would have built such a strange contraption.",
+      "requiresPuzzle": "piano_melody",
+      "lockedText": "Locked. The little conductor will not budge. Beneath the brass ear, a needle quivers at nearby sounds. It almost seems to be listening—perhaps waiting for a particular tune.",
+      "reward": {
+        "id": "harmonic_cabinet_contents",
+        "name": "Inside the listening cabinet",
+        "text": "The conductor lowers his baton and the cabinet opens. Inspect the recording device tucked inside."
+      }
+    },
+    {
+      "id": "workshop_storage_cabinet",
+      "type": "inspection",
+      "roomId": "workshop",
+      "name": "Workshop cabinet",
+      "description": "A plain wooden cabinet stands against the workshop wall. Its doors are slightly ajar.",
+      "reward": {
+        "id": "workshop_storage_contents",
+        "name": "Inside the cabinet",
+        "text": "The doors open freely. Among spare hinges and scraps of felt, a small key rests on the shelf. Inspect it to take a closer look."
+      }
+    },
+    {
+      "id": "drawing_brass_key",
+      "type": "inventory",
+      "roomId": "workshop",
+      "name": "Brass key",
+      "description": "A small brass key sits on the cabinet shelf. Its edges are worn smooth.",
+      "parentInteraction": "workshop_storage_cabinet",
+      "hiddenUntilReady": true,
+      "itemKind": "tool",
+      "isEvidence": false,
+      "reward": {
+        "id": "drawing_brass_key",
+        "name": "Brass key",
+        "text": "A plain brass key with a rounded bow. There is no label to say what it opens."
+      }
+    },
+    {
+      "id": "drawing_maze_cabinet",
+      "type": "inspection",
+      "roomId": "drawing",
+      "name": "Clockwork Maze Cabinet",
+      "description": "Wooden maze cabinets are connected by brass cables to a clockwork hub. Colored glass lamps sit above their windows; directional levers occupy the opposite sides. A plaque reads: “Do try talking to one another.”",
+      "image": "stories/thoreson_estate_dinner/assets/drawing-room-maze-cabinets-v1.png",
+      "imageAlt": "Wooden maze cabinets with colored lamps and directional controls, connected to a brass clockwork hub.",
+      "requiresInventory": "drawing_brass_key",
+      "missingItemText": "This object is locked. Maybe you need a key.",
+      "reward": {
+        "id": "drawing_maze_complete",
+        "name": "The Clockwork Maze Cabinet opens",
+        "text": "Every figure reaches home. The lamps glow together and a little drawer springs open. Inspect the open drawer."
+      },
+      "wrongItemText": "No, this key does not seem to fit.",
+      "maze": {
+        "durationSeconds": 180,
+        "shufflePauseSeconds": 7,
+        "shuffleText": "Clatter! A change of perspective! William’s contraption rearranges your roles.",
+        "helpText": "Guides: call your color and one direction. Controllers: check your color after every move, even a wall hit. Ask for help again to show guides the next three steps.",
+        "mazes": [
+          {
+            "id": "green",
+            "label": "Green",
+            "symbol": "●",
+            "color": "#75cf8a",
+            "grid": [
+              "#######",
+              "#.....#",
+              "#####.#",
+              "#.....#",
+              "#.#####",
+              "#.....#",
+              "#######"
+            ],
+            "start": [
+              1,
+              1
+            ],
+            "goal": [
+              5,
+              5
+            ]
+          },
+          {
+            "id": "red",
+            "label": "Red",
+            "symbol": "◆",
+            "color": "#ff8181",
+            "grid": [
+              "#######",
+              "#.....#",
+              "#####.#",
+              "#.....#",
+              "#.#####",
+              "#.....#",
+              "#######"
+            ],
+            "start": [
+              1,
+              1
+            ],
+            "goal": [
+              5,
+              5
+            ]
+          },
+          {
+            "id": "blue",
+            "label": "Blue",
+            "symbol": "▲",
+            "color": "#7caeff",
+            "grid": [
+              "#######",
+              "#.#...#",
+              "#.#.#.#",
+              "#.#.#.#",
+              "#.###.#",
+              "#.....#",
+              "#######"
+            ],
+            "start": [
+              1,
+              1
+            ],
+            "goal": [
+              5,
+              5
+            ]
+          },
+          {
+            "id": "gold",
+            "label": "Gold",
+            "symbol": "★",
+            "color": "#ffe079",
+            "grid": [
+              "#######",
+              "#.....#",
+              "#####.#",
+              "#...#.#",
+              "#.###.#",
+              "#.....#",
+              "#######"
+            ],
+            "start": [
+              1,
+              1
+            ],
+            "goal": [
+              5,
+              5
+            ]
+          },
+          {
+            "id": "purple",
+            "label": "Purple",
+            "symbol": "■",
+            "color": "#ce9aff",
+            "grid": [
+              "#######",
+              "#...#.#",
+              "###.#.#",
+              "#...#.#",
+              "#.###.#",
+              "#.....#",
+              "#######"
+            ],
+            "start": [
+              1,
+              1
+            ],
+            "goal": [
+              5,
+              5
+            ]
+          },
+          {
+            "id": "orange",
+            "label": "Orange",
+            "symbol": "⬟",
+            "color": "#ffb36b",
+            "grid": [
+              "#######",
+              "#.#...#",
+              "#.#.#.#",
+              "#...#.#",
+              "#####.#",
+              "#.....#",
+              "#######"
+            ],
+            "start": [
+              1,
+              1
+            ],
+            "goal": [
+              5,
+              5
+            ]
+          },
+          {
+            "id": "cyan",
+            "label": "Cyan",
+            "symbol": "✚",
+            "color": "#70e4e0",
+            "grid": [
+              "#######",
+              "#.....#",
+              "#####.#",
+              "#...#.#",
+              "#.#.#.#",
+              "#.#...#",
+              "#######"
+            ],
+            "start": [
+              1,
+              1
+            ],
+            "goal": [
+              5,
+              5
+            ]
+          },
+          {
+            "id": "pink",
+            "label": "Pink",
+            "symbol": "♥",
+            "color": "#ff9cce",
+            "grid": [
+              "#######",
+              "#...#.#",
+              "###.#.#",
+              "#.#.#.#",
+              "#.#.#.#",
+              "#.....#",
+              "#######"
+            ],
+            "start": [
+              1,
+              1
+            ],
+            "goal": [
+              5,
+              5
+            ]
+          }
+        ]
+      },
+      "activatedText": "Eureka! The key fits. The winding handle turns and the lamps flicker to life."
+    },
+    {
+      "id": "kitchen_sideboard_drawer",
+      "type": "inspection",
+      "roomId": "kitchen",
+      "name": "Kitchen sideboard drawer",
+      "description": "A shallow drawer sits beneath the kitchen sideboard. There is no lock.",
+      "reward": {
+        "id": "kitchen_sideboard_contents",
+        "name": "Inside the drawer",
+        "text": "The drawer slides open. A folded letter lies beside a pencil and a handful of shopping lists."
+      }
+    },
+    {
+      "id": "kitchen_aim_high_letter",
+      "type": "inventory",
+      "roomId": "kitchen",
+      "name": "A letter from William",
+      "description": "A folded sheet of cream stationery, covered in William’s sprawling handwriting. The heading reads: “On the Importance of Aiming High.”",
+      "parentInteraction": "kitchen_sideboard_drawer",
+      "hiddenUntilReady": true,
+      "itemKind": "document",
+      "isEvidence": false,
+      "reward": {
+        "id": "letter_aim_high",
+        "name": "On the Importance of Aiming High",
+        "text": "My dear friends,\n\nWe should all reach for the stars—in our work, our fortunes, and our health. Though I recommend keeping both feet on the floor when attempting it before breakfast.\n\nThe same ambition applies to that peculiar pastime involving a stick, a few balls, and gentlemen who insist that missing was part of the plan. A little direction can do wonders. So can knowing when to take your cue.\n\nDo not let anyone clip your wings. If my little bird is in your keeping, perhaps it is your turn to take a shot. Let its name guide your aim, one letter at a time.\n\nAfter all, even the grandest flight begins with a small leap of faith—and occasionally ends in a pocket.\n\nYours, with lofty intentions,\nWilliam"
+      }
+    },
+    {
+      "id": "hall_donnelly",
+      "roomId": "hall",
+      "type": "inspection",
+      "name": "Officer Donnelly",
+      "speakerId": "police_officer",
+      "actionLabel": "Ask for guidance",
+      "description": "Officer Donnelly stands near the entrance, keeping watch beside a board of collected evidence.",
+      "reward": {
+        "id": "hall_donnelly_conversation",
+        "name": "A word with Donnelly",
+        "text": "“If you need a direction, ask. Otherwise, I shall leave you to form your own conclusions.”"
+      },
+      "guidance": [
+        {
+          "stepId": "act2_investigation",
+          "uninspected": "kitchen_sideboard_drawer",
+          "text": "“People leave the oddest things among the everyday clutter. Have you looked inside the kitchen drawers?”"
+        },
+        {
+          "stepId": "act2_investigation",
+          "missingInventory": "letter_aim_high",
+          "text": "“There was a folded letter in that kitchen drawer. It may be worth bringing along rather than leaving it where you found it.”"
+        },
+        {
+          "stepId": "act2_investigation",
+          "unsolvedPuzzle": "billiards_routine",
+          "text": "“William’s letter talks a good deal about taking a shot. Perhaps compare it with what you find by the billiards table—and with the belongings he left you.”"
+        },
+        {
+          "stepId": "act2_investigation",
+          "missingInventory": "clue_forgedDocs",
+          "text": "“I heard something click beneath the billiards table. An open drawer is worth a closer inspection.”"
+        },
+        {
+          "stepId": "act2_investigation",
+          "uninspected": "piano_melody",
+          "text": "“You have made a start. Try examining the piano in the music room. William seems to have left more than entertainment behind.”"
+        },
+        {
+          "stepId": "act2_investigation",
+          "unsolvedPuzzle": "piano_melody",
+          "text": "“Look through the music you have found, and talk about what each of you knows of William. There may be a reason he kept those particular sheets.”"
+        },
+        {
+          "stepId": "act2_investigation",
+          "missingInventory": "clue_transcriptAct1",
+          "text": "“That strange cabinet by the piano has stirred. See what it was keeping safe.”"
+        },
+        {
+          "stepId": "act2_investigation",
+          "uninspected": "workshop_storage_cabinet",
+          "text": "“Not everything in a workshop is a puzzle. A plain storage cabinet can be worth opening too.”"
+        },
+        {
+          "stepId": "act2_investigation",
+          "missingInventory": "drawing_brass_key",
+          "text": "“You noticed something on the workshop cabinet shelf. Have you taken a closer look at it?”"
+        },
+        {
+          "stepId": "act2_investigation",
+          "unsolvedPuzzle": "drawing_maze_cabinet",
+          "text": "“You have gathered a few useful things. Try them on the mechanisms you have not yet managed to operate.”"
+        },
+        {
+          "text": "“Bring your evidence to the board beside me. Compare what the documents actually say with what people have told you. I shall not make your conclusions for you.”"
+        }
+      ]
+    },
+    {
+      "id": "hall_case_board",
+      "roomId": "hall",
+      "type": "inspection",
+      "view": "caseBoard",
+      "name": "Detective’s Case Board",
+      "description": "Beside Donnelly stands a large board for the group’s collected evidence, observations and suspicions.",
+      "reward": {
+        "id": "hall_case_board_view",
+        "name": "Investigate together",
+        "text": "Compare the evidence you have found. Nothing is pinned here until the group discovers it."
+      }
+    },
+    {
+      "id": "drawing_corner_desk",
+      "type": "inspection",
+      "roomId": "drawing",
+      "name": "Corner desk",
+      "description": "A small writing desk stands in the corner of the drawing room. A glass paperweight rests on a yellowed scrap of newsprint.",
+      "reward": {
+        "id": "drawing_corner_desk_contents",
+        "name": "On the desk",
+        "text": "Beneath the paperweight lies an old Dallas Herald clipping. Its headline reads: “Thoreson Cleared.” Inspect the clipping to read it."
+      }
+    }
+  ],
+  "speakers": {
+    "police_officer": {
+      "name": "Officer Frank Donnelly",
+      "portrait": "stories/thoreson_estate_dinner/assets/police-officer-v1.png",
+      "alt": "Officer Frank Donnelly, in uniform and holding a notebook.",
+      "background": "map"
+    }
+  },
+  "collections": [
+    {
+      "id": "sheet_music",
+      "reward": {
+        "id": "sheet_music_booklet",
+        "name": "Sheet music",
+        "text": "The songs your group has discovered. Browse here, or inspect the piano on the TV to select a song together."
+      },
+      "itemKind": "booklet",
+      "playInteraction": "piano_melody",
+      "pages": [
+        {
+          "id": "clockwork_waltz",
+          "title": "The Clockwork Waltz",
+          "text": "C  ·  E  ·  G  ·  E  ·  D  ·  F  ·  A  ·  F  ·  E  ·  D  ·  C\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required.",
+          "requiresInventory": "score_clockwork_waltz"
+        },
+        {
+          "id": "lanterns",
+          "title": "Lanterns on the Lake",
+          "text": "A  ·  C  ·  E  ·  D  ·  C  ·  B  ·  D  ·  F♯  ·  E  ·  C  ·  A\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required.",
+          "requiresInventory": "score_lanterns"
+        },
+        {
+          "id": "procession",
+          "title": "Procession in Mourning",
+          "text": "G  ·  F♯  ·  B  ·  E  ·  D  ·  G  ·  C  ·  B  ·  E  ·  A  ·  D\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required.",
+          "requiresInventory": "score_procession"
+        },
+        {
+          "id": "sparrow",
+          "title": "The Brass Sparrow",
+          "text": "E  ·  G  ·  F♯  ·  E  ·  B  ·  D  ·  C  ·  A  ·  B  ·  D  ·  E\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required.",
+          "requiresInventory": "score_sparrow"
+        },
+        {
+          "id": "midnight",
+          "title": "Midnight at the Toy Shop",
+          "text": "D  ·  F  ·  A  ·  G  ·  E  ·  C  ·  E  ·  G  ·  F  ·  E  ·  D\n\nPlay the notes in order. Hold Shift for sharps; rhythm is not required.",
+          "requiresInventory": "score_midnight"
+        }
+      ]
+    }
+  ],
+  "playerItemSets": [
+    {
+      "id": "inherited_toys",
+      "items": [
+        {
+          "id": "toy_bird",
+          "name": "Bird",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_train",
+          "name": "Train",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_yoyo",
+          "name": "Yo-yo",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_soldier",
+          "name": "Soldier",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_horse",
+          "name": "Horse",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_top",
+          "name": "Top",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_boat",
+          "name": "Boat",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_bear",
+          "name": "Bear",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_rabbit",
+          "name": "Rabbit",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_fox",
+          "name": "Fox",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_drum",
+          "name": "Drum",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_doll",
+          "name": "Doll",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_kite",
+          "name": "Kite",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_duck",
+          "name": "Duck",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_car",
+          "name": "Car",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        },
+        {
+          "id": "toy_whistle",
+          "name": "Whistle",
+          "text": "A small toy from William’s collection, entrusted to you.",
+          "kind": "toy",
+          "isEvidence": false
+        }
+      ]
+    }
+  ],
+  "caseBoard": {
+    "inventoryOnly": true
+  }
+}

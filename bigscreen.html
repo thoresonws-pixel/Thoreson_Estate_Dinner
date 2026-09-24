@@ -1024,6 +1024,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ThorsMystery">
+<script src="story-package.js"></script>
+<script src="role-engine.js"></script>
 </head>
 <body>
 
@@ -1035,75 +1037,7 @@
 </div>
 
 <!-- ── OPENING CARD ──────────────────────────────────────────── -->
-<div class="screen" id="screen-opening">
-    <div class="opening-outer">
-
-        <!-- Masthead -->
-        <div class="opening-masthead">
-            <div class="opening-masthead-left">
-                <div class="opening-dateline" id="openingDate">Dallas, Texas · 1935</div>
-                <div class="opening-case-no" id="openingCase">Case No. ——</div>
-            </div>
-            <div class="opening-masthead-center">
-                <div class="opening-pub-name">Thor's Murder Mysteries</div>
-                <div class="opening-headline">A DEATH AT THE ESTATE</div>
-                <div class="opening-subhead">William Thoreson Sr. is dead. The investigation begins.</div>
-            </div>
-            <div class="opening-masthead-right">
-                <div class="opening-byline">Address by</div>
-                <div class="opening-byline" style="color:rgba(196,196,212,0.6);font-size:10px;letter-spacing:2px;">Scott Thoreson Jr.</div>
-                <div class="opening-status" style="margin-top:6px;">● Live</div>
-            </div>
-        </div>
-
-        <!-- Body -->
-        <div class="opening-body">
-            <div class="opening-col">
-                <div class="opening-section-head">The Announcement</div>
-                <p class="opening-stage">Stand where everyone can see you. Take a breath.</p>
-                <p class="opening-line">"Thank you all for coming tonight."</p>
-                <p class="opening-stage">Look around the room.</p>
-                <p class="opening-line">"As many of you know, my father invited you here for a dinner party. He said he had an announcement to make — something that would "change everything.""</p>
-                <p class="opening-line">"Most of you know my father. William Thoreson. He built this family from nothing — came to Dallas in 1899 with very little and spent the next thirty years turning it into something."</p>
-                <p class="opening-line">"Thoreson Toys. Started in a workshop on Commerce Street in 1902. By 1920 it was one of the most successful toy manufacturers in the Southwest. By 1930, his name was on buildings."</p>
-                <p class="opening-line">"He was a self-made man. That's how he told it. That's how everyone told it."</p>
-                <p class="opening-stage">Longer pause. Let confusion set in.</p>
-                <p class="opening-line opening-line-key">"My father... William Thoreson... is dead."</p>
-                <p class="opening-stage">Let that land. Wait for reactions.</p>
-                <p class="opening-line">"He was found earlier this evening. I don't know how. I don't know why. The authorities have been contacted, but due to the storm, we're on our own for now."</p>
-                <p class="opening-line">"No one leaves until we understand what happened."</p>
-                <p class="opening-line">"I'm Scott Thoreson — his eldest son. I've handled this family's legal affairs for years. I never imagined I'd be investigating my own father's death."</p>
-                <p class="opening-line">"But here we are. And I need your help."</p>
-            </div>
-            <div class="opening-col-rule"></div>
-            <div class="opening-col">
-                <div class="opening-section-head">The Rules</div>
-                <p class="opening-stage">More businesslike now — still in character, but organizing.</p>
-                <p class="opening-line">"Here's how this will work."</p>
-                <p class="opening-line">"We'll investigate in phases. After each phase, I'll call everyone back together to share what we've found."</p>
-                <p class="opening-line">"Some rooms are open now. Others are closed — if a door is closed, it's off limits for now."</p>
-                <p class="opening-line">"You'll see blue tape on certain items. Those are personal belongings. Please respect them."</p>
-                <p class="opening-line">"Some of you may have particular expertise. If you find something you can't make sense of, look for someone who can. Some documents require specific knowledge to interpret."</p>
-                <p class="opening-line">"If you find a document with a QR code, scan it with your app — but you'll need the right skill. Find the person with the right expertise."</p>
-                <p class="opening-line">"If you want to search another guest — and you might — come to me first. We'll handle it properly."</p>
-                <p class="opening-line">"The goal is simple: find out what happened to my father."</p>
-                <p class="opening-line">"Let's start by learning what we can about him. His business. His dealings. Anything that might explain why someone would want him dead."</p>
-                <p class="opening-stage">Final look around.</p>
-                <p class="opening-line">"The Living Room, Dining Room, Parlor, Kitchen, Breakfast Nook, and my father's Office are all open."</p>
-                <p class="opening-line opening-line-key">"Begin."</p>
-            </div>
-        </div>
-
-        <!-- Footer ticker -->
-        <div class="opening-footer">
-            <div class="opening-footer-label">Investigation</div>
-            <div class="opening-footer-ticker">
-                Scan QR codes with the app &nbsp;·&nbsp; Use your character's skill to unlock evidence &nbsp;·&nbsp; Gather back together at the end of each act &nbsp;·&nbsp; Blue tape = off limits &nbsp;·&nbsp; Closed doors = off limits &nbsp;·&nbsp; Ask to search another guest &nbsp;·&nbsp; Find the killer
-            </div>
-        </div>
-
-    </div>
-</div>
+<div class="screen" id="screen-opening"></div>
 
 <!-- ── DETECTIVE BOARD ────────────────────────────────────────── -->
 <div class="screen" id="screen-detective">
@@ -1127,18 +1061,6 @@
 </div>
 
 <!-- ── COCKTAIL WARNING ───────────────────────────────────────────── -->
-<div class="screen" id="screen-cocktail-warning">
-    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:24px;padding:60px;background:radial-gradient(ellipse at center, #1a0808 0%, #06040a 100%);">
-        <div style="font-family:'Special Elite',monospace;font-size:11px;letter-spacing:6px;text-transform:uppercase;color:rgba(201,162,39,0.4);">Cocktail Hour</div>
-        <div style="font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:#c9a227;letter-spacing:4px;">15 MINUTES</div>
-        <div style="font-family:'Playfair Display',serif;font-size:32px;color:#f5f0e6;">remaining</div>
-        <div style="width:80px;height:1px;background:rgba(201,162,39,0.3);"></div>
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-style:italic;color:rgba(196,196,212,0.7);text-align:center;max-width:700px;line-height:1.6;">
-            Finish your conversations and answer the quiz on your phone.<br>Dinner will be served shortly.
-        </div>
-    </div>
-</div>
-
 <!-- ── SLIDESHOW ──────────────────────────────────────────────── -->
 <div class="screen" id="screen-slideshow">
     <img id="slideshowImg" class="slideshow-single" src="" alt="">
@@ -1218,50 +1140,19 @@
             .catch(err => console.error('Auth failed:', err));
     });
 
-    function loadStory() {
-        return new Promise(resolve => {
-            db.ref('games/' + gameId).once('value').then(snap => {
-                const g = snap.val();
-                if (!g) { resolve(); return; }
-
-                // Watermark with party code
-                document.getElementById('watermark').textContent =
-                    'Thor\'s Murder Mysteries  ·  ' + (g.partyCode || '');
-                document.getElementById('boardCaseNumber').textContent =
-                    'Case No. ' + (g.partyCode || '——');
-                if (document.getElementById('openingCase')) {
-                    document.getElementById('openingCase').textContent = 'Case No. ' + (g.partyCode || '——');
-                }
-                if (document.getElementById('openingDate') && g.eventDate) {
-                    const d = new Date(g.eventDate + 'T12:00:00');
-                    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-                    document.getElementById('openingDate').textContent = 'Dallas, Texas · ' + months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-                }
-
-                const storyId = g.storyId || 'thoreson_estate_dinner';
-                const files   = ['characters.js','skills.js','revelations.js','items.js','roles.js','flow.js','facts.js','quests.js','menu.js'];
-                let loaded = 0;
-                files.forEach(f => {
-                    const s = document.createElement('script');
-                    s.src = 'stories/' + storyId + '/' + f + '?v=' + Date.now();
-                    s.onload = s.onerror = () => { if (++loaded === files.length) resolve(); };
-                    document.head.appendChild(s);
-                });
-            });
-        });
-    }
+    async function loadStory(){const g=(await db.ref('games/'+gameId).once('value')).val();if(!g)throw Error('Game not found');const p=await StoryPackage.legacy(g.storyId);for(const [mode,html]of Object.entries(p.presentation?.screens || {})){let screen=document.getElementById('screen-'+mode);if(!screen){screen=document.createElement('div');screen.id='screen-'+mode;screen.className='screen';document.body.append(screen);}screen.innerHTML=html;}document.getElementById('watermark').textContent=p.metadata.name+' · '+(g.partyCode||'');document.getElementById('boardCaseNumber').textContent='Case No. '+(g.partyCode||'');document.getElementById('screen-opening').innerHTML=p.presentation?.openingHtml || '<p>No opening presentation configured.</p>';const date=document.getElementById('openingDate');if(date)date.textContent=(p.presentation?.place||'')+(g.eventDate?' · '+g.eventDate:'');for(const key of Object.keys(CLUE_CLUSTERS))delete CLUE_CLUSTERS[key];ACT_REVELATIONS.forEach(r=>{CLUE_CLUSTERS[r.id]=r;});}
 
     function bootstrap() {
         // Auto-mode: listen to currentPhase and drive bigscreen automatically
         db.ref('games/' + gameId + '/state/currentPhase').on('value', snap => {
             const phase = snap.val();
             if (!phase) return;
-            if (phase.id === 'cocktail') {
-                switchScreen('cocktail', {});
+            if (phase.id === currentStoryPackage.compatibility?.openingPhase) {
+                switchScreen(currentStoryPackage.compatibility?.openingScreen || 'slideshow', {});
                 // After 30 seconds transition to photo slideshow
                 setTimeout(() => {
-                    if (currentMode === 'cocktail') switchScreen('slideshow', { force: true });
-                }, 30000);
+                    if (currentMode === currentStoryPackage.compatibility?.openingScreen) switchScreen('slideshow', { force: true });
+                }, currentStoryPackage.compatibility?.openingSlideshowDelayMs || 30000);
             }
             // opening and detective handled by willsDeath / manualBigScreen
         });
@@ -1270,7 +1161,7 @@
         let openingShown = false;
         db.ref('games/' + gameId + '/state/activeItems').on('value', snap => {
             const items = snap.val() || [];
-            const wasAdded = items.includes('willsDeath') && !activeItems.includes('willsDeath');
+            const wasAdded = items.includes(currentStoryPackage.compatibility?.startEvent) && !activeItems.includes(currentStoryPackage.compatibility?.startEvent);
 
             // Find newly added items for spotlight
             const added = items.filter(id => !activeItems.includes(id));
@@ -1280,25 +1171,21 @@
             if (wasAdded && !openingShown) {
                 openingShown = true;
                 switchScreen('opening', {});
-                setTimeout(cinStart, 500);
+                setTimeout(cinStart, currentStoryPackage.compatibility?.openingCinematicDelayMs || 500);
                 setTimeout(() => {
                     cinStop();
                     switchScreen('detective', { force: true });
-                }, 10500);
+                }, currentStoryPackage.compatibility?.openingScreenDurationMs || 10500);
             }
 
             // Play confession audio when transcript is revealed
-            const audioMap = {
-                transcriptAct1: { src: 'audio/confession_act1.mp3', title: 'Confession Recording', subtitle: 'Act One — William Thoreson Sr.', transcriptId: 'transcriptAct1' },
-                transcriptAct2: { src: 'audio/confession_act2.mp3', title: 'Confession Recording', subtitle: 'Act Two — William Thoreson Sr.', transcriptId: 'transcriptAct2' },
-                transcriptAct3: { src: 'audio/confession_act3.mp3', title: 'Confession Recording', subtitle: 'Act Three — William Thoreson Sr.', transcriptId: 'transcriptAct3' },
-            };
+            const audioMap = currentStoryPackage.compatibility?.audioReveals || {};
             added.forEach(id => {
                 if (audioMap[id]) playConfession(audioMap[id]);
             });
 
             // Queue spotlight for each new item (skip willsDeath and transcripts — audio handles those)
-            const skipIds = ['willsDeath', 'transcriptAct1', 'transcriptAct2', 'transcriptAct3'];
+            const skipIds = [currentStoryPackage.compatibility?.startEvent,...(currentStoryPackage.compatibility?.transcripts || [])];
             added.filter(id => !skipIds.includes(id)).forEach(id => {
                 const item = findItem(id);
                 if (item) queueSpotlight(item);
@@ -1353,7 +1240,7 @@
                 (mode === 'detective') ? 'block' : 'none';
 
             if (mode === 'slideshow') startSlideshow();
-        if (mode === 'cocktail-warning') setTimeout(() => switchScreen('slideshow', { force: true }), 20000);
+
             else stopSlideshow();
 
             if (mode === 'video' && data?.videoSrc) {
@@ -1379,101 +1266,25 @@
 
     // Clue → revelation mapping
     // Act-ordered revelations
-    const ACT_REVELATIONS = [
-        {
-            id: 'stolenCompany',
-            label: 'Revelation',
-            title: 'The Stolen Company',
-            clues: ['newspaper','letterhead','incorporation','forgedDocs'],
-        },
-        {
-            id: 'secretHeir',
-            label: 'Revelation',
-            title: 'The Secret Heir',
-            clues: ['ledger','margaretsLetter','birthCertificate','margaretDeath','will'],
-        },
-        {
-            id: 'wolfsbane',
-            label: 'Method of Murder',
-            title: 'The Poison',
-            clues: ['coroner','travelJournal'],
-        },
-        {
-            id: 'mirandasIdentity',
-            label: 'Revelation',
-            title: 'The Killer Unmasked',
-            clues: ['backgroundCheck'],
-        },
-    ];
+    var ACT_REVELATIONS = [];
 
     // Standalone clues — on board but not linked to a revelation
-    const STANDALONE_CLUES = ['bradfordLetter','bankStatement'];
+    var STANDALONE_CLUES = [];
 
     // Build CLUE_CLUSTERS lookup for spotlight/audio code that references it
     const CLUE_CLUSTERS = {};
     ACT_REVELATIONS.forEach(r => { CLUE_CLUSTERS[r.id] = r; });
 
     // Short polaroid captions per clue
-    const CLUE_CAPTIONS = {
-        newspaper:        'Thoreson Cleared',
-        letterhead:       'Hartley & Thoreson',
-        bradfordLetter:   'Patent Dispute',
-        incorporation:    '50/50 Partnership',
-        forgedDocs:       'Transfer Document',
-        bankStatement:    'Wire to Hamburg',
-        ledger:           'T.H. Payments',
-        margaretsLetter:  'Letter in French',
-        birthCertificate: 'Birth Certificate',
-        margaretDeath:    'Margaret Obituary',
-        will:             'Last Will',
-        coroner:          'Autopsy Report',
-        travelJournal:    'Travel Journal',
-        backgroundCheck:  'Pinkerton Report',
-    };
+    var CLUE_CAPTIONS = {};
 
-    const CLUE_ICONS = {
-        newspaper:'📰', letterhead:'📄', bradfordLetter:'✉️', incorporation:'🤝',
-        forgedDocs:'📝', bankStatement:'🏦', ledger:'📒', margaretsLetter:'💌',
-        birthCertificate:'📋', margaretDeath:'📰', will:'⚖️',
-        coroner:'🔬', travelJournal:'📓', backgroundCheck:'🔍',
-    };
+    var CLUE_ICONS = {};
 
-    const CLUE_THUMBS = {
-        newspaper:        'clue-thumbs/newspaper.jpg',
-        letterhead:       'clue-thumbs/letterhead.jpg',
-        forgedDocs:       'clue-thumbs/forgedDocs.jpg',
-        ledger:           'clue-thumbs/ledger.jpg',
-        margaretsLetter:  'clue-thumbs/margaretsLetter.jpg',
-        birthCertificate: 'clue-thumbs/birthCertificate.jpg',
-        margaretDeath:    'clue-thumbs/margaretDeath.jpg',
-        will:             'clue-thumbs/will.jpg',
-        coroner:          'clue-thumbs/coroner.jpg',
-        travelJournal:    'clue-thumbs/travelJournal.jpg',
-        bankStatement:    'clue-thumbs/bankStatement.jpg',
-    };
+    var CLUE_THUMBS = {};
 
     // Fixed clue positions relative to board (fraction of W/H)
     // Spread across the full board in a natural-looking scatter
-    const CLUE_LAYOUT = {
-        // Act 1 clues — spread across center of board
-        newspaper:        { x: 0.10, y: 0.12, r: -4 },
-        letterhead:       { x: 0.55, y: 0.08, r:  3 },
-        incorporation:    { x: 0.50, y: 0.68, r: -5 },
-        forgedDocs:       { x: 0.12, y: 0.62, r:  6 },
-        // Act 2 clues
-        ledger:           { x: 0.10, y: 0.10, r: -3 },
-        margaretsLetter:  { x: 0.58, y: 0.10, r:  5 },
-        birthCertificate: { x: 0.60, y: 0.65, r: -4 },
-        margaretDeath:    { x: 0.10, y: 0.60, r:  4 },
-        will:             { x: 0.35, y: 0.72, r: -6 },
-        // Act 3 clues
-        coroner:          { x: 0.15, y: 0.12, r: -5 },
-        travelJournal:    { x: 0.55, y: 0.12, r:  4 },
-        backgroundCheck:  { x: 0.35, y: 0.65, r: -3 },
-        // Standalones — far corners, clearly separate
-        bradfordLetter:   { x: 0.62, y: 0.72, r:  7 },
-        bankStatement:    { x: 0.62, y: 0.45, r: -5 },
-    };
+    var CLUE_LAYOUT = {};
 
     function seededPos(id) {
         return CLUE_LAYOUT[id] || { x: 0.5, y: 0.5, r: 0 };
@@ -1725,21 +1536,7 @@
 
 
     // ── CINEMATIC OPENING ─────────────────────────────────────
-    const CIN_SECTIONS = [
-        { label: '', text: `"Thank you all for coming tonight."`, size: 'large', duration: 5000 },
-        { label: 'The Announcement', text: `"As many of you know, my father invited you here for a dinner party. He said he had an announcement to make — something that would change everything."`, size: 'normal', duration: 9000 },
-        { label: '', text: `"Most of you know my father. William Thoreson. He built this family from nothing — came to Dallas in 1899 with very little and spent the next thirty years turning it into something. Thoreson Toys. Started in a workshop on Commerce Street in 1902. By 1920, one of the most successful toy manufacturers in the Southwest. By 1930, his name was on buildings."`, size: 'normal', duration: 14000 },
-        { label: '', text: `"He was a self-made man. That is how he told it. That is how everyone told it."`, size: 'large', duration: 7000 },
-        { label: '', text: `"My father... William Thoreson... is dead."`, size: 'key', duration: 8000 },
-        { label: '', text: `"He was found earlier this evening. I do not know how. I do not know why. The authorities have been contacted, but due to the storm, we are on our own for now."`, size: 'normal', duration: 10000 },
-        { label: '', text: `"No one leaves until we understand what happened."`, size: 'key', duration: 7000 },
-        { label: '', text: `"I am Scott Thoreson — his eldest son. I have handled this family's legal affairs for years. I never imagined I would be investigating my own father's death. But here we are. And I need your help."`, size: 'normal', duration: 11000 },
-        { label: 'The Rules', text: `"We will investigate in phases. After each phase, I will call everyone back together to share what we have found. Some rooms are open now — others will open as the evening progresses. You will see blue tape on certain items. Those are personal belongings. Please respect them."`, size: 'normal', duration: 14000 },
-        { label: '', text: `"Some of you have particular expertise. If you find something you cannot make sense of, look for someone who can. Some documents require specific skills to interpret. If you find a QR code, scan it in the app — but you will need the right skill to unlock it."`, size: 'normal', duration: 13000 },
-        { label: '', text: `"The goal is simple: find out what happened to my father. His business, his dealings, anything that might explain why someone in this room wanted him dead."`, size: 'normal', duration: 12000 },
-        { label: '', text: `"The Living Room, Dining Room, Parlor, Kitchen, Breakfast Nook, and my father's Office are all open."`, size: 'large', duration: 8000 },
-        { label: '', text: `BEGIN.`, size: 'closing', duration: 6000 },
-    ];
+    var CIN_SECTIONS = [];
 
     let cinIndex = 0;
     let cinTimer = null;

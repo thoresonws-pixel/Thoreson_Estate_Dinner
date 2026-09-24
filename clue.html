@@ -8,7 +8,7 @@
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="items.js"></script>
+  <script src="story-package.js"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -208,6 +208,8 @@
   async function init() {
     const card = document.getElementById('card');
 
+    const story = await StoryPackage.fromContext();
+    document.title = story.metadata.name + ' — Evidence';
     // Unknown item
     if (!itemId) {
       card.innerHTML = `<div class="not-found-msg"><div class="big">?</div>No item specified.</div>`;
@@ -233,7 +235,7 @@
     let loadError = false;
 
     try {
-      const ref = db.collection('foundItems').doc(itemId);
+      const ref = db.collection(params.get('game') ? 'games/' + params.get('game') + '/foundItems' : (story.compatibility?.foundItemsCollection || 'stories/' + story.id + '/foundItems')).doc(itemId);
       const snap = await ref.get();
       if (!snap.exists) {
         await ref.set({ foundAt: firebase.firestore.FieldValue.serverTimestamp(), category: item.category });
@@ -279,7 +281,7 @@
 
     card.innerHTML = `
       <div class="header ${cfg.headerClass}">
-        <div class="estate-name">The Thoreson Estate &mdash; 1935</div>
+        <div class="estate-name">${story.presentation?.clueHeading || story.metadata.name}</div>
         <div class="category-badge ${cfg.badgeClass}">${cfg.icon} &nbsp;${cfg.label}</div>
         <div class="item-number">${item._number} <span>/ ${categoryTotal}</span></div>
         <div class="item-label">${item.label}</div>
@@ -288,11 +290,11 @@
         ${statusHtml}
         ${progressHtml}
       </div>
-      <div class="footer">THORESON ESTATE &nbsp;·&nbsp; DALLAS, TEXAS &nbsp;·&nbsp; MARCH 21, 1935</div>
+      <div class="footer">${story.presentation?.clueFooter || story.metadata.name}</div>
     `;
   }
 
-  init();
+  init().catch(error => { document.getElementById('card').textContent = error.message; });
 </script>
 </body>
 </html>

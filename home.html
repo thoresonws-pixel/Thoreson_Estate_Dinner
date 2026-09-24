@@ -506,7 +506,8 @@ auth.onAuthStateChanged(async user => {
         await new Promise(r => setTimeout(r, 800));
         const refreshed = auth.currentUser;
         if (!refreshed || refreshed.isAnonymous) {
-            window.location.href = 'signin.html';
+            const inviteCode = new URLSearchParams(location.search).get('code');
+            window.location.href = 'signin.html' + (inviteCode ? '?code=' + encodeURIComponent(inviteCode) : '');
             return;
         }
         user = refreshed;
@@ -907,5 +908,6 @@ function showToast(msg, type) {
     setTimeout(() => el.className = 'toast', 3000);
 }
 </script>
+<script src="story-package.js"></script><script src="phone-flow-bridge.js"></script>
 </body>
 </html>

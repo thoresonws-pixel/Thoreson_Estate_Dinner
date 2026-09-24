@@ -108,7 +108,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ThorsMystery">
-</head>
+<script src="story-package.js"></script><script src="story-content.js"></script></head>
 <body>
 
 <div class="frame-outer">
@@ -125,43 +125,7 @@
 </div>
 
 <script>
-  const photos = {
-    'e1': 'photos/easter1.jpeg',
-    'e2': 'photos/easter2.jpeg',
-    'e3': 'photos/easter3.jpeg',
-    'e4': 'photos/easter4.jpeg',
-    'e5': 'photos/easter5.jpeg',
-    'bathroom': 'photos/bathroom_cat.jpeg',
-    'p1': 'posters/wanted_aaron.jpg',
-    'p2': 'posters/missing_sarah.jpg',
-    'p3': 'posters/missing_laurie.jpg',
-    'p4': 'posters/missing_robin.jpg',
-    'p5': 'posters/wanted_bradford.jpg',
-  };
-
-  const weddingAlbum = [
-    'photos/easter_collage.jpeg',
-  ];
-
-  const id = new URLSearchParams(window.location.search).get('id');
-
-  if (id === 'wedding') {
-    document.getElementById('photo').style.display = 'none';
-    const wrap = document.querySelector('.photo-wrap');
-    weddingAlbum.forEach(src => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.style.cssText = 'width:100%; display:block; margin-bottom:16px; filter:sepia(30%) contrast(95%) brightness(90%);';
-      wrap.appendChild(img);
-    });
-  } else {
-    const src = photos[id];
-    if (src) {
-      document.getElementById('photo').src = src;
-    } else {
-      document.getElementById('photo').style.display = 'none';
-    }
-  }
+  (async()=>{const story=await StoryPackage.fromContext();const id=new URLSearchParams(location.search).get('id');const photo=story.content.scans?.routes?.['photo.html']?.[id];if(!photo)throw Error('Unknown story photograph');document.getElementById('photo').src=photo.image;document.querySelector('.caption').textContent=story.metadata.name;document.querySelector('.caption-sub').textContent=photo.caption||'';})().catch(e=>{document.querySelector('.caption').textContent=e.message;});
 </script>
 </body>
 </html>

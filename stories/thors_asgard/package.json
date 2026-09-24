@@ -1,0 +1,2453 @@
+{
+  "schemaVersion": 1,
+  "id": "thors_asgard",
+  "metadata": {
+    "name": "Thor's Asgard",
+    "description": "Asgard, age of the gods. Someone has murdered one of the Aesir — and every god in the hall had a reason.",
+    "minPlayers": 6,
+    "maxPlayers": 10,
+    "color": "#1a1400",
+    "accent": "#f0c040",
+    "badge": "⚡",
+    "status": "coming_soon"
+  },
+  "content": {
+    "characters": {
+      "miranda_longfellow": {
+        "name": "Miranda Longfellow",
+        "nameVariants": {
+          "female": "Miranda Longfellow",
+          "male": "Milo Longfellow"
+        },
+        "picker": {
+          "role": "Legal Manager, Thoreson Estate",
+          "involvement": "heavy",
+          "isKiller": false
+        },
+        "publicDesc": "The Thoreson estate's legal manager for nearly ten years. Professional, precise, and discreet. Has been present for every significant family moment — and most of the significant paperwork.",
+        "hiddenSkills": [],
+        "backstory": "You have managed the legal affairs of the Thoreson estate for nearly ten years. You know where every document is kept, every filing, every secret William thought was safely locked away. You are good at stillness. At watching. At being present without being noticed.",
+        "memories": [],
+        "canShare": [
+          {
+            "text": "Will told me he was planning something important tonight. He seemed almost nervous about it.",
+            "unlockedBy": null
+          },
+          {
+            "text": "Yes, I traveled to Switzerland last summer. It was a lovely trip — the mountains were beautiful.",
+            "unlockedBy": null
+          }
+        ],
+        "relationships": [
+          {
+            "name": "{{scott_thoreson}}",
+            "relation": "The eldest son — you have worked alongside the family for ten years"
+          },
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Your employer for ten years (deceased)"
+          }
+        ],
+        "items": [
+          "Travel journal (always on you — searchable Act 3)"
+        ]
+      },
+      "scott_thoreson": {
+        "name": "Scott Thoreson Jr.",
+        "nameVariants": {
+          "female": "Scottie Thoreson Jr.",
+          "male": "Scott Thoreson Jr."
+        },
+        "picker": {
+          "role": "Eldest Son, Managing the Family Business",
+          "involvement": "heavy",
+          "isKiller": false
+        },
+        "publicDesc": "William Thoreson's eldest child. Has spent years learning the family business from the inside — operations, relationships, the day-to-day of keeping Thoreson Toys running.",
+        "hiddenSkills": [],
+        "backstory": "You are William's eldest child and have spent years managing the family business under your father's guidance. You know the company, the investors, the employees. Three weeks ago your father called to say he was planning to make something right — something from a long time ago. You did not push for details. You wish now that you had.",
+        "memories": [
+          {
+            "text": "Your father called three weeks ago — not about business. William said there was a wrong from a long time ago that needed to be made right. You did not push for details. You wish now that you had.",
+            "unlockedBy": "willsDeath"
+          },
+          {
+            "text": "{{miranda_longfellow}} has been the most trusted person in this household for ten years. Every important document has passed through those hands. You are only now considering what that access actually means.",
+            "unlockedBy": "mirandasIdentity",
+            "tier": 1
+          }
+        ],
+        "canShare": [
+          {
+            "text": "My father told me three weeks ago he was planning to make something right. He wouldn't say what.",
+            "unlockedBy": null
+          },
+          {
+            "text": "I have run this business alongside my father for years. I thought I knew everything about it.",
+            "unlockedBy": null
+          }
+        ],
+        "relationships": [
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Your father (deceased)"
+          },
+          {
+            "name": "{{miranda_longfellow}}",
+            "relation": "The estate's legal manager — trusted for ten years"
+          },
+          {
+            "name": "{{vivienne_ashford}}",
+            "relation": "Your cousin on your mother's side"
+          },
+          {
+            "name": "{{raymond_hammond}}",
+            "relation": "Your business manager for fifteen years"
+          }
+        ],
+        "items": []
+      },
+      "walter_lippman": {
+        "name": "Walter Lippman",
+        "nameVariants": {
+          "female": "Winifred Lippman",
+          "male": "Walter Lippman"
+        },
+        "picker": {
+          "role": "Journalist, Dallas Herald",
+          "involvement": "heavy",
+          "isKiller": false
+        },
+        "publicDesc": "A journalist for the Dallas Herald covering business and society. Known for thorough, honest reporting. Personally invited by William Thoreson Sr.",
+        "hiddenSkills": [],
+        "note": "You came tonight knowing Will wanted to tell you something personal. Let that discovery happen in the room.",
+        "backstory": "You write for the Dallas Herald under a name that has become simply who you are. William Thoreson personally invited you tonight — said he had an announcement that concerned you specifically. You have spent your entire career chasing the truth. Tonight the truth may find you first.",
+        "memories": [
+          {
+            "text": "In years covering Dallas business you heard whispers that Thoreson Toys hadn't started the way Will told it. You could never confirm it. You are finding it now.",
+            "unlockedBy": "stolenCompany"
+          },
+          {
+            "text": "Your legal name is Taylor James Hartley. Born March 5th, 1911. That birth date is circled on the calendar in the study. The ledger entries marked T.H. — that money came to you. William Thoreson was your father.",
+            "unlockedBy": "birthCertificate",
+            "tier": 1
+          }
+        ],
+        "canShare": [
+          {
+            "text": "Will personally invited me. Said he had an announcement that would be the story of the year.",
+            "unlockedBy": null
+          },
+          {
+            "text": "The early history of Thoreson Toys was always unusually difficult to trace. Now I understand why.",
+            "unlockedBy": "stolenCompany"
+          }
+        ],
+        "relationships": [
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Invited you personally — now deceased"
+          },
+          {
+            "name": "{{scott_thoreson}}",
+            "relation": "The eldest son"
+          },
+          {
+            "name": "{{miranda_longfellow}}",
+            "relation": "The legal manager — met briefly tonight"
+          }
+        ],
+        "items": [
+          "Notepad and pen"
+        ]
+      },
+      "david_richardson": {
+        "name": "David Richardson",
+        "nameVariants": {
+          "female": "Diana Richardson",
+          "male": "David Richardson"
+        },
+        "picker": {
+          "role": "Private Investigator",
+          "involvement": "heavy",
+          "isKiller": false
+        },
+        "publicDesc": "A licensed private investigator and a cousin on the Thoreson side. The moment William died, the calls started.",
+        "hiddenSkills": [],
+        "note": "You are the evidence pipeline. Make each report a moment — step away, take the call, react before you share.",
+        "backstory": "You are a Thoreson cousin and a licensed private investigator. You work cases across Dallas — missing persons, insurance fraud, the occasional domestic matter. The moment William died you started making calls. You have contacts at the county clerk's office, the coroner's office, and a Pinkerton agent who owes you a favor. While everyone else is absorbing the shock, you are already working.",
+        "memories": [
+          {
+            "text": "DALLAS COUNTY CLERK'S OFFICE\n─────────────────────\nOriginal business registration, March 3rd, 1902.\n\nEntity registered as THORESON & HARTLEY TOYS — equal partnership between William A. Thoreson and Robert J. Hartley. No dissolution paperwork ever filed. No record of any buyout or transfer.\n\n— J. Fowler, Dallas County Clerk",
+            "unlockedBy": "djCountyClerk"
+          },
+          {
+            "text": "DALLAS COUNTY CORONER'S OFFICE\n─────────────────────\nPreliminary autopsy on Thoreson complete. Toxicology out until Thursday.\n\nFull report faxed to the residence. Someone with medical training should interpret it.\n\nAlso — small brass key found in the deceased's left jacket pocket. Sending it back with you.\n\n— F. Garrett, Dallas County Coroner",
+            "unlockedBy": "djCoroner"
+          },
+          {
+            "text": "PINKERTON NATIONAL DETECTIVE AGENCY\n─────────────────────\nBackground checks complete. Two items of note.\n\nSUBJECT 1: {{walter_lippman}} — pen name only. Legal name Taylor James Hartley, born March 5th 1911, Dallas TX.\n\nSUBJECT 2: {{miranda_longfellow}} — legal name change filed 1920. Born Miranda Elaine Hartley, 1896, Dallas TX.\n\n— Pinkerton National Detective Agency, Dallas Office",
+            "unlockedBy": "djPinkerton"
+          }
+        ],
+        "canShare": [
+          {
+            "text": "I've got contacts at the coroner's office and at Pinkerton. Paperwork is coming tonight.",
+            "unlockedBy": null
+          }
+        ],
+        "relationships": [
+          {
+            "name": "{{scott_thoreson}}",
+            "relation": "Your cousin"
+          },
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Your uncle (deceased)"
+          }
+        ],
+        "items": []
+      },
+      "patricia_chamberlain": {
+        "name": "Patricia Chamberlain",
+        "nameVariants": {
+          "female": "Patricia Chamberlain",
+          "male": "Patrick Chamberlain"
+        },
+        "picker": {
+          "role": "Family Friend",
+          "involvement": "moderate",
+          "isKiller": false
+        },
+        "publicDesc": "A longtime family friend and person of means. Perceptive, composed, and doesn't suffer fools. William specifically asked her to come tonight.",
+        "hiddenSkills": [],
+        "backstory": "You have known the Thoreson family for years through charitable connections. William specifically asked you to come tonight — which you thought was simply a kind gesture until William turned up dead. Now you are wondering why he wanted you here.",
+        "memories": [
+          {
+            "text": "You remember a conversation with William at a charity dinner years ago. William said a person could do something they knew was wrong and still believe they were the best person to have done it. You asked what was meant. William laughed it off. You never forgot it.",
+            "unlockedBy": "stolenCompany"
+          }
+        ],
+        "canShare": [
+          {
+            "text": "William specifically asked me to come tonight. I didn't think much of it at the time.",
+            "unlockedBy": null
+          },
+          {
+            "text": "Don't let sentimentality cloud judgment. If William wronged people, the truth serves everyone.",
+            "unlockedBy": null
+          }
+        ],
+        "relationships": [
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Family acquaintance of many years (deceased)"
+          },
+          {
+            "name": "{{dorothy_wells}}",
+            "relation": "Mutual friend through charitable circles"
+          }
+        ],
+        "items": []
+      },
+      "dorothy_wells": {
+        "name": "Dorothy Wells",
+        "nameVariants": {
+          "female": "Dorothy Wells",
+          "male": "Douglas Wells"
+        },
+        "picker": {
+          "role": "Dallas Society Elder",
+          "involvement": "moderate",
+          "isKiller": false
+        },
+        "publicDesc": "One of the most well-connected people in Dallas. Has been watching this city for longer than most guests have been alive.",
+        "hiddenSkills": [],
+        "backstory": "You are eighty-one years old and you have outlived most of the people you loved. You remember Dallas when it was a smaller city — when William Thoreson was a young man with ambition and a partner named Hartley that nobody talks about anymore. You have always believed the truth is better than comfortable silence.",
+        "knowledge": [
+          {
+            "text": "You recognize what killed William Thoreson. Check your Expert Notes — you know exactly what this means and where it comes from.",
+            "unlockedBy": "wolfsbane"
+          }
+        ],
+        "memories": [
+          {
+            "text": "You were there in 1902 when William Thoreson and Robert Hartley announced their partnership. You remember shaking Robert's hand. A serious man. You never saw Robert again after 1910, and nobody in this city had the decency to ask why.",
+            "unlockedBy": "letterhead",
+            "tier": 1
+          },
+          {
+            "text": "You remember the original incorporation — Thoreson and Hartley, equal shares. Within a year the Hartley name had quietly disappeared. William said the partnership dissolved by mutual agreement. You did not believe that then.",
+            "unlockedBy": "stolenCompany",
+            "tier": 2
+          }
+        ],
+        "canShare": [
+          {
+            "text": "In my circles, there were always whispers about a woman named Margaret connected to the Thoresons. Nobody ever knew the details.",
+            "unlockedBy": null
+          },
+          {
+            "text": "I have lived long enough to stop being frightened by difficult truths.",
+            "unlockedBy": null
+          }
+        ],
+        "relationships": [
+          {
+            "name": "{{victoria_ashworth}}",
+            "relation": "Friend from society circles"
+          },
+          {
+            "name": "{{elizabeth_monroe}}",
+            "relation": "Friend and fellow long-time Dallas resident"
+          },
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Social acquaintance of forty years (deceased)"
+          }
+        ],
+        "items": []
+      },
+      "vivienne_ashford": {
+        "name": "Vivienne Ashford",
+        "nameVariants": {
+          "female": "Vivienne Ashford",
+          "male": "Vincent Ashford"
+        },
+        "picker": {
+          "role": "The Cousin, Just Back from Abroad",
+          "involvement": "moderate",
+          "isKiller": false
+        },
+        "publicDesc": "{{scott_thoreson}}'s cousin on the mother's side. Recently returned from years living abroad. Sees this family with the slight detachment of someone who has lived somewhere else.",
+        "hiddenSkills": [],
+        "backstory": "You are {{scott_thoreson}}'s cousin — spent years living abroad and came home eight months ago. You see this family with the slight detachment of someone who has lived somewhere else, which means you see it more clearly. The Thoresons have always been a family defined by what they don't say. Uncle Will in particular carried something heavy.",
+        "memories": [
+          {
+            "text": "You remember your mother speaking in low voices once when you were small — something about a woman Will had known. Your mother said the name Margaret and changed the subject immediately. You had forgotten that completely until just now.",
+            "unlockedBy": "margaretsLetter"
+          }
+        ],
+        "canShare": [
+          {
+            "text": "Uncle Will always seemed like he was carrying something heavy. I assumed it was just the pressure of running a company.",
+            "unlockedBy": null
+          },
+          {
+            "text": "I've been away for years. I see this family more clearly for it.",
+            "unlockedBy": null
+          }
+        ],
+        "relationships": [
+          {
+            "name": "{{scott_thoreson}}",
+            "relation": "Your cousin"
+          },
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Your uncle (deceased)"
+          }
+        ],
+        "items": []
+      },
+      "raymond_hammond": {
+        "name": "Raymond Hammond",
+        "nameVariants": {
+          "female": "Rachel Hammond",
+          "male": "Raymond Hammond"
+        },
+        "picker": {
+          "role": "Business Manager, Thoreson Toys",
+          "involvement": "moderate",
+          "isKiller": false
+        },
+        "publicDesc": "Business Manager at Thoreson Toys for fifteen years. Handles the operational side of the company. Knows where every body is buried — figuratively speaking.",
+        "hiddenSkills": [],
+        "backstory": "You have run the operational side of Thoreson Toys for fifteen years. You know the company better than almost anyone. William kept the financial ledgers personally — locked away — and in fifteen years you were never given full access. You assumed it was how William operated. Now you are not so sure.",
+        "memories": [
+          {
+            "text": "William asked you three weeks ago to retrieve a box of old contracts from storage — pre-1910 documents. William went through them alone and returned them the same day. William seemed shaken in a way you had never seen.",
+            "unlockedBy": "forgedDocs",
+            "tier": 2
+          },
+          {
+            "text": "Fifteen years at this company and William never once let you near the books. Looking at what's in that ledger now — the payments, the dates, the initials — you understand it was something else entirely. Someone did not want an accountant looking too closely.",
+            "unlockedBy": "ledger",
+            "tier": 1
+          }
+        ],
+        "canShare": [
+          {
+            "text": "Will always did the books personally. Kept the ledgers locked away. I never had access — and now I'm wondering why.",
+            "unlockedBy": null
+          },
+          {
+            "text": "A European deal fell apart six months ago. William got very quiet after that.",
+            "unlockedBy": null
+          }
+        ],
+        "relationships": [
+          {
+            "name": "{{scott_thoreson}}",
+            "relation": "The eldest son — worked together on company matters"
+          },
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Your employer of fifteen years (deceased)"
+          },
+          {
+            "name": "{{marcus_brennan}}",
+            "relation": "Investor — now asking hard questions"
+          },
+          {
+            "name": "{{victoria_ashworth}}",
+            "relation": "Investor — now asking hard questions"
+          }
+        ],
+        "items": []
+      },
+      "charles_sterling": {
+        "name": "Charles Sterling",
+        "nameVariants": {
+          "female": "Charlotte Sterling",
+          "male": "Charles Sterling"
+        },
+        "picker": {
+          "role": "Retired Banker",
+          "involvement": "moderate",
+          "isKiller": false
+        },
+        "publicDesc": "An old friend of William's and a retired Dallas banker. Known, trusted, and one of the few people William ever truly confided in.",
+        "hiddenSkills": [],
+        "backstory": "You and William Thoreson have been friends for over thirty years. You were there in the early days of the company — not as an investor, just as a friend who watched William build something remarkable. You retired from banking five years ago after a long career at one of Dallas's oldest institutions. William specifically asked you to come tonight. He said it was important. That was unusual enough that you cleared your calendar immediately.",
+        "memories": [
+          {
+            "text": "William told you something once, years ago, after several drinks — that the company had not started the way people thought. That there had been a wrong done at the beginning that he had never made right. You assumed it was the usual guilt of a successful man. You are no longer sure of that.",
+            "unlockedBy": "stolenCompany"
+          },
+          {
+            "text": "You handled the Thoreson estate banking for fifteen years before you retired. The ledger entries marked T.H. — monthly payments going back to 1911 — those went through your bank. You processed them without asking questions. You are asking them now.",
+            "unlockedBy": "ledger",
+            "tier": 1
+          }
+        ],
+        "canShare": [
+          {
+            "text": "William and I have been friends for thirty years. He asked me here tonight specifically. I have been trying to understand why ever since he died.",
+            "unlockedBy": null
+          },
+          {
+            "text": "I handled the Thoreson estate banking for years. There were entries in the books I never fully understood. I am beginning to understand them now.",
+            "unlockedBy": "ledger"
+          }
+        ],
+        "relationships": [
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Your closest friend of thirty years (deceased)"
+          },
+          {
+            "name": "{{scott_thoreson}}",
+            "relation": "Watched this one grow up"
+          },
+          {
+            "name": "{{raymond_hammond}}",
+            "relation": "The business manager — your paths crossed through the company"
+          },
+          {
+            "name": "{{marcus_brennan}}",
+            "relation": "Fellow investor circle — know each other through Dallas business"
+          }
+        ],
+        "items": []
+      },
+      "marcus_brennan": {
+        "name": "Marcus Brennan",
+        "nameVariants": {
+          "female": "Margaret Brennan",
+          "male": "Marcus Brennan"
+        },
+        "picker": {
+          "role": "Investor",
+          "involvement": "moderate",
+          "isKiller": false
+        },
+        "publicDesc": "A Dallas businessman with a significant stake in Thoreson Toys. Analytical, measured, and not someone who loses money quietly.",
+        "hiddenSkills": [],
+        "backstory": "You have been invested in Thoreson Toys for four years. The returns were excellent until six months ago when a European deal collapsed and real money disappeared. You have been pursuing answers ever since. William kept putting you off. You came tonight expecting a confrontation. Instead you walked into a murder.",
+        "memories": [
+          {
+            "text": "William called you about a month before tonight to apologize for the delays. William sounded genuinely tired — not defensive, but something older than that. Like a person settling accounts that had been avoided for a long time.",
+            "unlockedBy": "ledger"
+          },
+          {
+            "text": "You know what a fraudulent transfer looks like. Looking at the 1910 filing now — the signature, the notarization, the dates — you can see the construction of it. Someone very careful did this. But not careful enough.",
+            "unlockedBy": "forgedDocs",
+            "tier": 1
+          }
+        ],
+        "canShare": [
+          {
+            "text": "Yes, the European deal lost money. Yes, I was angry. But dead people don't write checks.",
+            "unlockedBy": null
+          },
+          {
+            "text": "I know what it looks like when a company's books have been kept to hide something. I missed it for four years.",
+            "unlockedBy": "ledger"
+          }
+        ],
+        "relationships": [
+          {
+            "name": "{{victoria_ashworth}}",
+            "relation": "Fellow investor — coordinated on Thoreson matters"
+          },
+          {
+            "name": "{{raymond_hammond}}",
+            "relation": "The business manager"
+          },
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Company founder (deceased)"
+          }
+        ],
+        "items": []
+      },
+      "victoria_ashworth": {
+        "name": "Victoria Ashworth",
+        "nameVariants": {
+          "female": "Victoria Ashworth",
+          "male": "Victor Ashworth"
+        },
+        "picker": {
+          "role": "Investor",
+          "involvement": "moderate",
+          "isKiller": false
+        },
+        "publicDesc": "A sharp businessperson and Thoreson Toys investor. Active in Dallas society with a keen eye for detail.",
+        "hiddenSkills": [],
+        "backstory": "You have been a Thoreson Toys shareholder for six years. You and {{marcus_brennan}} have coordinated on investments for years — {{marcus_brennan}} handles the numbers, you handle the people. Between the two of you very little gets past unnoticed. Or so you believed until six months ago.",
+        "memories": [
+          {
+            "text": "You did thorough due diligence on every investment. You never found anything irregular in the Thoreson books. That is either because William was very careful or because you didn't look in the right places. You are not sure which possibility bothers you more.",
+            "unlockedBy": "stolenCompany",
+            "tier": 2
+          },
+          {
+            "text": "{{miranda_longfellow}} was always present at company functions. Always at the edge of the room, watching. You remarked on it once to {{marcus_brennan}}. {{marcus_brennan}} said you were being uncharitable. You were not being uncharitable.",
+            "unlockedBy": "mirandasIdentity"
+          }
+        ],
+        "canShare": [
+          {
+            "text": "Yes, we lost money. Yes, we wanted answers. I take people to court. I don't take their lives.",
+            "unlockedBy": null
+          },
+          {
+            "text": "Several people in this room are performing something. I know what that looks like.",
+            "unlockedBy": null
+          }
+        ],
+        "relationships": [
+          {
+            "name": "{{marcus_brennan}}",
+            "relation": "Fellow investor and business ally"
+          },
+          {
+            "name": "{{raymond_hammond}}",
+            "relation": "The business manager"
+          },
+          {
+            "name": "{{dorothy_wells}}",
+            "relation": "Friend from society circles"
+          },
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Company founder (deceased)"
+          }
+        ],
+        "items": []
+      },
+      "elizabeth_monroe": {
+        "name": "Elizabeth Monroe",
+        "nameVariants": {
+          "female": "Elizabeth Monroe",
+          "male": "Elliot Monroe"
+        },
+        "picker": {
+          "role": "Dallas Socialite",
+          "involvement": "light",
+          "isKiller": false
+        },
+        "publicDesc": "A fixture of Dallas society. Knows everyone, remembers everything, and makes it all look effortless.",
+        "hiddenSkills": [],
+        "note": "OPTIONAL CHARACTER — cut first if guest count is low. Mystery functions without this role.",
+        "backstory": "You are the most well-connected person in Dallas and have been for thirty years. You knew William and Margaret Hartley personally before the scandal — you were at the same parties, moved in the same circles. You have heard the name Hartley said once at a dinner party by someone who immediately wished they hadn't. You filed it away. You always file things away.",
+        "memories": [
+          {
+            "text": "You remember the newspaper piece about Robert Hartley's death in 1910. Two inches of column. Investigation closed in under a day. At the time you thought nothing of it.",
+            "unlockedBy": "stolenCompany",
+            "tier": 2
+          },
+          {
+            "text": "You knew Margaret Hartley. Not well — but enough. You were at the same charity events in 1908 and 1909. Margaret was quiet, devoted to Robert, clearly in love. And then she simply disappeared from those circles. Nobody talked about why.",
+            "unlockedBy": "affair",
+            "tier": 1
+          }
+        ],
+        "canShare": [
+          {
+            "text": "I knew Margaret Hartley. Not well — but I remember her. And I remember when she stopped appearing in the circles we both moved in.",
+            "unlockedBy": null
+          },
+          {
+            "text": "I know everyone in this city and I remember everything. Tonight is testing the limits of that considerably.",
+            "unlockedBy": null
+          }
+        ],
+        "relationships": [
+          {
+            "name": "{{dorothy_wells}}",
+            "relation": "Fellow long-time Dallas resident"
+          },
+          {
+            "name": "{{victoria_ashworth}}",
+            "relation": "Social acquaintance"
+          },
+          {
+            "name": "William Thoreson Sr.",
+            "relation": "Social acquaintance of many years (deceased)"
+          }
+        ],
+        "items": []
+      }
+    },
+    "skillBackstories": {
+      "Legal": "You have a background in law and understand documents, contracts, and what makes a signature valid — or forged.",
+      "Medical": "You have medical training. You know what the body reveals and how to read what others miss.",
+      "Botany": "You have spent years studying plants — including ones most people have never encountered and would not recognize.",
+      "Accounting": "Numbers are your native language. You can read a ledger the way other people read a newspaper.",
+      "Banking": "You understand how money moves, how accounts are structured, and what it looks like when the books are hiding something.",
+      "French": "You spent time in France and speak the language fluently — written and spoken.",
+      "Journalism": "You have a journalist's instincts. You know how to find what's been buried and what questions to ask.",
+      "Investigation": "You are a trained investigator. You know how to read a scene, find connections, and get information that others can't."
+    },
+    "skills": {
+      "Accounting": {
+        "title": "Financial Ledger Analysis",
+        "password": "open",
+        "lockedTitle": "Financial Records",
+        "lockedSubtitle": "This ledger requires expert examination",
+        "errorMsg": "Incorrect password. Find someone with the proper expertise.",
+        "badge": "Financial Analysis",
+        "header": "Thoreson Toys Ledger — Expert Findings",
+        "summary": "The ledger contains secret monthly payments of $50 to someone listed only as <strong>'T.H.'</strong> — going back to 1911. The payments were authorized personally by Will, bypassing normal accounting. Over 24 years of hidden disbursements to an unknown recipient.",
+        "expert": "\n            <p>I've conducted a thorough review of the 1934 financial ledger for Thoreson Toys. On the surface, the books appear orderly — routine vendor payments, service fees, equipment maintenance, and quarterly sales revenue deposits. The company appears profitable, with a healthy year-end balance.</p>\n            \n            <p>However, buried among the legitimate entries is a recurring anomaly that would be invisible to an untrained eye:</p>\n            \n            <div class=\"reveal-highlight\">\n                On the 5th of every month, there is a payment of exactly $50.00 listed as \"Monthly Disbursement — T.H.\" This payment has no corresponding invoice, no vendor record, and no business justification anywhere in these books. It appears in every single month without exception.\n            </div>\n            \n            <p>This is deeply irregular. In proper bookkeeping, every disbursement must be tied to a payee, a purchase order, or an account. Using only initials — \"T.H.\" — is a deliberate attempt to obscure the identity of the recipient. Furthermore, these payments are authorized personally by W. Thoreson himself, bypassing the normal approval chain entirely.</p>\n\n            <p>Cross-referencing with the ledger's date entries, these payments appear to have been ongoing since at least 1911 — over twenty-four years of secret monthly payments to someone William Thoreson did not want anyone to know about.</p>\n            \n            <div class=\"reveal-highlight\">\n                This is not a business expense. Fifty dollars a month, paid without fail for over two decades, personally authorized and deliberately hidden — this is a private obligation. Whoever \"T.H.\" is, William Thoreson has been supporting them in secret for a very long time.\n            </div>\n            \n            <p><strong>Recommendation:</strong> Determine the identity of \"T.H.\" — the initials may refer to a person, possibly someone connected to the Thoreson family. The consistency and secrecy of these payments suggest a deeply personal matter — a debt, an obligation, or someone he felt responsible for.</p>\n        "
+      },
+      "French": {
+        "title": "Margaret's Letter (Translated)",
+        "password": "open",
+        "lockedTitle": "French Correspondence",
+        "lockedSubtitle": "This letter is written entirely in French",
+        "errorMsg": "Incorrect password. Find someone who speaks French.",
+        "badge": "French Translation",
+        "header": "Letter from Margaret Hartley to William Thoreson",
+        "summary": "A letter from Margaret Hartley to Will, written in French. She confronts him over the secrets he kept and the people he abandoned. She mentions a safe in the study with a combination that meant something to him.",
+        "expert": "\n            <p>This letter was written in French — likely deliberately, so that only someone educated abroad would be able to read it. The tone is deeply personal, angry, and accusatory. Here is the full translation:</p>\n            \n            <div class=\"letter-text\">\n                \"June 4th, 1914<br><br>\n                William,<br><br>\n                You always kept your secrets locked away. Just like that safe in your hallway closet. I know you have a heart in there somewhere. Even though you showed no heart when you sent me away.<br><br>\n                I wonder — does the combination reveal how you truly felt? Our son turned three this past March and you were not there. You locked his birthday behind steel and numbers because you could not bring yourself to forget it, and you could not bring yourself to claim it.<br><br>\n                Our son deserved a father. You gave him money and a name on a trust document and nothing else. He will grow up not knowing who he is because you decided your reputation mattered more than his life.<br><br>\n                I have given everything to keep him safe. You have given nothing but silence and a monthly check.<br><br>\n                I have kept your secret all these years. But secrets have a way of rising to the surface, William. Especially yours.<br><br>\n                — Margaret\"\n            </div>\n\n            <p>Margaret is furious — and grief-stricken. She confronts Will directly over their child — a son he funded privately but refused to acknowledge. Will chose secrecy over fatherhood.</p>\n            \n            <div class=\"reveal-highlight\">\n                Margaret references a <strong>safe in the hallway closet</strong>. The letter is dated June 1914. She says their son <strong>turned three this past March</strong>. Three years old in March 1914 means the child was born in <strong>March 1911</strong>. The combination is his birthday — we just need the exact day.\n            </div>\n        "
+      },
+      "Legal": {
+        "title": "Forged Transfer Documents",
+        "password": "open",
+        "lockedTitle": "Legal Document",
+        "lockedSubtitle": "This document requires legal expertise to examine",
+        "errorMsg": "Incorrect password. Find someone with legal knowledge.",
+        "badge": "Legal Analysis",
+        "header": "Certificate of Transfer — Expert Findings",
+        "summary": "The company ownership transfer from Robert Hartley to Will Thoreson is <strong>fraudulent</strong>. Robert's signature doesn't match known samples, the document is dated one day before Robert's death, and the notary 'James Crawford' has no record in Dallas County.",
+        "expert": "\n            <p>I've examined this ownership transfer document purporting to convey Robert Hartley's fifty-percent stake in the company to William Thoreson. At first glance it appears to be a standard business transfer, but upon closer inspection, there are multiple red flags that call its legitimacy into serious question.</p>\n            \n            <div class=\"reveal-highlight\">\n                The signature attributed to Robert Hartley is forged. The pen strokes are hesitant and show signs of tracing — inconsistent with someone's natural handwriting. The ink also appears slightly different in color and weight from the body of the document, suggesting it was added at a different time, possibly after the document was drafted.\n            </div>\n            \n            <p>The timing is deeply suspicious. The document is dated <strong>March 13, 1910</strong> — two days before Robert Hartley's death. A man transferring his entire stake in a profitable company two days before he dies, with no apparent consideration or payment recorded? That defies all standard business practice.</p>\n\n            <p>I also attempted to verify the witness. The document bears the signature of \"James Crawford, Notary Public.\" However, there is no record of any James Crawford serving as a licensed notary in Dallas County during this period. The notary seal, upon close examination, appears hand-stamped rather than embossed — another indication of fabrication.</p>\n            \n            <div class=\"reveal-highlight\">\n                In my professional opinion, this document is fraudulent. Robert Hartley did not willingly sign over his company. Someone — almost certainly William Thoreson — forged this transfer to seize full ownership of what was originally a shared business. This was theft.\n            </div>\n        "
+      },
+      "Medical": {
+        "title": "Autopsy — Cause of Death",
+        "password": "open",
+        "lockedTitle": "Medical Report",
+        "lockedSubtitle": "This document requires medical expertise to interpret",
+        "errorMsg": "Incorrect password. Find someone with medical knowledge.",
+        "badge": "Medical Analysis",
+        "header": "Preliminary Autopsy Report — William Thoreson Sr.",
+        "summary": "Will died of acute <strong>Aconitine poisoning</strong> — a toxin from Wolfsbane. It was administered orally, likely in food or drink. Symptoms include numbness, weakness, and cardiac arrest within 2-6 hours. <strong>This was murder.</strong>",
+        "expert": "\n            <p>I've reviewed the preliminary autopsy findings in detail. The external examination showed no signs of trauma, struggle, or forced ingestion — which initially supported the assumption of natural causes. However, the toxicology results tell a very different story.</p>\n            \n            <div class=\"reveal-danger\">\n                Cause of Death: Acute poisoning. Toxicology indicates the presence of <strong>Aconitine</strong> — a lethal alkaloid derived from the plant Aconitum, commonly known as <strong>Wolfsbane</strong> or <strong>Monkshood</strong>. Concentration levels in the blood are consistent with a single, deliberate oral dose.\n            </div>\n            \n            <p>Aconitine is extraordinarily dangerous — among the most potent plant-based poisons known to medicine. It disrupts sodium channels in nerve and heart tissue, causing progressive paralysis of the cardiac muscle. Based on the concentration found, the victim would have experienced initial tingling or numbness in the mouth and throat within minutes of ingestion, followed by increasing weakness, nausea, and a sense of dread. Within two to six hours, complete cardiac arrest.</p>\n            \n            <div class=\"reveal-highlight\">\n                This was not natural causes. This was not an accident. The dose was precise and deliberate — someone with knowledge of the poison administered it orally, almost certainly dissolved into food or drink. William Thoreson was murdered.\n            </div>\n            \n            <p>One additional note of medical significance: Aconitine leaves very little trace and is easily missed in a standard examination. Had this autopsy not included a full toxicology panel, the death would likely have been ruled cardiac failure. Whoever chose this poison knew exactly what they were doing.</p>\n            \n            <p><strong>Note:</strong> Aconitine is derived from Wolfsbane, a plant that grows wild in the mountainous regions of Europe — particularly the Alps of Switzerland, Austria, and Northern Italy.</p>\n        "
+      },
+      "Banking": {
+        "title": "Bank Statement Analysis — Kessler & Braun Investment",
+        "password": "open",
+        "lockedTitle": "Bank Records",
+        "lockedSubtitle": "These financial records require banking expertise to interpret",
+        "errorMsg": "Incorrect password. Find someone with banking experience.",
+        "badge": "Banking Analysis",
+        "header": "Thoreson Toys — Capital Account Review, 1934",
+        "summary": "An $8,000 wire transfer was sent to Kessler & Braun European Distributors in Hamburg for an overseas expansion deal. The company dissolved within six weeks — total loss. Two outside investors had money in Thoreson Toys when it happened.",
+        "expert": "\n            <p>I've been looking over the Thoreson Toys bank statements. Most of this is what you'd expect — weekly sales deposits, payroll, vendor payments. The company's been running steady for years. But a few things caught my eye.</p>\n            \n            <div class=\"reveal-highlight\">\n                First — right at the top of the statement, January 2nd. Two outside investors deposited money into the company account. <strong>Investor Account 7714-A put in $3,000</strong> and <strong>Investor Account 7722-B put in $2,500</strong>. That's $5,500 of other people's money that Will was managing.\n            </div>\n            \n            <p>Then in March, there's a wire transfer for <strong>$8,000</strong> sent to a company called <strong>Kessler & Braun European Distributors</strong> out of Hamburg, Germany. Looks like Will was trying to break into overseas markets — European toy distribution. That's a big swing for a company this size. The account dropped from $22,000 down to about $14,000 overnight.</p>\n            \n            <p>Six weeks later, Kessler & Braun's account was dissolved. There's a write-down on the books for the full $8,000 — total loss. No recovered funds, nothing coming back. Just gone.</p>\n            \n            <div class=\"reveal-danger\">\n                Now here's where it gets interesting. After the loss hit the books, both of those investor accounts went quiet. No additional deposits. No withdrawals. Just silence. Somebody lost real money because of Will's decision, and Will never made it right. He just kept running the company as if nothing happened.\n            </div>\n            \n            <p><strong>The question is — who are these two investors, and are they here tonight?</strong></p>\n        "
+      },
+      "Bartender": {
+        "title": "Cocktail Recipes",
+        "password": null,
+        "badge": "Bartender",
+        "header": "Evening Cocktail Menu",
+        "summary": "<strong>Old Fashioned</strong> — 2 oz whiskey, 1 sugar cube, 2 dashes Angostura bitters, orange peel. Muddle sugar and bitters, add whiskey and ice, stir, garnish with orange peel.<br><br><strong>Gin Rickey</strong> — 2 oz gin, 0.75 oz fresh lime juice, soda water. Build over ice, top with soda, garnish with lime.<br><br><strong>Bee's Knees</strong> — 2 oz gin, 0.75 oz fresh lemon juice, 0.75 oz honey syrup. Shake with ice, strain.<br><br><strong>Cuba Libre</strong> — 2 oz rum, cola, fresh lime juice. Build over ice, top with cola, squeeze of lime.<br><br><strong>Temperance Options</strong> — Shirley Temple (ginger ale, grenadine, cherry) &nbsp;·&nbsp; Virgin Cuba Libre (cola, lime) &nbsp;·&nbsp; Sparkling mineral water with lemon or lime.",
+        "expert": null
+      },
+      "Botany": {
+        "title": "Botanical Analysis — Wolfsbane",
+        "password": "open",
+        "lockedTitle": "Plant Specimen",
+        "lockedSubtitle": "This requires botanical expertise to identify",
+        "errorMsg": "Incorrect password.",
+        "badge": "Botanical Analysis",
+        "header": "Field Notes — Aconitum (Wolfsbane / Monkshood)",
+        "summary": "The poison is <strong>Aconitine</strong>, derived from <strong>Wolfsbane</strong> — <em>Aconitum napellus</em>. This plant does not grow in Texas or anywhere in North America. It is native to the Alpine regions of Europe. Whoever used this poison <strong>traveled to obtain it deliberately</strong>.",
+        "expert": "\n            <div class=\"reveal-danger\">\n                Genus: <strong>Aconitum</strong> — Family Ranunculaceae. Common names: Wolfsbane, Monkshood, Devil's Helmet. Every part of this plant is lethally toxic. The roots contain the highest concentration of aconitine, but the flowers, leaves, and stems are equally dangerous if handled carelessly or ingested.\n            </div>\n\n            <p>I have known this plant since childhood. My grandmother kept a botanical encyclopedia and made me memorize the most dangerous specimens before I was allowed in the garden unsupervised. Aconitum was at the top of the list — she called it the queen of poisons, a name it has carried since antiquity. The ancient Romans used it for executions. Medieval assassins favored it. It has been killing people, accidentally and deliberately, for two thousand years.</p>\n\n            <p>The active compound, <strong>aconitine</strong>, works by binding irreversibly to sodium channels in nerve and cardiac tissue. It does not announce itself. The initial symptoms — numbness at the lips and tongue, a metallic taste, mild warmth — are easily mistaken for indigestion or anxiety. Within thirty minutes to an hour, the numbness spreads. The victim's hands and face begin to feel detached. Breathing becomes labored. The heart, which relies on those same sodium channels to regulate its rhythm, begins to fail. Death typically follows within two to six hours of ingestion, and it looks, to the untrained eye, like a heart attack.</p>\n\n            <div class=\"reveal-highlight\">\n                This is not a plant you stumble upon in a Dallas garden. <strong>Aconitum does not grow in Texas. It does not grow anywhere in North America.</strong> It is native to mountain meadows at high elevation — the Swiss Alps, the Austrian highlands, the Pyrenees. The flowers are distinctive: deep violet-blue, hooded, unmistakably beautiful. A person would have to travel to those regions, recognize the plant, harvest it deliberately, and transport the extract home. This was not opportunistic. This required planning months in advance.\n            </div>\n\n            <p>The method of administration almost certainly involved the extract dissolved into food or drink — something with a strong enough flavor to mask the initial bitterness. A cocktail. A rich sauce. Something with sweetness or acid. The victim would have noticed nothing unusual until the symptoms were already well underway.</p>\n\n            <p>One final note: aconitine is notoriously difficult to detect in a standard post-mortem examination. Without a toxicologist specifically looking for alkaloid poisoning, this death would have been recorded as cardiac failure. Whoever chose this poison knew that. This was chosen by someone with patience, knowledge, and access to Alpine Europe.</p>\n        "
+      },
+      "Journalism": {
+        "title": "Newspaper Article — Hartley Death",
+        "password": "open",
+        "lockedTitle": "Newspaper Clipping",
+        "lockedSubtitle": "A trained journalist might notice things others would miss",
+        "errorMsg": "Incorrect password. Find someone with journalism experience.",
+        "badge": "Journalism Analysis",
+        "header": "Editorial Review — Dallas Herald, March 22, 1910",
+        "summary": "This article has problems. The investigation was closed in under 24 hours despite a <strong>suspicious business transfer the day before</strong>. The sourcing is thin and Thoreson's quote sounds rehearsed. Someone with influence shaped this story.",
+        "expert": "\n            <p>I've read a lot of newspaper copy in my career. This article is wrong in ways that only a journalist would notice.</p>\n\n            <div class=\"reveal-highlight\">\n                First — the timeline. Robert Hartley was found dead on March 15th, 1910. The investigation was opened and closed by March 22nd. That's seven days to investigate the death of a prominent businessman with an active partnership dispute. No coroner's inquest mentioned. No witness testimony cited. No follow-up promised. That is not thorough reporting — that is a story someone wanted finished.\n            </div>\n\n            <p>Second — the sourcing. The only named source in this article is William Thoreson himself. His quote reads like it was prepared in advance: measured, sympathetic, careful. There's no quote from the police investigator, no comment from Hartley's family, no statement from anyone at the company. A real reporter would have talked to at least three people. This reporter talked to one — the man who stood to benefit most from Hartley's death.</p>\n\n            <div class=\"reveal-danger\">\n                Third — and this is the part that should trouble everyone in this room — the article makes no mention of the ownership transfer document filed two days before Robert died. March 13th: Robert's entire stake in the company is signed over to Thoreson. March 15th: Robert is dead. Any competent journalist would have connected those two facts. This one didn't. Either they weren't told, or they were told not to ask.\n            </div>\n\n            <p>Finally — the framing. The headline says \"Thoreson Cleared.\" Not \"Hartley Death Ruled Suicide.\" Not \"Investigation Closed.\" The story is framed around Thoreson's innocence, not around what happened to Robert Hartley. That tells you who this article was written for.</p>\n\n            <p><strong>Someone with influence shaped this coverage. The question is whether it was Thoreson himself or someone acting on his behalf.</strong></p>\n        "
+      }
+    },
+    "revelations": {
+      "act1": {
+        "label": "Act 1 — The Gathering",
+        "items": [
+          {
+            "id": "newspaper",
+            "type": "clue",
+            "title": "Dallas Herald — Thoreson Cleared",
+            "summary": "A clipping dated March 22, 1910. Reports that William Thoreson was questioned following the death of his business partner Robert Hartley, ruled a suicide. Thoreson was cleared. The company was renamed from Thoreson & Hartley Toys to Thoreson Toys. Robert Hartley's family could not be reached for comment.",
+            "detail": null
+          },
+          {
+            "id": "letterhead",
+            "type": "clue",
+            "title": "Company Letterhead — Thoreson & Hartley Toys",
+            "summary": "A piece of company letterhead bearing the name Thoreson & Hartley Toys. The current company is called Thoreson Toys — no mention of Hartley anywhere.",
+            "detail": null
+          },
+          {
+            "id": "bradfordLetter",
+            "type": "clue",
+            "title": "Bradford Patent Letter",
+            "summary": "A letter dated January 1935 from Bradford & Sons Toy Company. Thomas Bradford claims a spring-loaded mechanism in Thoreson Toys' newest line was patented by his company in 1931 and demands compensation. Will's handwritten margin note reads: 'Frivolous. Have Scott handle.'",
+            "detail": null
+          },
+          {
+            "id": "incorporation",
+            "type": "clue",
+            "title": "Original Incorporation Filing",
+            "summary": "Dallas County filing dated April 3, 1902. Lists William Thoreson and Robert Hartley as equal 50/50 partners under the name Thoreson & Hartley Toys. Both signatures present and notarized.",
+            "detail": null
+          },
+          {
+            "id": "forgedDocs",
+            "type": "clue",
+            "title": "Company Transfer Document",
+            "summary": "A transfer document dated March 13, 1910 signing Robert Hartley's full ownership over to William Thoreson. Notarized by one James Crawford. Requires a Legal expert to examine.",
+            "detail": null
+          },
+          {
+            "id": "bankStatement",
+            "type": "clue",
+            "title": "Bank Statement — Thoreson Toys Capital Account",
+            "summary": "A 1934 bank statement for the Thoreson Toys company account. Shows two investor deposits totaling $5,500 in January, followed by an $8,000 wire transfer to Kessler & Braun European Distributors in Hamburg in March. The account dropped from $22,000 to $14,000 overnight. Requires Banking expertise to fully analyze.",
+            "detail": null
+          },
+          {
+            "id": "transcriptAct1",
+            "type": "story",
+            "title": "Confession Recording — Transcript",
+            "summary": "I need to confess something. Before it's too late. I don't know how much time I have left. So I'm recording this. For my family. For the truth. Robert Hartley was my partner. He was my closest friend. We built that company together. Thoreson & Hartley Toys. And I betrayed him.\n\n[static]\n\nI am not a good man. Robert found out.\n\n[static]\n\nHe was furious. Rightfully so. He came to me and said he would pull every dollar he had out of the company. That he'd burn it to the ground before he'd let me profit from it. He said I'd taken everything from him. And he was right. So I acted first. I forged his signature on a transfer document. I took the company. Everything Robert had built — I put it in my name before he could destroy it. I told myself I was protecting the business. That was a lie. I was protecting myself. Robert died the next day. I took his company.\n\n[static]\n\nIt broke him. They ruled it a suicide. But I know what really killed Robert Hartley. It was me.\n\n[static]\n\nAfter Robert died,\n\n[static]\n\nI didn't want anyone to know what I'd done.\n\n[static]\n\nThat was my doing. I've carried this guilt for twenty-five years. But tonight,\n\n[static]\n\nThough God knows I don't deserve it.\n\n[static]\n\nIt's time to tell the truth. I only pray it isn't too late.",
+            "detail": null,
+            "transcriptSlot": true
+          },
+          {
+            "id": "stolenCompany",
+            "type": "story",
+            "title": "The Stolen Company",
+            "summary": "The transfer document has been examined. The signature is forged — Robert Hartley never signed it. The notary James Crawford does not appear in Dallas County records.",
+            "detail": null
+          }
+        ]
+      },
+      "act2": {
+        "label": "Act 2 — The Secret Heir",
+        "items": [
+          {
+            "id": "ledger",
+            "type": "clue",
+            "title": "Financial Ledger",
+            "summary": "Company financial ledger going back to 1911. Contains a recurring monthly entry of $50 listed as 'Monthly Disbursement — T.H.' — appearing every month for over 24 years. Requires an Accounting expert to examine.",
+            "detail": null
+          },
+          {
+            "id": "margaretsLetter",
+            "type": "clue",
+            "title": "Margaret's Letter",
+            "summary": "A letter written entirely in French, addressed to William Thoreson and signed by Margaret. Requires a French speaker to translate.",
+            "detail": null
+          },
+          {
+            "id": "birthCertificate",
+            "type": "clue",
+            "title": "Birth Certificate — Taylor Hartley",
+            "summary": "Dallas County birth certificate. Name: Taylor Hartley. Date of birth: March 5, 1911. Mother: Margaret Hartley. Father: William S. Thoreson. Registered March 11, 1911. County Clerk: Edgar T. Calloway.",
+            "detail": null
+          },
+          {
+            "id": "margaretDeath",
+            "type": "clue",
+            "title": "Newspaper — Margaret Hartley Obituary",
+            "summary": "A brief obituary from a Dallas newspaper, dated October 14, 1914. Margaret Hartley, formerly of Dallas, passed away leaving behind two children. Cause of death listed as accidental overdose of laudanum. No mention of surviving family beyond the children.",
+            "detail": null
+          },
+          {
+            "id": "transcriptAct2",
+            "type": "story",
+            "title": "Confession Recording — Transcript",
+            "summary": "I need to confess something. Before it's too late. I don't know how much time I have left. So I'm recording this. For my family. For the truth. Robert Hartley was my partner. He was my closest friend. We built that company together. Thoreson & Hartley Toys. And I betrayed him. It started with Margaret. Robert's wife. I had an affair with her. Behind Robert's back. While he was still my partner, still my friend — I was going behind his back with the woman he loved.\n\nI am not a good man. Robert found out. About Margaret and me.\n\nHe was furious. Rightfully so. He came to me and said he would pull every dollar he had out of the company. That he'd burn it to the ground before he'd let me profit from it. He said I'd taken everything from him. And he was right. So I acted first. I forged his signature on a transfer document. I took the company. Everything Robert had built — I put it in my name before he could destroy it. I told myself I was protecting the business. That was a lie. I was protecting myself. Robert died the next day. When he realized what I'd done — that I'd outsmarted him — he had nothing left. I took his company. I took his wife. The grief of losing everything — his company, Margaret, all of it — it broke him. They ruled it a suicide. But I know what really killed Robert Hartley. It was me.\n\nMargaret had a child. My child. I never claimed the child publicly. I was too much of a coward for that. Instead I set up a trust. Monthly payments. Fifty dollars, listed as T.H. in the ledger so nobody would ask questions. That was all I gave. Money. In secret. For twenty-five years.\n\nAfter Robert died,\n\nI didn't want anyone to know what I'd done.\n\n[static]\n\nThat was my doing. I've carried this guilt for twenty-five years. But tonight, I'm going to start making it right. I've invited Taylor here. My child. I'm going to welcome them into this family. Publicly. Finally. No more hiding. No more secret payments. No more lies.\n\n[static]\n\nThough God knows I don't deserve it.\n\n[static]\n\nIt's time to tell the truth. I only pray it isn't too late.",
+            "detail": null,
+            "transcriptSlot": true
+          },
+          {
+            "id": "will",
+            "type": "clue",
+            "title": "Will Thoreson's Last Will & Testament",
+            "summary": "A will dated January 14, 1935, dividing the estate equally into three shares — one each to William Scott Thoreson Jr., Frederick Daniel Thoreson, and Taylor Hartley. Taylor Hartley is described as a recognized heir whose claim upon the estate Will acknowledges 'fully and without reservation.'",
+            "detail": null
+          },
+          {
+            "id": "secretHeir",
+            "type": "story",
+            "title": "The Secret Heir",
+            "summary": "The ledger entries, bank statement, and birth certificate have been cross-referenced. 'T.H.' refers to Taylor Hartley — a child born to Margaret Hartley in 1911, with the father listed as unknown. Will has been making private payments to an account in Taylor Hartley's name since that year.",
+            "detail": null
+          }
+        ]
+      },
+      "act3": {
+        "label": "Act 3 — The Killer",
+        "items": [
+          {
+            "id": "coroner",
+            "type": "clue",
+            "title": "Coroner's Report",
+            "summary": "Preliminary autopsy report on William Thoreson. Notes unusual cardiac presentation. Requires a Medical expert to interpret.",
+            "detail": null
+          },
+          {
+            "id": "wolfsbane",
+            "type": "story",
+            "title": "The Poison Identified",
+            "summary": "Aconitine was found in the body of William Thoreson — confirmed by the coroner's report. Our botanist has determined that Aconitine is derived from Wolfsbane, a rare flower that grows exclusively in the Swiss Alps. It cannot be purchased or sourced in North America. Someone had to travel there to obtain it.",
+            "detail": null
+          },
+          {
+            "id": "travelJournal",
+            "type": "clue",
+            "title": "Miranda's Travel Journal",
+            "summary": "A personal journal belonging to Miranda Longfellow, covering her trip to Switzerland in summer 1934. One entry dated August 14 reads: 'The flowers in the Alps are remarkable — one of which definitely caught my eye.'",
+            "detail": null
+          },
+          {
+            "id": "backgroundCheck",
+            "type": "clue",
+            "title": "Pinkerton Background Check Results",
+            "summary": "Pinkerton report on all party guests. Two name changes flagged: Walter Lippman — legal name Taylor James Hartley, born 1911, name changed 1930. Miranda Longfellow — legal name Miranda Elaine Hartley, born 1896, name changed 1920.",
+            "detail": null
+          },
+          {
+            "id": "transcriptAct3",
+            "type": "story",
+            "title": "Confession Recording — Transcript",
+            "summary": "I need to confess something. Before it's too late. I don't know how much time I have left. So I'm recording this. For my family. For the truth. Robert Hartley was my partner. He was my closest friend. We built that company together. Thoreson & Hartley Toys. And I betrayed him. It started with Margaret. Robert's wife. I had an affair with her. Behind Robert's back. While he was still my partner, still my friend — I was going behind his back with the woman he loved.\n\nI am not a good man. Robert found out. About Margaret and me.\n\nHe was furious. Rightfully so. He came to me and said he would pull every dollar he had out of the company. That he'd burn it to the ground before he'd let me profit from it. He said I'd taken everything from him. And he was right. So I acted first. I forged his signature on a transfer document. I took the company. Everything Robert had built — I put it in my name before he could destroy it. I told myself I was protecting the business. That was a lie. I was protecting myself. Robert died the next day. When he realized what I'd done — that I'd outsmarted him — he had nothing left. I took his company. I took his wife. The grief of losing everything — his company, Margaret, all of it — it broke him. They ruled it a suicide. But I know what really killed Robert Hartley. It was me.\n\nMargaret had a child. My child. I never claimed the child publicly. I was too much of a coward for that. Instead I set up a trust. Monthly payments. Fifty dollars, listed as T.H. in the ledger so nobody would ask questions. That was all I gave. Money. In secret. For twenty-five years.\n\nAfter Robert died, Margaret came to me. She was desperate. She begged me to take care of them. She said they had no one else. I sent her — I sent them all — away. I didn't want the scandal. I didn't want anyone to know what I'd done.\n\nBut what I haven't said yet… is that Margaret didn't just have my child. She had Robert's daughter too. Miranda. Miranda was fourteen when her father died. And I could have helped her. I should have helped her. Instead I told Margaret that Miranda wasn't my responsibility. She wasn't my child. I owed her nothing.\n\nI abandoned them.\n\nMargaret died a few years later. The drink took her. And those children were left with nothing. No parents. No family. No one.\n\nThat was my doing. I've carried this guilt for twenty-five years.\n\nBut tonight, I'm going to start making it right. I've invited Taylor here. My child. I'm going to welcome them into this family. Publicly. Finally. No more hiding. No more secret payments. No more lies.\n\nAnd Miranda… if she's out there somewhere… I hope one day she can forgive me. Though God knows I don't deserve it.\n\nI destroyed that family.\n\nIt's time to tell the truth. I only pray it isn't too late.",
+            "detail": null,
+            "transcriptSlot": true
+          },
+          {
+            "id": "mirandasIdentity",
+            "type": "story",
+            "title": "Miranda Unmasked",
+            "summary": "Miranda Longfellow's legal name is Miranda Hartley. She is the daughter of Robert Hartley — Will's former business partner. She changed her name in 1920 and has worked as Scott's legal assistant for the past ten years.",
+            "detail": null
+          }
+        ]
+      }
+    },
+    "items": [
+      {
+        "id": "bradford_letter",
+        "label": "Legal Correspondence",
+        "category": "clue",
+        "act": 1,
+        "_number": 1
+      },
+      {
+        "id": "letterhead",
+        "label": "Company Letterhead",
+        "category": "clue",
+        "act": 1,
+        "_number": 2
+      },
+      {
+        "id": "phonograph",
+        "label": "Recording Device",
+        "category": "clue",
+        "act": 1,
+        "_number": 3
+      },
+      {
+        "id": "calendar",
+        "label": "Office Calendar",
+        "category": "clue",
+        "act": 1,
+        "_number": 4
+      },
+      {
+        "id": "incorporation",
+        "label": "Company Incorporation Filing",
+        "category": "clue",
+        "act": 1,
+        "_number": 5
+      },
+      {
+        "id": "birth_certificate",
+        "label": "Birth Record",
+        "category": "clue",
+        "act": 2,
+        "_number": 6
+      },
+      {
+        "id": "coroner_report",
+        "label": "Coroner's Report",
+        "category": "clue",
+        "act": 2,
+        "_number": 7
+      },
+      {
+        "id": "margaret_obituary",
+        "label": "Newspaper Obituary",
+        "category": "clue",
+        "act": 2,
+        "_number": 8
+      },
+      {
+        "id": "last_will",
+        "label": "Last Will & Testament",
+        "category": "clue",
+        "act": 2,
+        "_number": 9
+      },
+      {
+        "id": "travel_journal",
+        "label": "Personal Travel Journal",
+        "category": "clue",
+        "act": 3,
+        "_number": 10
+      },
+      {
+        "id": "pinkerton_report",
+        "label": "Investigative Report",
+        "category": "clue",
+        "act": 3,
+        "_number": 11
+      },
+      {
+        "id": "lockbox_1",
+        "label": "Locked Box — One",
+        "category": "container",
+        "act": null,
+        "_number": 1
+      },
+      {
+        "id": "lockbox_2",
+        "label": "Locked Box — Two",
+        "category": "container",
+        "act": null,
+        "_number": 2
+      },
+      {
+        "id": "lockbox_3",
+        "label": "Locked Box — Three",
+        "category": "container",
+        "act": null,
+        "_number": 3
+      },
+      {
+        "id": "key_1",
+        "label": "Key — One",
+        "category": "key",
+        "act": null,
+        "_number": 1
+      },
+      {
+        "id": "key_2",
+        "label": "Key — Two",
+        "category": "key",
+        "act": null,
+        "_number": 2
+      }
+    ],
+    "roles": {
+      "priorities": {
+        "priority1": {
+          "label": "killer",
+          "count": 1,
+          "minScore": 6,
+          "eligibleChars": [
+            "miranda_longfellow",
+            "walter_lippman",
+            "vivienne_ashford",
+            "raymond_hammond",
+            "elizabeth_monroe",
+            "marcus_brennan"
+          ],
+          "excludeFrom": true,
+          "ineligibleSkills": [
+            "Botany",
+            "Medical",
+            "Investigation"
+          ]
+        },
+        "priority2": {
+          "label": "heir",
+          "count": 1,
+          "minScore": 5,
+          "eligibleChars": [
+            "miranda_longfellow",
+            "walter_lippman",
+            "vivienne_ashford",
+            "raymond_hammond",
+            "elizabeth_monroe",
+            "marcus_brennan"
+          ],
+          "excludeFrom": true,
+          "ineligibleSkills": []
+        },
+        "priority3": {
+          "label": "pipeline",
+          "count": 1,
+          "minScore": 6,
+          "assignTo": "david_richardson",
+          "excludeFrom": true,
+          "ineligibleSkills": [
+            "Botany",
+            "Medical",
+            "Legal",
+            "Accounting",
+            "Banking",
+            "French",
+            "Journalism",
+            "Bartender"
+          ]
+        }
+      },
+      "skills": {
+        "Legal": {
+          "primary": "miranda_longfellow",
+          "backups": [
+            "scott_thoreson",
+            "victoria_ashworth",
+            "marcus_brennan",
+            "elizabeth_monroe"
+          ]
+        },
+        "Journalism": {
+          "primary": "walter_lippman",
+          "backups": [
+            "scott_thoreson",
+            "victoria_ashworth",
+            "marcus_brennan",
+            "elizabeth_monroe"
+          ]
+        },
+        "Medical": {
+          "primary": "patricia_chamberlain",
+          "backups": [
+            "scott_thoreson",
+            "victoria_ashworth",
+            "marcus_brennan",
+            "elizabeth_monroe"
+          ]
+        },
+        "Botany": {
+          "primary": "dorothy_wells",
+          "backups": [
+            "elizabeth_monroe",
+            "victoria_ashworth",
+            "scott_thoreson",
+            "marcus_brennan"
+          ]
+        },
+        "French": {
+          "primary": "vivienne_ashford",
+          "backups": [
+            "elizabeth_monroe",
+            "victoria_ashworth",
+            "scott_thoreson",
+            "marcus_brennan"
+          ]
+        },
+        "Accounting": {
+          "primary": "raymond_hammond",
+          "backups": [
+            "marcus_brennan",
+            "scott_thoreson",
+            "victoria_ashworth",
+            "elizabeth_monroe"
+          ]
+        },
+        "Banking": {
+          "primary": "charles_sterling",
+          "backups": [
+            "marcus_brennan",
+            "victoria_ashworth",
+            "scott_thoreson",
+            "elizabeth_monroe"
+          ]
+        },
+        "Investigation": {
+          "primary": "david_richardson",
+          "backups": []
+        }
+      },
+      "scoreWeights": {
+        "priority": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0.25,
+          "6": 0.5,
+          "7": 0.78,
+          "8": 0.88,
+          "9": 0.95,
+          "10": 1
+        },
+        "skill": {
+          "1": 0,
+          "2": 0,
+          "3": 0.03,
+          "4": 0.05,
+          "5": 0.35,
+          "6": 0.5,
+          "7": 0.7,
+          "8": 0.82,
+          "9": 0.92,
+          "10": 0.97
+        }
+      },
+      "overlays": {
+        "priority1": {
+          "base": "You are the killer.\n\nYour connection to the Hartley family runs deeper than anyone in this room knows. Robert Hartley's story — the stolen company, the forged documents, the death that was ruled a suicide — is not abstract history to you. It is personal. You have spent years getting close enough to confirm what you always suspected, and planning what you would do when the moment came.\n\nLast summer you traveled to Switzerland. Wolfsbane grows wild in the Alps — purple flowers along the mountain trails, beautiful and poisonous down to the root. You brought some home. You dried it. You ground it.\n\nTonight, before the guests arrived, you put it in his drink.\n\nWilliam is dead. You are at peace with that. You are not a villain. You are someone who was owed a debt that was never going to be paid any other way.\n\nYou are good at stillness. Let the investigation find you. Help where you can. The slower the truth comes out, the better the story.",
+          "access": {
+            "miranda_longfellow": "Ten years as legal manager of the Thoreson estate gave you access to every document William thought was safely hidden. You read everything. You filed everything. You knew exactly where the forged transfer was kept, where the ledger lived, where the love letters were locked. Your access was total and completely unremarkable — you were just the help.",
+            "walter_lippman": "You spent years covering Dallas business, circling the Thoreson story from the outside, never able to confirm what you suspected. Then William invited you personally. You came because you thought you were finally going to get the story. Instead you decided to end it. You had already obtained the wolfsbane before the invitation arrived. The invitation just gave you the room.",
+            "vivienne_ashford": "You grew up in and out of this house. You know which doors lock, which drawers stick, where things are kept. Coming back from abroad gave you distance — and distance gave you clarity about what this family had done and who had paid for it. You had time in Europe to confirm what you suspected and to find what you needed in the Swiss Alps. Coming home was always going to end like this.",
+            "raymond_hammond": "Fifteen years as business manager gave you access to every part of this company except the books. But you knew the building. You knew the schedules. You knew when William was alone and when he wasn't. You knew which drinks William preferred and who prepared them. Proximity is its own kind of access — and you had been proximate for fifteen years.",
+            "elizabeth_monroe": "You have been inside Dallas society for forty years. You knew the Hartley family before the scandal. You were there when Robert died. You watched William walk away clean and build an empire on what he took. You have been patient for a very long time. Nobody watches the most fun person in the room.",
+            "marcus_brennan": "You did not invest in Thoreson Toys for the returns. You invested to get close. Four years inside the company gave you everything you needed — access to William, to the building, to the drinks service at company events. The European deal collapsing was an inconvenience. What you came here to do tonight was always the plan."
+          }
+        },
+        "priority2": {
+          "base": "You are the secret heir.\n\nYou may not know this yet — or you have suspected it without being able to confirm it. There was always something unexplained. A trust fund with no clear origin. A family connection that was never fully spelled out. A feeling that the story of where you came from had a chapter nobody would show you.\n\nWilliam Thoreson invited you tonight specifically. He said he had an announcement — something that concerned you personally. You came because some part of you has always known this night was coming.\n\nYou are connected to William Thoreson in a way that is about to become very public. Let the investigation find this. Do not lead it there. Your reaction when it surfaces should feel genuine — because in many ways, it is.",
+          "access": {
+            "miranda_longfellow": "You grew up knowing you were Robert Hartley's daughter. What you discovered after years working inside the Thoreson files was that Margaret's second child — the one William funded secretly — was your half-sibling. The heir story is more complicated for you than for anyone else in this room.",
+            "walter_lippman": "You were born Taylor Hartley on March 5th, 1911. Your mother was Margaret. You were raised by distant relatives after Margaret died, told very little about where you came from, only that there was a trust fund in your name. You built a career. You never stopped looking for the story. Tonight you are going to find it.",
+            "vivienne_ashford": "The Ashford family connection to the Thoresons goes back further than anyone has said. You were raised knowing less than you should about your own family history. Coming back from abroad, you started asking questions that nobody wanted to answer. Tonight some of them will be answered whether anyone wants them to be or not.",
+            "raymond_hammond": "You grew up with a trust fund that nobody could fully explain. You changed your name when you were young — the name you were born with carried something uncomfortable that nobody would talk about. You applied for the business manager position at Thoreson Toys without knowing the connection. You have been inside this company for fifteen years without understanding why it always felt personal.",
+            "elizabeth_monroe": "You have spent forty years in Dallas society carefully curating who you are and where you came from. The truth is considerably more complicated. Your family's connection to the Hartleys predates the scandal — and what William did in 1910 had consequences for your family that you have never spoken about publicly.",
+            "marcus_brennan": "You know exactly who you are and what you are doing here. When you discovered the truth about your origins — the Hartley connection, the trust fund, what William had done — you made a plan. You invested the trust money back into Thoreson Toys deliberately. Four years inside the company. Four years watching. Tonight William was going to make his announcement. You wanted to be in the room when it happened."
+          }
+        }
+      }
+    },
+    "flow": {
+      "phases": [
+        {
+          "id": "cocktail",
+          "label": "Cocktail Hour",
+          "type": "social",
+          "icon": "🥂",
+          "description": "Guests arrive, get in character, complete social missions. William is alive.",
+          "advance": "manual",
+          "minMinutes": 45,
+          "maxMinutes": 75,
+          "revelations": null,
+          "onStart": {
+            "distributeFacts": true,
+            "distributeQuests": true,
+            "unlockScanning": false
+          },
+          "social": {
+            "questSet": "cocktail",
+            "screen": "slideshow",
+            "schedule": [
+              {
+                "afterSeconds": 2700,
+                "action": "quiz",
+                "screen": "cocktail-warning",
+                "returnAfterSeconds": 20,
+                "returnScreen": "slideshow"
+              },
+              {
+                "afterSeconds": 3600,
+                "action": "reveal",
+                "item": "willsDeath"
+              }
+            ]
+          }
+        },
+        {
+          "id": "act1",
+          "label": "Act One — The Gathering",
+          "type": "investigation",
+          "icon": "🕯",
+          "description": "William is found dead. The investigation begins. Business records and company history surface.",
+          "advance": "manual",
+          "minMinutes": 30,
+          "maxMinutes": 60,
+          "revelations": "act1",
+          "onStart": {
+            "distributeFacts": false,
+            "distributeQuests": false,
+            "unlockScanning": true,
+            "autoReveal": [
+              "willsDeath"
+            ]
+          }
+        },
+        {
+          "id": "act2",
+          "label": "Act Two — The Secret",
+          "type": "investigation",
+          "icon": "🔍",
+          "description": "The affair, the secret heir, and Margaret's story come to light.",
+          "advance": "manual",
+          "minMinutes": 25,
+          "maxMinutes": 50,
+          "revelations": "act2",
+          "onStart": {
+            "distributeFacts": false,
+            "distributeQuests": false,
+            "unlockScanning": true,
+            "autoReveal": []
+          }
+        },
+        {
+          "id": "act3",
+          "label": "Act Three — The Truth",
+          "type": "investigation",
+          "icon": "⚖",
+          "description": "The poison is identified. True identities surface. The killer is cornered.",
+          "advance": "manual",
+          "minMinutes": 20,
+          "maxMinutes": 40,
+          "revelations": "act3",
+          "onStart": {
+            "distributeFacts": false,
+            "distributeQuests": false,
+            "unlockScanning": true,
+            "autoReveal": []
+          }
+        },
+        {
+          "id": "resolution",
+          "label": "Resolution",
+          "type": "resolution",
+          "icon": "🎭",
+          "description": "Accusation round, final confession, killer reveal.",
+          "advance": "manual",
+          "minMinutes": 15,
+          "maxMinutes": 30,
+          "revelations": null,
+          "onStart": {
+            "distributeFacts": false,
+            "distributeQuests": false,
+            "unlockScanning": false,
+            "triggerAccusation": true
+          }
+        }
+      ]
+    },
+    "facts": [
+      {
+        "id": "thoreson_company_founding",
+        "category": "company",
+        "priority": 1,
+        "phase": "cocktail",
+        "text": "William Thoreson founded Thoreson Toys in 1902. It is now one of the largest toy companies in Texas, employing over two hundred people across three facilities.",
+        "preferredChar": "charles_sterling",
+        "fallbacks": [
+          "raymond_hammond",
+          "scott_thoreson",
+          "marcus_brennan",
+          "victoria_ashworth"
+        ]
+      },
+      {
+        "id": "thoreson_company_reputation",
+        "category": "company",
+        "priority": 1,
+        "phase": "cocktail",
+        "text": "Thoreson Toys is known for quality wooden toys and games. William built the company's reputation personally — he knew every buyer, every supplier, and every employee by name.",
+        "preferredChar": "raymond_hammond",
+        "fallbacks": [
+          "charles_sterling",
+          "scott_thoreson",
+          "victoria_ashworth"
+        ]
+      },
+      {
+        "id": "european_deal_collapse",
+        "category": "financial",
+        "priority": 1,
+        "phase": "cocktail",
+        "text": "Six months ago, a major European distribution deal collapsed. The company took a significant financial loss. William became quieter and more private afterward. Two investors began sending demand letters.",
+        "preferredChar": "marcus_brennan",
+        "fallbacks": [
+          "victoria_ashworth",
+          "raymond_hammond",
+          "charles_sterling"
+        ]
+      },
+      {
+        "id": "company_books_locked",
+        "category": "financial",
+        "priority": 2,
+        "phase": "cocktail",
+        "text": "William always kept the company's financial ledgers personally. Even the business manager never had full access to the books. Nobody ever thought much of it until now.",
+        "preferredChar": "raymond_hammond",
+        "fallbacks": [
+          "scott_thoreson",
+          "charles_sterling",
+          "marcus_brennan"
+        ]
+      },
+      {
+        "id": "william_character",
+        "category": "family",
+        "priority": 1,
+        "phase": "cocktail",
+        "text": "William Thoreson was a commanding presence — generous in public, demanding in private. He expected excellence from everyone around him, including his children. He was not a man who apologized easily.",
+        "preferredChar": "charles_sterling",
+        "fallbacks": [
+          "dorothy_wells",
+          "elizabeth_monroe",
+          "victoria_ashworth"
+        ]
+      },
+      {
+        "id": "william_announcement",
+        "category": "family",
+        "priority": 1,
+        "phase": "cocktail",
+        "text": "William told several people that tonight was going to be a special evening — that he had an important announcement to make. He said he was finally going to make something right. He did not say what.",
+        "preferredChar": "scott_thoreson",
+        "fallbacks": [
+          "charles_sterling",
+          "miranda_longfellow",
+          "raymond_hammond"
+        ]
+      },
+      {
+        "id": "scott_family_role",
+        "category": "family",
+        "priority": 2,
+        "phase": "cocktail",
+        "text": "{{scott_thoreson}} has been managing the day-to-day operations of Thoreson Toys for the past two years. William was stepping back — some said by choice, others said by necessity.",
+        "preferredChar": "miranda_longfellow",
+        "fallbacks": [
+          "raymond_hammond",
+          "charles_sterling",
+          "dorothy_wells"
+        ]
+      },
+      {
+        "id": "dallas_society",
+        "category": "social",
+        "priority": 2,
+        "phase": "cocktail",
+        "text": "The Thoresons are one of Dallas's most prominent families. William has been a fixture of the city's business and charity circles for thirty years. An invitation to the estate is considered a mark of distinction.",
+        "preferredChar": "elizabeth_monroe",
+        "fallbacks": [
+          "dorothy_wells",
+          "victoria_ashworth",
+          "charles_sterling"
+        ]
+      },
+      {
+        "id": "dorothy_history",
+        "category": "social",
+        "priority": 2,
+        "phase": "cocktail",
+        "text": "{{dorothy_wells}} has lived in Dallas longer than almost anyone here. If something happened in this city in the last fifty years, there is a reasonable chance {{dorothy_wells}} was in the room.",
+        "preferredChar": "elizabeth_monroe",
+        "fallbacks": [
+          "victoria_ashworth",
+          "charles_sterling",
+          "marcus_brennan"
+        ]
+      },
+      {
+        "id": "miranda_role",
+        "category": "company",
+        "priority": 2,
+        "phase": "cocktail",
+        "text": "{{miranda_longfellow}} has managed the legal affairs of the Thoreson estate for nearly ten years. Every significant document, contract, and filing has passed through those hands.",
+        "preferredChar": "scott_thoreson",
+        "fallbacks": [
+          "raymond_hammond",
+          "charles_sterling",
+          "marcus_brennan"
+        ]
+      },
+      {
+        "id": "david_pi",
+        "category": "social",
+        "priority": 2,
+        "phase": "cocktail",
+        "text": "{{david_richardson}} is a licensed private investigator and a Thoreson cousin. The moment something goes wrong at a family gathering, {{david_richardson}} starts making calls. It is a reflex at this point.",
+        "preferredChar": "scott_thoreson",
+        "fallbacks": [
+          "charles_sterling",
+          "elizabeth_monroe",
+          "dorothy_wells"
+        ]
+      },
+      {
+        "id": "william_drink",
+        "category": "personal",
+        "priority": 1,
+        "phase": "cocktail",
+        "text": "William always drank the same thing at his own gatherings — a specific bourbon, neat, prepared by the household before guests arrived. He rarely varied from it.",
+        "preferredChar": "charles_sterling",
+        "fallbacks": [
+          "dorothy_wells",
+          "scott_thoreson",
+          "elizabeth_monroe"
+        ]
+      },
+      {
+        "id": "william_health",
+        "category": "personal",
+        "priority": 2,
+        "phase": "cocktail",
+        "text": "William had been in good health for a man his age. No serious illness, no medications that anyone knew of. His death tonight is not a natural event.",
+        "preferredChar": "patricia_chamberlain",
+        "fallbacks": [
+          "charles_sterling",
+          "dorothy_wells",
+          "scott_thoreson"
+        ]
+      }
+    ],
+    "quests": {
+      "cocktail": [
+        {
+          "id": "find_pi",
+          "type": "targeted",
+          "requires": [
+            "david_richardson"
+          ],
+          "giveTo": "any",
+          "exclude": [
+            "david_richardson"
+          ],
+          "text": "Find {{david_richardson}} before the evening begins. Rumor has it there is a private investigator at the party tonight. Find out why.",
+          "complete": "You introduced yourself to {{david_richardson}}. Something about the way {{david_richardson}} looked at you suggested this would not be your last conversation tonight."
+        },
+        {
+          "id": "find_journalist",
+          "type": "targeted",
+          "requires": [
+            "walter_lippman"
+          ],
+          "giveTo": "any",
+          "exclude": [
+            "walter_lippman"
+          ],
+          "text": "Introduce yourself to {{walter_lippman}} and find out what story brought a journalist to a private dinner party. William did not invite people without reason.",
+          "complete": "{{walter_lippman}} was cagey about the invitation. Said William had reached out personally. That is worth remembering."
+        },
+        {
+          "id": "find_legal_manager",
+          "type": "targeted",
+          "requires": [
+            "miranda_longfellow"
+          ],
+          "giveTo": "any",
+          "exclude": [
+            "miranda_longfellow"
+          ],
+          "text": "Find {{miranda_longfellow}} — the person who manages all the Thoreson legal affairs. Ask what William has been working on lately. Legal managers always know more than they say.",
+          "complete": "{{miranda_longfellow}} said everything was routine. Said it with a perfectly straight face. You are not sure you believed it."
+        },
+        {
+          "id": "find_banker",
+          "type": "targeted",
+          "requires": [
+            "charles_sterling"
+          ],
+          "giveTo": "any",
+          "exclude": [
+            "charles_sterling"
+          ],
+          "text": "Seek out {{charles_sterling}}. An old friend of William's with decades in Dallas banking. Ask what he knows about the company's recent financial troubles.",
+          "complete": "{{charles_sterling}} chose words carefully. Said the European situation was complicated. Said William had been under unusual pressure. Did not say more."
+        },
+        {
+          "id": "find_cousin",
+          "type": "targeted",
+          "requires": [
+            "vivienne_ashford"
+          ],
+          "giveTo": "any",
+          "exclude": [
+            "vivienne_ashford"
+          ],
+          "text": "Find {{vivienne_ashford}} — just returned from years abroad. Ask what brought someone home after so long. People who leave and come back always have a reason.",
+          "complete": "{{vivienne_ashford}} said something about family obligation. Then changed the subject. The way {{vivienne_ashford}} looked at the house suggested more than that."
+        },
+        {
+          "id": "find_investor",
+          "type": "targeted",
+          "requires": [
+            "marcus_brennan"
+          ],
+          "giveTo": "any",
+          "exclude": [
+            "marcus_brennan"
+          ],
+          "text": "Find {{marcus_brennan}} and ask about the investment in Thoreson Toys. The European deal collapse cost people real money. Find out how angry they actually are.",
+          "complete": "{{marcus_brennan}} said losing money was one thing. Said being lied to was another. Said tonight was supposed to be about answers."
+        },
+        {
+          "id": "find_elder",
+          "type": "targeted",
+          "requires": [
+            "dorothy_wells"
+          ],
+          "giveTo": "any",
+          "exclude": [
+            "dorothy_wells"
+          ],
+          "text": "Introduce yourself to {{dorothy_wells}}. The most senior person in the room, with the longest memory in Dallas. Ask what {{dorothy_wells}} remembers about the early days of Thoreson Toys.",
+          "complete": "{{dorothy_wells}} smiled and said the early days were interesting ones. Said there had been another name involved, once. Did not say which."
+        },
+        {
+          "id": "find_victoria",
+          "type": "targeted",
+          "requires": [
+            "victoria_ashworth"
+          ],
+          "giveTo": "any",
+          "exclude": [
+            "victoria_ashworth"
+          ],
+          "text": "Find {{victoria_ashworth}} and take the measure of the room's most analytical mind. Ask what {{victoria_ashworth}} makes of tonight's gathering. Investors notice things other people miss.",
+          "complete": "{{victoria_ashworth}} said William had been evasive for months. Said that was unusual for a man who prided himself on directness. Said something felt off about tonight before anything happened."
+        },
+        {
+          "id": "introduce_character",
+          "type": "generic",
+          "requires": [],
+          "giveTo": "any",
+          "text": "Introduce yourself to three people you have not spoken to yet — in character. You are not yourself tonight. Tell them who you are, how you know William, and why you are here.",
+          "complete": "Three conversations. Three new faces. The evening is beginning to take shape."
+        },
+        {
+          "id": "william_impression",
+          "type": "generic",
+          "requires": [],
+          "giveTo": "any",
+          "text": "Ask two different guests what they think of William Thoreson. Not the official version — the honest one. People tell you things at parties they would not say anywhere else.",
+          "complete": "Two perspectives. Neither of them simple. William Thoreson was clearly not a simple man."
+        },
+        {
+          "id": "announcement_rumor",
+          "type": "generic",
+          "requires": [],
+          "giveTo": "any",
+          "text": "William told several people he had an important announcement tonight. Find someone who knows what it was. Start asking questions — carefully.",
+          "complete": "Nobody seems to know exactly what the announcement was. But everyone seems to have a theory."
+        },
+        {
+          "id": "european_deal",
+          "type": "generic",
+          "requires": [],
+          "giveTo": "any",
+          "text": "The European distribution deal collapse has been the talk of Dallas business circles for months. Find out who in this room was affected — and how angry they still are.",
+          "complete": "More people than you expected had skin in that deal. The money was one thing. The silence from William afterward was another."
+        },
+        {
+          "id": "find_secret",
+          "type": "discovery",
+          "requires": [],
+          "giveTo": "any",
+          "text": "By the end of cocktail hour, find out one thing about another guest that they probably did not intend to reveal. Every party has loose lips if you know how to listen.",
+          "complete": "You found something. File it away. Tonight is young."
+        },
+        {
+          "id": "find_ally",
+          "type": "discovery",
+          "requires": [],
+          "giveTo": "any",
+          "text": "Identify one person in this room you think you can trust. You may need allies before the night is over. Choose carefully.",
+          "complete": "You have a candidate. Whether that trust is earned remains to be seen."
+        },
+        {
+          "id": "find_suspect",
+          "type": "discovery",
+          "requires": [],
+          "giveTo": "any",
+          "text": "By the end of cocktail hour, identify one person in this room who makes you uneasy. You cannot explain it yet. Trust the instinct.",
+          "complete": "You have someone in mind. Whether you are right is a different question entirely."
+        },
+        {
+          "id": "william_last_seen",
+          "type": "discovery",
+          "requires": [],
+          "giveTo": "any",
+          "text": "Try to establish where William was in the last hour before dinner was to be served. Who spoke to him? Who saw him? When was he last seen alive?",
+          "complete": "A picture is beginning to form. Imperfect. But a beginning."
+        }
+      ]
+    },
+    "menu": null,
+    "scans": {
+      "skillPrefixes": [
+        "THORESON:"
+      ],
+      "routes": {
+        "photo.html": {
+          "p1": {
+            "type": "photo",
+            "id": "p1",
+            "image": "posters/wanted_aaron.jpg"
+          },
+          "p2": {
+            "type": "photo",
+            "id": "p2",
+            "image": "posters/missing_sarah.jpg"
+          },
+          "p3": {
+            "type": "photo",
+            "id": "p3",
+            "image": "posters/missing_laurie.jpg"
+          },
+          "p4": {
+            "type": "photo",
+            "id": "p4",
+            "image": "posters/missing_robin.jpg"
+          },
+          "p5": {
+            "type": "photo",
+            "id": "p5",
+            "image": "posters/wanted_bradford.jpg"
+          },
+          "e1": {
+            "type": "photo",
+            "id": "e1",
+            "image": "photos/easter1.jpeg"
+          },
+          "e2": {
+            "type": "photo",
+            "id": "e2",
+            "image": "photos/easter2.jpeg"
+          },
+          "e3": {
+            "type": "photo",
+            "id": "e3",
+            "image": "photos/easter3.jpeg"
+          },
+          "e4": {
+            "type": "photo",
+            "id": "e4",
+            "image": "photos/easter4.jpeg"
+          },
+          "e5": {
+            "type": "photo",
+            "id": "e5",
+            "image": "photos/easter5.jpeg"
+          },
+          "bathroom": {
+            "type": "photo",
+            "id": "bathroom",
+            "image": "photos/bathroom_cat.jpeg",
+            "counter": "bathroomScans",
+            "caption": "Why are you looking for clues in the bathroom?!",
+            "counterText": "detectives have made this mistake"
+          },
+          "wedding": {
+            "type": "photo",
+            "id": "wedding",
+            "image": "photos/easter_collage.jpeg"
+          }
+        },
+        "netsuke.html": {
+          "": {
+            "type": "page",
+            "id": "netsuke",
+            "page": "netsuke"
+          }
+        }
+      },
+      "printSkills": [
+        {
+          "id": "Accounting",
+          "doc": "Financial Ledger"
+        },
+        {
+          "id": "Legal",
+          "doc": "Forged Transfer"
+        },
+        {
+          "id": "Journalism",
+          "doc": "Dallas Herald"
+        },
+        {
+          "id": "French",
+          "doc": "French Letter"
+        },
+        {
+          "id": "Medical",
+          "doc": "Autopsy Report"
+        },
+        {
+          "id": "Banking",
+          "doc": "Bank Statement"
+        }
+      ],
+      "printExtras": [
+        {
+          "id": "extra-e1",
+          "label": "Easter Egg 1",
+          "url": "photo.html?id=e1"
+        },
+        {
+          "id": "extra-e2",
+          "label": "Easter Egg 2",
+          "url": "photo.html?id=e2"
+        },
+        {
+          "id": "extra-e3",
+          "label": "Easter Egg 3",
+          "url": "photo.html?id=e3"
+        },
+        {
+          "id": "extra-e4",
+          "label": "Easter Egg 4",
+          "url": "photo.html?id=e4"
+        },
+        {
+          "id": "extra-e5",
+          "label": "Easter Egg 5",
+          "url": "photo.html?id=e5"
+        },
+        {
+          "id": "extra-wedding",
+          "label": "Wedding Album",
+          "url": "photo.html?id=wedding"
+        },
+        {
+          "id": "extra-p1",
+          "label": "Wanted — Aaron",
+          "url": "photo.html?id=p1"
+        },
+        {
+          "id": "extra-p2",
+          "label": "Missing — Sarah",
+          "url": "photo.html?id=p2"
+        },
+        {
+          "id": "extra-p3",
+          "label": "Missing — Laurie",
+          "url": "photo.html?id=p3"
+        },
+        {
+          "id": "extra-p4",
+          "label": "Missing — Robin",
+          "url": "photo.html?id=p4"
+        },
+        {
+          "id": "extra-p5",
+          "label": "Wanted — Bradford",
+          "url": "photo.html?id=p5"
+        },
+        {
+          "id": "extra-bathroom",
+          "label": "Bathroom Cat",
+          "url": "photo.html?id=bathroom"
+        },
+        {
+          "id": "extra-netsuke",
+          "label": "Netsuke Quest",
+          "url": "netsuke.html"
+        }
+      ]
+    },
+    "preparation": {
+      "drinks": [
+        {
+          "id": "old-fashioned",
+          "name": "Old Fashioned",
+          "description": "Whiskey, sugar, bitters, orange",
+          "alcoholFree": false,
+          "recipe": "For one glass: dissolve a sugar cube with a little water and bitters. Add ice and 45 ml bourbon or rye, stir, then finish with orange peel.",
+          "source": "https://iba-world.com/iba-cocktail/old-fashioned/"
+        },
+        {
+          "id": "bees-knees",
+          "name": "Bee’s Knees",
+          "description": "Gin, lemon, honey",
+          "alcoholFree": false,
+          "recipe": "For one glass: shake 2 oz gin, ¾ oz lemon juice and ¾ oz honey syrup with ice; strain into a chilled glass.",
+          "source": "https://www.tanqueray.com/en-us/recipes/tanqueray-bees-knees"
+        },
+        {
+          "id": "french-75",
+          "name": "French 75",
+          "description": "Gin, lemon, sugar, Champagne",
+          "alcoholFree": false,
+          "recipe": "For one glass: shake 30 ml gin, 15 ml lemon juice and 15 ml sugar syrup with ice. Strain, then add 60 ml Champagne.",
+          "source": "https://iba-world.com/iba-cocktail/french-75/"
+        },
+        {
+          "id": "estate-lemonade",
+          "name": "Estate Lemonade",
+          "description": "Lemon, sugar, chilled water",
+          "alcoholFree": true,
+          "recipe": "House suggestion: stir lemon juice and sugar syrup into chilled water to taste. Serve over ice with lemon slices."
+        },
+        {
+          "id": "ginger-lime",
+          "name": "Ginger & Lime Fizz",
+          "description": "Alcohol-free ginger ale, lime, soda water",
+          "alcoholFree": true,
+          "recipe": "House suggestion: pour alcohol-free ginger ale over ice, squeeze in lime and lengthen with soda water to taste."
+        },
+        {
+          "id": "iced-tea",
+          "name": "Iced Tea",
+          "description": "Black tea, lemon, sugar on the side",
+          "alcoholFree": true,
+          "recipe": "Brew black tea, let it cool, then chill. Serve with ice, lemon and optional sugar syrup."
+        }
+      ],
+      "suggestedMenu": [
+        "old-fashioned",
+        "bees-knees",
+        "estate-lemonade"
+      ],
+      "welcomeNote": "Welcome to the Thoreson Estate. Join us for cocktail hour, meet your fellow guests, and settle into character before the mystery begins.",
+      "attire": "1930s-inspired dinner attire encouraged, but optional. Wear something comfortable that helps you feel like your character.",
+      "attirePresets": [
+        {
+          "text": "Dress as your character using what you already own. A jacket, scarf, hat, or distinctive accessory is plenty. Costumes are optional.",
+          "label": "Easy character costumes"
+        },
+        {
+          "text": "Come as you are. Comfortable clothes and a willingness to join the mystery are all you need.",
+          "label": "Casual — no costume needed"
+        }
+      ]
+    },
+    "reference": {
+      "triggerOrder": [
+        "willsDeath",
+        "djCountyClerk",
+        "newspaper",
+        "letterhead",
+        "bradfordLetter",
+        "incorporation",
+        "forgedDocs",
+        "europeanDeal",
+        "bankStatement",
+        "transcriptAct1",
+        "stolenCompany",
+        "djCoroner",
+        "ledger",
+        "margaretsLetter",
+        "birthCertificate",
+        "margaretDeath",
+        "transcriptAct2",
+        "will",
+        "secretHeir",
+        "djPinkerton",
+        "coroner",
+        "wolfsbane",
+        "travelJournal",
+        "backgroundCheck",
+        "transcriptAct3",
+        "mirandasIdentity"
+      ],
+      "actLabels": {
+        "willsDeath": "🕯 GAME START",
+        "djCountyClerk": "🔍 ACT 1",
+        "newspaper": "🔍 ACT 1",
+        "letterhead": "🔍 ACT 1",
+        "bradfordLetter": "🔍 ACT 1",
+        "incorporation": "🔍 ACT 1",
+        "forgedDocs": "🔍 ACT 1",
+        "europeanDeal": "🔍 ACT 1",
+        "bankStatement": "🔍 ACT 1",
+        "transcriptAct1": "🔍 ACT 1",
+        "stolenCompany": "🔍 ACT 1",
+        "djCoroner": "💍 ACT 2",
+        "ledger": "💍 ACT 2",
+        "margaretsLetter": "💍 ACT 2",
+        "birthCertificate": "💍 ACT 2",
+        "margaretDeath": "💍 ACT 2",
+        "transcriptAct2": "💍 ACT 2",
+        "will": "💍 ACT 2",
+        "secretHeir": "💍 ACT 2",
+        "djPinkerton": "🗡 ACT 3",
+        "coroner": "🗡 ACT 3",
+        "wolfsbane": "🗡 ACT 3",
+        "travelJournal": "🗡 ACT 3",
+        "backgroundCheck": "🗡 ACT 3",
+        "transcriptAct3": "🗡 ACT 3",
+        "mirandasIdentity": "🗡 ACT 3"
+      },
+      "codes": {
+        "Scott": "61493",
+        "BrianT": "42851",
+        "Clara": "56374",
+        "Leanna": "31429",
+        "Marc": "68915",
+        "Maisy": "25837",
+        "Hannah": "84126",
+        "DJ": "91564",
+        "Peter": "17382",
+        "Arash": "73649",
+        "Becky": "45928",
+        "BrianS": "52847",
+        "Katie": "29175",
+        "Michelle": "63841",
+        "Jeff": "34759",
+        "Casey": "85214",
+        "Krystal": "72938",
+        "Lindsey": "41876",
+        "Bradey": "96523",
+        "Alexander": "51783",
+        "Jesse": "28764",
+        "Dylan": "16583",
+        "Preston": "39517",
+        "Greeter": "77291"
+      },
+      "skillHolders": {
+        "Accounting": "Teddy (Dylan)",
+        "Legal": "Miranda (Leanna)",
+        "Journalism": "Walter (Marc) / Sophie (Maisy)",
+        "French": "Vivienne (Hannah)",
+        "Medical": "Patricia (Casey)",
+        "Banking": "Charles (Jeff) / James (Bradey)",
+        "Botany": "Dorothy (Michelle) — AUTO-TRIGGERS"
+      },
+      "excludedSkills": [
+        "Bartender"
+      ],
+      "excludedCharacters": [
+        "Scott"
+      ]
+    }
+  },
+  "presentation": {
+    "theme": {
+      "--story-primary": "#1a1400",
+      "--story-accent": "#f0c040"
+    },
+    "legacyGlobals": {
+      "ACT_TARGETS": {
+        "act1": {
+          "label": "Act 1 — The Gathering",
+          "targetMin": 35,
+          "clues": [
+            "newspaper",
+            "letterhead",
+            "bradfordLetter",
+            "incorporation",
+            "forgedDocs",
+            "bankStatement"
+          ]
+        },
+        "act2": {
+          "label": "Act 2 — The Secret Heir",
+          "targetMin": 75,
+          "clues": [
+            "ledger",
+            "margaretsLetter",
+            "birthCertificate",
+            "margaretDeath",
+            "will"
+          ]
+        },
+        "act3": {
+          "label": "Act 3 — The Killer",
+          "targetMin": 110,
+          "clues": [
+            "coroner",
+            "travelJournal",
+            "backgroundCheck"
+          ]
+        }
+      },
+      "DJ_AUTO": {
+        "act1": {
+          "id": "djCountyClerk",
+          "label": "DJ: County Clerk"
+        },
+        "act2": {
+          "id": "djCoroner",
+          "label": "DJ: Coroner Report"
+        },
+        "act3": {
+          "id": "djPinkerton",
+          "label": "DJ: Pinkerton"
+        }
+      },
+      "DJ_DELAY_MS": 300000,
+      "DJ_TEXTS": {
+        "act1": {
+          "id": "djCountyClerk",
+          "label": "Send to DJ: County Clerk Report"
+        },
+        "act2": {
+          "id": "djCoroner",
+          "label": "Send to DJ: Coroner Report"
+        },
+        "act3": {
+          "id": "djPinkerton",
+          "label": "Send to DJ: Pinkerton Report"
+        }
+      },
+      "CONFESSIONS": {
+        "act1": {
+          "id": "transcriptAct1",
+          "label": "Play Confession — Act 1"
+        },
+        "act2": {
+          "id": "transcriptAct2",
+          "label": "Play Confession — Act 2"
+        },
+        "act3": {
+          "id": "transcriptAct3",
+          "label": "Play Confession — Act 3"
+        }
+      },
+      "ACT_REVELATIONS": [
+        {
+          "id": "stolenCompany",
+          "label": "Revelation",
+          "title": "The Stolen Company",
+          "clues": [
+            "newspaper",
+            "letterhead",
+            "incorporation",
+            "forgedDocs"
+          ]
+        },
+        {
+          "id": "secretHeir",
+          "label": "Revelation",
+          "title": "The Secret Heir",
+          "clues": [
+            "ledger",
+            "margaretsLetter",
+            "birthCertificate",
+            "margaretDeath",
+            "will"
+          ]
+        },
+        {
+          "id": "wolfsbane",
+          "label": "Method of Murder",
+          "title": "The Poison",
+          "clues": [
+            "coroner",
+            "travelJournal"
+          ]
+        },
+        {
+          "id": "mirandasIdentity",
+          "label": "Revelation",
+          "title": "The Killer Unmasked",
+          "clues": [
+            "backgroundCheck"
+          ]
+        }
+      ],
+      "STANDALONE_CLUES": [
+        "bradfordLetter",
+        "bankStatement"
+      ],
+      "CLUE_CAPTIONS": {
+        "newspaper": "Thoreson Cleared",
+        "letterhead": "Hartley & Thoreson",
+        "bradfordLetter": "Patent Dispute",
+        "incorporation": "50/50 Partnership",
+        "forgedDocs": "Transfer Document",
+        "bankStatement": "Wire to Hamburg",
+        "ledger": "T.H. Payments",
+        "margaretsLetter": "Letter in French",
+        "birthCertificate": "Birth Certificate",
+        "margaretDeath": "Margaret Obituary",
+        "will": "Last Will",
+        "coroner": "Autopsy Report",
+        "travelJournal": "Travel Journal",
+        "backgroundCheck": "Pinkerton Report"
+      },
+      "CLUE_ICONS": {
+        "newspaper": "📰",
+        "letterhead": "📄",
+        "bradfordLetter": "✉️",
+        "incorporation": "🤝",
+        "forgedDocs": "📝",
+        "bankStatement": "🏦",
+        "ledger": "📒",
+        "margaretsLetter": "💌",
+        "birthCertificate": "📋",
+        "margaretDeath": "📰",
+        "will": "⚖️",
+        "coroner": "🔬",
+        "travelJournal": "📓",
+        "backgroundCheck": "🔍"
+      },
+      "CLUE_THUMBS": {
+        "newspaper": "clue-thumbs/newspaper.jpg",
+        "letterhead": "clue-thumbs/letterhead.jpg",
+        "forgedDocs": "clue-thumbs/forgedDocs.jpg",
+        "ledger": "clue-thumbs/ledger.jpg",
+        "margaretsLetter": "clue-thumbs/margaretsLetter.jpg",
+        "birthCertificate": "clue-thumbs/birthCertificate.jpg",
+        "margaretDeath": "clue-thumbs/margaretDeath.jpg",
+        "will": "clue-thumbs/will.jpg",
+        "coroner": "clue-thumbs/coroner.jpg",
+        "travelJournal": "clue-thumbs/travelJournal.jpg",
+        "bankStatement": "clue-thumbs/bankStatement.jpg"
+      },
+      "CLUE_LAYOUT": {
+        "newspaper": {
+          "x": 0.1,
+          "y": 0.12,
+          "r": -4
+        },
+        "letterhead": {
+          "x": 0.55,
+          "y": 0.08,
+          "r": 3
+        },
+        "incorporation": {
+          "x": 0.5,
+          "y": 0.68,
+          "r": -5
+        },
+        "forgedDocs": {
+          "x": 0.12,
+          "y": 0.62,
+          "r": 6
+        },
+        "ledger": {
+          "x": 0.1,
+          "y": 0.1,
+          "r": -3
+        },
+        "margaretsLetter": {
+          "x": 0.58,
+          "y": 0.1,
+          "r": 5
+        },
+        "birthCertificate": {
+          "x": 0.6,
+          "y": 0.65,
+          "r": -4
+        },
+        "margaretDeath": {
+          "x": 0.1,
+          "y": 0.6,
+          "r": 4
+        },
+        "will": {
+          "x": 0.35,
+          "y": 0.72,
+          "r": -6
+        },
+        "coroner": {
+          "x": 0.15,
+          "y": 0.12,
+          "r": -5
+        },
+        "travelJournal": {
+          "x": 0.55,
+          "y": 0.12,
+          "r": 4
+        },
+        "backgroundCheck": {
+          "x": 0.35,
+          "y": 0.65,
+          "r": -3
+        },
+        "bradfordLetter": {
+          "x": 0.62,
+          "y": 0.72,
+          "r": 7
+        },
+        "bankStatement": {
+          "x": 0.62,
+          "y": 0.45,
+          "r": -5
+        }
+      },
+      "CIN_SECTIONS": [
+        {
+          "label": "",
+          "text": "\"Thank you all for coming tonight.\"",
+          "size": "large",
+          "duration": 5000
+        },
+        {
+          "label": "The Announcement",
+          "text": "\"As many of you know, my father invited you here for a dinner party. He said he had an announcement to make — something that would change everything.\"",
+          "size": "normal",
+          "duration": 9000
+        },
+        {
+          "label": "",
+          "text": "\"Most of you know my father. William Thoreson. He built this family from nothing — came to Dallas in 1899 with very little and spent the next thirty years turning it into something. Thoreson Toys. Started in a workshop on Commerce Street in 1902. By 1920, one of the most successful toy manufacturers in the Southwest. By 1930, his name was on buildings.\"",
+          "size": "normal",
+          "duration": 14000
+        },
+        {
+          "label": "",
+          "text": "\"He was a self-made man. That is how he told it. That is how everyone told it.\"",
+          "size": "large",
+          "duration": 7000
+        },
+        {
+          "label": "",
+          "text": "\"My father... William Thoreson... is dead.\"",
+          "size": "key",
+          "duration": 8000
+        },
+        {
+          "label": "",
+          "text": "\"He was found earlier this evening. I do not know how. I do not know why. The authorities have been contacted, but due to the storm, we are on our own for now.\"",
+          "size": "normal",
+          "duration": 10000
+        },
+        {
+          "label": "",
+          "text": "\"No one leaves until we understand what happened.\"",
+          "size": "key",
+          "duration": 7000
+        },
+        {
+          "label": "",
+          "text": "\"I am Scott Thoreson — his eldest son. I have handled this family's legal affairs for years. I never imagined I would be investigating my own father's death. But here we are. And I need your help.\"",
+          "size": "normal",
+          "duration": 11000
+        },
+        {
+          "label": "The Rules",
+          "text": "\"We will investigate in phases. After each phase, I will call everyone back together to share what we have found. Some rooms are open now — others will open as the evening progresses. You will see blue tape on certain items. Those are personal belongings. Please respect them.\"",
+          "size": "normal",
+          "duration": 14000
+        },
+        {
+          "label": "",
+          "text": "\"Some of you have particular expertise. If you find something you cannot make sense of, look for someone who can. Some documents require specific skills to interpret. If you find a QR code, scan it in the app — but you will need the right skill to unlock it.\"",
+          "size": "normal",
+          "duration": 13000
+        },
+        {
+          "label": "",
+          "text": "\"The goal is simple: find out what happened to my father. His business, his dealings, anything that might explain why someone in this room wanted him dead.\"",
+          "size": "normal",
+          "duration": 12000
+        },
+        {
+          "label": "",
+          "text": "\"The Living Room, Dining Room, Parlor, Kitchen, Breakfast Nook, and my father's Office are all open.\"",
+          "size": "large",
+          "duration": 8000
+        },
+        {
+          "label": "",
+          "text": "BEGIN.",
+          "size": "closing",
+          "duration": 6000
+        }
+      ],
+      "LEGACY_KEY_MAP": {
+        "Scott": "scott_thoreson",
+        "Leanna": "miranda_longfellow",
+        "Marc": "walter_lippman",
+        "DJ": "david_richardson",
+        "Clara": "charlotte_waverly",
+        "Casey": "patricia_chamberlain",
+        "Michelle": "dorothy_wells",
+        "Hannah": "vivienne_ashford",
+        "Linda": "eleanor_thoreson",
+        "Peter": "raymond_hammond",
+        "Arash": "marcus_brennan",
+        "Becky": "victoria_ashworth",
+        "Lindsey": "elizabeth_monroe"
+      },
+      "DR_TEXTS": {
+        "djCountyClerk": {
+          "label": "County Clerk Report",
+          "preview": "Original 1902 filing — Thoreson & Hartley Toys"
+        },
+        "djCoroner": {
+          "label": "Coroner's Report",
+          "preview": "Preliminary autopsy — needs medical interpretation"
+        },
+        "djPinkerton": {
+          "label": "Pinkerton Background Checks",
+          "preview": "Two name changes flagged among party guests"
+        }
+      },
+      "DR_BY_ACT": {
+        "act1": "djCountyClerk",
+        "act2": "djCoroner",
+        "act3": "djPinkerton"
+      },
+      "CONFESSION_BY_ACT": {
+        "act1": "audio/confession_act1.mp3",
+        "act2": "audio/confession_act2.mp3",
+        "act3": "audio/confession_act3.mp3"
+      }
+    },
+    "openingHtml": "\r\n    <div class=\"opening-outer\">\r\n\r\n        <!-- Masthead -->\r\n        <div class=\"opening-masthead\">\r\n            <div class=\"opening-masthead-left\">\r\n                <div class=\"opening-dateline\" id=\"openingDate\">Dallas, Texas · 1935</div>\r\n                <div class=\"opening-case-no\" id=\"openingCase\">Case No. ——</div>\r\n            </div>\r\n            <div class=\"opening-masthead-center\">\r\n                <div class=\"opening-pub-name\">Thor's Murder Mysteries</div>\r\n                <div class=\"opening-headline\">A DEATH AT THE ESTATE</div>\r\n                <div class=\"opening-subhead\">William Thoreson Sr. is dead. The investigation begins.</div>\r\n            </div>\r\n            <div class=\"opening-masthead-right\">\r\n                <div class=\"opening-byline\">Address by</div>\r\n                <div class=\"opening-byline\" style=\"color:rgba(196,196,212,0.6);font-size:10px;letter-spacing:2px;\">Scott Thoreson Jr.</div>\r\n                <div class=\"opening-status\" style=\"margin-top:6px;\">● Live</div>\r\n            </div>\r\n        </div>\r\n\r\n        <!-- Body -->\r\n        <div class=\"opening-body\">\r\n            <div class=\"opening-col\">\r\n                <div class=\"opening-section-head\">The Announcement</div>\r\n                <p class=\"opening-stage\">Stand where everyone can see you. Take a breath.</p>\r\n                <p class=\"opening-line\">\"Thank you all for coming tonight.\"</p>\r\n                <p class=\"opening-stage\">Look around the room.</p>\r\n                <p class=\"opening-line\">\"As many of you know, my father invited you here for a dinner party. He said he had an announcement to make — something that would \"change everything.\"\"</p>\r\n                <p class=\"opening-line\">\"Most of you know my father. William Thoreson. He built this family from nothing — came to Dallas in 1899 with very little and spent the next thirty years turning it into something.\"</p>\r\n                <p class=\"opening-line\">\"Thoreson Toys. Started in a workshop on Commerce Street in 1902. By 1920 it was one of the most successful toy manufacturers in the Southwest. By 1930, his name was on buildings.\"</p>\r\n                <p class=\"opening-line\">\"He was a self-made man. That's how he told it. That's how everyone told it.\"</p>\r\n                <p class=\"opening-stage\">Longer pause. Let confusion set in.</p>\r\n                <p class=\"opening-line opening-line-key\">\"My father... William Thoreson... is dead.\"</p>\r\n                <p class=\"opening-stage\">Let that land. Wait for reactions.</p>\r\n                <p class=\"opening-line\">\"He was found earlier this evening. I don't know how. I don't know why. The authorities have been contacted, but due to the storm, we're on our own for now.\"</p>\r\n                <p class=\"opening-line\">\"No one leaves until we understand what happened.\"</p>\r\n                <p class=\"opening-line\">\"I'm Scott Thoreson — his eldest son. I've handled this family's legal affairs for years. I never imagined I'd be investigating my own father's death.\"</p>\r\n                <p class=\"opening-line\">\"But here we are. And I need your help.\"</p>\r\n            </div>\r\n            <div class=\"opening-col-rule\"></div>\r\n            <div class=\"opening-col\">\r\n                <div class=\"opening-section-head\">The Rules</div>\r\n                <p class=\"opening-stage\">More businesslike now — still in character, but organizing.</p>\r\n                <p class=\"opening-line\">\"Here's how this will work.\"</p>\r\n                <p class=\"opening-line\">\"We'll investigate in phases. After each phase, I'll call everyone back together to share what we've found.\"</p>\r\n                <p class=\"opening-line\">\"Some rooms are open now. Others are closed — if a door is closed, it's off limits for now.\"</p>\r\n                <p class=\"opening-line\">\"You'll see blue tape on certain items. Those are personal belongings. Please respect them.\"</p>\r\n                <p class=\"opening-line\">\"Some of you may have particular expertise. If you find something you can't make sense of, look for someone who can. Some documents require specific knowledge to interpret.\"</p>\r\n                <p class=\"opening-line\">\"If you find a document with a QR code, scan it with your app — but you'll need the right skill. Find the person with the right expertise.\"</p>\r\n                <p class=\"opening-line\">\"If you want to search another guest — and you might — come to me first. We'll handle it properly.\"</p>\r\n                <p class=\"opening-line\">\"The goal is simple: find out what happened to my father.\"</p>\r\n                <p class=\"opening-line\">\"Let's start by learning what we can about him. His business. His dealings. Anything that might explain why someone would want him dead.\"</p>\r\n                <p class=\"opening-stage\">Final look around.</p>\r\n                <p class=\"opening-line\">\"The Living Room, Dining Room, Parlor, Kitchen, Breakfast Nook, and my father's Office are all open.\"</p>\r\n                <p class=\"opening-line opening-line-key\">\"Begin.\"</p>\r\n            </div>\r\n        </div>\r\n\r\n        <!-- Footer ticker -->\r\n        <div class=\"opening-footer\">\r\n            <div class=\"opening-footer-label\">Investigation</div>\r\n            <div class=\"opening-footer-ticker\">\r\n                Scan QR codes with the app &nbsp;·&nbsp; Use your character's skill to unlock evidence &nbsp;·&nbsp; Gather back together at the end of each act &nbsp;·&nbsp; Blue tape = off limits &nbsp;·&nbsp; Closed doors = off limits &nbsp;·&nbsp; Ask to search another guest &nbsp;·&nbsp; Find the killer\r\n            </div>\r\n        </div>\r\n\r\n    </div>\r\n",
+    "place": "Dallas, Texas",
+    "pages": {
+      "invitation": "\r\n        <div class=\"invitation-card\">\r\n            <div class=\"corner corner-tl\"></div>\r\n            <div class=\"corner corner-tr\"></div>\r\n            <div class=\"corner corner-bl\"></div>\r\n            <div class=\"corner corner-br\"></div>\r\n            \r\n            <div class=\"invite-content\">\r\n                <div class=\"ornament\">✦</div>\r\n                \r\n                <div>\r\n                    <div class=\"estate-name\">The Thoreson Estate</div>\r\n                </div>\r\n                \r\n                <div class=\"divider\"></div>\r\n                \r\n                <div class=\"summons\">You Are Cordially Summoned</div>\r\n                \r\n                <div class=\"message\">\r\n                    to a dinner party at the estate.<br>\r\n                    Mr. Thoreson has an announcement to make<br>\r\n                    that shall change everything.\r\n                </div>\r\n                \r\n                <div class=\"announcement\">Your presence is required.</div>\r\n                \r\n                <div class=\"divider\"></div>\r\n                \r\n                <div>\r\n                    <div class=\"detail-label\">Date</div>\r\n                    <div class=\"detail-line\">Saturday, the Twenty-First of March</div>\r\n                    <div class=\"detail-line\">Nineteen Thirty-Five</div>\r\n                </div>\r\n                \r\n                <div>\r\n                    <div class=\"detail-label\">Time</div>\r\n                    <div class=\"detail-line\">Cocktails at Half Past Five</div>\r\n                    <div class=\"detail-line\">Arrive No Later Than Six O'Clock</div>\r\n                    <div class=\"detail-line\">Dinner Promptly at Half Past Six</div>\r\n                </div>\r\n                \r\n                <div>\r\n                    <div class=\"detail-label\">Location</div>\r\n                    <div class=\"address\">16920 Old Pond Drive<br>Dallas, Texas 75248</div>\r\n                </div>\r\n                \r\n                <div class=\"attire\">1930s formal attire requested</div>\r\n                \r\n                <div class=\"divider\"></div>\r\n                \r\n                <div>\r\n                    <div class=\"host-label\">Your Host</div>\r\n                    <div class=\"host-name\">Mr. William Thoreson</div>\r\n                </div>\r\n                \r\n                <div class=\"bottom-ornament\">✦ ✦ ✦</div>\r\n            </div>\r\n        </div>\r\n    ",
+      "cocktails": "\r\n        <h2 class=\"section-title\">Cocktail Menu</h2>\r\n        <p class=\"section-subtitle\">Libations for the evening</p>\r\n        \r\n        <div class=\"menu-container\">\r\n            <div class=\"menu-section\">\r\n                <div class=\"menu-header\">Spirits</div>\r\n                \r\n                <div class=\"menu-item\">\r\n                    <div class=\"drink-name\">Old Fashioned</div>\r\n                    <div class=\"drink-desc\">Whiskey, Sugar, Bitters, Orange Peel</div>\r\n                </div>\r\n                \r\n                <div class=\"menu-item\">\r\n                    <div class=\"drink-name\">Gin Rickey</div>\r\n                    <div class=\"drink-desc\">Gin, Lime, Soda Water</div>\r\n                </div>\r\n                \r\n                <div class=\"menu-item\">\r\n                    <div class=\"drink-name\">Bee's Knees</div>\r\n                    <div class=\"drink-desc\">Gin, Honey, Lime</div>\r\n                </div>\r\n                \r\n                <div class=\"menu-item\">\r\n                    <div class=\"drink-name\">Cuba Libre</div>\r\n                    <div class=\"drink-desc\">Rum, Cola, Lime</div>\r\n                </div>\r\n            </div>\r\n            \r\n            <div class=\"menu-divider\">✦</div>\r\n            \r\n            <div class=\"menu-section\">\r\n                <div class=\"menu-header\">Temperance</div>\r\n                \r\n                <div class=\"menu-item\">\r\n                    <div class=\"drink-name\">Shirley Temple</div>\r\n                    <div class=\"drink-desc\">Ginger Ale, Grenadine, Cherry</div>\r\n                </div>\r\n                \r\n                <div class=\"menu-item\">\r\n                    <div class=\"drink-name\">Virgin Cuba Libre</div>\r\n                    <div class=\"drink-desc\">Cola, Lime</div>\r\n                </div>\r\n                \r\n                <div class=\"menu-item\">\r\n                    <div class=\"drink-name\">Mineral Water</div>\r\n                    <div class=\"drink-desc\">Sparkling, with Lemon or Lime</div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    ",
+      "netsuke": "\r\n                    <div style=\"font-family:'Playfair Display',Georgia,serif;\">\r\n                        <div style=\"font-size:11px; letter-spacing:4px; text-transform:uppercase; color:#8b6914; text-align:center; margin-bottom:10px;\">Side Quest</div>\r\n                        <div style=\"font-size:26px; color:#c9a227; text-align:center; margin-bottom:4px;\">The Netsuke Case</div>\r\n                        <div style=\"font-size:13px; color:#6a5a2a; font-style:italic; text-align:center; letter-spacing:2px; margin-bottom:20px;\">A Matter of Personal Honor</div>\r\n                        <div style=\"border-top:1px solid #3a2a06; margin-bottom:16px;\"></div>\r\n                        <p style=\"font-size:15px; line-height:1.8; color:#d4c090; margin-bottom:12px; text-align:left;\">Rupert Thoreson — Will's twin brother and the estate's unofficial photographer — is the proud owner of a remarkable collection of <strong style=\"color:#c9a227;\">Japanese Netsuke</strong>: hand-carved ivory and boxwood toggles from the Edo period. Frogs. Dragons. Merchants. Monks. Each one small enough to fit in a closed fist. Each one irreplaceable.</p>\r\n                        <p style=\"font-size:15px; line-height:1.8; color:#d4c090; margin-bottom:12px; text-align:left;\">The collection lives in a hand-lacquered case Rupert acquired in Kyoto in 1921. The case is locked. The key is missing. He last saw it Tuesday.</p>\r\n                        <div style=\"border:1px solid #5a4209; padding:14px 16px; margin:16px 0; background:rgba(201,162,39,0.06);\">\r\n                            <p style=\"font-size:14px; line-height:1.8; color:#c9a227; margin:0; text-align:left;\">\"I'm not saying it's important. I'd just like to know where it is. If anyone happens to see a small brass key — slightly worn, loop at the top — no rush. Truly. No rush at all.\"</p>\r\n                            <p style=\"font-size:12px; color:#8b6914; margin-top:8px; margin-bottom:0; text-align:right;\">— Rupert Thoreson, pretending he is fine</p>\r\n                        </div>\r\n                        <div style=\"font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#8b6914; margin:16px 0 8px; text-align:left;\">What You're Looking For</div>\r\n                        <p style=\"font-size:15px; line-height:1.8; color:#d4c090; margin-bottom:12px; text-align:left;\">A small brass key. Slightly worn. Loop at the top. Approximately the size of a large coat button. Possibly a faded red ribbon through the loop. You'll know it when you see it.</p>\r\n                        <div style=\"border:2px solid #c9a227; padding:16px; text-align:center; margin:16px 0;\">\r\n                            <div style=\"font-size:11px; letter-spacing:4px; text-transform:uppercase; color:#8b6914; margin-bottom:6px;\">Upon Completion</div>\r\n                            <div style=\"font-size:18px; color:#c9a227; margin-bottom:4px;\">The Eternal Gratitude of Rupert Thoreson</div>\r\n                            <div style=\"font-size:13px; color:#8b7355; font-style:italic;\">One (1) extremely sincere thank you and a very firm handshake.</div>\r\n                        </div>\r\n                        <p style=\"font-size:13px; color:#6a5a2a; font-style:italic; text-align:center;\">This quest is not canon. It will not help you solve the murder. It will, however, make one man very happy.</p>\r\n                    </div>\r\n                    <button class=\"skill-modal-close\" onclick=\"closeSkillModal()\" style=\"margin-top:12px;\">Dismiss</button>",
+      "netsukeStandalone": "\r\n\r\n<svg class=\"crest\" viewBox=\"0 0 680 860\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <path d=\"M 190,90 L 490,90 L 490,470 Q 490,575 340,660 Q 190,575 190,470 Z\" fill=\"#1a1205\" stroke=\"#c9a227\" stroke-width=\"3\"/>\r\n  <polygon points=\"375,155 295,330 345,318 308,478 420,280 362,295 400,155\" fill=\"#c9a227\"/>\r\n  <rect x=\"160\" y=\"42\" width=\"360\" height=\"48\" rx=\"3\" fill=\"#c9a227\"/>\r\n  <text x=\"340\" y=\"75\" text-anchor=\"middle\" font-family=\"Playfair Display,Georgia,serif\" fill=\"#1a1205\" font-size=\"22\" font-weight=\"700\" letter-spacing=\"5\">THORESON</text>\r\n  <path d=\"M 185,668 Q 340,715 495,668 L 478,702 Q 340,748 202,702 Z\" fill=\"#c9a227\"/>\r\n  <path d=\"M 185,668 L 202,702 L 182,720 Q 145,700 185,668 Z\" fill=\"#a8871f\"/>\r\n  <path d=\"M 495,668 L 478,702 L 498,720 Q 535,700 495,668 Z\" fill=\"#a8871f\"/>\r\n  <text x=\"340\" y=\"702\" text-anchor=\"middle\" font-family=\"Playfair Display,Georgia,serif\" fill=\"#1a1205\" font-size=\"12\" font-weight=\"700\" letter-spacing=\"2\">THORESON FAMILY ESTATE</text>\r\n</svg>\r\n\r\n<div style=\"text-align:center;\">\r\n  <div class=\"tag\">Side Quest</div>\r\n  <h1>The Netsuke Case</h1>\r\n  <div class=\"subtitle\">A Matter of Personal Honor</div>\r\n</div>\r\n\r\n<div class=\"divider\" style=\"margin:24px auto;\"></div>\r\n\r\n<div class=\"section-label\">The Situation</div>\r\n<p>You have stumbled upon something entirely unrelated to the murder of William Thoreson Sr. — and yet, somehow, equally urgent.</p>\r\n\r\n<p>Rupert Thoreson, Will's twin brother and the estate's unofficial photographer, is the proud owner of a remarkable collection of <strong style=\"color:#c9a227;\">Japanese Netsuke</strong> — hand-carved ivory and boxwood toggles from the Edo period, each one a miniature work of art. Frogs. Dragons. Merchants. Monks. Each one small enough to fit in a closed fist. Each one irreplaceable.</p>\r\n\r\n<p>The collection lives in a hand-lacquered case that Rupert acquired in Kyoto in 1921. It is one of his most prized possessions.</p>\r\n\r\n<p>The case is locked.</p>\r\n<p>The key is missing.</p>\r\n<p>Rupert has no idea where it is. He last saw it Tuesday. He is too proud to say how much this is bothering him. You can tell anyway.</p>\r\n\r\n<div class=\"quest-box\">\r\n  <p>\"I'm not saying it's important. The case isn't going anywhere. I just — I'd like to know where it is. That's all. If anyone happens to see a small brass key, perhaps slightly worn, with a loop at the top — no rush. Truly. No rush at all.\"</p>\r\n  <p style=\"margin-top:10px; font-size:14px; color:#8b6914;\">— Rupert Thoreson, pretending he is fine</p>\r\n</div>\r\n\r\n<div class=\"divider\"></div>\r\n\r\n<div class=\"section-label\">The Quest</div>\r\n<p>Somewhere on the premises this evening, a small brass key has gone missing. It could be anywhere. A coat pocket. A side table. Wedged between sofa cushions. Sitting on a windowsill where someone set it down without thinking.</p>\r\n\r\n<p>This quest has nothing to do with the murder. The detectives currently investigating William Thoreson's death have, understandably, bigger things on their minds. Which means this is entirely up to you.</p>\r\n\r\n<p>Find the key. Return it to Rupert. Try not to make a big deal of it — he'll be embarrassed enough as it is.</p>\r\n\r\n<div class=\"divider\"></div>\r\n\r\n<div class=\"section-label\">What You're Looking For</div>\r\n<p>A small brass key. Slightly worn. Loop at the top. Approximately the size of a large coat button. It may or may not have a faded red ribbon tied through the loop — Rupert used to use one to keep track of it, but he's not sure if the ribbon is still attached.</p>\r\n<p>You'll know it when you see it. It looks like it belongs to something important.</p>\r\n\r\n<div class=\"reward-box\">\r\n  <div class=\"reward-title\">Upon Completion</div>\r\n  <div class=\"reward-main\">The Eternal Gratitude of Rupert Thoreson</div>\r\n  <div class=\"reward-sub\">Redeemable at any time for one (1) extremely sincere thank you<br>and a very firm handshake.</div>\r\n</div>\r\n\r\n<div class=\"divider\"></div>\r\n\r\n<p style=\"text-align:center; font-size:15px; color:#8b7355; font-style:italic;\">This quest is not canon. It will not help you solve the murder.<br>It will, however, make one man very happy.</p>\r\n\r\n<div class=\"warning\">This has been a Thoreson Estate Side Quest · Not affiliated with the Sheriff's Office · No reward money involved</div>\r\n\r\n"
+    },
+    "scanEmblem": "<svg viewBox=\"0 0 680 860\" xmlns=\"http://www.w3.org/2000/svg\" style=\"width:160px; margin:0 auto 16px; display:block;\">\r\n                            <style>.ct{font-family:'Playfair Display',Georgia,serif;fill:#c9a227}.ctd{font-family:'Playfair Display',Georgia,serif;fill:#1a1205}</style>\r\n                            <path d=\"M 190,90 L 490,90 L 490,470 Q 490,575 340,660 Q 190,575 190,470 Z\" fill=\"#1a1205\" stroke=\"#c9a227\" stroke-width=\"3\"/>\r\n                            <path d=\"M 208,108 L 472,108 L 472,468 Q 472,562 340,638 Q 208,562 208,468 Z\" fill=\"none\" stroke=\"#c9a227\" stroke-width=\"1.2\" stroke-dasharray=\"4,3\"/>\r\n                            <polygon points=\"375,155 295,330 345,318 308,478 420,280 362,295 400,155\" fill=\"#c9a227\"/>\r\n                            <circle cx=\"210\" cy=\"108\" r=\"4.5\" fill=\"#c9a227\"/>\r\n                            <circle cx=\"470\" cy=\"108\" r=\"4.5\" fill=\"#c9a227\"/>\r\n                            <rect x=\"160\" y=\"42\" width=\"360\" height=\"48\" rx=\"3\" fill=\"#c9a227\"/>\r\n                            <text x=\"340\" y=\"75\" text-anchor=\"middle\" class=\"ctd\" font-size=\"22\" font-weight=\"700\" letter-spacing=\"5\">THORESON</text>\r\n                            <path d=\"M 185,668 Q 340,715 495,668 L 478,702 Q 340,748 202,702 Z\" fill=\"#c9a227\"/>\r\n                            <path d=\"M 185,668 L 202,702 L 182,720 Q 145,700 185,668 Z\" fill=\"#a8871f\"/>\r\n                            <path d=\"M 495,668 L 478,702 L 498,720 Q 535,700 495,668 Z\" fill=\"#a8871f\"/>\r\n                            <text x=\"340\" y=\"702\" text-anchor=\"middle\" class=\"ctd\" font-size=\"13\" font-weight=\"700\" letter-spacing=\"2\">THORESON FAMILY ESTATE</text>\r\n                        </svg>",
+    "clueHeading": "The Thoreson Estate — 1935",
+    "clueFooter": "THORESON ESTATE · DALLAS, TEXAS · MARCH 21, 1935",
+    "screens": {
+      "cocktail-warning": "\r\n    <div style=\"display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:24px;padding:60px;background:radial-gradient(ellipse at center, #1a0808 0%, #06040a 100%);\">\r\n        <div style=\"font-family:'Special Elite',monospace;font-size:11px;letter-spacing:6px;text-transform:uppercase;color:rgba(201,162,39,0.4);\">Cocktail Hour</div>\r\n        <div style=\"font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:#c9a227;letter-spacing:4px;\">15 MINUTES</div>\r\n        <div style=\"font-family:'Playfair Display',serif;font-size:32px;color:#f5f0e6;\">remaining</div>\r\n        <div style=\"width:80px;height:1px;background:rgba(201,162,39,0.3);\"></div>\r\n        <div style=\"font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-style:italic;color:rgba(196,196,212,0.7);text-align:center;max-width:700px;line-height:1.6;\">\r\n            Finish your conversations and answer the quiz on your phone.<br>Dinner will be served shortly.\r\n        </div>\r\n    </div>\r\n"
+    },
+    "scanPageEmblem": "<svg class=\"crest\" viewBox=\"0 0 680 860\" xmlns=\"http://www.w3.org/2000/svg\">\r\n  <style>.ct{font-family:'Playfair Display',Georgia,serif;fill:#c9a227}.ctd{font-family:'Playfair Display',Georgia,serif;fill:#1a1205}</style>\r\n  <path d=\"M 190,90 L 490,90 L 490,470 Q 490,575 340,660 Q 190,575 190,470 Z\" fill=\"#1a1205\" stroke=\"#c9a227\" stroke-width=\"3\"/>\r\n  <path d=\"M 208,108 L 472,108 L 472,468 Q 472,562 340,638 Q 208,562 208,468 Z\" fill=\"none\" stroke=\"#c9a227\" stroke-width=\"1.2\" stroke-dasharray=\"4,3\"/>\r\n  <polygon points=\"375,155 295,330 345,318 308,478 420,280 362,295 400,155\" fill=\"#c9a227\"/>\r\n  <circle cx=\"210\" cy=\"108\" r=\"4.5\" fill=\"#c9a227\"/>\r\n  <circle cx=\"470\" cy=\"108\" r=\"4.5\" fill=\"#c9a227\"/>\r\n  <rect x=\"160\" y=\"42\" width=\"360\" height=\"48\" rx=\"3\" fill=\"#c9a227\"/>\r\n  <text x=\"340\" y=\"75\" text-anchor=\"middle\" class=\"ctd\" font-size=\"22\" font-weight=\"700\" letter-spacing=\"5\">THORESON</text>\r\n  <rect x=\"100\" y=\"220\" width=\"98\" height=\"100\" rx=\"3\" fill=\"#c9a227\" opacity=\"0.08\" stroke=\"#c9a227\" stroke-width=\"1\"/>\r\n  <text x=\"149\" y=\"265\" text-anchor=\"middle\" class=\"ct\" font-size=\"11\" letter-spacing=\"1\" opacity=\"0.8\">EST.</text>\r\n  <text x=\"149\" y=\"285\" text-anchor=\"middle\" class=\"ct\" font-size=\"13\" letter-spacing=\"1\" opacity=\"0.8\" font-weight=\"700\">1887</text>\r\n  <rect x=\"482\" y=\"220\" width=\"98\" height=\"100\" rx=\"3\" fill=\"#c9a227\" opacity=\"0.08\" stroke=\"#c9a227\" stroke-width=\"1\"/>\r\n  <text x=\"531\" y=\"265\" text-anchor=\"middle\" class=\"ct\" font-size=\"11\" letter-spacing=\"1\" opacity=\"0.8\">DALLAS</text>\r\n  <text x=\"531\" y=\"285\" text-anchor=\"middle\" class=\"ct\" font-size=\"11\" letter-spacing=\"1\" opacity=\"0.8\">TEXAS</text>\r\n  <path d=\"M 185,668 Q 340,715 495,668 L 478,702 Q 340,748 202,702 Z\" fill=\"#c9a227\"/>\r\n  <path d=\"M 185,668 L 202,702 L 182,720 Q 145,700 185,668 Z\" fill=\"#a8871f\"/>\r\n  <path d=\"M 495,668 L 478,702 L 498,720 Q 535,700 495,668 Z\" fill=\"#a8871f\"/>\r\n  <text x=\"340\" y=\"702\" text-anchor=\"middle\" class=\"ctd\" font-size=\"13\" font-weight=\"700\" letter-spacing=\"2\">THORESON FAMILY ESTATE</text>\r\n  <line x1=\"208\" y1=\"136\" x2=\"472\" y2=\"136\" stroke=\"#c9a227\" stroke-width=\"0.8\" opacity=\"0.4\"/>\r\n  <circle cx=\"260\" cy=\"136\" r=\"2\" fill=\"#c9a227\" opacity=\"0.5\"/>\r\n  <circle cx=\"280\" cy=\"136\" r=\"2\" fill=\"#c9a227\" opacity=\"0.5\"/>\r\n  <circle cx=\"300\" cy=\"136\" r=\"2\" fill=\"#c9a227\" opacity=\"0.5\"/>\r\n  <circle cx=\"380\" cy=\"136\" r=\"2\" fill=\"#c9a227\" opacity=\"0.5\"/>\r\n  <circle cx=\"400\" cy=\"136\" r=\"2\" fill=\"#c9a227\" opacity=\"0.5\"/>\r\n  <circle cx=\"420\" cy=\"136\" r=\"2\" fill=\"#c9a227\" opacity=\"0.5\"/>\r\n  <text x=\"340\" y=\"790\" text-anchor=\"middle\" class=\"ct\" font-size=\"13\" letter-spacing=\"3\" opacity=\"0.8\">DALLAS, TEXAS  ·  1935</text>\r\n</svg>"
+  },
+  "compatibility": {
+    "rolePolicies": {
+      "host": {
+        "prioritySelection": "prefer-minimum",
+        "minimumScore": "preferred",
+        "skillFallback": "first-eligible"
+      },
+      "admin": {
+        "prioritySelection": "probability-filter",
+        "skillFallback": "none"
+      }
+    },
+    "requiredRoles": [
+      "killer",
+      "heir"
+    ],
+    "startEvent": "willsDeath",
+    "transcripts": [
+      "transcriptAct1",
+      "transcriptAct2",
+      "transcriptAct3"
+    ],
+    "openingPhase": "cocktail",
+    "openingSlideshowDelayMs": 30000,
+    "openingCinematicDelayMs": 500,
+    "openingScreenDurationMs": 10500,
+    "audioReveals": {
+      "transcriptAct1": {
+        "src": "audio/confession_act1.mp3",
+        "title": "Confession Recording",
+        "subtitle": "Act One — William Thoreson Sr.",
+        "transcriptId": "transcriptAct1"
+      },
+      "transcriptAct2": {
+        "src": "audio/confession_act2.mp3",
+        "title": "Confession Recording",
+        "subtitle": "Act Two — William Thoreson Sr.",
+        "transcriptId": "transcriptAct2"
+      },
+      "transcriptAct3": {
+        "src": "audio/confession_act3.mp3",
+        "title": "Confession Recording",
+        "subtitle": "Act Three — William Thoreson Sr.",
+        "transcriptId": "transcriptAct3"
+      }
+    },
+    "supplementalRevelations": [
+      {
+        "item": {
+          "id": "willsDeath",
+          "title": "William Thoreson Is Dead",
+          "summary": "William 'Will' Thoreson Sr. was found unresponsive at the estate before dinner. He was pronounced dead this evening. The cause of death is unknown.",
+          "detail": null
+        },
+        "actLabel": "Act 1 — The Gathering"
+      }
+    ],
+    "legacyContentCopiedFrom": "thoreson_estate_dinner",
+    "startDescription": "Reveals Will's death to all guests and opens the investigation.",
+    "social": {
+      "factsField": "cocktailFacts",
+      "questsField": "cocktailQuests",
+      "quizField": "cocktailQuiz",
+      "profileField": "cocktailProfile"
+    },
+    "autoSkillTriggers": {
+      "wolfsbane": "Botany"
+    },
+    "textMessageTriggers": {
+      "backgroundCheck": {
+        "from": "PINKERTON DETECTIVE AGENCY",
+        "action": "⚠️ SHARE THIS WITH THE GROUP"
+      },
+      "djCountyClerk": {
+        "from": "DALLAS COUNTY CLERK’S OFFICE",
+        "action": "⚠️ SHARE THIS WITH THE GROUP"
+      },
+      "djCoroner": {
+        "from": "DALLAS COUNTY CORONER’S OFFICE",
+        "action": "⚠️ FIND SOMEONE WITH MEDICAL TRAINING — AND HAND OVER THE KEY"
+      },
+      "djPinkerton": {
+        "from": "PINKERTON NATIONAL DETECTIVE AGENCY",
+        "action": "⚠️ READ THIS CAREFULLY — THEN SHARE WITH THE GROUP"
+      }
+    },
+    "rsvpUrl": "https://docs.google.com/forms/d/e/1FAIpQLSezQ99Orc5dvvlxnPLi3Jw_dkn8kNPwVu0GnxbRd0nTM61-Xg/formResponse",
+    "picker": {
+      "priorityMinScore": 6
+    },
+    "openingScreen": "cocktail",
+    "photoCounter": {
+      "path": "bathroomScans",
+      "label": "detectives have checked the bathroom for clues"
+    },
+    "rsvpFields": {
+      "name": "entry.242898703",
+      "attending": "entry.986368937",
+      "phone": "entry.409042646",
+      "email": "entry.775321918",
+      "role": "entry.196909869",
+      "notes": "entry.404572778"
+    }
+  }
+}

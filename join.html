@@ -350,7 +350,8 @@
         if (!user || user.isAnonymous || !user.email) {
             document.getElementById('authLoading').style.display = 'none';
             document.getElementById('mainContent').style.display = 'block';
-            window.location.href = 'register.html';
+            const inviteCode = new URLSearchParams(location.search).get('code');
+            window.location.href = 'signin.html' + (inviteCode ? '?code=' + encodeURIComponent(inviteCode) : '');
             return;
         }
 
@@ -502,5 +503,6 @@
         if (e.key === 'Enter' && matchedGameId) handleJoin();
     });
 </script>
+<script src="story-package.js"></script><script src="phone-flow-bridge.js"></script>
 </body>
 </html>

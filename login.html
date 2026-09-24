@@ -118,6 +118,7 @@ input::placeholder{color:rgba(139,139,158,0.5)}
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+<script src="player-auth.js"></script>
 <script>
 firebase.initializeApp({
     apiKey:"AIzaSyApHrYubqWrR4m0ihdpq6Ym40jv4HTQ5i0",
@@ -129,13 +130,14 @@ firebase.initializeApp({
     appId:"1:182924616892:web:8153e1c69895cee665dcb9"
 });
 const auth=firebase.auth(), db=firebase.database();
+const playerAuth=PlayerAuth.create(auth);
 const params=new URLSearchParams(window.location.search);
 
 function showErr(s,m){const e=document.getElementById(s+'Error');e.textContent=m;e.style.display='block';document.getElementById(s+'Success').style.display='none'}
 function showOk(s,m){const e=document.getElementById(s+'Success');e.textContent=m;e.style.display='block';document.getElementById(s+'Error').style.display='none'}
 function clearMsgs(){['regError','regSuccess','signError','signSuccess'].forEach(id=>document.getElementById(id).style.display='none')}
 function togglePw(id,btn){const i=document.getElementById(id);i.type=i.type==='password'?'text':'password';btn.textContent=i.type==='password'?'👁':'🙈'}
-function dest(){return'home.html'+(params.get('code')?'?code='+params.get('code'):'')}
+function dest(){return'home.html'+(params.get('code')?'?code='+encodeURIComponent(params.get('code')):'')}
 
 async function writeUserRecord(user,displayName){
     const snap=await db.ref('users/'+user.uid).once('value');
@@ -146,16 +148,11 @@ async function writeUserRecord(user,displayName){
 }
 async function route(user){await writeUserRecord(user,user.displayName);window.location.href=dest()}
 
-auth.getRedirectResult().then(r=>{if(r&&r.user)route(r.user)}).catch(e=>{if(e.code!=='auth/no-auth-event')showErr('sign',e.message)});
-
+playerAuth.resume(route, e=>showErr('sign',PlayerAuth.message(e)));
 async function googleSignIn(){
     clearMsgs();
-    const provider=new firebase.auth.GoogleAuthProvider();
-    try{const r=await auth.signInWithPopup(provider);await route(r.user)}
-    catch(e){
-        if(e.code==='auth/popup-blocked'||e.code==='auth/popup-closed-by-user')await auth.signInWithRedirect(provider);
-        else showErr('sign',e.message);
-    }
+    try { await playerAuth.google(route); }
+    catch(e){ showErr('sign',PlayerAuth.message(e)); }
 }
 
 async function handleRegister(){
@@ -171,6 +168,7 @@ async function handleRegister(){
     const btn=document.getElementById('regBtn');
     btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Creating account…';
     try{
+        await playerAuth.persist();
         const cred=await auth.createUserWithEmailAndPassword(email,pw);
         await cred.user.updateProfile({displayName:name});
         await writeUserRecord(cred.user,name);
@@ -192,7 +190,7 @@ async function handleSignIn(){
     if(!pw)return showErr('sign','Please enter your password.');
     const btn=document.getElementById('signBtn');
     btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Signing in…';
-    try{const r=await auth.signInWithEmailAndPassword(email,pw);await route(r.user)}
+    try{await playerAuth.persist();const r=await auth.signInWithEmailAndPassword(email,pw);await route(r.user)}
     catch(e){
         btn.disabled=false;btn.textContent='Sign In';
         if(['auth/user-not-found','auth/wrong-password','auth/invalid-credential'].includes(e.code))

@@ -764,8 +764,14 @@
         .toast.error   { background: var(--crimson);  border: 1px solid rgba(192,57,43,0.5); color: #f5c0c0; }
 
         @media (max-width: 768px) {
-            .topbar { padding: 0 20px; }
-            .game-header { padding: 20px 20px 0; }
+            .topbar { position: static; height: auto; padding: 16px 20px; flex-direction: column; align-items: flex-start; gap: 12px; }
+            .topbar-left { min-width: 0; }
+            .topbar-brand { overflow-wrap: anywhere; }
+            .check-item { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 8px 12px; padding: 16px; }
+            .check-value { grid-column: 2; overflow-wrap: anywhere; }
+            .check-action { grid-column: 2; justify-self: start; }
+            .toast { max-width: calc(100vw - 40px); right: 20px; }
+            .game-header { margin-top: 0; padding: 20px 20px 0; }
             .page-body { padding: 24px 20px 60px; }
             .tab-btn { padding: 12px 14px; font-size: 10px; }
             .act-grid { grid-template-columns: 1fr; }
@@ -926,6 +932,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ThorsMystery">
+<link rel="stylesheet" href="pregame.css">
+<script src="welcome-packet.js"></script>
+<script src="pregame.js"></script>
+<script src="story-package.js"></script><script src="story-content.js"></script><script src="social-engine.js"></script>
+<script src="role-engine.js"></script>
 </head>
 <body>
 
@@ -964,7 +975,7 @@
         <button class="tab-btn active" onclick="switchTab('pregame', this)">Pre-Game</button>
         <button class="tab-btn" onclick="switchTab('guests', this)">Guest List</button>
         <button class="tab-btn" onclick="switchTab('characters', this)">Characters</button>
-        <button class="tab-btn" onclick="switchTab('monitor', this)">GM Monitor</button>
+
     </div>
 </div>
 
@@ -989,7 +1000,9 @@
             <div style="color:var(--fog);font-style:italic;">Loading checklist…</div>
         </div>
 
-        <div id="phaseControls"></div>
+        <div id="phaseControls" style="display:none;"></div>
+        <section style="margin:24px 0;padding:24px;border:1px solid var(--gold-dk)"><h2 class="section-title">Your shared game screen</h2><p style="margin:12px 0">Open the estate on your TV. You can preview the screen before your guests are ready.</p><button class="btn-gold" onclick="launchEstateTV()">Launch Game ?</button><p style="margin-top:12px">Move the new window to your TV, then select Fullscreen.</p></section><div id="partyPlanning"></div>
+        <section id="hostPreparation" style="margin-top:32px;"></section>
 
         <div style="margin-top:28px;margin-bottom:28px;">
             <div class="section-title" style="margin-bottom:14px;">Host Contact</div>
@@ -1053,11 +1066,7 @@
         <div class="section-head" style="margin-bottom:12px;">
             <div class="section-title">Story Progress</div>
         </div>
-        <div class="act-progress" id="actProgress">
-            <div class="act-bar"><div class="act-bar-label">Act 1</div><div class="act-bar-count" id="act1Progress">—</div><div class="act-bar-sub">revelations</div></div>
-            <div class="act-bar"><div class="act-bar-label">Act 2</div><div class="act-bar-count" id="act2Progress">—</div><div class="act-bar-sub">revelations</div></div>
-            <div class="act-bar"><div class="act-bar-label">Act 3</div><div class="act-bar-count" id="act3Progress">—</div><div class="act-bar-sub">revelations</div></div>
-        </div>
+        <div class="act-progress" id="actProgress"></div>
 
         <div class="section-head" style="margin-bottom:12px;">
             <div class="section-title">Player Activity</div>
@@ -1187,7 +1196,7 @@
                 <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);margin-bottom:4px;">🕯 Begin the Investigation</div>
                 <div style="font-size:14px;color:var(--fog);">Announces William's death to all players and opens the investigation.</div>
             </div>
-            <button id="gameStartBtn" onclick="toggleRevelation('willsDeath')" class="btn-gold">▶ Begin</button>
+            <button id="gameStartBtn" onclick="toggleRevelation(currentStoryPackage.compatibility?.startEvent)" class="btn-gold">▶ Begin</button>
         </div>
 
         <div class="act-grid" id="actGrid">
@@ -1262,6 +1271,10 @@ let roleAssign   = {};
 let skillAssign  = {};
 let genPlayers      = {};
 let genAssignments  = {};
+let generationMeta = null;
+let hostPrep = {};
+let rolesSaving = false;
+let generatedRosterSignature = null;
 var rolesConfig     = null; // must be var — roles.js assigns this via dynamic script injection
 // rolesConfig loaded from stories/{storyId}/roles.js
 
@@ -1270,27 +1283,24 @@ auth.onAuthStateChanged(async user => {
     if (!user || user.isAnonymous || !user.email) {
         window.location.href = 'admin.html'; return;
     }
-    const roleSnap = await db.ref('users/' + user.uid + '/role').once('value');
-    if (roleSnap.val() !== 'admin') {
-        window.location.href = 'admin.html'; return;
-    }
+
 
     // Get gameId from URL
     const params = new URLSearchParams(window.location.search);
     gameId = params.get('id');
     if (!gameId) { window.location.href = 'admin.html'; return; }
 
-    await bootstrap();
+    try { await bootstrap(); } catch (error) { document.getElementById('loadingScreen').textContent = error.message; }
 });
 
 async function bootstrap() {
     // Load game data
     const snap = await db.ref('games/' + gameId).once('value');
     gameData = snap.val();
-    if (!gameData) { window.location.href = 'admin.html'; return; }
+    if (!gameData || gameData.createdBy !== auth.currentUser.uid) { window.location.href = 'admin.html'; return; }
 
     // Load story scripts
-    const storyId = gameData.storyId || 'thoreson_estate_dinner';
+    const storyId = gameData.storyId;
     await loadStoryScripts(storyId);
 
     // Load game state
@@ -1305,6 +1315,8 @@ async function bootstrap() {
     scans        = state.scans        || {};
     roleAssign   = state.characterRoles   || {};
     skillAssign  = state.skillAssignments || {};
+    generationMeta = state.generationMeta || null;
+    hostPrep = state.hostPrep || {};
 
     // Render all sections — wrapped so one failure doesn't block loading screen
     try { renderHeader(); } catch(e) { console.error('renderHeader:', e); }
@@ -1317,6 +1329,14 @@ async function bootstrap() {
     try { refreshHealth(); } catch(e) { console.error('refreshHealth:', e); }
     try { initBigScreenLink(); } catch(e) { console.error('initBigScreenLink:', e); }
 
+    PregamePlanner.mount({db,gameId,game:gameData,players});
+    renderHostPreparation();
+    db.ref('games/' + gameId + '/state/generationMeta').on('value', snap => {
+        generationMeta = snap.val(); renderChecklist();
+    });
+    db.ref('games/' + gameId + '/state/hostPrep').on('value', snap => {
+        hostPrep = snap.val() || {}; renderHostPreparation();
+    });
     // Live listeners
     db.ref('games/' + gameId + '/state/activeItems').on('value', snap => {
         activeItems = snap.val() || [];
@@ -1330,6 +1350,7 @@ async function bootstrap() {
     });
     db.ref('games/' + gameId + '/players').on('value', snap => {
         players = snap.val() || {};
+        PregamePlanner.updatePlayers(players);
         renderGuests();
         renderChecklist();
         renderCharacters();
@@ -1341,42 +1362,9 @@ async function bootstrap() {
 }
 
 // Normalize legacy storyId values
-function normalizeStoryId(storyId) {
-    const map = {
-        'thoreson':              'thoreson_estate_dinner',
-        'thoreson_estate':       'thoreson_estate_dinner',
-        'devereaux':             'devereaux_masquerade',
-        'asgard':                'thors_asgard',
-    };
-    return map[storyId] || storyId || 'thoreson_estate_dinner';
-}
+function normalizeStoryId(storyId) { if (!storyId) throw Error("This game is missing its story ID."); return storyId; }
 
-function loadStoryScripts(storyId) {
-    const normalized = normalizeStoryId(storyId);
-    return new Promise(resolve => {
-        const files  = ['characters.js','skills.js','revelations.js','items.js','roles.js','flow.js','facts.js','quests.js','menu.js'];
-        const base   = 'stories/' + normalized + '/';
-        let loaded   = 0;
-        let errors   = 0;
-        files.forEach(f => {
-            const s = document.createElement('script');
-            s.src = base + f + '?v=' + Date.now();
-            s.onload = () => {
-                loaded++;
-                if (loaded + errors === files.length) {
-                    if (errors > 0) console.warn('Story load: ' + errors + ' file(s) missing from ' + base);
-                    resolve();
-                }
-            };
-            s.onerror = () => {
-                errors++;
-                console.warn('Story file missing:', base + f);
-                if (loaded + errors === files.length) resolve();
-            };
-            document.head.appendChild(s);
-        });
-    });
-}
+async function loadStoryScripts(storyId) { return StoryPackage.legacy(storyId); }
 
 // ── HEADER ────────────────────────────────────────────────────
 function renderHeader() {
@@ -1412,6 +1400,7 @@ function renderHeader() {
 
 // ── TAB SWITCHING ─────────────────────────────────────────────
 function switchTab(name, btn) {
+    if (name === 'monitor' || name === 'health' || name === 'run') return;
     if (name === 'run' || name === 'health') name = 'monitor';
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1426,12 +1415,12 @@ function switchTab(name, btn) {
 function renderChecklist() {
     const playerList  = Object.values(players).filter(p => !p.uid?.startsWith('test_'));
     const total       = playerList.length;
-    const ready       = playerList.filter(p => p.status === 'ready').length;
+    const ready       = playerList.filter(p => p.characterId).length;
     const hasQuestionnaire = playerList.filter(p => p.questionnaire).length;
-    const rolesGenerated   = Object.keys(roleAssign).length > 0;
+    const rolesGenerated = !!generationMeta && generationMeta.rosterSignature === rosterSignature();
     const hasWaiver        = playerList.filter(p => p.waiverSigned).length;
     const skillsAssigned   = Object.keys(skillAssign).length > 0;
-    const gameStarted      = activeItems.includes('willsDeath');
+    const gameStarted = gameData.status === 'active';
     const inviteUrl        = `https://thorsmystery.com/invite.html?code=${gameData.partyCode}`;
 
     const items = [
@@ -1472,17 +1461,17 @@ function renderChecklist() {
         },
         {
             label: 'Roles generated',
-            value: rolesGenerated ? 'Complete' : 'Not yet',
+            value: rolesGenerated ? 'Ready — assignments hidden' : 'Not yet / player setup changed',
             status: rolesGenerated ? 'ok' : 'warn',
             icon:   rolesGenerated ? '✓' : '⚄',
-            action: rolesGenerated ? null : { label: '⚄ Generate Roles', fn: "switchTab('characters', document.querySelector('[onclick*=characters]')); setTimeout(openGenerateRoles, 300);" }
+            action: rolesGenerated ? null : { label: '⚄ Generate Roles', fn: "openGenerateRoles()" }
         },
         {
             label: 'Game started',
             value: gameStarted ? 'In progress' : 'Not started',
             status: gameStarted ? 'ok' : 'error',
             icon:   gameStarted ? '✓' : '✗',
-            action: gameStarted ? null : { label: 'Start', fn: "switchTab('monitor', document.querySelector('[onclick*=monitor]'))" }
+            action: gameStarted ? { label: 'Launch Game', fn: 'launchEstateTV()' } : { label: 'Start & launch', fn: 'startPreparedParty()' }
         }
     ];
 
@@ -1511,28 +1500,24 @@ function refreshHealth() {
     ['hStatScans','hStatScans2'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=totalScans; });
     ['hStatSkills'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent=skillsUsed; });
 
-    // Current act
+    const phases = Object.entries(revelationsDatabase || {});
+    const current = [...phases].reverse().find(([, phase]) => (phase.items || []).some(item => activeItems.includes(item.id)));
     const actEl = document.getElementById('hStatAct');
-    if (actEl && typeof revelationsDatabase !== 'undefined') {
-        const act3Live = revelationsDatabase.act3?.items.some(i => activeItems.includes(i.id));
-        const act2Live = revelationsDatabase.act2?.items.some(i => activeItems.includes(i.id));
-        actEl.textContent = act3Live ? '3' : act2Live ? '2' : activeItems.includes('willsDeath') ? '1' : '—';
-    }
-
-    // Act progress
-    if (typeof revelationsDatabase !== 'undefined') {
-        ['act1','act2','act3'].forEach(act => {
-            const actData = revelationsDatabase[act];
-            if (!actData) return;
-            const total   = actData.items.length;
-            const live    = actData.items.filter(i => activeItems.includes(i.id)).length;
-            document.getElementById(act + 'Progress').textContent = live + '/' + total;
-        });
+    if (actEl) actEl.textContent = current ? current[1].label || current[0] : '—';
+    const progress = document.getElementById('actProgress');
+    progress.replaceChildren();
+    for (const [key, phase] of phases) {
+        const row = document.createElement('div'); row.className = 'act-bar';
+        const title = document.createElement('div'); title.className = 'act-bar-label'; title.textContent = phase.label || key;
+        const count = document.createElement('div'); count.className = 'act-bar-count';
+        count.textContent = (phase.items || []).filter(item => activeItems.includes(item.id)).length + '/' + (phase.items || []).length;
+        row.append(title, count); progress.append(row);
     }
 
     // Alerts
     const alerts = [];
-    if (playerList.length < 8) alerts.push('Fewer than 8 players have joined');
+    const minimum = gameData.minPlayers ?? currentStoryPackage.metadata.minPlayers;
+    if (minimum && playerList.length < minimum) alerts.push('Fewer than ' + minimum + ' players have joined');
     if (Object.keys(roleAssign).length === 0 && playerList.length > 0) alerts.push('Roles have not been generated yet');
     const inactivePlayers = playerList.filter(p => {
         if (!p.lastSeen) return false;
@@ -1637,60 +1622,60 @@ async function removePlayer(uid, name) {
 // ── CHARACTERS TAB ────────────────────────────────────────────
 function renderCharacters() {
     const grid = document.getElementById('charGrid');
-    if (typeof characterDatabase === 'undefined') {
-        grid.innerHTML = '<div style="color:var(--fog);font-style:italic;">Story data not loaded.</div>';
-        return;
-    }
-
-    // Build reverse lookup: characterId → player
-    const charToPlayer = {};
-    Object.values(players).forEach(p => {
-        if (p.characterId) charToPlayer[p.characterId] = p;
+    grid.replaceChildren();
+    if (typeof characterDatabase === 'undefined') { grid.textContent = 'Loading characters…'; return; }
+    Object.entries(characterDatabase).forEach(([slug, character]) => {
+        const player = Object.values(players).find(p => p.characterId === slug);
+        const card = document.createElement('div'); card.className = 'char-card';
+        const name = document.createElement('div'); name.className = 'char-name';
+        name.textContent = resolveCharName(slug, player?.gender) || character.name;
+        const detail = document.createElement('div'); detail.className = 'char-player';
+        detail.textContent = player ? 'Played by ' + (player.displayName || 'Player') : 'Not chosen';
+        card.append(name,detail); grid.appendChild(card);
     });
-
-    // Update generate button label with player status
-    const _readyCount = Object.values(players).filter(p => p.characterId && p.status === 'ready').length;
-    const _minReq     = gameData?.minPlayers || 8;
-    const _genBtn     = document.getElementById('generateRolesBtn');
-    if (_genBtn) {
-        if (_readyCount < _minReq) {
-            _genBtn.textContent = `⚄ Generate Roles (${_readyCount}/${_minReq} players)`;
-            _genBtn.style.opacity = '0.6';
-        } else {
-            _genBtn.textContent = '⚄ Generate Roles';
-            _genBtn.style.opacity = '1';
-        }
-    }
-
-    grid.innerHTML = Object.entries(characterDatabase).map(([slug, char]) => {
-        const player   = charToPlayer[slug];
-        const role     = roleAssign[slug];
-        const skill    = skillAssign[slug];
-        const name     = char.nameVariants?.female || char.name;
-
-        return `
-        <div class="char-card">
-            <div class="char-card-top">
-                <div>
-                    <div class="char-name">${name}</div>
-                    <div class="char-slug">${slug}</div>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">
-                    ${role ? `<span class="role-badge role-${role}">${role}</span>` : ''}
-                    ${skill && role !== 'pipeline' ? `<span class="skill-badge">${skill}</span>` : ''}
-                </div>
-            </div>
-            ${player
-                ? `<div class="char-player">Played by <span>${player.displayName}</span></div>`
-                : `<div class="char-unassigned">Unassigned</div>`
-            }
-        </div>`;
-    }).join('');
 }
 
+function rosterSignature() {
+    return JSON.stringify(Object.entries(players).map(([uid,p]) => [uid,p.characterId || '',p.status || '',p.questionnaire?.involvementScore || 0]).sort((a,b)=>a[0].localeCompare(b[0])));
+}
+
+const PREP_ITEMS = [
+    ['tv', 'Connect the shared screen', 'Open the game website on a laptop connected to your TV by HDMI, or another device that can display the website. Keep the controls within reach.'],
+    ['phones', 'Get everyone connected', 'Each player needs a charged phone and an internet connection. Send the invitation early so they can finish the questionnaire and choose a character.'],
+    ['sound', 'Check sound and readability', 'Make sure everyone can hear the TV and read it from their seat. Keep background music low enough for conversation.'],
+    ['hostPlayer', 'Include yourself if you are playing', 'Use the player invitation on your own phone to join and choose a character. Your host screen does not show role assignments.'],
+    ['space', 'Prepare the room', 'Arrange comfortable seating where everyone can see the TV and talk together. Have chargers nearby and plan a break for food or drinks.'],
+    ['atmosphere', 'Set the mood — optional', 'Invite guests to dress for a 1935 dinner party. Character introductions, subdued lighting, and period-inspired background music can help everyone settle into the story.']
+];
+function renderHostPreparation() {
+    const panel = document.getElementById('hostPreparation'); panel.replaceChildren();
+    const title = document.createElement('h2'); title.className = 'section-title'; title.textContent = 'Prepare for your party'; panel.appendChild(title);
+    PREP_ITEMS.forEach(([id,label,description]) => {
+        const row = document.createElement('label'); row.style.cssText = 'display:flex;align-items:flex-start;gap:16px;background:var(--panel);padding:20px;margin-top:12px;border:1px solid var(--border);cursor:pointer;';
+        const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.checked = hostPrep[id] === true;
+        checkbox.style.cssText = 'width:20px;height:20px;flex-shrink:0;';
+        checkbox.onchange = async () => { try { await db.ref('games/' + gameId + '/state/hostPrep/' + id).set(checkbox.checked); } catch(err) { checkbox.checked = !checkbox.checked; showToast('Could not save preparation check.', 'error'); } };
+        const text = document.createElement('div');
+        const heading = document.createElement('strong'); heading.textContent = label;
+        const copy = document.createElement('p'); copy.textContent = description; copy.style.cssText = 'color:var(--mist);line-height:1.6;margin-top:8px;';
+        text.append(heading,copy); row.append(checkbox,text); panel.appendChild(row);
+    });
+}
+function launchEstateTV() { const win=window.open('estate-tv.html?id='+encodeURIComponent(gameId),'estate_tv_'+gameId,'popup,width=1440,height=900');if(win)win.focus();else showToast('Allow popups for this site, then select Launch Game again.','error');return win; }
+async function startPreparedParty() {
+    // The story flow controls when questionnaires and role assignment occur.
+    launchEstateTV();
+    try {
+        await db.ref('games/' + gameId + '/status').set('active');
+        gameData.status = 'active'; renderHeader(); renderChecklist();
+        showToast('Party started. Use Launch Game for the TV; players use their phones.', 'success');
+    } catch(err) { showToast('Could not start the party. Please try again.', 'error'); }
+}
 
     // ── ROLE & SKILL GENERATION (platform-agnostic) ───────────────
     function openGenerateRoles() {
+        if (gameData.status !== 'lobby') return showToast('Roles cannot be changed after the party starts.', 'error');
+        if (Object.values(players).some(p => !p.characterId || p.status !== 'ready' || !p.questionnaire)) return showToast('Every joined player must finish the questionnaire and choose a character first.', 'error');
         // Build genPlayers from current players
         genPlayers = {};
         Object.entries(players).forEach(([uid, p]) => {
@@ -1705,7 +1690,8 @@ function renderCharacters() {
         });
 
         const readyCount = Object.keys(genPlayers).length;
-        const minRequired = gameData?.minPlayers || 8;
+        generatedRosterSignature = rosterSignature();
+        const minRequired = gameData?.minPlayers ?? currentStoryPackage.metadata.minPlayers ?? 1;
 
         if (readyCount === 0) {
             showToast('No players have chosen characters yet.', 'error');
@@ -1734,152 +1720,27 @@ function renderCharacters() {
     // Reads priorities and skills from rolesConfig (defined in roles.js)
     // Does not know story-specific names — just Priority 1, 2, 3 etc.
 
-    function runGeneration() {
-        if (!rolesConfig) return;
-        genAssignments = {};
+    function runGeneration(){if(!rolesConfig)return;const generated=RoleEngine.generate(genPlayers,rolesConfig,currentStoryPackage.compatibility?.rolePolicies?.host || {});genAssignments=generated;renderGenModal();}
 
-        const players      = Object.values(genPlayers);
-        const hiWeights    = rolesConfig.scoreWeights.priority;
-        const skillWeights = rolesConfig.scoreWeights.skill;
-
-        // ── STEP 1: Assign priority roles in order ────────────────
-        const assignedUids = new Set();
-
-        Object.values(rolesConfig.priorities).forEach(roleCfg => {
-
-            // Fixed assignment (e.g. pipeline always goes to david_richardson)
-            if (roleCfg.assignTo) {
-                const player = players.find(p => p.characterId === roleCfg.assignTo);
-                if (player) {
-                    genAssignments[player.uid] = {
-                        role: roleCfg.label,
-                        skill: null,
-                        ineligibleSkills: roleCfg.ineligibleSkills || []
-                    };
-                    if (roleCfg.excludeFrom) assignedUids.add(player.uid);
-                }
-                return;
-            }
-
-            // Random weighted assignment from eligible pool
-            const eligible = players.filter(p => {
-                if (assignedUids.has(p.uid)) return false;
-                if (!roleCfg.eligibleChars.includes(p.characterId)) return false;
-                const score = Math.min(10, Math.max(1, p.score));
-                return Math.random() < (hiWeights[score] || 0);
-            });
-
-            if (eligible.length > 0) {
-                const chosen = weightedPickByScore(eligible, hiWeights);
-                genAssignments[chosen.uid] = {
-                    role: roleCfg.label,
-                    skill: null,
-                    ineligibleSkills: roleCfg.ineligibleSkills || []
-                };
-                if (roleCfg.excludeFrom) assignedUids.add(chosen.uid);
-            }
-        });
-
-        // ── STEP 2: Assign skills ─────────────────────────────────
-        // Build map of characterId → uid for quick lookup
-        const charToUid = {};
-        players.forEach(p => { charToUid[p.characterId] = p.uid; });
-
-        // Track which skills have been assigned and which players have skills
-        const assignedSkills = new Set();
-        const playersWithSkills = new Set();
-
-        Object.entries(rolesConfig.skills).forEach(([skillName, skillCfg]) => {
-
-            // Check primary first
-            const primaryUid = charToUid[skillCfg.primary];
-            if (primaryUid && !playersWithSkills.has(primaryUid)) {
-                // Check not blocked by ineligible skills on their priority role
-                const assignment = genAssignments[primaryUid];
-                const ineligible = assignment ? assignment.ineligibleSkills : [];
-                if (!ineligible.includes(skillName)) {
-                    if (!genAssignments[primaryUid]) genAssignments[primaryUid] = { role: null, skill: null, ineligibleSkills: [] };
-                    genAssignments[primaryUid].skill = skillName;
-                    assignedSkills.add(skillName);
-                    playersWithSkills.add(primaryUid);
-                    return;
-                }
-            }
-
-            // Walk backup list — probability-weighted, with guaranteed fallback
-            let fallbackUid = null;
-            for (const backupChar of (skillCfg.backups || [])) {
-                const backupUid = charToUid[backupChar];
-                if (!backupUid) continue;
-                if (playersWithSkills.has(backupUid)) continue;
-
-                const assignment = genAssignments[backupUid];
-                const ineligible = assignment ? assignment.ineligibleSkills : [];
-                if (ineligible.includes(skillName)) continue;
-
-                // Track first eligible as fallback in case all probability checks fail
-                if (!fallbackUid) fallbackUid = backupUid;
-
-                // Check involvement score for skill probability
-                const player = genPlayers[backupUid];
-                const score  = player ? Math.min(10, Math.max(1, player.score)) : 5;
-                if (Math.random() > (skillWeights[score] || 0)) continue;
-
-                if (!genAssignments[backupUid]) genAssignments[backupUid] = { role: null, skill: null, ineligibleSkills: [] };
-                genAssignments[backupUid].skill = skillName;
-                assignedSkills.add(skillName);
-                playersWithSkills.add(backupUid);
-                fallbackUid = null;
-                break;
-            }
-            // Guarantee assignment: if all probability checks failed, use first eligible backup
-            if (fallbackUid) {
-                if (!genAssignments[fallbackUid]) genAssignments[fallbackUid] = { role: null, skill: null, ineligibleSkills: [] };
-                genAssignments[fallbackUid].skill = skillName;
-                assignedSkills.add(skillName);
-                playersWithSkills.add(fallbackUid);
-            }
-        });
-
-        renderGenModal();
-    }
-
-    function weightedPickByScore(arr, weights) {
-        const total = arr.reduce((s, p) => s + (weights[Math.min(10, Math.max(1, p.score))] || 0.1), 0);
-        let rand = Math.random() * total;
-        for (const p of arr) {
-            rand -= (weights[Math.min(10, Math.max(1, p.score))] || 0.1);
-            if (rand <= 0) return p;
-        }
-        return arr[arr.length - 1];
-    }
 
 
 function renderGenModal() {
     const grid = document.getElementById('genModalGrid');
-
-    grid.innerHTML = Object.values(genPlayers).map(player => {
-        const a        = genAssignments[player.uid] || {};
-        const char     = characterDatabase?.[player.characterId];
-        const charName = char?.nameVariants?.female || char?.name || player.characterId;
-
-        const roleBadge  = a.role ? `<span style="font-family:'Special Elite',monospace;font-size:9px;padding:2px 9px;background:rgba(139,26,26,0.25);color:#e08080;border:1px solid rgba(139,26,26,0.4);letter-spacing:1px;text-transform:uppercase;">${a.role}</span>` : '';
-        // Suppress skill badge when role is pipeline — it's the same thing
-        const showSkill  = a.skill && a.role !== 'pipeline';
-        const skillBadge = showSkill ? `<span style="font-family:'Special Elite',monospace;font-size:9px;padding:2px 9px;background:rgba(39,170,91,0.12);color:#7adba0;border:1px solid rgba(39,170,91,0.25);letter-spacing:1px;text-transform:uppercase;">${a.skill}</span>` : '';
-        const none       = (!a.role && !a.skill) ? `<span style="font-size:12px;color:var(--fog);font-style:italic;">no assignment</span>` : '';
-
-        return `
-        <div style="background:var(--card);border:1px solid var(--border);padding:14px 16px;">
-            <div style="font-family:'Playfair Display',serif;font-size:15px;color:var(--white);font-weight:700;margin-bottom:2px;">${charName}</div>
-            <div style="font-size:12px;color:var(--fog);margin-bottom:10px;">${player.displayName}</div>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;">${roleBadge}${skillBadge}${none}</div>
-        </div>`;
-    }).join('');
+    grid.style.display = 'block';
+    grid.textContent = 'Ready to assign roles and skills for ' + Object.keys(genPlayers).length + ' players. Assignments will not be displayed on this host screen. Confirm to save them for the party.';
+    const button = document.getElementById('lockGenBtn'); button.disabled = false; button.textContent = 'Confirm role assignment';
 }
 
 async function lockGameAssignments() {
     const btn = document.getElementById('lockGenBtn');
+    if (rolesSaving) return;
+    if (generatedRosterSignature !== rosterSignature()) return showToast('Player setup changed. Close this window and generate again.', 'error');
+    if (gameData.status !== 'lobby') return showToast('The party has already started.', 'error');
+    const rosterAtGeneration = JSON.stringify(Object.values(genPlayers).map(p=>[p.uid,p.characterId]).sort());
+    const currentRoster = JSON.stringify(Object.entries(players).map(([uid,p])=>[uid,p.characterId]).sort());
+    if (rosterAtGeneration !== currentRoster) return showToast('The player list changed. Close this window and generate again.', 'error');
+    const labels = Object.values(genAssignments).map(a=>a.role);
+    if (RoleEngine.missingRequired(genAssignments,rolesConfig,currentStoryPackage.compatibility?.requiredRoles || []).length) return showToast('This character selection cannot support all required roles. Adjust the character selection and try again.', 'error');
 
     if (!gameId) {
         showToast('No game loaded — cannot lock assignments.', 'error');
@@ -1891,10 +1752,11 @@ async function lockGameAssignments() {
     }
 
     btn.disabled = true;
-    btn.textContent = 'Locking…';
+    btn.textContent = 'Saving private roles…';
+    rolesSaving = true;
 
     try {
-        await db.ref('games/' + gameId + '/state/roleAssignments').set(genAssignments);
+
 
         const skillMap = {}, roleMap = {};
         Object.entries(genAssignments).forEach(([uid, a]) => {
@@ -1903,38 +1765,32 @@ async function lockGameAssignments() {
             if (a.skill)  skillMap[p.characterId] = a.skill;
             if (a.role)   roleMap[p.characterId]  = a.role;
         });
-        await db.ref('games/' + gameId + '/state/skillAssignments').set(skillMap);
-        await db.ref('games/' + gameId + '/state/characterRoles').set(roleMap);
+        const nextGenerationMeta = {generatedAt:Date.now(), playerCount:Object.keys(genPlayers).length, rosterSignature:generatedRosterSignature};
+        await db.ref('games/' + gameId + '/state').update({roleAssignments:genAssignments,skillAssignments:skillMap,characterRoles:roleMap,generationMeta:nextGenerationMeta});
+        generationMeta = nextGenerationMeta;
 
         roleAssign  = roleMap;
         skillAssign = skillMap;
 
-        showToast('Roles locked and applied.', 'success');
+        genAssignments = {};
+        showToast('Roles generated. Assignments stay hidden on the host screen.', 'success');
         closeGenModal();
         renderCharacters();
         renderChecklist();
 
     } catch(err) {
         btn.disabled = false;
-        btn.textContent = '✓ Lock & Apply';
+        btn.textContent = 'Confirm role assignment';
         showToast('Error: ' + err.message, 'error');
-    }
+    } finally { rolesSaving = false; }
 }
 
 // ── RUN GAME TAB ──────────────────────────────────────────────
 
     // ── PACE TRACKER ──────────────────────────────────────────
-    const ACT_TARGETS = {
-        act1: { label: 'Act 1 — The Gathering',  targetMin: 35, clues: ['newspaper','letterhead','bradfordLetter','incorporation','forgedDocs','bankStatement'] },
-        act2: { label: 'Act 2 — The Secret Heir', targetMin: 75, clues: ['ledger','margaretsLetter','birthCertificate','margaretDeath','will'] },
-        act3: { label: 'Act 3 — The Killer',      targetMin: 110, clues: ['coroner','travelJournal','backgroundCheck'] },
-    };
-    const DJ_AUTO = {
-        act1: { id: 'djCountyClerk', label: 'DJ: County Clerk' },
-        act2: { id: 'djCoroner',     label: 'DJ: Coroner Report' },
-        act3: { id: 'djPinkerton',   label: 'DJ: Pinkerton' },
-    };
-    const DJ_DELAY_MS = 5 * 60 * 1000; // 5 minutes
+    var ACT_TARGETS = {};
+    var DJ_AUTO = {};
+    var DJ_DELAY_MS = 0; // 5 minutes
 
     let gameStartTime   = null;
     let clockInterval   = null;
@@ -1998,7 +1854,7 @@ async function lockGameAssignments() {
     }
 
     async function resetGame() {
-        if (!confirm('Reset everything — clock, clues, cocktail hour, and player quests? This cannot be undone.')) return;
+        if (!confirm('Reset everything — clock, clues, phases, and player quests? This cannot be undone.')) return;
         if (clockInterval) { clearInterval(clockInterval); clockInterval = null; }
         gameStartTime = null;
         allFoundTimes = {};
@@ -2010,15 +1866,16 @@ async function lockGameAssignments() {
         await db.ref('games/' + gameId + '/state/activeItems').set([]);
         await db.ref('games/' + gameId + '/state/currentPhase').remove();
         await db.ref('games/' + gameId + '/state/codeChallenge').remove();
-        await db.ref('games/' + gameId + '/state/cocktailQuiz').remove();
-        if (cocktailQuizTimer) { clearTimeout(cocktailQuizTimer); cocktailQuizTimer = null; }
+        await db.ref('games/' + gameId + '/state/' + (currentStoryPackage.compatibility?.social?.quizField || 'socialQuiz')).remove();
+        stopSocialSchedule();
+        await db.ref('games/'+gameId+'/state/phaseEvents').remove();
 
         // Clear cocktail quests and facts from all players
         const playersSnap = await db.ref('games/' + gameId + '/players').once('value');
         const playerUpdates = {};
         playersSnap.forEach(child => {
-            playerUpdates['games/' + gameId + '/players/' + child.key + '/cocktailQuests'] = null;
-            playerUpdates['games/' + gameId + '/players/' + child.key + '/cocktailFacts'] = null;
+            playerUpdates['games/' + gameId + '/players/' + child.key + '/' + (currentStoryPackage.compatibility?.social?.questsField||'socialQuests')] = null;
+            playerUpdates['games/' + gameId + '/players/' + child.key + '/' + (currentStoryPackage.compatibility?.social?.factsField||'socialFacts')] = null;
         });
         if (Object.keys(playerUpdates).length > 0) await db.ref().update(playerUpdates);
 
@@ -2042,10 +1899,11 @@ async function lockGameAssignments() {
 
 
 function renderRunGame() {
+    return; // The pregame host interface must not render story revelations.
     if (typeof revelationsDatabase === 'undefined') return;
 
     // Update start button
-    const started = activeItems.includes('willsDeath');
+    const started = activeItems.includes(currentStoryPackage.compatibility?.startEvent);
     const btn = document.getElementById('gameStartBtn');
     if (btn) {
         btn.textContent  = started ? '✕ Hide' : '▶ Begin';
@@ -2054,16 +1912,8 @@ function renderRunGame() {
             started ? 'var(--green)' : 'var(--border)';
     }
 
-    const DJ_TEXTS = {
-        act1: { id: 'djCountyClerk', label: 'Send to DJ: County Clerk Report' },
-        act2: { id: 'djCoroner',     label: 'Send to DJ: Coroner Report' },
-        act3: { id: 'djPinkerton',   label: 'Send to DJ: Pinkerton Report' },
-    };
-    const CONFESSIONS = {
-        act1: { id: 'transcriptAct1', label: 'Play Confession — Act 1' },
-        act2: { id: 'transcriptAct2', label: 'Play Confession — Act 2' },
-        act3: { id: 'transcriptAct3', label: 'Play Confession — Act 3' },
-    };
+    var DJ_TEXTS = {};
+    var CONFESSIONS = {};
 
     const grid = document.getElementById('actGrid');
     grid.innerHTML = Object.entries(revelationsDatabase).map(([actKey, act]) => {
@@ -2138,13 +1988,13 @@ function renderRunGame() {
     // Update cocktail button state
     const cBtn = document.getElementById('cocktailBtn');
     if (cBtn) {
-        if (currentPhaseId === 'cocktail') {
+        if (gameFlow.phases.some(p=>p.id===currentPhaseId&&p.type==='social')) {
             cBtn.textContent = '✓ Cocktail Hour Active';
             cBtn.style.background = 'var(--green)';
             cBtn.style.opacity = '0.7';
             cBtn.style.cursor = 'default';
             cBtn.disabled = true;
-        } else if (activeItems.includes('willsDeath')) {
+        } else if (activeItems.includes(currentStoryPackage.compatibility?.startEvent)) {
             // Game already started — hide cocktail panel
             const panel = document.getElementById('cocktailPanel');
             if (panel) panel.style.display = 'none';
@@ -2185,7 +2035,7 @@ async function toggleRevelation(itemId) {
     await db.ref('games/' + gameId + '/state/activeItems').set(current);
 
     // Start pace tracker on game begin
-    if (itemId === 'willsDeath' && current.includes('willsDeath') && !gameStartTime) {
+    if (itemId === currentStoryPackage.compatibility?.startEvent && current.includes(currentStoryPackage.compatibility?.startEvent) && !gameStartTime) {
         startPaceTracker();
     }
     // Check DJ auto-triggers
@@ -2211,7 +2061,7 @@ const TEST_FIRST = ['James','Emma','Oliver','Sophia','Henry','Clara','Ruth','Ros
         // Wait for characterDatabase to be available
         if (typeof characterDatabase === 'undefined' || Object.keys(characterDatabase).length === 0) {
             // Try reloading story scripts once more
-            const storyId = gameData ? gameData.storyId : 'thoreson_estate_dinner';
+            const storyId = gameData?.storyId;
             showToast('Reloading story data…', 'success');
             loadStoryScripts(storyId).then(() => {
                 if (typeof characterDatabase !== 'undefined' && Object.keys(characterDatabase).length > 0) {
@@ -2445,18 +2295,14 @@ ${inviteUrl}
                   `Your party code is: ${gameData.partyCode}
 
 ` +
-                  `Once you've joined, you'll receive your character assignment before the event.`,
+                  `Once you join, complete the questionnaire and choose your character before the event.`,
             url: inviteUrl
         };
     }
 
     function sendInviteEmail() {
-        const url = `https://thorsmystery.com/invite.html?code=${gameData.partyCode}`;
-        navigator.clipboard.writeText(url).then(() => {
-            showToast('Invite link copied — send it to your guests!', 'success');
-        }).catch(() => {
-            prompt('Copy this invite link and send to guests:', url);
-        });
+        const message = buildInviteMessage();
+        window.location.href = 'mailto:?subject=' + encodeURIComponent(message.subject) + '&body=' + encodeURIComponent(message.body);
     }
 
     function sendInviteSMS() {
@@ -2464,9 +2310,9 @@ ${inviteUrl}
         // TODO: wire to Twilio when going commercial
         // For now: open sms as fallback on mobile
         const smsBody = `You're invited to ${gameData.partyName || gameData.storyName}! Join here: ${msg.url} (Code: ${gameData.partyCode})`;
-        const sms = `sms:${gameData.hostPhone || ''}?body=${encodeURIComponent(smsBody)}`;
+        const sms = `sms:?body=${encodeURIComponent(smsBody)}`;
         window.open(sms);
-        showToast('SMS app opened — wire to Twilio for automation.', 'success');
+        showToast('Choose your guests in your messaging app to send the invitation.', 'success');
     }
 
 
@@ -2510,6 +2356,8 @@ ${inviteUrl}
 
     // ── PHASE ENGINE ──────────────────────────────────────────────
     let currentPhaseId  = null;
+    let stopSocialSchedule=()=>{};
+    window.addEventListener("pagehide",()=>stopSocialSchedule());
     let phaseStartTime  = null;
 
     function renderPhaseControls() {
@@ -2553,71 +2401,12 @@ ${inviteUrl}
     let cocktailQuizTimer = null;
 
     async function startCocktailHour() {
-        const btn = document.getElementById('cocktailBtn');
-        const isCocktailActive = currentPhaseId === 'cocktail';
-
-        if (isCocktailActive) {
-            showToast('Cocktail hour already active.', 'info');
-            return;
-        }
-
-        btn.disabled = true;
-        btn.textContent = 'Starting…';
-        await advancePhase('cocktail');
-        btn.textContent = '✓ Cocktail Hour Active';
-        btn.style.background = 'var(--green)';
-        btn.style.opacity = '0.7';
-        btn.style.cursor = 'default';
-        showToast('🥂 Cocktail hour started — quests distributed to all players', 'success');
-
-        const COCKTAIL_DURATION_MS = 60 * 60 * 1000;
-        const WARNING_DELAY = COCKTAIL_DURATION_MS - (15 * 60 * 1000); // 45 min mark
-
-        // At 45 min: fire warning on bigscreen + quiz on phones
-        cocktailQuizTimer = setTimeout(async () => {
-            // Fire quiz on all player phones
-            await db.ref('games/' + gameId + '/state/cocktailQuiz').set({ active: true, firedAt: Date.now() });
-            // Send 15-min warning to bigscreen
-            await db.ref('games/' + gameId + '/state/bigScreen').set({
-                mode: 'cocktail-warning', manual: false, updatedAt: new Date().toISOString()
-            });
-            showToast('📋 Quiz fired — 15 min warning on big screen', 'success');
-            // After 20 seconds, return bigscreen to slideshow
-            setTimeout(async () => {
-                await db.ref('games/' + gameId + '/state/bigScreen').set({
-                    mode: 'slideshow', manual: false, updatedAt: new Date().toISOString()
-                });
-            }, 20000);
-        }, WARNING_DELAY);
-
-        // At 60 min: automatically start the game (reveal Will's death)
-        setTimeout(async () => {
-            const snap = await db.ref('games/' + gameId + '/state/activeItems').once('value');
-            const items = snap.val() || [];
-            if (!items.includes('willsDeath')) {
-                const newItems = [...items, 'willsDeath'];
-                await db.ref('games/' + gameId + '/state/activeItems').set(newItems);
-                showToast('🕯 Cocktail hour ended — game started automatically', 'success');
-            }
-        }, COCKTAIL_DURATION_MS);
-
-        // Also add a manual fire button to the cocktail panel
-        const panel = document.getElementById('cocktailPanel');
-        if (panel) {
-            const quizBtn = document.createElement('button');
-            quizBtn.className = 'btn-ghost';
-            quizBtn.style.cssText = 'font-size:11px;padding:6px 14px;margin-left:10px;';
-            quizBtn.textContent = '📋 Fire Quiz Now';
-            quizBtn.onclick = async () => {
-                if (cocktailQuizTimer) clearTimeout(cocktailQuizTimer);
-                await db.ref('games/' + gameId + '/state/cocktailQuiz').set({ active: true, firedAt: Date.now() });
-                showToast('📋 Quiz fired on all player phones', 'success');
-                quizBtn.disabled = true;
-                quizBtn.textContent = '✓ Quiz Sent';
-            };
-            panel.querySelector('div').appendChild(quizBtn);
-        }
-    }
+ const phase=gameFlow.phases.find(p=>p.type==='social');if(!phase)return showToast('No social phase is configured.','error');
+ await advancePhase(phase.id);
+ const btn=document.getElementById('cocktailBtn');btn.textContent=phase.label;btn.disabled=true;
+ const quiz=phase.social?.schedule?.find(event=>event.action==='quiz');
+ if(quiz){const button=document.createElement('button');button.className='btn-ghost';button.textContent='Send phase questionnaire';button.onclick=async()=>{try{await SocialEngine.fire(db,gameId,currentStoryPackage,{action:'quiz'});button.disabled=true;}catch(error){showToast(error.message,'error');}};document.getElementById('cocktailPanel').append(button);}
+}
 
     async function advancePhase(phaseId) {
         if (!gameId || typeof gameFlow === 'undefined') return;
@@ -2653,20 +2442,8 @@ ${inviteUrl}
                 await db.ref('games/' + gameId + '/state/activeItems').set(current);
             }
 
-            // Distribute facts and quests at cocktail hour
-            if (phase.onStart?.distributeFacts) {
-                await distributeFacts();
-            }
-            if (phase.onStart?.distributeQuests) {
-                await distributeQuests();
-            }
-
-            // Auto-drive big screen for known phases
-            if (phase.id === 'cocktail') {
-                await db.ref('games/' + gameId + '/state/bigScreen').set({
-                    mode: 'slideshow', manual: false, updatedAt: new Date().toISOString()
-                });
-            }
+            await SocialEngine.distribute(db,gameId,currentStoryPackage,phase,players);
+            if(phase.social?.screen)await db.ref('games/'+gameId+'/state/bigScreen').set({mode:phase.social.screen,manual:false,updatedAt:new Date().toISOString()});
 
             showToast('Phase advanced: ' + phase.label, 'success');
 
@@ -2676,98 +2453,10 @@ ${inviteUrl}
     }
 
     // ── FACT DISTRIBUTION ─────────────────────────────────────────
-    async function distributeFacts() {
-        if (typeof storyFacts === 'undefined') return;
-
-        const charToUid = {};
-        Object.entries(players).forEach(([uid, p]) => {
-            if (p.characterId) charToUid[p.characterId] = uid;
-        });
-
-        const assignments = {};
-
-        storyFacts.forEach(fact => {
-            // Find who carries this fact
-            const candidates = [fact.preferredChar, ...(fact.fallbacks || [])];
-            let assignedUid = null;
-
-            for (const charId of candidates) {
-                const uid = charToUid[charId];
-                if (uid && !assignments[uid]) {
-                    assignedUid = uid;
-                    break;
-                }
-            }
-
-            if (!assignedUid) {
-                // Assign to any player who doesn't have a fact yet
-                for (const [charId, uid] of Object.entries(charToUid)) {
-                    if (!assignments[uid]) { assignedUid = uid; break; }
-                }
-            }
-
-            if (assignedUid) {
-                if (!assignments[assignedUid]) assignments[assignedUid] = [];
-                assignments[assignedUid].push(fact);
-            }
-        });
-
-        // Write to Firebase — each player gets their facts
-        const writes = {};
-        const resolvedGenderWrites = {};
-        Object.entries(assignments).forEach(([uid, facts]) => {
-            writes['games/' + gameId + '/players/' + uid + '/cocktailFacts'] =
-                facts.map(f => ({ id: f.id, text: f.text }));
-        });
-
-        await db.ref().update(writes);
-        console.log('Facts distributed to', Object.keys(assignments).length, 'players');
-    }
+    async function distributeFacts() {const phase=gameFlow.phases.find(p=>p.id===currentPhaseId);if(phase)await SocialEngine.distribute(db,gameId,currentStoryPackage,{...phase,onStart:{distributeFacts:true}},players);}
 
     // ── QUEST DISTRIBUTION ────────────────────────────────────────
-    async function distributeQuests() {
-        if (typeof questsDatabase === 'undefined') return;
-
-        const charToUid = {};
-        const uidToChar = {};
-        Object.entries(players).forEach(([uid, p]) => {
-            if (p.characterId) {
-                charToUid[p.characterId] = uid;
-                uidToChar[uid] = p.characterId;
-            }
-        });
-
-        const presentChars = new Set(Object.keys(charToUid));
-        const allQuests    = questsDatabase.cocktail || [];
-
-        // Build per-character quest lists using giveTo directed assignment
-        const questsByChar = {}; // charId → [quest, ...]
-        Object.keys(charToUid).forEach(c => { questsByChar[c] = []; });
-
-        allQuests.forEach(q => {
-            // Check all required characters are present
-            if (!q.requires.every(r => presentChars.has(r))) return;
-
-            if (q.giveTo && Array.isArray(q.giveTo)) {
-                // Directed assignment — give only to specified characters
-                q.giveTo.forEach(charId => {
-                    if (charToUid[charId] && questsByChar[charId]) {
-                        const resolved = resolveQuestTokens(q.text, charToUid);
-                        questsByChar[charId].push({ id: q.id, text: resolved, type: q.type, completed: false });
-                    }
-                });
-            }
-            // Generic quests (no giveTo) are ignored now — all quests are directed
-        });
-
-        const writes = {};
-        Object.entries(charToUid).forEach(([charId, uid]) => {
-            writes['games/' + gameId + '/players/' + uid + '/cocktailQuests'] = questsByChar[charId] || [];
-        });
-
-        await db.ref().update(writes);
-        console.log('Quests distributed to', Object.keys(charToUid).length, 'players');
-    }
+    async function distributeQuests() {const phase=gameFlow.phases.find(p=>p.id===currentPhaseId);if(phase)await SocialEngine.distribute(db,gameId,currentStoryPackage,{...phase,onStart:{distributeQuests:true}},players);}
 
     function resolveQuestTokens(text, charToUid) {
         // Replace {{slug}} with character name using characterDatabase
@@ -2785,6 +2474,8 @@ ${inviteUrl}
         db.ref('games/' + gameId + '/state/currentPhase').on('value', snap => {
             const data = snap.val();
             currentPhaseId = data ? data.id : null;
+            stopSocialSchedule();
+            stopSocialSchedule=SocialEngine.schedule(db,gameId,currentStoryPackage,data,error=>showToast(error.message,"error"));
             phaseStartTime = data ? new Date(data.startedAt).getTime() : null;
             renderPhaseControls();
             renderChecklist();
@@ -2977,13 +2668,13 @@ ${inviteUrl}
 <div class="tp-overlay" id="genModalOverlay" onclick="if(event.target===this)closeGenModal()">
     <div class="tp-modal" style="max-width:700px;">
         <div class="tp-header">
-            <div class="tp-title">⚄ Generate Roles & Skills</div>
+            <div class="tp-title">Generate roles privately</div>
             <button class="btn-signout" onclick="closeGenModal()">✕</button>
         </div>
         <div class="tp-body">
             <div id="genModalGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:20px;"></div>
             <div class="tp-actions">
-                <button class="btn-gold" onclick="runGeneration()">⚄ Randomize Again</button>
+
                 <button class="btn-green" id="lockGenBtn" onclick="lockGameAssignments()">✓ Lock & Apply</button>
                 <button class="btn-ghost" onclick="closeGenModal()">Cancel</button>
             </div>

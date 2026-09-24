@@ -1,0 +1,19 @@
+# Dependencies and local secrets
+node_modules/
+.env
+.env.*
+!.env.example
+*service-account*.json
+*serviceAccount*.json
+
+# Firebase caches, emulator data and logs
+.firebase/
+*-debug.log
+*.log
+.player-lab-work/
+firebase-export-*/
+
+# Local editor and OS files
+.DS_Store
+Thumbs.db
+*.tmp

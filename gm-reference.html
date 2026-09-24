@@ -39,7 +39,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ThorsMystery">
-</head>
+<script src="story-package.js"></script><script src="story-content.js"></script></head>
 <body>
 
 <h1>🕯 GM Emergency Reference</h1>
@@ -54,15 +54,13 @@
 
 <div id="content">Loading...</div>
 
-<script src="characters.js"></script>
-<script src="skills.js"></script>
-<script src="revelations.js"></script>
 <script>
 function toggle(el) {
   var content = el.nextElementSibling;
   content.classList.toggle('open');
 }
 
+(async()=>{await StoryPackage.fromContext();document.title=currentStoryPackage.metadata.name+' — GM Reference';
 var html = '';
 
 // ── SKILL EXPERT CONTENT ──
@@ -70,12 +68,8 @@ html += '<h2 id="skills">Skill Expert Content</h2>';
 html += '<p style="font-size:13px; color:#666; margin-bottom:15px;">Tap to view the full expert analysis. Read aloud or show to player if QR fails.</p>';
 
 Object.entries(skillsDatabase).forEach(function([name, data]) {
-  if (name === 'Bartender') return;
-  var who = {
-    'Accounting': 'Teddy (Dylan)', 'Legal': 'Miranda (Leanna)', 'Journalism': 'Walter (Marc) / Sophie (Maisy)',
-    'French': 'Vivienne (Hannah)', 'Medical': 'Patricia (Casey)', 'Banking': 'Charles (Jeff) / James (Bradey)',
-    'Botany': 'Dorothy (Michelle) — AUTO-TRIGGERS'
-  }[name] || '';
+  if (currentStoryPackage.content.reference?.excludedSkills?.includes(name)) return;
+  var who = currentStoryPackage.content.reference?.skillHolders?.[name] || '';
   html += '<div class="section">';
   html += '<div class="section-header" onclick="toggle(this)"><span class="section-title">' + data.badge + '</span><span class="section-badge">' + who + '</span></div>';
   html += '<div class="section-content">';
@@ -95,7 +89,7 @@ html += '<p style="font-size:13px; color:#666; margin-bottom:15px;">When you tog
 // Build a map: trigger → [{charKey, charName, text, tier, type}]
 var triggerMap = {};
 Object.entries(characterDatabase).forEach(function([key, data]) {
-  if (key === 'Scott') return;
+  if (currentStoryPackage.content.reference?.excludedCharacters?.includes(key)) return;
   if (data.knowledge) {
     data.knowledge.forEach(function(k) {
       if (!k.unlockedBy) return;
@@ -113,25 +107,9 @@ Object.entries(characterDatabase).forEach(function([key, data]) {
 });
 
 // Order triggers by act flow
-var triggerOrder = [
-  'willsDeath', 'djCountyClerk',
-  'newspaper', 'letterhead', 'bradfordLetter', 'incorporation', 'forgedDocs', 'europeanDeal', 'bankStatement', 'transcriptAct1', 'stolenCompany',
-  'djCoroner', 'ledger', 'margaretsLetter', 'birthCertificate', 'margaretDeath', 'transcriptAct2', 'will', 'secretHeir',
-  'djPinkerton', 'coroner', 'wolfsbane', 'travelJournal', 'backgroundCheck', 'transcriptAct3', 'mirandasIdentity'
-];
+var triggerOrder = currentStoryPackage.content.reference?.triggerOrder || Object.keys(triggerMap);
 
-var actLabels = {
-  'willsDeath': '🕯 GAME START', 'djCountyClerk': '🔍 ACT 1',
-  'newspaper': '🔍 ACT 1', 'letterhead': '🔍 ACT 1', 'bradfordLetter': '🔍 ACT 1',
-  'incorporation': '🔍 ACT 1', 'forgedDocs': '🔍 ACT 1', 'europeanDeal': '🔍 ACT 1',
-  'bankStatement': '🔍 ACT 1', 'transcriptAct1': '🔍 ACT 1', 'stolenCompany': '🔍 ACT 1',
-  'djCoroner': '💍 ACT 2', 'ledger': '💍 ACT 2', 'margaretsLetter': '💍 ACT 2',
-  'birthCertificate': '💍 ACT 2', 'margaretDeath': '💍 ACT 2', 'transcriptAct2': '💍 ACT 2',
-  'will': '💍 ACT 2', 'secretHeir': '💍 ACT 2',
-  'djPinkerton': '🗡 ACT 3', 'coroner': '🗡 ACT 3', 'wolfsbane': '🗡 ACT 3',
-  'travelJournal': '🗡 ACT 3', 'backgroundCheck': '🗡 ACT 3',
-  'transcriptAct3': '🗡 ACT 3', 'mirandasIdentity': '🗡 ACT 3'
-};
+var actLabels = currentStoryPackage.content.reference?.actLabels || {};
 
 var lastAct = '';
 triggerOrder.forEach(function(trigger) {
@@ -195,14 +173,7 @@ Object.entries(revelationsDatabase).forEach(function([actKey, act]) {
 
 // ── LOGIN CODES ──
 html += '<h2 id="codes">Login Codes</h2>';
-var codes = {
-  'Scott': '61493', 'BrianT': '42851', 'Clara': '56374', 'Leanna': '31429',
-  'Marc': '68915', 'Maisy': '25837', 'Hannah': '84126', 'DJ': '91564',
-  'Peter': '17382', 'Arash': '73649', 'Becky': '45928', 'BrianS': '52847',
-  'Katie': '29175', 'Michelle': '63841', 'Jeff': '34759', 'Casey': '85214',
-  'Krystal': '72938', 'Lindsey': '41876', 'Bradey': '96523', 'Alexander': '51783',
-  'Jesse': '28764', 'Dylan': '16583', 'Preston': '39517', 'Greeter': '77291'
-};
+var codes = currentStoryPackage.content.reference?.codes || {};
 html += '<div style="display:grid; grid-template-columns:1fr 1fr; gap:4px; font-size:13px;">';
 Object.entries(codes).forEach(function([name, code]) {
   var charName = characterDatabase[name] ? characterDatabase[name].name : name;
@@ -213,6 +184,7 @@ Object.entries(codes).forEach(function([name, code]) {
 html += '</div>';
 
 document.getElementById('content').innerHTML = html;
+})().catch(e=>document.getElementById('content').textContent=e.message);
 </script>
 
 </body>

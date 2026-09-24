@@ -8,7 +8,15 @@
     },
     "games": {
       ".read": "auth != null",
-      ".write": "auth != null && !auth.token.firebase.sign_in_provider.contains('anonymous')"
+      ".indexOn": [
+        "createdBy",
+        "createdAt",
+        "partyCode"
+      ],
+      "$gameId": {
+        ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && (data.exists() || (newData.child('createdBy').val() === auth.uid && newData.child('unlockId').isString() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('storyId').val() === newData.child('storyId').val() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('gameMode').val() === newData.child('gameMode').val() && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('ownerUid').val() === auth.uid && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('active').val() === true))",
+        ".validate": "!data.exists() || (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('storyId').val() === data.child('storyId').val() && newData.child('unlockId').val() === data.child('unlockId').val() && newData.child('gameMode').val() === data.child('gameMode').val())"
+      }
     },
     "partyCodeIndex": {
       ".read": true,
@@ -68,6 +76,121 @@
     "$other": {
       ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
       ".write": false
+    },
+    "hostAccess": {
+      ".read": "auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true",
+      ".write": "auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true",
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid"
+      }
+    },
+    "hostAccessRequests": {
+      ".read": "auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true",
+      "$uid": {
+        ".read": "(auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true) || (auth != null && auth.uid === $uid)",
+        ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && auth.uid === $uid && !data.exists()",
+        ".validate": "newData.hasChildren(['email','displayName','requestedAt'])",
+        "email": {
+          ".validate": "newData.isString() && newData.val() === auth.token.email"
+        },
+        "displayName": {
+          ".validate": "newData.isString() && newData.val().length <= 200"
+        },
+        "requestedAt": {
+          ".validate": "newData.isNumber() && newData.val() <= now && newData.val() > now - 60000"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "gameUnlockKeys": {
+      "$key": {
+        ".read": "auth != null && auth.token.firebase.sign_in_provider !== 'anonymous'",
+        ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && data.exists() && data.child('active').val() === true && (!data.child('ownerUid').exists() || data.child('ownerUid').val() === auth.uid) && newData.child('ownerUid').val() === auth.uid",
+        ".validate": "newData.hasChildren(['id','storyId','gameMode','active','issuedAt','ownerUid','claimedAt'])",
+        "id": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "storyId": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "gameMode": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "active": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "issuedAt": {
+          ".validate": "newData.val() === data.val()"
+        },
+        "ownerUid": {
+          ".validate": "newData.val() === auth.uid"
+        },
+        "claimedAt": {
+          ".validate": "newData.isNumber() && (data.exists() ? newData.val() === data.val() : newData.val() === now)"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "accountGameUnlocks": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$unlockId": {
+          ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && auth.uid === $uid",
+          ".validate": "newData.hasChildren(['key','storyId','gameMode','claimedAt']) && root.child('gameUnlockKeys').child(newData.child('key').val()).child('id').val() === $unlockId && root.child('gameUnlockKeys').child(newData.child('key').val()).child('ownerUid').val() === auth.uid && root.child('gameUnlockKeys').child(newData.child('key').val()).child('active').val() === true && root.child('gameUnlockKeys').child(newData.child('key').val()).child('storyId').val() === newData.child('storyId').val() && root.child('gameUnlockKeys').child(newData.child('key').val()).child('gameMode').val() === newData.child('gameMode').val()",
+          "key": {
+            ".validate": "newData.isString() && newData.val().length === 16"
+          },
+          "storyId": {
+            ".validate": "newData.isString()"
+          },
+          "gameMode": {
+            ".validate": "newData.isString()"
+          },
+          "claimedAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    },
+    "hostInvitations": {
+      "$gameId": {
+        ".read": "auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid",
+        ".write": "auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid",
+        "$inviteId": {
+          ".validate": "newData.hasChildren(['name','email','addedAt'])",
+          "name": {
+            ".validate": "newData.isString() && newData.val().length <= 100"
+          },
+          "email": {
+            ".validate": "newData.isString() && newData.val().length <= 254"
+          },
+          "addedAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "sentAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "$other": {
+            ".validate": false
+          },
+          "playerUid": {
+            ".validate": "newData.isString() && newData.val().length <= 128"
+          }
+        }
+      }
+    },
+    "developerAccess": {
+      ".write": false,
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid && auth.token.email_verified === true"
+      }
     }
   }
 }

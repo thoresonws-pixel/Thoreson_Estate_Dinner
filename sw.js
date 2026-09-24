@@ -60,5 +60,20 @@ self.addEventListener('message', function(e) {
     }
 });
 
-self.addEventListener('install', function() { self.skipWaiting(); });
-self.addEventListener('activate', function(e) { e.waitUntil(self.clients.claim()); });
+self.addEventListener('install', function() {
+    self.skipWaiting();
+    caches.keys().then(function(keys) {
+        return Promise.all(keys.map(function(key) { return caches.delete(key); }));
+    }).catch(function() {});
+});
+
+self.addEventListener('activate', function(e) {
+    e.waitUntil(
+        Promise.all([
+            self.clients.claim(),
+            caches.keys().then(function(keys) {
+                return Promise.all(keys.map(function(key) { return caches.delete(key); }));
+            })
+        ])
+    );
+});

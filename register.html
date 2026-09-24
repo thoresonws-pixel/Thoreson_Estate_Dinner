@@ -366,6 +366,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
 
+<script src="player-auth.js"></script>
 <script>
     // ── Firebase init ────────────────────────────────────────────
     const firebaseConfig = {
@@ -380,11 +381,7 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db   = firebase.database();
-
-    // ── No auto-redirect on register page ───────────────────────
-    // Anonymous sessions from the photo system must not trigger redirects.
-    // If a real email user lands here they can use the sign-in link instead.
-    // Only redirect after a successful NEW registration (handled below).
+    const playerAuth = PlayerAuth.create(auth);
 
     // ── Password strength indicator ──────────────────────────────
     document.getElementById('password').addEventListener('input', function() {
@@ -434,18 +431,13 @@
     }
 
     // ── Shared: write user to database ───────────────────────────
-    // Handle Google redirect result on page load
-    auth.getRedirectResult().then(async result => {
-        if (result && result.user) {
-            await writeUserRecord(result.user, result.user.displayName);
-            showSuccess('Signed in! Redirecting…');
-            const params = new URLSearchParams(window.location.search);
-            const dest = 'home.html' + (params.get('code') ? '?code=' + params.get('code') : '');
-            setTimeout(() => window.location.href = dest, 800);
-        }
-    }).catch(err => {
-        if (err.code !== 'auth/no-auth-event') showError('Google sign-in failed. Please try again.');
-    });
+    async function routeGoogleUser(user) {
+        await writeUserRecord(user, user.displayName);
+        showSuccess('Signed in! Redirecting…');
+        const code = new URLSearchParams(location.search).get('code');
+        location.href = 'home.html' + (code ? '?code=' + encodeURIComponent(code) : '');
+    }
+    playerAuth.resume(routeGoogleUser, err => showError(PlayerAuth.message(err)));
 
     async function writeUserRecord(user, displayName) {
         // Only write if record doesn't exist yet
@@ -464,28 +456,12 @@
     // ── Google sign-in ────────────────────────────────────────────
     async function handleGoogleSignIn() {
         const btn = document.getElementById('googleBtn');
+        const label = btn.innerHTML;
         btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span>Connecting…';
-
-        try {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            // Always use redirect — works on all browsers including Firefox/Safari on mobile
-            await auth.signInWithRedirect(provider);
-            return; // Page reloads after redirect, getRedirectResult handles the rest
-            await writeUserRecord(cred.user, cred.user.displayName);
-
-            showSuccess('Signed in! Redirecting…');
-            const params = new URLSearchParams(window.location.search);
-            const dest   = 'home.html' + (params.get('code') ? '?code=' + params.get('code') : '');
-            setTimeout(() => window.location.href = dest, 800);
-
-        } catch (err) {
-            btn.disabled = false;
-            btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg> Continue with Google`;
-            if (err.code !== 'auth/popup-closed-by-user') {
-                showError('Google sign-in failed. Please try again.');
-            }
-        }
+        btn.textContent = 'Connecting…';
+        try { await playerAuth.google(routeGoogleUser); }
+        catch (err) { showError(PlayerAuth.message(err)); }
+        finally { btn.disabled = false; btn.innerHTML = label; }
     }
 
     // ── Email/password Registration ───────────────────────────────
@@ -505,6 +481,7 @@
 
         try {
             // 1. Create Firebase Auth account
+            await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
             const cred = await auth.createUserWithEmailAndPassword(email, password);
             const user = cred.user;
 
@@ -518,7 +495,7 @@
 
             // 4. Brief pause so they see the success message, then go to join
             setTimeout(() => {
-                window.location.href = 'home.html';
+                const code = new URLSearchParams(location.search).get('code'); window.location.href = 'home.html' + (code ? '?code=' + encodeURIComponent(code) : '');
             }, 1200);
 
         } catch (err) {

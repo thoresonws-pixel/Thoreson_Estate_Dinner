@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Console — Thor's Murder Mysteries</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>My Games — Thor's Murder Mysteries</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -702,7 +705,11 @@
 
         /* ── RESPONSIVE ────────────────────────────────────── */
         @media (max-width: 768px) {
-            .topbar { padding: 0 20px; }
+            .topbar { position: static; height: auto; padding: 16px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+            .topbar-right { width: 100%; flex-wrap: wrap; gap: 12px; }
+            .topbar-user { overflow-wrap: anywhere; }
+            .page { padding-top: 0; min-height: calc(100vh - 140px); }
+            .auth-screen { padding: 24px 20px; }
             .main { padding: 24px 20px; }
             .result-grid { grid-template-columns: 1fr; }
             .game-card-top { flex-direction: column; }
@@ -1245,6 +1252,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ThorsMystery">
+<script src="story-package.js"></script>
+<script src="role-engine.js"></script>
 </head>
 <body>
 
@@ -1252,23 +1261,34 @@
 <div class="topbar">
     <div class="topbar-brand">
         Thor's Murder Mysteries
-        <span>Admin Console</span>
+        <span>Game Setup</span>
     </div>
     <div class="topbar-right">
-        <div class="admin-badge">Admin</div>
-        <button class="btn-ghost" style="font-size:11px;padding:6px 14px;" onclick="openAdminInviteModal()">+ Invite Admin</button>
+        <div class="admin-badge">My Account</div>
+        <button class="btn-ghost" style="font-size:11px;padding:6px 14px;" onclick="openAdminInviteModal()">+ Invite Players</button>
         <div class="topbar-user" id="topbarUser"></div>
         <button class="btn-signout" onclick="handleSignOut()">Sign Out</button>
     </div>
 </div>
 
 <!-- ── PAGE ─────────────────────────────────────────────── -->
+<div id="claimScreen" style="display:none;min-height:70vh;align-items:center;justify-content:center;padding:32px 20px;">
+<div style="max-width:540px;width:100%;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:32px;text-align:center;">
+<h1 style="margin-bottom:16px;">Unlock your game</h1>
+<p style="color:var(--mist);line-height:1.6;margin-bottom:24px;">Enter your 16-character game key. This game will be linked to the Google account shown above.</p>
+<label for="unlockKey" style="display:block;text-align:left;margin-bottom:8px;">Game key</label>
+<input id="unlockKey" type="text" maxlength="32" autocomplete="off" spellcheck="false" placeholder="AB12-CD34-EF56-7890" style="margin-bottom:16px;letter-spacing:2px;text-transform:uppercase;">
+<button id="unlockBtn" class="btn-gold" onclick="redeemGameKey()">Unlock game</button>
+<p id="unlockStatus" role="status" style="margin-top:20px;line-height:1.6;color:var(--mist);"></p>
+<button id="backToGamesBtn" class="btn-ghost" style="display:none;margin:20px auto 0;" onclick="showDashboard()">Back to my games</button>
+</div></div>
+
 <div class="page">
 
     <div class="auth-screen" id="authScreen">
         <div style="background:linear-gradient(145deg,#1a1f2e,#0d1117);border:1px solid rgba(255,255,255,0.08);padding:48px 40px;width:100%;max-width:400px;text-align:center;">
             <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--accent-lt);text-transform:uppercase;margin-bottom:8px;">Thor's Murder Mysteries</div>
-            <div style="font-size:24px;font-weight:700;color:var(--white);margin-bottom:32px;">GM Console</div>
+            <div style="font-size:24px;font-weight:700;color:var(--white);margin-bottom:32px;">Game Setup</div>
 
             <!-- Google -->
             <button onclick="adminGoogleSignIn()" id="adminGoogleBtn"
@@ -1299,11 +1319,13 @@
 
     <div class="main" id="mainContent">
 
+
         <!-- Page header -->
         <div class="page-header">
             <div>
-                <div class="page-title">Game Management</div>
-                <div class="page-subtitle">Create parties, track guests, manage evenings</div>
+                <div class="page-title">My Games</div>
+                <div class="page-subtitle">Set up your mystery night and invite your guests</div>
+                <button class="btn-ghost" style="margin-top:16px;" onclick="showClaimScreen()">Unlock another game</button>
             </div>
         </div>
 
@@ -1311,39 +1333,34 @@
         <div class="stat-strip" id="statStrip">
             <div class="stat-card">
                 <div class="stat-value" id="statTotal">—</div>
-                <div class="stat-label">Total Games</div>
+                <div class="stat-label">Games</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="statLobby">—</div>
-                <div class="stat-label">Open Lobbies</div>
+                <div class="stat-label">Ready</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="statActive">—</div>
-                <div class="stat-label">Active Tonight</div>
+                <div class="stat-label">Live</div>
             </div>
         </div>
 
         <!-- ── NEW GAME PANEL ──────────────────────────────── -->
         <div class="new-game-panel">
             <div class="panel-header" onclick="togglePanel()">
-                <div class="panel-header-title">＋ Create New Game</div>
+                <div class="panel-header-title">＋ Create My Game</div>
                 <div class="panel-toggle" id="panelToggle">+</div>
             </div>
             <div class="panel-body" id="panelBody">
 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="storySelect">Mystery / Story</label>
-                        <select id="storySelect" onchange="updatePlayerRange()">
-                            <option value="thoreson_estate_dinner">🕯 The Thoreson Estate Dinner</option>
-                        <option value="devereaux_masquerade">🎭 The Devereaux Masquerade</option>
-                        <option value="last_train_wicker_park">🚂 Last Train to Wicker Park</option>
-                        <option value="thors_asgard">⚡ Thor's Asgard</option>
-                        </select>
+                        <label for="storySelect">Mystery Story</label>
+                        <select id="storySelect" onchange="updatePlayerRange()"></select>
                     </div>
 
                     <div class="form-group">
-                        <label for="gameDate">Date of Event</label>
+                        <label for="gameDate">Game Date</label>
                         <input type="date" id="gameDate">
                     </div>
 
@@ -1353,24 +1370,24 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Player Range</label>
+                        <label>Player Count</label>
                         <div id="playerRangeDisplay" style="padding:10px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--mist);">Select a story first</div>
                     </div>
 
                     <div class="form-group full">
-                        <label for="partyName">Party Name</label>
-                        <input type="text" id="partyName" placeholder="e.g. Smith Party, Johnson Event" required>
+                        <label for="partyName">Game Name</label>
+                        <input type="text" id="partyName" placeholder="e.g. Smith Game Night, Johnson Birthday Mystery" required>
                     </div>
                     <div class="form-group">
-                        <label for="hostEmail">Host Email <span style="color:var(--crimson-lt);">*</span></label>
-                        <input type="email" id="hostEmail" placeholder="host@example.com" required>
+                        <label for="hostEmail">Your Email <span style="color:var(--crimson-lt);">*</span></label>
+                        <input type="email" id="hostEmail" placeholder="you@example.com" required>
                     </div>
                     <div class="form-group">
-                        <label for="hostPhone">Host Phone <span style="color:var(--crimson-lt);">*</span></label>
+                        <label for="hostPhone">Your Phone <span style="color:var(--crimson-lt);">*</span></label>
                         <input type="tel" id="hostPhone" placeholder="(214) 555-0100" required>
                     </div>
                     <div class="form-group full">
-                        <label for="venueSelect">Venue</label>
+                        <label for="venueSelect">Venue / Location</label>
                         <select id="venueSelect" onchange="handleVenueSelect('create')"
                             style="width:100%;background:var(--panel);border:1px solid var(--border-hl);color:var(--white);font-size:14px;padding:9px 12px;font-family:inherit;">
                             <option value="">Loading venues…</option>
@@ -1384,22 +1401,22 @@
                     </div>
 
                     <div class="form-group full">
-                        <label for="gameNotes">Host Notes <span style="color:var(--fog);font-size:10px;">(internal only)</span></label>
-                        <textarea id="gameNotes" placeholder="Anything worth remembering about this party…"></textarea>
+                        <label for="gameNotes">Game Notes <span style="color:var(--fog);font-size:10px;">(optional)</span></label>
+                        <textarea id="gameNotes" placeholder="Anything you want to remember for your game night…"></textarea>
                     </div>
                 </div>
 
                 <div class="form-row">
-                    <button class="btn-gold" id="createBtn" onclick="createGame()">Generate Party Code</button>
+                    <button class="btn-gold" id="createBtn" onclick="createGame()">Create My Game</button>
                     <button class="btn-ghost" onclick="resetForm()">Clear</button>
                 </div>
 
                 <!-- Result appears here after creation -->
                 <div class="creation-result" id="creationResult">
-                    <div class="result-label">✓ Party Created</div>
+                    <div class="result-label">✓ Your Game Is Ready</div>
                     <div class="result-grid">
                         <div class="result-item">
-                            <div class="result-key">Party Code</div>
+                            <div class="result-key">Game Code</div>
                             <div class="result-val code" id="resultCode">——</div>
                         </div>
                         <div class="result-item">
@@ -1418,15 +1435,15 @@
 
         <!-- ── GAMES LIST ──────────────────────────────────── -->
         <div class="section-head">
-            <div class="section-title">All Parties</div>
+            <div class="section-title">My Games</div>
         </div>
 
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Search by story, venue, or code…" oninput="filterGames()">
             <select id="statusFilter" onchange="filterGames()">
                 <option value="all">All Statuses</option>
-                <option value="lobby">Open Lobby</option>
-                <option value="active">Active</option>
+                <option value="lobby">Ready</option>
+                <option value="active">Live</option>
                 <option value="complete">Complete</option>
             </select>
         </div>
@@ -1434,8 +1451,8 @@
         <div id="gamesContainer">
             <div class="empty-state">
                 <span class="empty-state-icon">🕯️</span>
-                <div class="empty-state-title">No parties yet</div>
-                <p class="empty-state-sub">Create your first game above to get started.</p>
+                <div class="empty-state-title">No games yet</div>
+                <p class="empty-state-sub">Create your first mystery game above to get started.</p>
             </div>
         </div>
 
@@ -1451,6 +1468,14 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
 
 <script>
+    const APP_BUILD = '2026-09-08-admin-v1';
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+            registrations.forEach((reg) => reg.unregister());
+        }).catch(() => {});
+    }
+
     const firebaseConfig = {
         apiKey: "AIzaSyApHrYubqWrR4m0ihdpq6Ym40jv4HTQ5i0",
         authDomain: "thoreson-estate.firebaseapp.com",
@@ -1464,50 +1489,18 @@
     const auth = firebase.auth();
     const db   = firebase.database();
 
-    const STORIES = {
-        thoreson_estate_dinner: {
-            name:        'The Thoreson Estate Dinner',
-            description: 'A 1935 Dallas murder mystery. William Thoreson Sr. is dead — and everyone at the table had a reason.',
-            minPlayers: 8, maxPlayers: 13,
-            color:  '#1a2a4a',
-            accent: '#c9a227',
-            badge:  '🕯',
-            status: 'active'
-        },
-        devereaux_masquerade: {
-            name:        'The Devereaux Masquerade',
-            description: 'New Orleans, 1924. A masquerade ball. A missing heir. A body behind the curtain.',
-            minPlayers: 9, maxPlayers: 14,
-            color:  '#1a0a2a',
-            accent: '#c0392b',
-            badge:  '🎭',
-            status: 'coming_soon'
-        },
-        last_train_wicker_park: {
-            name:        'Last Train to Wicker Park',
-            description: 'Chicago, 1947. Our take on murder on the Orient Express — nobody gets off until the killer is found.',
-            minPlayers: 7, maxPlayers: 11,
-            color:  '#0a1a0a',
-            accent: '#2ecc71',
-            badge:  '🚂',
-            status: 'coming_soon'
-        },
-        thors_asgard: {
-            name:        "Thor's Asgard",
-            description: "Asgard, age of the gods. Someone has murdered one of the Aesir — and every god in the hall had a reason.",
-            minPlayers: 6, maxPlayers: 10,
-            color:  '#1a1400',
-            accent: '#f0c040',
-            badge:  '⚡',
-            status: 'coming_soon'
-        }
-    };
+    let STORIES = {};
 
     // Game invite base URL — points to the game app
     const GAME_BASE_URL = 'https://thorsmystery.com/invite.html';
 
+
     let allGames = {};
     let currentUser = null;
+    let ownedUnlocks = {};
+    let unlockListener = null;
+    let gamesListener = null;
+    let redeemPending = false;
 
     // ── Auth + admin check ────────────────────────────────
     // ── ADMIN SIGN IN FUNCTIONS ─────────────────────────────────
@@ -1536,11 +1529,17 @@
         btn.disabled = true;
         btn.textContent = 'Connecting...';
         try {
+            await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
+            await auth.signOut().catch(() => {});
             const provider = new firebase.auth.GoogleAuthProvider();
+            provider.setCustomParameters({ prompt: 'select_account' });
             await auth.signInWithPopup(provider);
         } catch(err) {
             if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user') {
-                await auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+                const provider = new firebase.auth.GoogleAuthProvider();
+                provider.setCustomParameters({ prompt: 'select_account' });
+                await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(() => {});
+                await auth.signInWithRedirect(provider);
             } else {
                 btn.disabled = false;
                 btn.textContent = 'Continue with Google';
@@ -1571,59 +1570,123 @@
     // getRedirectResult handles the case where we just came from FirebaseUI redirect
     let adminInitialized = false;
 
-    async function initAdmin(user) {
-        if (adminInitialized) return;
-        adminInitialized = true;
-        currentUser = user;
-        document.getElementById('topbarUser').textContent = user.displayName || user.email;
-        document.getElementById('authScreen').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-        document.getElementById('gameDate').value = new Date().toISOString().split('T')[0];
-        loadGames();
-        loadVenues();
-        updatePlayerRange();
+    function setVisibleScreen(screenName) {
+        document.querySelector('.page').style.display = screenName === 'claim' ? 'none' : 'flex';
+        const screens = {
+            auth: document.getElementById('authScreen'),
+            claim: document.getElementById('claimScreen'),
+            dashboard: document.getElementById('mainContent')
+        };
+
+        Object.entries(screens).forEach(([name, el]) => {
+            if (!el) return;
+            el.style.display = (name === screenName) ? (name === 'dashboard' ? 'block' : 'flex') : 'none';
+        });
+
+        if (screenName === 'dashboard') {
+            document.getElementById('gameDate').value = new Date().toISOString().split('T')[0];
+            loadGames();
+            loadVenues();
+            updatePlayerRange();
+        }
     }
 
-    auth.onAuthStateChanged(async user => {
-        if (user && !user.isAnonymous && user.email) {
-            await initAdmin(user);
-        } else if (!adminInitialized) {
-            // Wait up to 3 seconds for auth to restore
-            let waited = 0;
-            while (waited < 3000) {
-                await new Promise(r => setTimeout(r, 500));
-                waited += 500;
-                const u = auth.currentUser;
-                if (u && !u.isAnonymous && u.email) {
-                    await initAdmin(u);
-                    return;
-                }
-            }
-            // Not signed in — show the inline sign-in form (already visible as authScreen)
-            // Do NOT redirect to signin.html — admin has its own auth
-        }
+    function showAuthScreen() {
+        setVisibleScreen('auth');
+        document.getElementById('adminAuthError').style.display = 'none';
+        document.getElementById('adminAuthStatus').style.display = 'none';
+    }
 
-        currentUser = user;
-        document.getElementById('topbarUser').textContent = user.displayName || user.email;
-        document.getElementById('authScreen').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
-
-        // Default date to today
-        document.getElementById('gameDate').value = new Date().toISOString().split('T')[0];
-
-        loadGames();
-        loadVenues();
+    function showClaimScreen(message = '') {
+        setVisibleScreen('claim');
+        document.getElementById('unlockStatus').textContent = message;
+        document.getElementById('backToGamesBtn').style.display = Object.keys(ownedUnlocks).length ? 'block' : 'none';
+    }
+    function showDashboard() { setVisibleScreen('dashboard'); }
+    function updateAvailableStories() {
+        const select = document.getElementById('storySelect');
+        const previous = select.value;
+        select.replaceChildren();
+        Object.entries(ownedUnlocks).forEach(([id, unlock]) => {
+            const option = document.createElement('option');
+            option.value = id;
+            option.textContent = (STORIES[unlock.storyId]?.name || unlock.storyId) + ' — Digital group game';
+            select.appendChild(option);
+        });
+        if (ownedUnlocks[previous]) select.value = previous;
         updatePlayerRange();
+    }
+    async function redeemGameKey() {
+        if (redeemPending || !currentUser) return;
+        const user = currentUser;
+        const code = document.getElementById('unlockKey').value.replace(/[\s-]/g,'').toUpperCase();
+        const status = document.getElementById('unlockStatus');
+        if (!/^[A-F0-9]{16}$/.test(code)) { status.textContent = 'Enter all 16 characters (0–9 and A–F). Spaces and dashes are allowed.'; return; }
+        const btn = document.getElementById('unlockBtn');
+        redeemPending = true; btn.disabled = true; btn.textContent = 'Unlocking…';
+        try {
+            const ref = db.ref('gameUnlockKeys/' + code);
+            const initial = (await ref.once('value')).val();
+            if (!initial || initial.active !== true) throw Error('That game key is not valid or is no longer active.');
+            if (initial.ownerUid && initial.ownerUid !== user.uid) throw Error('This key is already linked to another account. Sign in with the account that unlocked it.');
+            const result = await ref.transaction(row => {
+                if (!row) return null;
+                if (!row.active || (row.ownerUid && row.ownerUid !== user.uid)) return;
+                return {...row, ownerUid:user.uid, claimedAt:row.claimedAt || firebase.database.ServerValue.TIMESTAMP};
+            });
+            const claimed = result.snapshot.val();
+            if (!result.committed || !claimed || claimed.ownerUid !== user.uid) throw Error('This key could not be claimed. It may have just been used by another account.');
+            const unlock = {key:code, storyId:claimed.storyId, gameMode:claimed.gameMode, claimedAt:claimed.claimedAt};
+            await db.ref('accountGameUnlocks/' + user.uid + '/' + claimed.id).set(unlock);
+            if (auth.currentUser?.uid !== user.uid) return;
+            ownedUnlocks[claimed.id] = unlock;
+            updateAvailableStories();
+            document.getElementById('unlockKey').value = '';
+            showDashboard();
+            // Open the existing party for this unlock, or show its creation form.
+            const games = (await db.ref('games').orderByChild('createdBy').equalTo(user.uid).once('value')).val() || {};
+            const existing = Object.entries(games).find(([,game]) => game.unlockId === claimed.id && game.status !== 'complete');
+            if (existing) { location.href = 'game.html?id=' + encodeURIComponent(existing[0]); return; }
+            document.getElementById('storySelect').value = claimed.id;
+            document.getElementById('panelBody').classList.add('open');
+            document.getElementById('panelToggle').classList.add('open');
+            document.getElementById('hostEmail').value = user.email || '';
+            document.getElementById('partyName').focus();
+            showToast('Game unlocked. Set your party details to open the checklist.', 'success');
+        } catch (err) { status.textContent = err.message || 'Unable to unlock this game. Please try again.'; }
+        finally { redeemPending = false; btn.disabled = false; btn.textContent = 'Unlock game'; }
+    }
+    async function initAdmin(user) {
+        currentUser = user;
+        document.getElementById('topbarUser').textContent = user.email || user.displayName;
+        showClaimScreen('Loading your games…');
+        const ref = db.ref('accountGameUnlocks/' + user.uid);
+        const callback = snap => {
+            if (auth.currentUser?.uid !== user.uid) return;
+            ownedUnlocks = snap.val() || {};
+            updateAvailableStories();
+            if (Object.keys(ownedUnlocks).length) showDashboard();
+            else showClaimScreen();
+        };
+        unlockListener = {ref,callback};
+        ref.on('value',callback,()=>showClaimScreen('Unable to load your unlocked games. Please refresh to retry.'));
+    }
+    auth.onAuthStateChanged(async user => {
+        if (unlockListener) { unlockListener.ref.off('value',unlockListener.callback); unlockListener = null; }
+        if (gamesListener) { gamesListener.ref.off('value',gamesListener.callback); gamesListener = null; }
+        ownedUnlocks = {}; allGames = {};
+        if (user && !user.isAnonymous && user.email) { try { STORIES = (await StoryPackage.catalog()).stories; await initAdmin(user); } catch(e) { adminShowError(e.message); } }
+        else { currentUser = null; document.getElementById('topbarUser').textContent = ''; showAuthScreen(); }
     });
+    document.getElementById('unlockKey').addEventListener('keydown', event => { if (event.key === 'Enter') redeemGameKey(); });
 
     // ── Load all games (live) ─────────────────────────────
     function loadGames() {
-        db.ref('games').orderByChild('createdAt').on('value', snap => {
-            allGames = snap.val() || {};
-            renderStats();
-            renderGames();
-            backfillPartyCodeIndex();
-        });
+        if (!currentUser || gamesListener) return;
+        const ref = db.ref('games').orderByChild('createdBy').equalTo(currentUser.uid);
+        const callback = snap => { allGames = snap.val() || {}; renderStats(); renderGames(); };
+        gamesListener = {ref, callback};
+        ref.on('value',callback,()=>showToast('Unable to load games. Please refresh.', 'error'));
     }
 
     async function backfillPartyCodeIndex() {
@@ -1710,7 +1773,7 @@
     function gameCardHTML(id, g) {
         const players     = Object.entries(g.players || {});
         const playerCount = players.length;
-        const maxPlayers  = g.maxPlayers || 21;
+        const maxPlayers  = STORIES[g.storyId]?.maxPlayers ?? g.maxPlayers ?? 21;
         const fillPct     = Math.min(100, Math.round((playerCount / maxPlayers) * 100));
         const statusClass = `status-${g.status}`;
         const statusLabel = { lobby: 'Open Lobby', active: 'Active', complete: 'Complete' }[g.status] || g.status;
@@ -1807,14 +1870,9 @@
                 </div>
 
                 <div class="game-actions">
-                    <button class="btn-gold" onclick="openGMPanel('${id}')">🎭 Run Game</button>
-                    ${g.status === 'lobby' ? `<button class="btn-status btn-start" onclick="openGenerateModal('${id}')">⚄ Generate Roles</button>` : ''}
-                    ${g.status === 'lobby' ? `<button class="btn-ghost" style="font-size:10px;padding:6px 12px;" onclick="addTestPlayers('${id}')">+ Test Players</button>` : ''}
-                    ${canStart    ? `<button class="btn-status btn-start"    onclick="setStatus('${id}','active')">▶ Start</button>` : ''}
-                    ${canComplete ? `<button class="btn-status btn-complete" onclick="setStatus('${id}','complete')">■ Complete</button>` : ''}
+                    <button class="btn-gold" onclick="location.href='game.html?id=${id}'">Open pregame checklist</button>
                     <button class="btn-copy" onclick="copyText('${inviteUrl}', 'invite-${id}')">Copy Invite</button>
                     <span class="copy-confirm" id="invite-${id}">Copied!</span>
-                    ${Object.keys(g.players||{}).some(k=>k.startsWith('test_player_')) ? `<button class="btn-ghost" style="color:var(--fog);font-size:10px;" onclick="removeTestPlayers('${id}')">Remove Test Players</button>` : ''}
                 </div>
             </div>
         </div>`;
@@ -1827,7 +1885,7 @@
 
 
     function updatePlayerRange() {
-        const storyId = document.getElementById('storySelect').value;
+        const storyId = ownedUnlocks[document.getElementById('storySelect').value]?.storyId;
         const story   = STORIES[storyId];
         const el      = document.getElementById('playerRangeDisplay');
         if (story && el) {
@@ -1846,7 +1904,10 @@
     // ── Create game ───────────────────────────────────────
     async function createGame() {
         const partyName  = document.getElementById('partyName').value.trim();
-        const storyId    = document.getElementById('storySelect').value;
+        const unlockId = document.getElementById('storySelect').value;
+        const unlock = ownedUnlocks[unlockId];
+        if (!unlock) return showToast('Unlock a game first.', 'error');
+        const storyId = unlock.storyId;
         const eventDate  = document.getElementById('gameDate').value;
         const eventTime  = document.getElementById('gameTime').value;
         const maxPlayers = STORIES[storyId]?.maxPlayers || 21;
@@ -1882,10 +1943,12 @@
         btn.textContent = 'Creating…';
 
         try {
-            const partyCode = generateCode();
+            const partyCode = generatePartyInviteCode();
             const story     = STORIES[storyId];
 
             const gameData = {
+                unlockId,
+                gameMode: unlock.gameMode,
                 storyId,
                 storyName:   story.name,
                 partyName:   partyName || null,
@@ -1926,7 +1989,7 @@
             document.getElementById('resultLink').textContent = inviteUrl;
             document.getElementById('creationResult').classList.add('visible');
 
-            showToast('Party created — ' + partyCode, 'success');
+            location.href = 'game.html?id=' + encodeURIComponent(ref.key);
 
         } catch (err) {
             showToast('Error: ' + err.message, 'error');
@@ -1937,14 +2000,13 @@
     }
 
     // ── Party code generator ──────────────────────────────
-    // Readable alphanumeric — no 0/O/1/I/L ambiguity
-    function generateCode() {
-        const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-        let code = '';
-        for (let i = 0; i < 8; i++) {
-            code += chars[Math.floor(Math.random() * chars.length)];
-        }
-        return code;
+    // Player invitations are separate from the 16-character account-unlock key.
+    function generatePartyInviteCode() {
+        const bytes = new Uint8Array(8);
+        crypto.getRandomValues(bytes);
+        const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        const code = Array.from(bytes, b => alphabet[b % alphabet.length]).join('');
+        return code.slice(0,4) + '-' + code.slice(4);
     }
 
     // ── Game status changes ───────────────────────────────
@@ -2007,7 +2069,7 @@
         document.getElementById('partyName').value       = '';
         document.getElementById('hostEmail').value        = '';
         document.getElementById('hostPhone').value        = '';
-        document.getElementById('storySelect').value    = 'thoreson_estate_dinner';
+        document.getElementById('storySelect').selectedIndex = 0;
         updatePlayerRange();
         document.getElementById('gameDate').value    = new Date().toISOString().split('T')[0];
         document.getElementById('gameTime').value    = '18:30';
@@ -2069,21 +2131,14 @@
     let gmActive   = {};   // activeItems for this game
     let gmUnsubscribe = null;
 
-    const DR_TEXTS = {
-        djCountyClerk: { label: 'County Clerk Report',       preview: 'Original 1902 filing — Thoreson & Hartley Toys' },
-        djCoroner:     { label: "Coroner's Report",           preview: 'Preliminary autopsy — needs medical interpretation' },
-        djPinkerton:   { label: 'Pinkerton Background Checks', preview: 'Two name changes flagged among party guests' }
-    };
-    const DR_BY_ACT = { act1: 'djCountyClerk', act2: 'djCoroner', act3: 'djPinkerton' };
-    const CONFESSION_BY_ACT = {
-        act1: 'audio/confession_act1.mp3',
-        act2: 'audio/confession_act2.mp3',
-        act3: 'audio/confession_act3.mp3'
-    };
+    var DR_TEXTS = {};
+    var DR_BY_ACT = {};
+    var CONFESSION_BY_ACT = {};
 
-    function openGMPanel(gameId) {
+    async function openGMPanel(gameId) {
         gmGameId = gameId;
         const g = allGames[gameId];
+        try { await StoryPackage.legacy(g?.storyId); } catch (error) { showToast(error.message, 'error'); return; }
         document.getElementById('gmGameTitle').textContent =
             (g ? g.storyName : gameId) + (g && g.venueName ? ' — ' + g.venueName : '');
         document.getElementById('gmOverlay').classList.add('open');
@@ -2130,26 +2185,18 @@
     }
 
     function renderGMPanel() {
-        // Load revelations from the page's data files
-        if (typeof revelationsDatabase === 'undefined') {
-            // Revelations not loaded — inject script then retry
-            const s = document.createElement('script');
-            s.src = 'revelations.js';
-            s.onload = () => renderGMPanel();
-            document.head.appendChild(s);
-            return;
-        }
+        if (typeof currentStoryPackage === 'undefined') return;
 
         let html = '';
 
         // ── START GAME BUTTON ─────────────────────────────────
-        const gameStarted = !!gmActive['willsDeath'];
+        const gameStarted = !!gmActive[currentStoryPackage.compatibility?.startEvent];
         html += `<div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--panel);border:2px solid ${gameStarted?'var(--green)':'var(--gold)'};margin-bottom:20px;">
             <div>
                 <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--gold);margin-bottom:3px;">🕯 Start the Game</div>
-                <div style="font-size:13px;color:var(--fog);">Reveals Will's death to all guests and opens the investigation.</div>
+                <div style="font-size:13px;color:var(--fog);">${currentStoryPackage.compatibility?.startDescription || 'Begins this story’s investigation.'}</div>
             </div>
-            <button onclick="gmToggleItem('willsDeath')" style="background:${gameStarted?'#8b1a1a':'var(--gold)'};color:${gameStarted?'white':'var(--black)'};border:none;padding:10px 24px;cursor:pointer;border-radius:2px;font-size:14px;font-weight:bold;white-space:nowrap;margin-left:20px;">
+            <button onclick="gmToggleItem(currentStoryPackage.compatibility?.startEvent)" style="background:${gameStarted?'#8b1a1a':'var(--gold)'};color:${gameStarted?'white':'var(--black)'};border:none;padding:10px 24px;cursor:pointer;border-radius:2px;font-size:14px;font-weight:bold;white-space:nowrap;margin-left:20px;">
                 ${gameStarted ? '✕ Hide' : '▶ Begin'}
             </button>
         </div>`;
@@ -2252,8 +2299,9 @@
     function openEditModal(gameId) {
         const g = allGames[gameId];
         if (!g) return;
+        const select=document.getElementById('editStory');select.replaceChildren();for(const [id,story]of Object.entries(STORIES)){const option=document.createElement('option');option.value=id;option.textContent=story.name;select.append(option);}
         document.getElementById('editGameId').value   = gameId;
-        document.getElementById('editStory').value    = g.storyId    || 'thoreson';
+        document.getElementById('editStory').value    = g.storyId || '';
         document.getElementById('editDate').value     = g.eventDate  || '';
         document.getElementById('editTime').value     = g.eventTime  || '';
         const editStory = STORIES[g.storyId];
@@ -2349,7 +2397,7 @@
 
         // Load story roles.js dynamically
         const g = allGames[gameId];
-        const storyId = g ? g.storyId : 'thoreson_estate_dinner';
+        const storyId = g?.storyId;
         await loadRolesConfig(storyId);
 
         // Load players
@@ -2460,20 +2508,7 @@
     }
 
     // Allow rolesConfig to reload for different stories
-    async function loadRolesConfig(storyId) {
-        return new Promise((resolve) => {
-            rolesConfig = null; // always reload fresh
-            const script = document.createElement('script');
-            script.src = 'stories/' + storyId + '/roles.js?v=' + Date.now();
-            script.onload = () => { resolve(); };
-            script.onerror = () => {
-                console.warn('roles.js not found for story:', storyId);
-                rolesConfig = { roles: {}, skillPool: [], scoreWeights: { skill: {}, highImpact: {} }, overlays: {} };
-                resolve();
-            };
-            document.head.appendChild(script);
-        });
-    }
+    async function loadRolesConfig(storyId) { const story=await StoryPackage.legacy(storyId);rolesConfig=story.content.roles; if(!rolesConfig) throw Error("This story has no role configuration."); }
 
 
 
@@ -2481,113 +2516,8 @@
     // Reads priorities and skills from rolesConfig (defined in roles.js)
     // Does not know story-specific names — just Priority 1, 2, 3 etc.
 
-    function runGeneration() {
-        if (!rolesConfig) return;
-        genAssignments = {};
+    function runGeneration(){if(!rolesConfig)return;const generated=RoleEngine.generate(genPlayers,rolesConfig,currentStoryPackage.compatibility?.rolePolicies?.admin || {});genAssignments=Object.fromEntries(Object.entries(generated).map(([uid,a])=>[uid,{priority:a.role,skill:a.skill,ineligibleSkills:a.ineligibleSkills}]));renderGenGrid();}
 
-        const players      = Object.values(genPlayers);
-        const hiWeights    = rolesConfig.scoreWeights.priority;
-        const skillWeights = rolesConfig.scoreWeights.skill;
-
-        // ── STEP 1: Assign priority roles in order ────────────────
-        const assignedUids = new Set();
-
-        Object.values(rolesConfig.priorities).forEach(roleCfg => {
-
-            // Fixed assignment (e.g. pipeline always goes to david_richardson)
-            if (roleCfg.assignTo) {
-                const player = players.find(p => p.characterId === roleCfg.assignTo);
-                if (player) {
-                    genAssignments[player.uid] = {
-                        priority: roleCfg.label,
-                        skill: null,
-                        ineligibleSkills: roleCfg.ineligibleSkills || []
-                    };
-                    if (roleCfg.excludeFrom) assignedUids.add(player.uid);
-                }
-                return;
-            }
-
-            // Random weighted assignment from eligible pool
-            const eligible = players.filter(p => {
-                if (assignedUids.has(p.uid)) return false;
-                if (!roleCfg.eligibleChars.includes(p.characterId)) return false;
-                const score = Math.min(10, Math.max(1, p.score));
-                return Math.random() < (hiWeights[score] || 0);
-            });
-
-            if (eligible.length > 0) {
-                const chosen = weightedPickByScore(eligible, hiWeights);
-                genAssignments[chosen.uid] = {
-                    priority: roleCfg.label,
-                    skill: null,
-                    ineligibleSkills: roleCfg.ineligibleSkills || []
-                };
-                if (roleCfg.excludeFrom) assignedUids.add(chosen.uid);
-            }
-        });
-
-        // ── STEP 2: Assign skills ─────────────────────────────────
-        // Build map of characterId → uid for quick lookup
-        const charToUid = {};
-        players.forEach(p => { charToUid[p.characterId] = p.uid; });
-
-        // Track which skills have been assigned and which players have skills
-        const assignedSkills = new Set();
-        const playersWithSkills = new Set();
-
-        Object.entries(rolesConfig.skills).forEach(([skillName, skillCfg]) => {
-
-            // Check primary first
-            const primaryUid = charToUid[skillCfg.primary];
-            if (primaryUid && !playersWithSkills.has(primaryUid)) {
-                // Check not blocked by ineligible skills on their priority role
-                const assignment = genAssignments[primaryUid];
-                const ineligible = assignment ? assignment.ineligibleSkills : [];
-                if (!ineligible.includes(skillName)) {
-                    if (!genAssignments[primaryUid]) genAssignments[primaryUid] = { priority: null, skill: null, ineligibleSkills: [] };
-                    genAssignments[primaryUid].skill = skillName;
-                    assignedSkills.add(skillName);
-                    playersWithSkills.add(primaryUid);
-                    return;
-                }
-            }
-
-            // Walk backup list
-            for (const backupChar of (skillCfg.backups || [])) {
-                const backupUid = charToUid[backupChar];
-                if (!backupUid) continue;
-                if (playersWithSkills.has(backupUid)) continue;
-
-                const assignment = genAssignments[backupUid];
-                const ineligible = assignment ? assignment.ineligibleSkills : [];
-                if (ineligible.includes(skillName)) continue;
-
-                // Check involvement score for skill probability
-                const player = genPlayers[backupUid];
-                const score  = player ? Math.min(10, Math.max(1, player.score)) : 5;
-                if (Math.random() > (skillWeights[score] || 0)) continue;
-
-                if (!genAssignments[backupUid]) genAssignments[backupUid] = { priority: null, skill: null, ineligibleSkills: [] };
-                genAssignments[backupUid].skill = skillName;
-                assignedSkills.add(skillName);
-                playersWithSkills.add(backupUid);
-                break;
-            }
-        });
-
-        renderGenGrid();
-    }
-
-    function weightedPickByScore(arr, weights) {
-        const total = arr.reduce((s, p) => s + (weights[Math.min(10, Math.max(1, p.score))] || 0.1), 0);
-        let rand = Math.random() * total;
-        for (const p of arr) {
-            rand -= (weights[Math.min(10, Math.max(1, p.score))] || 0.1);
-            if (rand <= 0) return p;
-        }
-        return arr[arr.length - 1];
-    }
 
 
     // ── Render the assignment grid ────────────────────────────────
@@ -2598,18 +2528,18 @@
 
         grid.innerHTML = players.map(player => {
             const assignment = genAssignments[player.uid] || {};
-            const role       = assignment.role;
+            const role       = assignment.priority ?? assignment.role;
             const skill      = assignment.skill;
             const char       = characterDatabase ? characterDatabase[player.characterId] : null;
             const charName   = char ? (char.nameVariants?.female || char.name) : player.characterId;
 
             // Build skill options for override dropdown
-            const skillOptions = ['(no skill)', ...(config.skillPool || [])].map(s =>
+            const skillOptions = ['(no skill)', ...(config.skillPool || Object.keys(config.skills || {}))].map(s =>
                 `<option value="${s}" ${skill === s ? 'selected' : ''}>${s}</option>`
             ).join('');
 
             // Role override dropdown
-            const roleOptions = ['(no role)', 'killer', 'heir', 'pipeline'].map(r =>
+            const roleOptions = ['(no role)', ...Object.values(rolesConfig.priorities || {}).map(role => role.label)].map(r =>
                 `<option value="${r}" ${role === r ? 'selected' : ''}>${r}</option>`
             ).join('');
 
@@ -2636,7 +2566,7 @@
     // ── Manual override ───────────────────────────────────────────
     function overrideRole(uid, field, value) {
         if (!genAssignments[uid]) genAssignments[uid] = { role: null, skill: null };
-        genAssignments[uid][field] = (value === '(no role)' || value === '(no skill)') ? null : value;
+        genAssignments[uid][field === 'role' ? 'priority' : field] = (value === '(no role)' || value === '(no skill)') ? null : value;
     }
 
     // ── Lock and write to Firebase ────────────────────────────────
@@ -2657,7 +2587,7 @@
                 const p = genPlayers[uid];
                 if (!p) return;
                 if (a.skill)     skillMap[p.characterId] = a.skill;
-                if (a.priority)  roleMap[p.characterId]  = a.priority;
+                if (a.priority ?? a.role) roleMap[p.characterId] = a.priority ?? a.role;
             });
             await db.ref('games/' + genGameId + '/state/skillAssignments').set(skillMap);
             await db.ref('games/' + genGameId + '/state/characterRoles').set(roleMap);
@@ -2945,12 +2875,7 @@
                 </div>
                 <div class="form-group">
                     <label for="editStory">Mystery</label>
-                    <select id="editStory" onchange="updateEditPlayerRange()">
-                        <option value="thoreson_estate_dinner">🕯 The Thoreson Estate Dinner</option>
-                        <option value="devereaux_masquerade">🎭 The Devereaux Masquerade</option>
-                        <option value="last_train_wicker_park">🚂 Last Train to Wicker Park</option>
-                        <option value="thors_asgard">⚡ Thor's Asgard</option>
-</select>
+                    <select id="editStory" onchange="updateEditPlayerRange()"></select>
                 </div>
                 <div class="form-group">
                     <label for="editDate">Date of Event</label>

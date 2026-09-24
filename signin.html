@@ -82,6 +82,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+<script src="player-auth.js"></script>
 <script>
 firebase.initializeApp({
     apiKey: "AIzaSyApHrYubqWrR4m0ihdpq6Ym40jv4HTQ5i0",
@@ -94,6 +95,7 @@ firebase.initializeApp({
 });
 const auth = firebase.auth();
 const db   = firebase.database();
+const playerAuth = PlayerAuth.create(auth);
 
 function showError(msg) {
     const el = document.getElementById('errorMsg');
@@ -123,32 +125,13 @@ async function route(user) {
         });
     }
     // Always go to home — home.html handles routing based on currentGameId
-    const _p = new URLSearchParams(window.location.search); window.location.href = 'home.html' + (_p.get('code') ? '?code=' + _p.get('code') : '');
+    const _p = new URLSearchParams(window.location.search); window.location.href = 'home.html' + (_p.get('code') ? '?code=' + encodeURIComponent(_p.get('code')) : '');
 }
 
-// Handle Google redirect result FIRST before anything else
-auth.getRedirectResult().then(result => {
-    if (result && result.user) {
-        route(result.user);
-    }
-}).catch(err => {
-    if (err.code !== 'auth/no-auth-event') showError(err.message);
-});
-
+playerAuth.resume(route, err => showError(PlayerAuth.message(err)));
 async function googleSignIn() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    try {
-        // Try popup first (works on desktop)
-        const result = await auth.signInWithPopup(provider);
-        await route(result.user);
-    } catch(err) {
-        if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
-            // Fall back to redirect on mobile/browsers that block popups
-            await auth.signInWithRedirect(provider);
-        } else {
-            showError(err.message);
-        }
-    }
+    try { await playerAuth.google(route); }
+    catch (err) { showError(PlayerAuth.message(err)); }
 }
 
 async function emailSignIn() {
@@ -157,6 +140,7 @@ async function emailSignIn() {
     if (!email) return showError('Please enter your email.');
     if (!password) return showError('Please enter your password.');
     try {
+        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
         const result = await auth.signInWithEmailAndPassword(email, password);
         await route(result.user);
     } catch(err) {

@@ -476,6 +476,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ThorsMystery">
+<script src="story-package.js"></script>
+<script src="role-engine.js"></script>
 </head>
 <body>
 
@@ -579,7 +581,7 @@ function buildRoster(excludeOptional, involvementScore) {
     }
 
     const score = involvementScore || genderPref_score || 10;
-    const showAllChars = score >= 6; // 6-10 = show all; 1-5 = hide priority-eligible
+    const showAllChars = score >= (currentStoryPackage.compatibility?.picker?.priorityMinScore || 1); // 6-10 = show all; 1-5 = hide priority-eligible
 
     return Object.entries(characterDatabase)
         .filter(([slug, char]) => {
@@ -602,35 +604,9 @@ let ROSTER = [];
 
 
 // ── DYNAMIC STORY SCRIPT LOADER ──────────────────────────────
-function normalizeStoryId(storyId) {
-    const map = {
-        'thoreson':        'thoreson_estate_dinner',
-        'thoreson_estate': 'thoreson_estate_dinner',
-        'devereaux':       'devereaux_masquerade',
-        'asgard':          'thors_asgard'
-    };
-    return map[storyId] || storyId || 'thoreson_estate_dinner';
-}
+function normalizeStoryId(storyId) { if (!storyId) throw Error("This game is missing its story ID."); return storyId; }
 
-function loadStoryScripts(storyId, callback) {
-    const base = 'stories/' + normalizeStoryId(storyId) + '/';
-    const files = ['characters.js', 'skills.js', 'revelations.js', 'items.js', 'flow.js', 'facts.js', 'quests.js'];
-    let loaded = 0;
-    files.forEach(function(file) {
-        const script = document.createElement('script');
-        script.src = base + file + '?v=' + Date.now();
-        script.onload = function() {
-            loaded++;
-            if (loaded === files.length && callback) callback();
-        };
-        script.onerror = function() {
-            loaded++;
-            console.warn('Story file not found:', base + file);
-            if (loaded === files.length && callback) callback();
-        };
-        document.head.appendChild(script);
-    });
-}
+async function loadStoryScripts(storyId, callback) { try { await StoryPackage.legacy(storyId); if(callback) callback(); } catch(e) { const message=document.createElement("p");message.setAttribute("role","alert");message.textContent=e.message;document.body.prepend(message); console.error(e); } }
 
 // ─────────────────────────────────────────────────────────────
 // STATE
@@ -682,7 +658,7 @@ auth.onAuthStateChanged(async user => {
         : 'TBD';
 
     // Load story scripts then show UI
-    const storyId = gameData.storyId || 'thoreson_estate_dinner';
+    const storyId = gameData.storyId;
     loadStoryScripts(storyId, function() {
         // Poll until characterDatabase is available (scripts may still be executing)
         let attempts = 0;
@@ -864,5 +840,6 @@ function proceedToDashboard() {
     window.location.href = 'home.html';
 }
 </script>
+<script src="phone-flow-bridge.js"></script>
 </body>
 </html>

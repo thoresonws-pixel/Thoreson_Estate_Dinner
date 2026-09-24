@@ -996,6 +996,8 @@
         }
 
     </style>
+<script src="story-package.js"></script><script src="story-content.js"></script>
+<script src="role-engine.js"></script>
 </head>
 <body>
     <nav>
@@ -1003,73 +1005,16 @@
         <ul id="desktopNav" class="desktop-nav">
             <li><a href="#character" onclick="return navigateAuth('#character')">Character</a></li>
             <li><a href="#guests" onclick="return navigateAuth('#guests')">Guests</a></li>
-            <li><a href="#discoveries" onclick="return navigateAuth('#discoveries')">Case File</a></li>
+            <li><a href="#discoveries" onclick="return navigateAuth('#discoveries')">Case Board</a></li>
+            <li><a href="#inventory" onclick="return navigateAuth('#inventory')">Inventory</a></li>
             <li><a href="#photos" onclick="return navigateAuth('#photos')">Photos</a></li>
-            <li id="scanNav" style="display:none;"><a href="#" onclick="openScanner(); return false;">Scan</a></li>
+            <li><a href="#actions" onclick="return navigateAuth('#actions')">Actions</a></li>
             <li><a href="#" onclick="leaveGame(); return false;">Account</a></li>
         </ul>
     </nav>
 
     <!-- INVITATION SECTION -->
-    <section id="invitation" style="display: none;">
-        <div class="invitation-card">
-            <div class="corner corner-tl"></div>
-            <div class="corner corner-tr"></div>
-            <div class="corner corner-bl"></div>
-            <div class="corner corner-br"></div>
-            
-            <div class="invite-content">
-                <div class="ornament">✦</div>
-                
-                <div>
-                    <div class="estate-name">The Thoreson Estate</div>
-                </div>
-                
-                <div class="divider"></div>
-                
-                <div class="summons">You Are Cordially Summoned</div>
-                
-                <div class="message">
-                    to a dinner party at the estate.<br>
-                    Mr. Thoreson has an announcement to make<br>
-                    that shall change everything.
-                </div>
-                
-                <div class="announcement">Your presence is required.</div>
-                
-                <div class="divider"></div>
-                
-                <div>
-                    <div class="detail-label">Date</div>
-                    <div class="detail-line">Saturday, the Twenty-First of March</div>
-                    <div class="detail-line">Nineteen Thirty-Five</div>
-                </div>
-                
-                <div>
-                    <div class="detail-label">Time</div>
-                    <div class="detail-line">Cocktails at Half Past Five</div>
-                    <div class="detail-line">Arrive No Later Than Six O'Clock</div>
-                    <div class="detail-line">Dinner Promptly at Half Past Six</div>
-                </div>
-                
-                <div>
-                    <div class="detail-label">Location</div>
-                    <div class="address">16920 Old Pond Drive<br>Dallas, Texas 75248</div>
-                </div>
-                
-                <div class="attire">1930s formal attire requested</div>
-                
-                <div class="divider"></div>
-                
-                <div>
-                    <div class="host-label">Your Host</div>
-                    <div class="host-name">Mr. William Thoreson</div>
-                </div>
-                
-                <div class="bottom-ornament">✦ ✦ ✦</div>
-            </div>
-        </div>
-    </section>
+    <section id="invitation" style="display: none;"></section>
 
     <!-- RSVP SECTION -->
     <section id="rsvp" style="display: none;">
@@ -1152,57 +1097,7 @@
     </section>
 
     <!-- COCKTAIL MENU SECTION -->
-    <section id="cocktails" style="display: none;">
-        <h2 class="section-title">Cocktail Menu</h2>
-        <p class="section-subtitle">Libations for the evening</p>
-        
-        <div class="menu-container">
-            <div class="menu-section">
-                <div class="menu-header">Spirits</div>
-                
-                <div class="menu-item">
-                    <div class="drink-name">Old Fashioned</div>
-                    <div class="drink-desc">Whiskey, Sugar, Bitters, Orange Peel</div>
-                </div>
-                
-                <div class="menu-item">
-                    <div class="drink-name">Gin Rickey</div>
-                    <div class="drink-desc">Gin, Lime, Soda Water</div>
-                </div>
-                
-                <div class="menu-item">
-                    <div class="drink-name">Bee's Knees</div>
-                    <div class="drink-desc">Gin, Honey, Lime</div>
-                </div>
-                
-                <div class="menu-item">
-                    <div class="drink-name">Cuba Libre</div>
-                    <div class="drink-desc">Rum, Cola, Lime</div>
-                </div>
-            </div>
-            
-            <div class="menu-divider">✦</div>
-            
-            <div class="menu-section">
-                <div class="menu-header">Temperance</div>
-                
-                <div class="menu-item">
-                    <div class="drink-name">Shirley Temple</div>
-                    <div class="drink-desc">Ginger Ale, Grenadine, Cherry</div>
-                </div>
-                
-                <div class="menu-item">
-                    <div class="drink-name">Virgin Cuba Libre</div>
-                    <div class="drink-desc">Cola, Lime</div>
-                </div>
-                
-                <div class="menu-item">
-                    <div class="drink-name">Mineral Water</div>
-                    <div class="drink-desc">Sparkling, with Lemon or Lime</div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <section id="cocktails" style="display: none;"></section>
 
     <!-- GUEST LIST SECTION -->
     <section id="guests" style="display: none;">
@@ -1226,7 +1121,7 @@
 
     <!-- CLUES SECTION -->
     <section id="discoveries" style="display: none;">
-        <h2 class="section-title">Case File</h2>
+        <h2 class="section-title">Case Board</h2>
         <div id="discoveriesContent"></div>
     </section>
 
@@ -1234,7 +1129,7 @@
     <!-- PHOTOS SECTION -->
     <section id="photos" style="display: none;">
         <h2 class="section-title">Photo Wall</h2>
-        <p class="section-subtitle">An evening at the Thoreson Estate</p>
+        <p class="section-subtitle">Your party photographs</p>
 
         <!-- Upload button -->
         <div style="text-align:center; margin-bottom:30px;">
@@ -1266,6 +1161,14 @@
         </div>
     </section>
 
+    <section id="inventory" style="display:none;"><div id="personalInventory"></div><div id="phoneInventory"></div><div id="developerInventories"></div></section>
+
+    <section id="actions" style="display:none;">
+        <h2 class="section-title">Actions</h2>
+        <p class="section-subtitle">Your available actions will appear here.</p>
+        <p style="text-align:center;padding:24px;">No actions are available yet. You can still review your character, check your case file, and take party photos.</p>
+    </section>
+
     <!-- QR Scanner Modal -->
     <div class="scanner-overlay" id="scannerOverlay">
         <div class="scanner-header">Scan Evidence</div>
@@ -1279,7 +1182,7 @@
     <div id="codeChallenge" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:2000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:0;">
         <div style="max-width:480px;width:90%;text-align:center;padding:48px 32px;background:linear-gradient(145deg,#0d0d1a,#080810);border:1px solid rgba(201,162,39,0.2);border-top:3px solid #c9a227;">
             <div id="challengeEyebrow" style="font-family:'Special Elite',monospace;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(201,162,39,0.5);margin-bottom:16px;">Evidence Code</div>
-            <div id="challengeTitle" style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#f5f0e6;margin-bottom:12px;line-height:1.3;">What happened to<br>Thoreson &amp; Hartley Toys?</div>
+            <div id="challengeTitle" style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:#f5f0e6;margin-bottom:12px;line-height:1.3;">Solve the challenge</div>
             <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(196,196,212,0.6);margin-bottom:36px;">Enter the answer to unlock the next phase</div>
 
             <!-- 6 letter boxes -->
@@ -1303,7 +1206,7 @@
     </div>
 
     <footer>
-        The Thoreson Estate — 1935 <span style="opacity:0.6; margin-left:10px;">v3.21.1</span>
+        Your story <span style="opacity:0.6; margin-left:10px;">v3.21.1</span>
     </footer>
 
     <!-- QR Scanner -->
@@ -1317,10 +1220,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-messaging-compat.js"></script>
 
     <!-- Character Data -->
-    <script src="characters.js"></script>
-    <script src="skills.js"></script>
-    <script src="revelations.js"></script>
-    <script src="items.js"></script>
 
     <script>
         // Toggle contact fields based on attendance selection
@@ -1342,7 +1241,7 @@
         }
         
         // RSVP Form Submission to Google Forms
-        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSezQ99Orc5dvvlxnPLi3Jw_dkn8kNPwVu0GnxbRd0nTM61-Xg/formResponse';
+        const getRsvpUrl = () => currentStoryPackage.compatibility?.rsvpUrl;
         
         document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -1366,16 +1265,17 @@
             
             // Build form data for Google Forms
             const formData = new FormData();
-            formData.append('entry.242898703', name);      // Name
-            formData.append('entry.986368937', attending); // Attending
-            formData.append('entry.409042646', phone);     // Phone
-            formData.append('entry.775321918', email);     // Email
-            formData.append('entry.196909869', role);      // Role
-            formData.append('entry.404572778', notes);     // Notes
+            if(currentStoryPackage.compatibility?.rsvpFields?.name) formData.append(currentStoryPackage.compatibility.rsvpFields.name, name);      // Name
+            if(currentStoryPackage.compatibility?.rsvpFields?.attending) formData.append(currentStoryPackage.compatibility.rsvpFields.attending, attending); // Attending
+            if(currentStoryPackage.compatibility?.rsvpFields?.phone) formData.append(currentStoryPackage.compatibility.rsvpFields.phone, phone);     // Phone
+            if(currentStoryPackage.compatibility?.rsvpFields?.email) formData.append(currentStoryPackage.compatibility.rsvpFields.email, email);     // Email
+            if(currentStoryPackage.compatibility?.rsvpFields?.role) formData.append(currentStoryPackage.compatibility.rsvpFields.role, role);      // Role
+            if(currentStoryPackage.compatibility?.rsvpFields?.notes) formData.append(currentStoryPackage.compatibility.rsvpFields.notes, notes);     // Notes
             
             try {
                 // Submit to Google Forms (will fail silently due to CORS, but data goes through)
-                await fetch(GOOGLE_FORM_URL, {
+                if (!getRsvpUrl()) throw Error("This story uses the party invitation to RSVP.");
+                await fetch(getRsvpUrl(), {
                     method: 'POST',
                     mode: 'no-cors',
                     body: formData
@@ -1454,37 +1354,9 @@
 
 
         // ── DYNAMIC STORY SCRIPT LOADER ──────────────────────────────
-        function normalizeStoryId(storyId) {
-            const map = {
-                'thoreson':        'thoreson_estate_dinner',
-                'thoreson_estate': 'thoreson_estate_dinner',
-                'devereaux':       'devereaux_masquerade',
-                'asgard':          'thors_asgard'
-            };
-            return map[storyId] || storyId || 'thoreson_estate_dinner';
-        }
+        function normalizeStoryId(storyId) { if (!storyId) throw Error("This game is missing its story ID."); return storyId; }
 
-        function loadStoryScripts(storyId, callback) {
-            const base = 'stories/' + normalizeStoryId(storyId) + '/';
-            const files = ['characters.js', 'skills.js', 'revelations.js', 'items.js', 'roles.js', 'flow.js', 'facts.js', 'quests.js', 'menu.js'];
-            let loaded = 0;
-
-            files.forEach(function(file) {
-                const script = document.createElement('script');
-                script.src = base + file + '?v=' + Date.now();
-                script.onload = function() {
-                    loaded++;
-                    if (loaded === files.length && callback) callback();
-                };
-                script.onerror = function() {
-                    // File missing — count it anyway so we don't hang
-                    loaded++;
-                    console.warn('Story file not found:', base + file);
-                    if (loaded === files.length && callback) callback();
-                };
-                document.head.appendChild(script);
-            });
-        }
+        async function loadStoryScripts(storyId, callback) { try { await StoryPackage.legacy(storyId); if(callback) callback(); } catch(e) { const message=document.createElement("p");message.setAttribute("role","alert");message.textContent=e.message;document.body.prepend(message); console.error(e); } }
 
         // ── GAME-SCOPED REF HELPER ────────────────────────────────────
         // All live game state lives under /games/{gameId}/state/
@@ -1527,7 +1399,8 @@
         // Falls back to 'female' (canonical default)
         function getCharacterName(slug) {
             const char = characterDatabase[slug];
-            if (!char || !char.nameVariants) return slug;
+            if (!char) return slug;
+            if (!char.nameVariants) return char.name || slug;
             const gender = resolvedGenders[slug] || 'female';
             return char.nameVariants[gender] || char.nameVariants['female'] || char.name;
         }
@@ -1599,14 +1472,14 @@
                 currentPhaseId = snap.val() ? snap.val().id : null;
                 // Auto-switch to Assignments when cocktail phase starts
                 if (prev !== currentPhaseId) {
-                    if (currentPhaseId === 'cocktail') activeDiscoveryTab = 'assignments';
+                    if (gameFlow.phases.some(phase => phase.id === currentPhaseId && phase.type === 'social')) activeDiscoveryTab = 'assignments';
                     if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
                 }
             });
 
             // Listen to my cocktail quests
             if (userSession.firebaseUid) {
-                database.ref('games/' + userSession.currentGameId + '/players/' + userSession.firebaseUid + '/cocktailQuests')
+                database.ref('games/' + userSession.currentGameId + '/players/' + userSession.firebaseUid + '/' + (currentStoryPackage.compatibility?.social?.questsField || 'socialQuests'))
                     .on('value', (snap) => {
                         myQuests = snap.val() || [];
                         if (document.getElementById('discoveriesContent')) loadDiscoveriesData();
@@ -1614,7 +1487,7 @@
             }
 
             // Listen for cocktail quiz activation
-            gameRef('cocktailQuiz').on('value', snap => {
+            gameRef(currentStoryPackage.compatibility?.social?.quizField || 'socialQuiz').on('value', snap => {
                 const quiz = snap.val();
                 if (quiz && quiz.active) showCocktailQuiz();
             });
@@ -1737,6 +1610,7 @@
                         applyStoryTheme('thoreson_estate_dinner');
                     loadStoryScripts('thoreson_estate_dinner', initializeAuthenticatedView);
                     } else {
+                        await StoryPackage.fromContext(database);
                         document.getElementById('invitation').style.display = 'block';
                     }
                     return;
@@ -1787,12 +1661,12 @@
                     localStorage.setItem('userSession', JSON.stringify(userSession));
 
                     // Load game record to get storyId
-                    let storyId = 'thoreson_estate_dinner';
+                    let storyId = null;
                     try {
                         const gameSnap = await database.ref('games/' + gameId).once('value');
                         const gd = gameSnap.val();
                         if (gd && gd.storyId) storyId = gd.storyId;
-                    } catch(e) { /* use default */ }
+                    } catch(e) { throw Error("Could not load this game’s story."); }
 
                     // Load story-specific scripts, then init
                     applyStoryTheme(storyId);
@@ -1807,38 +1681,8 @@
 
 
         // ── STORY THEMES ─────────────────────────────────────────────
-        const STORY_THEMES = {
-            thoreson_estate_dinner: {
-                '--story-primary':   '#1a2a4a',
-                '--story-accent':    '#c9a227',
-                '--story-accent-dk': '#8a6d14',
-                '--story-surface':   '#0f1a2e',
-            },
-            devereaux_masquerade: {
-                '--story-primary':   '#1a0a2a',
-                '--story-accent':    '#c0392b',
-                '--story-accent-dk': '#8b1a1a',
-                '--story-surface':   '#0f0518',
-            },
-            last_train_wicker_park: {
-                '--story-primary':   '#0a1a0a',
-                '--story-accent':    '#2ecc71',
-                '--story-accent-dk': '#1a7a42',
-                '--story-surface':   '#050f05',
-            },
-            thors_asgard: {
-                '--story-primary':   '#1a1400',
-                '--story-accent':    '#f0c040',
-                '--story-accent-dk': '#a08020',
-                '--story-surface':   '#0f0c00',
-            }
-        };
-
-        function applyStoryTheme(storyId) {
-            const theme = STORY_THEMES[storyId] || STORY_THEMES['thoreson_estate_dinner'];
-            const root  = document.documentElement;
-            Object.entries(theme).forEach(([key, val]) => root.style.setProperty(key, val));
-        }
+        
+        function applyStoryTheme() { /* Package loader applies the selected story theme. */ }
 
         function initializeAuthenticatedView() {
             try {
@@ -1866,8 +1710,7 @@
                     return;
                 }
 
-                // Show Scan nav for ALL characters
-                document.getElementById('scanNav').style.display = 'block';
+
 
                 // Initialize session arrays if missing
                 if (!userSession.activeItems) userSession.activeItems = [];
@@ -1890,21 +1733,7 @@
         // ── LEGACY USERNAME MAP ───────────────────────────────────────
         // Maps old localStorage session usernames to new character slug keys
         // Keeps the legacy login.html shortcut working during transition
-        const LEGACY_KEY_MAP = {
-            'Scott':    'scott_thoreson',
-            'Leanna':   'miranda_longfellow',
-            'Marc':     'walter_lippman',
-            'DJ':       'david_richardson',
-            'Clara':    'charlotte_waverly',
-            'Casey':    'patricia_chamberlain',
-            'Michelle': 'dorothy_wells',
-            'Hannah':   'vivienne_ashford',
-            'Linda':    'eleanor_thoreson',
-            'Peter':    'raymond_hammond',
-            'Arash':    'marcus_brennan',
-            'Becky':    'victoria_ashworth',
-            'Lindsey':  'elizabeth_monroe'
-        };
+        var LEGACY_KEY_MAP = {};
 
         function resolveCharacterKey(username) {
             return LEGACY_KEY_MAP[username] || username;
@@ -2117,7 +1946,7 @@
 
             // If a new item was just revealed, switch to the right tab (never memories)
             if (newItemId) {
-                if (newItemId === 'willsDeath') {
+                if (newItemId === currentStoryPackage.compatibility?.startEvent) {
                     activeDiscoveryTab = 'story';
                 } else {
                     let found = false;
@@ -2141,7 +1970,7 @@
             `;
 
             // Show Assignments tab only during cocktail phase and if quests exist
-            const showAssignments = currentPhaseId === 'cocktail' && myQuests.length > 0;
+            const showAssignments = gameFlow.phases.some(phase => phase.id === currentPhaseId && phase.type === 'social') && myQuests.length > 0;
 
             let html = `
                 <div style="display: flex; flex-wrap: wrap; margin-bottom: 0; border-bottom: 2px solid #c9a227;">
@@ -2173,21 +2002,19 @@
             });
 
             // ── STORY ──────────────────────────────────────────────────
-            const transcriptIds = ['transcriptAct1','transcriptAct2','transcriptAct3'];
+            const transcriptIds = currentStoryPackage.compatibility?.transcripts || [];
             // Only show the latest active transcript
             let activeTranscript = null;
             for (let i = transcriptIds.length - 1; i >= 0; i--) {
                 if (userSession.activeItems.includes(transcriptIds[i])) {
-                    activeTranscript = revelationsDatabase[['act1','act2','act3'][i]].items.find(x => x.id === transcriptIds[i]);
+                    activeTranscript = Object.values(revelationsDatabase).flatMap(act=>act.items||[]).find(x => x.id === transcriptIds[i]);
                     break;
                 }
             }
 
             const storyItems = [];
             // willsDeath handled separately — not in revelationsDatabase
-            if (userSession.activeItems.includes('willsDeath')) {
-                storyItems.push({ item: { id: 'willsDeath', title: 'William Thoreson Is Dead', summary: "William 'Will' Thoreson Sr. was found unresponsive at the estate before dinner. He was pronounced dead this evening. The cause of death is unknown.", detail: null }, actLabel: 'Act 1 — The Gathering' });
-            }
+            for(const entry of currentStoryPackage.compatibility?.supplementalRevelations || []) { if(userSession.activeItems.includes(entry.item.id)) storyItems.push(entry); }
             Object.entries(revelationsDatabase).forEach(([actKey, act]) => {
                 act.items.filter(i => i.type === 'story' && userSession.activeItems.includes(i.id) && !transcriptIds.includes(i.id))
                     .forEach(i => storyItems.push({ item: i, actLabel: act.label }));
@@ -2260,7 +2087,7 @@
                 }
             });
 
-            if (expertHtml === '') expertHtml = '<div style="text-align:center; padding:40px; color:#999; font-style:italic;">No expert notes yet. Scan a QR code with your skill to unlock them.</div>';
+            if (expertHtml === '') expertHtml = '<div style="text-align:center; padding:40px; color:#999; font-style:italic;">No expert notes yet. Discover evidence to learn more.</div>';
 
             // ── MEMORIES ───────────────────────────────────────────────
             const charKey = userSession.username;
@@ -2283,7 +2110,7 @@
             // ── ASSIGNMENTS ────────────────────────────────────────
             let assignmentsHtml = '';
             if (myQuests.length === 0) {
-                assignmentsHtml = '<div style="text-align:center; padding:40px; color:#999; font-style:italic;">No assignments yet &#8212; they&#8217;ll appear when cocktail hour begins.</div>';
+                assignmentsHtml = '<div style="text-align:center; padding:40px; color:#999; font-style:italic;">No assignments yet &#8212; they&#8217;ll appear when this phase begins.</div>';
             } else {
                 const done   = myQuests.filter(q => q.completed).length;
                 const total  = myQuests.length;
@@ -2300,7 +2127,7 @@
                         });
                         if (targetChar) {
                             const [slug, char] = targetChar;
-                            const p = char.cocktailProfile;
+                            const p = char[currentStoryPackage.compatibility?.social?.profileField || 'socialProfile'];
                             if (p) {
                                 profileHtml = `<div style="margin-top:12px;font-size:15px;line-height:1.75;color:rgba(196,196,212,0.6);font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;">${p.from} ${p.career} ${p.family} ${p.knowsWilliam}</div>`;
                             }
@@ -2310,8 +2137,8 @@
                     let quizData = null;
                     if (typeof characterDatabase !== 'undefined') {
                         const tChar = Object.entries(characterDatabase).find(([s,c]) => q.text && q.text.includes(c.name));
-                        if (tChar && tChar[1].cocktailProfile && tChar[1].cocktailProfile.quiz) {
-                            quizData = tChar[1].cocktailProfile.quiz;
+                        if (tChar && tChar[1][currentStoryPackage.compatibility?.social?.profileField || 'socialProfile'] && tChar[1][currentStoryPackage.compatibility?.social?.profileField || 'socialProfile'].quiz) {
+                            quizData = tChar[1][currentStoryPackage.compatibility?.social?.profileField || 'socialProfile'].quiz;
                         }
                     }
                     const quizAttr = quizData ? ` data-quiz='${JSON.stringify(quizData).replace(/'/g,"&#39;")}'` : '';
@@ -2342,7 +2169,7 @@
         async function completeQuest(questId, correct) {
             if (!userSession || !userSession.currentGameId || !userSession.firebaseUid) return;
             const questsRef = database.ref(
-                'games/' + userSession.currentGameId + '/players/' + userSession.firebaseUid + '/cocktailQuests'
+                'games/' + userSession.currentGameId + '/players/' + userSession.firebaseUid + '/' + (currentStoryPackage.compatibility?.social?.questsField || 'socialQuests')
             );
             const snap = await questsRef.once('value');
             const quests = snap.val() || [];
@@ -2535,7 +2362,7 @@
                 markMemoryShown(triggersToMark);
 
                 // Auto-unlock skills triggered by revelations (no QR needed)
-                var autoSkillUnlocks = { 'wolfsbane': 'Botany' };
+                var autoSkillUnlocks = currentStoryPackage.compatibility?.autoSkillTriggers || {};
                 triggersToMark.forEach(function(triggerId) {
                     if (autoSkillUnlocks[triggerId]) {
                         var skillName = autoSkillUnlocks[triggerId];
@@ -2562,10 +2389,7 @@
 
             // Auto-trigger skills based on revelations
             // Maps: revelation ID → skill name that should auto-fire (like a QR scan)
-            var skillAutoTriggers = {
-                'wolfsbane': 'Botany'
-                // Add more here as needed, e.g.: 'someRevelation': 'SomeSkill'
-            };
+            var skillAutoTriggers = currentStoryPackage.compatibility?.autoSkillTriggers || {};
 
             var mySkills = getMySkills();
             newlyAdded.forEach(function(triggerId) {
@@ -2606,12 +2430,7 @@
             var remaining = memoryQueue.length;
 
             // Text message style triggers
-            var textMessageTriggers = {
-                'backgroundCheck': { from: 'PINKERTON DETECTIVE AGENCY', action: '\u26A0\uFE0F SHARE THIS WITH THE GROUP' },
-                'djCountyClerk': { from: 'DALLAS COUNTY CLERK\u2019S OFFICE', action: '\u26A0\uFE0F SHARE THIS WITH THE GROUP' },
-                'djCoroner': { from: 'DALLAS COUNTY CORONER\u2019S OFFICE', action: '\u26A0\uFE0F FIND SOMEONE WITH MEDICAL TRAINING \u2014 AND HAND OVER THE KEY' },
-                'djPinkerton': { from: 'PINKERTON NATIONAL DETECTIVE AGENCY', action: '\u26A0\uFE0F READ THIS CAREFULLY \u2014 THEN SHARE WITH THE GROUP' }
-            };
+            var textMessageTriggers = currentStoryPackage.compatibility?.textMessageTriggers || {};
 
             var isTextMsg = memory.triggerId && textMessageTriggers[memory.triggerId];
 
@@ -2625,7 +2444,7 @@
                 );
             } else {
                 sendNativeNotification(
-                    '🕵️ Thoreson Estate',
+                    currentStoryPackage.metadata.name,
                     memory.text,
                     'thoreson-memory-' + (memory.triggerId || Date.now())
                 );
@@ -2730,189 +2549,61 @@
             overlay.classList.remove('active');
         }
 
-        function onScanSuccess(decodedText) {
-            closeScanner();
-
-            // Block all scans until game has started
-            if (!userSession.activeItems || !userSession.activeItems.includes('willsDeath')) {
-                showSkillDenied('Not Yet', 'The investigation has not begun. Wait for the game to start.');
-                return;
-            }
-
-            // Generic prop scan — URL format
-            if (decodedText.includes('scan.html') || decodedText.includes('clue.html')) {
-                try {
-                    const params = new URL(decodedText).searchParams;
-                    const propId = params.get('id') || params.get('item') || 'unknown';
-                    const player = userSession.username;
-                    gameRef('scans/' + player).transaction(c => (c || 0) + 1);
-                    gameRef('scanLog').push({ player, propId, time: Date.now() });
-                } catch(e) {}
-                var modal = document.getElementById('skillModalContent');
-                var itemLabel = '';
-                try {
-                    var params = new URL(decodedText).searchParams;
-                    var itemId = params.get('id') || params.get('item') || '';
-                    var found = (typeof itemDatabase !== 'undefined') && itemDatabase.find(function(i) { return i.id === itemId; });
-                    if (found) itemLabel = found.label;
-                } catch(e2) {}
-                modal.innerHTML = `
-                    <div style="text-align:center; padding:10px 0;">
-                        <svg viewBox="0 0 680 860" xmlns="http://www.w3.org/2000/svg" style="width:160px; margin:0 auto 16px; display:block;">
-                            <style>.ct{font-family:'Playfair Display',Georgia,serif;fill:#c9a227}.ctd{font-family:'Playfair Display',Georgia,serif;fill:#1a1205}</style>
-                            <path d="M 190,90 L 490,90 L 490,470 Q 490,575 340,660 Q 190,575 190,470 Z" fill="#1a1205" stroke="#c9a227" stroke-width="3"/>
-                            <path d="M 208,108 L 472,108 L 472,468 Q 472,562 340,638 Q 208,562 208,468 Z" fill="none" stroke="#c9a227" stroke-width="1.2" stroke-dasharray="4,3"/>
-                            <polygon points="375,155 295,330 345,318 308,478 420,280 362,295 400,155" fill="#c9a227"/>
-                            <circle cx="210" cy="108" r="4.5" fill="#c9a227"/>
-                            <circle cx="470" cy="108" r="4.5" fill="#c9a227"/>
-                            <rect x="160" y="42" width="360" height="48" rx="3" fill="#c9a227"/>
-                            <text x="340" y="75" text-anchor="middle" class="ctd" font-size="22" font-weight="700" letter-spacing="5">THORESON</text>
-                            <path d="M 185,668 Q 340,715 495,668 L 478,702 Q 340,748 202,702 Z" fill="#c9a227"/>
-                            <path d="M 185,668 L 202,702 L 182,720 Q 145,700 185,668 Z" fill="#a8871f"/>
-                            <path d="M 495,668 L 478,702 L 498,720 Q 535,700 495,668 Z" fill="#a8871f"/>
-                            <text x="340" y="702" text-anchor="middle" class="ctd" font-size="13" font-weight="700" letter-spacing="2">THORESON FAMILY ESTATE</text>
-                        </svg>
-                        <div style="font-family:'Playfair Display',serif; font-size:22px; color:#c9a227; margin-bottom:8px;">✦ Clue Found</div>
-                        <div style="font-size:17px; color:#d4c090; letter-spacing:1px; margin-bottom:8px; font-family:'Playfair Display',serif;">${itemLabel || ''}</div>
-                        <div style="font-size:15px; color:#aaaaaa; letter-spacing:1px;">Bring this to the group.</div>
-                    </div>
-                    <button class="skill-modal-close" onclick="closeSkillModal()">Dismiss</button>`;
-                document.getElementById('skillModalOverlay').classList.add('active');
-                return;
-            }
-
-            // Netsuke side quest
-            if (decodedText.includes('netsuke.html')) {
-                const player = userSession.username;
-                gameRef('scans/' + player).transaction(c => (c || 0) + 1);
-                gameRef('scanLog').push({ player, propId: 'netsuke', time: Date.now() });
-                var modal = document.getElementById('skillModalContent');
-                modal.style.background = '#0d0b08';
-                modal.style.borderColor = '#c9a227';
-                modal.innerHTML = `
-                    <div style="font-family:'Playfair Display',Georgia,serif;">
-                        <div style="font-size:11px; letter-spacing:4px; text-transform:uppercase; color:#8b6914; text-align:center; margin-bottom:10px;">Side Quest</div>
-                        <div style="font-size:26px; color:#c9a227; text-align:center; margin-bottom:4px;">The Netsuke Case</div>
-                        <div style="font-size:13px; color:#6a5a2a; font-style:italic; text-align:center; letter-spacing:2px; margin-bottom:20px;">A Matter of Personal Honor</div>
-                        <div style="border-top:1px solid #3a2a06; margin-bottom:16px;"></div>
-                        <p style="font-size:15px; line-height:1.8; color:#d4c090; margin-bottom:12px; text-align:left;">Rupert Thoreson — Will's twin brother and the estate's unofficial photographer — is the proud owner of a remarkable collection of <strong style="color:#c9a227;">Japanese Netsuke</strong>: hand-carved ivory and boxwood toggles from the Edo period. Frogs. Dragons. Merchants. Monks. Each one small enough to fit in a closed fist. Each one irreplaceable.</p>
-                        <p style="font-size:15px; line-height:1.8; color:#d4c090; margin-bottom:12px; text-align:left;">The collection lives in a hand-lacquered case Rupert acquired in Kyoto in 1921. The case is locked. The key is missing. He last saw it Tuesday.</p>
-                        <div style="border:1px solid #5a4209; padding:14px 16px; margin:16px 0; background:rgba(201,162,39,0.06);">
-                            <p style="font-size:14px; line-height:1.8; color:#c9a227; margin:0; text-align:left;">"I'm not saying it's important. I'd just like to know where it is. If anyone happens to see a small brass key — slightly worn, loop at the top — no rush. Truly. No rush at all."</p>
-                            <p style="font-size:12px; color:#8b6914; margin-top:8px; margin-bottom:0; text-align:right;">— Rupert Thoreson, pretending he is fine</p>
-                        </div>
-                        <div style="font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#8b6914; margin:16px 0 8px; text-align:left;">What You're Looking For</div>
-                        <p style="font-size:15px; line-height:1.8; color:#d4c090; margin-bottom:12px; text-align:left;">A small brass key. Slightly worn. Loop at the top. Approximately the size of a large coat button. Possibly a faded red ribbon through the loop. You'll know it when you see it.</p>
-                        <div style="border:2px solid #c9a227; padding:16px; text-align:center; margin:16px 0;">
-                            <div style="font-size:11px; letter-spacing:4px; text-transform:uppercase; color:#8b6914; margin-bottom:6px;">Upon Completion</div>
-                            <div style="font-size:18px; color:#c9a227; margin-bottom:4px;">The Eternal Gratitude of Rupert Thoreson</div>
-                            <div style="font-size:13px; color:#8b7355; font-style:italic;">One (1) extremely sincere thank you and a very firm handshake.</div>
-                        </div>
-                        <p style="font-size:13px; color:#6a5a2a; font-style:italic; text-align:center;">This quest is not canon. It will not help you solve the murder. It will, however, make one man very happy.</p>
-                    </div>
-                    <button class="skill-modal-close" onclick="closeSkillModal()" style="margin-top:12px;">Dismiss</button>`;
-                document.getElementById('skillModalOverlay').classList.add('active');
-                return;
-            }
-            if (decodedText.includes('photo.html')) {
-                try {
-                    const id = new URL(decodedText).searchParams.get('id');
-                    const posterMap = {
-                        'p1': 'posters/wanted_aaron.jpg',
-                        'p2': 'posters/missing_sarah.jpg',
-                        'p3': 'posters/missing_laurie.jpg',
-                        'p4': 'posters/missing_robin.jpg',
-                        'p5': 'posters/wanted_bradford.jpg',
-                        'e1': 'photos/easter1.jpeg',
-                        'e2': 'photos/easter2.jpeg',
-                        'e3': 'photos/easter3.jpeg',
-                        'e4': 'photos/easter4.jpeg',
-                        'e5': 'photos/easter5.jpeg',
-                        'bathroom': 'photos/bathroom_cat.jpeg',
-                        'wedding': 'photos/easter_collage.jpeg',
-                    };
-                    const posterUrl = posterMap[id];
-                    if (posterUrl) {
-                        const player = userSession.username;
-                        const fullUrl = 'https://thoreson-estate.web.app/' + posterUrl;
-                        // Count as a clue scan
-                        gameRef('scans/' + player).transaction(c => (c || 0) + 1);
-                        gameRef('scanLog').push({ player, propId: id, time: Date.now() });
-
-                        // Special bathroom counter
-                        if (id === 'bathroom') {
-                            gameRef('bathroomScans').transaction(c => (c || 0) + 1);
-                        }
-
-                        gameRef('photos').orderByChild('wallUrl').equalTo(fullUrl).once('value', snap => {
-                            if (!snap.exists()) {
-                                var photoData = { player, wallUrl: fullUrl, fullUrl, time: Date.now(), isPoster: true };
-                                if (id === 'bathroom') {
-                                    photoData.caption = "Why are you looking for clues in the bathroom?!";
-                                    photoData.showCounter = true;
-                                }
-                                gameRef('photos').push(photoData);
-                            }
-                        });
-                        // Show popup
-                        var modal = document.getElementById('skillModalContent');
-                        if (id === 'bathroom') {
-                            gameRef('bathroomScans').once('value', function(snap) {
-                                var count = snap.val() || 1;
-                                modal.innerHTML = `
-                                    <div style="text-align:center; padding:10px 0;">
-                                        <img src="${fullUrl}" style="max-width:100%; max-height:50vh; display:block; margin:0 auto 14px; border:2px solid #c9a227;">
-                                        <div style="font-size:20px; color:#c9a227; font-family:'Playfair Display',serif; margin:10px 0;">Why are you looking for clues in the bathroom?!</div>
-                                        <div style="font-size:15px; color:#8b7355; margin-top:8px;">${count} detective${count > 1 ? 's have' : ' has'} made this mistake</div>
-                                    </div>
-                                    <button class="skill-modal-close" onclick="closeSkillModal()">Dismiss</button>`;
-                                document.getElementById('skillModalOverlay').classList.add('active');
-                            });
-                        } else {
-                            modal.innerHTML = `
-                                <div style="text-align:center; padding:10px 0;">
-                                    <img src="${fullUrl}" style="max-width:100%; max-height:70vh; display:block; margin:0 auto 14px; border:2px solid #c9a227;">
-                                    <div style="font-size:13px; color:#8b7355; letter-spacing:1px;">Added to the photo wall.</div>
-                                </div>
-                                <button class="skill-modal-close" onclick="closeSkillModal()">Dismiss</button>`;
-                            document.getElementById('skillModalOverlay').classList.add('active');
-                        }
-                    }
-                } catch(e) {}
-                return;
-            }
-
-            // Parse QR code — expected format: THORESON:SkillName
-            if (!decodedText.startsWith('THORESON:')) {
-                showSkillDenied('Unrecognized Document', 'This does not appear to be a valid estate document.');
-                return;
-            }
-
-            var skillName = decodedText.substring(9); // everything after "THORESON:"
-            var skillData = skillsDatabase[skillName];
-
-            if (!skillData) {
-                showSkillDenied('Unknown Document', 'This document type is not recognized.');
-                return;
-            }
-
-            // Check if this user has the required skill
-            var mySkills = getMySkills();
-            if (!mySkills.includes(skillName)) {
-                showSkillDenied(
-                    'Restricted Document',
-                    'This document requires <strong>' + skillName.toLowerCase() + '</strong> expertise to analyze. Perhaps someone else at the table can help?'
-                );
-                return;
-            }
-
-            // User has the skill — show the expert content
-            showSkillContent(skillName, skillData);
-
-            // Write discovery to Firebase
-            markSkillDiscovered(skillName);
+        async function onScanSuccess(decodedText) {
+    closeScanner();
+    const start = currentStoryPackage.compatibility?.startEvent;
+    if (start && !userSession.activeItems?.includes(start)) return showSkillDenied('Not Yet', 'The investigation has not begun. Wait for the game to start.');
+    try {
+        const scan = StoryContent.decodeScan(currentStoryPackage, decodedText);
+        if (scan.type === 'skill') {
+            if (!getMySkills().includes(scan.id)) return showSkillDenied('Restricted Document', 'This document requires ' + scan.id + ' expertise. Perhaps another guest can help?');
+            showSkillContent(scan.id, skillsDatabase[scan.id]); markSkillDiscovered(scan.id); return;
         }
+        const player = userSession.username;
+        await gameRef('scans/' + player).transaction(count => (count || 0) + 1);
+        await gameRef('scanLog').push({player, propId:scan.id, time:Date.now()});
+        const modal = document.getElementById('skillModalContent'); modal.replaceChildren();
+        if (scan.type === 'page') modal.innerHTML = currentStoryPackage.presentation?.pages?.[scan.page] || '';
+        else if (scan.type === 'item') {
+            const art = document.createElement('div'); art.innerHTML = currentStoryPackage.presentation?.scanEmblem || ''; modal.append(art);
+            const title = document.createElement('h2'); title.textContent = scan.item?.label || scan.id;
+            const instruction = document.createElement('p'); instruction.textContent = scan.item?.scanText || 'Bring this to the group.'; modal.append(title, instruction);
+        } else if (scan.type === 'photo') {
+            const fullUrl = new URL(scan.image, location.href).href;
+            let count; if (scan.counter) { const result = await gameRef(scan.counter).transaction(n => (n || 0) + 1); count = result.snapshot.val(); }
+            const found = await gameRef('photos').orderByChild('wallUrl').equalTo(fullUrl).once('value');
+            if (!found.exists()) await gameRef('photos').push({player,wallUrl:fullUrl,fullUrl,time:Date.now(),isPoster:true,...(scan.caption?{caption:scan.caption}:{}),...(scan.counter?{showCounter:true,counterPath:scan.counter}:{})});
+            const img = document.createElement('img'); img.src = fullUrl; img.style.cssText='max-width:100%;max-height:70vh'; modal.append(img);
+            const caption = document.createElement('p'); caption.textContent = scan.caption || 'Added to the photo wall.'; modal.append(caption);
+            if (count) { const counter = document.createElement('p'); counter.textContent = count + ' ' + (scan.counterText || 'scans'); modal.append(counter); }
+        }
+        if (!modal.querySelector('.skill-modal-close')) { const close = document.createElement('button'); close.className='skill-modal-close'; close.textContent='Dismiss'; close.onclick=closeSkillModal; modal.append(close); }
+        document.getElementById('skillModalOverlay').classList.add('active');
+    } catch (error) { showSkillDenied('Could not inspect code', error.message); }
+}
 
+
+        function showCocktailQuiz() {
+            activeDiscoveryTab='assignments';loadDiscoveriesData();navigateToPage('#discoveries');
+        }
+        function hideCodeChallenge() { document.getElementById('codeChallenge').style.display='none'; }
+        let activeChallenge;
+        function showCodeChallenge(state) {
+            activeChallenge=currentStoryPackage.content.challenges?.[state.challengeId || state.actKey];
+            if(!activeChallenge){hideCodeChallenge();showSkillDenied('Challenge unavailable','No challenge has been authored for this phase.');return;}
+            document.getElementById('challengeTitle').textContent=activeChallenge.prompt;
+            const holder=document.getElementById('challengeBoxes');holder.replaceChildren();
+            const input=document.createElement('input');input.id='challengeAnswer';input.autocomplete='off';input.setAttribute('aria-label','Challenge answer');holder.append(input);
+            document.getElementById('codeChallenge').style.display='flex';
+        }
+        async function submitCode() {
+            if(!activeChallenge)return;
+            const answer=document.getElementById('challengeAnswer').value.trim().toLowerCase();
+            if(!(activeChallenge.answers||[]).some(value=>String(value).trim().toLowerCase()===answer)){document.getElementById('challengeFeedback').textContent='Try again.';return;}
+            await gameRef('codeChallenge').update({solved:true});
+            if(activeChallenge.reveal?.length)await gameRef('activeItems').transaction(items=>[...new Set([...(items||[]),...activeChallenge.reveal])]);
+            hideCodeChallenge();
+        }
         function showSkillContent(skillName, skillData) {
             var modal = document.getElementById('skillModalContent');
             var content = skillData.expert || skillData.summary;
@@ -3099,6 +2790,7 @@
             reader.readAsDataURL(file);
         }
 
+        let photoCounterListeners=[];
         function loadPhotoWall() {
             const grid = document.getElementById('photoGrid');
             if (!grid || !firebase.database) return;
@@ -3118,7 +2810,7 @@
                             <img src="${p.wallUrl}" style="width:100%; display:block; max-height:400px; object-fit:contain;" loading="lazy">
                         </div>
                         ${p.caption ? `<div style="padding:8px 12px; text-align:center; font-family:'Playfair Display',serif; font-size:15px; color:#c9a227;">${p.caption}</div>` : ''}
-                        ${p.showCounter ? `<div id="bathroomCount" style="text-align:center; font-size:13px; color:#8b7355; padding-bottom:6px;"></div>` : ''}
+                        ${p.showCounter ? `<div class="photo-counter" data-counter="${p.counterPath || currentStoryPackage.compatibility?.photoCounter?.path || ''}" style="text-align:center; font-size:13px; color:#8b7355; padding-bottom:6px;"></div>` : ''}
                         <div style="padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
                             <div style="font-family:'Playfair Display',serif; font-size:13px; color:#8b7355;">
                                 ${p.player} · ${new Date(p.time).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}
@@ -3131,14 +2823,12 @@
                     </div>
                 `).join('');
 
-                // Update bathroom counter if present
-                var bcEl = document.getElementById('bathroomCount');
-                if (bcEl) {
-                    gameRef('bathroomScans').on('value', function(snap) {
-                        var count = snap.val() || 0;
-                        bcEl.textContent = count + ' detective' + (count !== 1 ? 's have' : ' has') + ' checked the bathroom for clues';
-                    });
-                }
+                photoCounterListeners.forEach(([ref,callback])=>ref.off('value',callback));photoCounterListeners=[];
+                grid.querySelectorAll('.photo-counter').forEach(el=>{
+                    if(!el.dataset.counter)return;
+                    const ref=gameRef(el.dataset.counter),callback=snap=>{el.textContent=(snap.val()||0)+' '+(currentStoryPackage.compatibility?.photoCounter?.label || 'scans');};
+                    ref.on('value',callback);photoCounterListeners.push([ref,callback]);
+                });
 
             });
         }
@@ -3313,5 +3003,11 @@
         requestNotificationPermission();
         watchAppVersion();
     </script>
+<script src="pool-shot.js"></script>
+<script src="shared-inventory.js"></script><script src="case-board.js"></script><script src="cooperative-maze.js"></script>
+<script src="game-memories.js"></script>
+<script src="developer-access.js"></script>
+<script src="phone-actions.js"></script>
+<script src="phone-flow-bridge.js"></script>
 </body>
 </html>
