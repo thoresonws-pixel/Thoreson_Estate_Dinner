@@ -17,7 +17,9 @@
       "CONTRIBUTING.md",
       "AGENTS.md",
       "gha-creds-*.json",
-      "playwright.config.cjs"
+      "playwright.config.cjs",
+      "test-results/**",
+      "playwright-report/**"
     ],
     "headers": [
       {

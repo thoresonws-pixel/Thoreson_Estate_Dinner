@@ -7,13 +7,13 @@ npm ci
 npm run dev
 ```
 
-Open http://127.0.0.1:5173. No Firebase login or production credentials are needed. `JAVA_HOME` or Java on PATH is supported on Windows, macOS and Linux; the existing portable Java installation is still supported. Stop with Ctrl+C. Ports 5173, 9000 and 9099 must be free. Local saved game data lives in the sibling `.player-lab-work` directory, outside Git. Separate clones under the same parent share that folder: use distinct parent directories when running separate labs (and run only one per machine at these ports).
+Open http://127.0.0.1:5173. No Firebase login or production credentials are needed. `JAVA_HOME` or Java on PATH is supported on Windows, macOS and Linux; the existing portable Java installation is still supported. Stop with Ctrl+C. Ports 5173, 9000 and 9099 must be free. Local saved game data belongs to this checkout in `.player-lab-work/development-0`, ignored by Git. Automated tests use separate ports, a separate demo project, and disposable state. To run two checkouts at once, set `LAB_PORT_OFFSET=20` in the second terminal (PowerShell: `$env:LAB_PORT_OFFSET=20`). Its URL is port 5193 and its state is separate. See [testing](docs/TESTING.md).
 
 ## Each piece of work
 
 1. Agree on an issue/task and the files or interfaces it affects.
 2. Start from updated main: `git switch main`, `git pull --ff-only`, then `git switch -c feature/your-feature`.
-3. Make a small, focused change. Run `npm test`; use Player Lab for TV/phone behavior.
+3. Make a small, focused change. Run `npm run test:all`; use Player Lab for TV/phone behavior.
 4. Commit and push your feature branch. Open a pull request into main.
 5. The other developer reviews. CI must pass. Resolve conflicts by preserving both intended behaviors, then rerun checks. Never force-push main or accept an entire side of a conflict without understanding it.
 6. Squash-merge approved work. Delete the feature branch. Pull main before starting again.

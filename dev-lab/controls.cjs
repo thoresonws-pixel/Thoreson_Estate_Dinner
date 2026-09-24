@@ -10,7 +10,7 @@ function changeGame(game, experience, players, action, stepId, now=Date.now()) {
   // Retain session metadata, not legacy progress outside state.
   for(const key of Object.keys(next))if(!['storyId','storyName','partyName','partyCode','createdBy','createdAt','status','gameMode','unlockId','players','state'].includes(key))delete next[key];
  }
- next.state||={};next.state.experience={stepId:target.id,startedAt:now};
+ next.state||={};next.state.experience={schemaVersion:1,revision:(game.state?.experience?.revision||0)+1,stepId:target.id,startedAt:now};
  next.state.tv||={};delete next.state.tv.activeInteraction;delete next.state.tv.phoneActionRequest;delete next.state.tv.songSelection;
  return next;
 }

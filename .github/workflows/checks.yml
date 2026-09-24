@@ -33,3 +33,16 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run test:lab
+
+      - name: Keep browser failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: player-lab-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+            .player-lab-work/test-1000/*debug.log
+            .player-lab-work/test-1000/emulators.log
+          include-hidden-files: true
+          retention-days: 7

@@ -4,7 +4,7 @@
 
 Read CONTRIBUTING.md. Use feature branches and pull requests. Main is protected by required reviews and checks. Both developers can work independently; coordinate overlapping modules rather than making one large shared branch.
 
-`npm ci` installs pinned dependencies. `npm run dev` runs Player Lab using Node 22 and Java 21. `npm test` validates JavaScript, all story packages, development build isolation and puzzle/state regressions. `npm run test:lab` runs the real Auth/Database emulator browser test; first install its browser with `npx playwright install chromium`. On Linux use `npx playwright install --with-deps chromium`.
+`npm ci` installs pinned dependencies. `npm run dev` runs Player Lab using Node 22 and Java 21. `npm test` validates JavaScript, all story packages, development build isolation and puzzle/state regressions. `npm run test:lab` starts a disposable, isolated Auth/Database emulator lab and runs the browser suite; first install its browser with `npx playwright install chromium`. On Linux use `npx playwright install --with-deps chromium`.
 
 ## Shared development
 

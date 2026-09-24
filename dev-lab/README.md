@@ -14,7 +14,7 @@ Open http://127.0.0.1:5173. The TV stays signed in as the test host. The player 
 
 Each character has a distinct emulator UID, ordinary player role, separate browser storage namespace, and memory-only Auth session. Switching does not rewrite a character on your real account. All action handlers see the selected player's actual test UID. The host session remains independent. No developer capability is granted to test players. Character-specific puzzle mechanics still need their own implementation; this switcher does not itself implement toy placement.
 
-Progress is saved every five seconds to `../../.player-lab-work/state/database.json` and restored on restart. Auth emulator identities are recreated with the same UIDs as needed. These are deliberately local development identities, not production credentials. The server only binds to loopback, rejects foreign Host headers, and uses a browser connection policy that blocks production Firebase endpoints. It does not support access from a physical phone yet; remote phone access needs a separate secured connection. Auth rules load from the repository's current `database.rules.json`; the existing broad game permissions are unchanged and remain a separate production-hardening concern.
+Progress is saved every five seconds to `../.player-lab-work/development-0/database.json` (relative to this guide; inside this checkout) and restored on restart. Auth emulator identities are recreated with the same UIDs as needed. These are deliberately local development identities, not production credentials. The server only binds to loopback, rejects foreign Host headers, and uses a browser connection policy that blocks production Firebase endpoints. It does not support access from a physical phone yet; remote phone access needs a separate secured connection. Auth rules load from the repository's current `database.rules.json`; the existing broad game permissions are unchanged and remain a separate production-hardening concern.
 
 Stop gracefully with:
 
@@ -24,7 +24,7 @@ Invoke-WebRequest -Method Post http://127.0.0.1:5173/__lab/stop
 
 Prerequisites: Node.js 22 and Java 21. Run `npm ci` once, then `npm run dev` on Windows, macOS or Linux. Firebase CLI is installed from the lockfile. Java is found through JAVA_HOME or PATH; this computer's existing portable runtime is also supported. Emulator and server logs are in the local state directory. `dev-lab/**` is excluded from Firebase Hosting.
 
-Validation uses real emulated authentication and the shared phone action code: private inventory isolation and persistence across switches, character-only memory delivery, selected-UID puzzle-win attribution, and independent host identity. It is a testing workspace, not a claim that production authorization is fully hardened.
+Automated validation uses real emulated authentication to check per-player inventory display, tab persistence, and the all-player Actions grid. Runtime tests cover two-client transitions and pause/reconnect behavior. Memory delivery and puzzle-win attribution still need additional end-to-end regression coverage. It is a testing workspace, not a claim that production authorization is fully hardened.
 
 ### Drawing-room maze and cooperative billiards prototype
 
@@ -42,3 +42,5 @@ Reset game clears local game/player progress (including discoveries, inventory a
 
 All players collapses the embedded TV and opens one independent phone panel per story character in a scrollable grid, initially on Actions. The TV stays connected; use Open TV separately on another monitor. Show Actions on all returns every panel to Actions. TV + selected player closes the extra phone sessions. Single-player switching keeps the most recently selected tab. During non-investigation story phases, normal story screens still take priority.
 
+
+Automated tests never reuse this server. See [testing guide](../docs/TESTING.md) for isolated runs, traces, multiple checkouts and migrating your old local snapshot.

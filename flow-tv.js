@@ -35,9 +35,9 @@ window.mountStoryFlow = function (db, id, pack) {
         el('flowClock').textContent = v.remaining === null || v.expired ? '' : Math.floor(seconds / 60) + ':' + String(seconds % 60).padStart(2, '0');
         el('flowNext').textContent = v.step.button || 'Continue';
         el('flowNext').hidden = !v.step.next || v.remaining !== null && !v.expired;
-        el('flowNext').disabled = busy;
+        el('flowNext').disabled = busy || !v.connected;
         if (dialogue) scene.render(v,el('flowNext'),paused=>runtime.setPaused(paused).catch(report));
-        if(v.expired && v.step.autoAdvance && v.state?.pausedAt == null && !busy) queueMicrotask(advance);
+        if(v.connected && v.expired && v.step.autoAdvance && v.state?.pausedAt == null && !busy) queueMicrotask(advance);
     }, report);
     window.pauseActiveScene = () => { if(runtime.view().step.type==='dialogue') runtime.setPaused(true).catch(report); };
     runtime.ensureStarted().catch(report);

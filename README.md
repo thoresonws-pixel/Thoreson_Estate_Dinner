@@ -17,6 +17,9 @@ Open http://127.0.0.1:5173 for the TV, player switcher, all-player grid, reset a
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md). Make a feature branch, run checks, push and open a pull request. Main is the reviewed integration branch; do not push features directly to it.
 
+- `npm run doctor`: check runtime, browser installation and free local ports.
+- `npm run test:all`: run the complete automated suite without changing your manual test game.
+- [Architecture boundaries](docs/ARCHITECTURE.md) and [testing guide](docs/TESTING.md): contracts, coverage and remaining work.
 - `npm test`: syntax, stories, puzzle/state and development-build checks.
 - `npm run test:lab`: real browser/emulator identity and UI checks (install Playwright Chromium first).
 - [Shared development site](https://thoreson-estate-dev.web.app): independent development data, team sign-in required.

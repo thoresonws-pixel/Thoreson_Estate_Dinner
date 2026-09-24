@@ -1,10 +1,12 @@
 const {test,expect}=require('@playwright/test');
 test('character switching preserves tab and isolates private inventory',async({page,request})=>{
  const config=await(await request.get('/__lab/config')).json();
+ expect(config.mode).toBe('test');
+ const database='http://127.0.0.1:'+config.ports.database;
  const pack=await(await request.get('/stories/'+config.gameId.replace(/^lab_/,'')+'/experience.json')).json();
- const url='http://127.0.0.1:9000/games/'+config.gameId+'/state/experience.json?ns=demo-mystery-lab-default-rtdb',headers={Authorization:'Bearer owner'};
+ const url=database+'/games/'+config.gameId+'/state/experience.json?ns='+config.namespace,headers={Authorization:'Bearer owner'};
  const before=await(await request.get(url,{headers})).json();
- const itemURL='http://127.0.0.1:9000/games/'+config.gameId+'/players/'+config.players[0].uid+'/inventory/ci_private_item.json?ns=demo-mystery-lab-default-rtdb';
+ const itemURL=database+'/games/'+config.gameId+'/players/'+config.players[0].uid+'/inventory/ci_private_item.json?ns='+config.namespace;
  try{
   await request.put(url,{headers,data:{stepId:pack.steps.find(s=>s.type==='exploration').id,startedAt:Date.now()}});
   await request.put(itemURL,{headers,data:{name:'Private CI item',text:'Only the first identity should see this.'}});
