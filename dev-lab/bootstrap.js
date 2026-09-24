@@ -3,6 +3,18 @@
     'use strict';
     if(!['127.0.0.1','localhost'].includes(location.hostname))throw Error('The player lab requires localhost.');
     const settings=window.__PLAYER_LAB__;
+    // Lab-only navigation bridge. Identity/storage isolation remains unchanged.
+    document.addEventListener('DOMContentLoaded',()=>{
+        if(typeof window.initializeAuthenticatedView!=='function')return;
+        const tabs=['character','guests','discoveries','inventory','photos','actions'];
+        const requested=new URLSearchParams(location.search).get('labTab');
+        let selected=tabs.includes(requested)?requested:localStorage.getItem('lab-tab')||'discoveries';
+        const navigate=window.navigateAuth;
+        window.navigateAuth=function(page){const result=navigate(page);const tab=page?.replace(/^#/,'');if(tabs.includes(tab)){selected=tab;localStorage.setItem('lab-tab',tab);parent.postMessage({type:'lab-tab',uid:settings.uid,tab},location.origin);}return result;};
+        const initializeView=window.initializeAuthenticatedView;
+        window.initializeAuthenticatedView=function(...args){const result=initializeView.apply(this,args);window.navigateAuth('#'+selected);return result;};
+        window.addEventListener('message',event=>{if(event.origin===location.origin&&event.source===parent&&event.data?.type==='lab-show-tab'&&tabs.includes(event.data.tab))window.navigateAuth('#'+event.data.tab);});
+    });
     if(!settings?.uid)throw Error('Missing lab identity');
     if(navigator.serviceWorker)navigator.serviceWorker.register=()=>Promise.reject(Error('Push notifications are disabled in the local player lab.'));
     const prefix='lab:'+settings.gameId+':'+settings.uid+':';
@@ -10,6 +22,8 @@
         const original=Storage.prototype[method];
         Storage.prototype[method]=function(key,...args){return original.call(this,prefix+key,...args);};
     }
+    const initialTab=new URLSearchParams(location.search).get('labTab');
+    if(['character','guests','discoveries','inventory','photos','actions'].includes(initialTab))localStorage.setItem('lab-tab',initialTab);
     const Channel=window.BroadcastChannel;
     window.BroadcastChannel=class extends Channel{constructor(name){super(prefix+name);}};
     const initialize=firebase.initializeApp.bind(firebase);

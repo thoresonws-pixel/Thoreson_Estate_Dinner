@@ -34,3 +34,11 @@ Validation uses real emulated authentication and the shared phone action code: p
 - Inspecting the billiards table assigns a personal toy to each player once. Find the Bird owner in Personal inventory. Everyone can open Play billiards or View puzzle board. Only the Bird owner's successful four-letter routine unlocks the drawer. Toys remain attached to their test accounts when switching.
 
 These changes run locally; they have not been published to the public website.
+
+### Toolbar controls
+
+Reset game clears local game/player progress (including discoveries, inventory and puzzles), keeps test identities, and starts at the story package's first step after confirmation. Progress story follows the current step's next transition immediately, bypassing timers. Jump to / Go selects any defined story step while retaining discoveries. These controls only write to the local emulator. Reload any separately opened TV/player pages after reset to clear their temporary UI state.
+
+
+All players collapses the embedded TV and opens one independent phone panel per story character in a scrollable grid, initially on Actions. The TV stays connected; use Open TV separately on another monitor. Show Actions on all returns every panel to Actions. TV + selected player closes the extra phone sessions. Single-player switching keeps the most recently selected tab. During non-investigation story phases, normal story screens still take priority.
+
