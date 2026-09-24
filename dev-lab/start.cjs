@@ -1,6 +1,7 @@
 const fs=require('fs'),path=require('path'),http=require('http'),{spawn}=require('child_process');
 const {changeGame}=require('./controls.cjs');
 const {migrate}=require('../scripts/private-inventory-migration.cjs');
+const boundaries=require('../scripts/story-boundaries.cjs');
 const root=path.resolve(__dirname,'..'),workspace=path.dirname(root);
 const {settings,assertPortsAvailable}=require('./settings.cjs');
 const lab=settings(root),{stateDir,ports}=lab;
@@ -29,6 +30,7 @@ async function snapshot(){if(!lab.persist)return;const r=await fetch(dbUrl,{head
  const migration=migrate(original),data=migration.data;
  if(lab.persist&&migration.changed.length)fs.writeFileSync(path.join(stateDir,'before-private-inventory-'+Date.now()+'.json'),JSON.stringify(original),{flag:'wx',mode:0o600});
  data.users||={};data.games||={};data.platformAdmins||={};data.platformAdmins[hostUid]=true;
+ const projected=boundaries.catalog(root);data.storyMemoryText=Object.fromEntries(Object.entries(projected).map(([id,p])=>[id,p.memories]));data.actionPolicies=Object.fromEntries(Object.entries(projected).map(([id,p])=>[id,p.policies]));
  if(!data.games[gameId]){const step=experience.steps.find(s=>s.type==='exploration')||experience.steps[0];data.games[gameId]={storyId,storyName:story.metadata?.name||storyId,partyName:'Player Lab',partyCode:'LOCAL-LAB',createdBy:hostUid,createdAt:Date.now(),status:'active',gameMode:'standard',unlockId:'local-only',players:{},state:{experience:{stepId:step.id,startedAt:Date.now()},tv:{}}};}
  if(!Number.isFinite(data.games[gameId].state?.experience?.startedAt))data.games[gameId].state.experience.startedAt=Date.now();
  for(const account of accounts){data.users[account.uid]||={displayName:account.name,email:account.email,role:account.uid===hostUid?'admin':'player'};data.users[account.uid].currentGameId=gameId;}
@@ -49,7 +51,7 @@ async function snapshot(){if(!lab.persist)return;const r=await fetch(dbUrl,{head
     const reset=command.action==='reset',targetUrl=reset?dbUrl:gameUrl;
     const read=await fetch(targetUrl,{headers:{...headers,'X-Firebase-ETag':'true'}});if(!read.ok)throw Error('Cannot read test game');
     const previous=await read.json();const updated=changeGame(reset?previous.games[gameId]:previous,experience,players,command.action,command.stepId);
-    if(reset){previous.games[gameId]=updated;if(previous.privateSessions)delete previous.privateSessions[gameId];}
+    if(reset){previous.games[gameId]=updated;if(previous.privateSessions)delete previous.privateSessions[gameId];if(previous.memoryGrants)delete previous.memoryGrants[gameId];if(previous.characterClaims)delete previous.characterClaims[gameId];if(previous.actionReceipts)delete previous.actionReceipts[gameId];}
     const saved=await fetch(targetUrl,{method:'PUT',headers:{...headers,'if-match':read.headers.get('etag')},body:JSON.stringify(reset?previous:updated)});
     if(!saved.ok)throw Error(saved.status===412?'The game changed. Try again.':'Could not update test game');
     await snapshot();res.setHeader('Content-Type','application/json');res.end(JSON.stringify({stepId:updated.state.experience.stepId}));return;
@@ -58,7 +60,12 @@ async function snapshot(){if(!lab.persist)return;const r=await fetch(dbUrl,{head
    let file;if(url.pathname==='/')file=path.join(__dirname,'index.html');else if(url.pathname==='/__lab/bootstrap.js')file=path.join(__dirname,'bootstrap.js');else{const requested=decodeURIComponent(url.pathname).slice(1);if(requested.split('/').some(x=>x.startsWith('.')||['node_modules','functions','dev-lab','review'].includes(x))||! /\.(html|js|css|json|png|jpg|jpeg|webp|svg|mp3|mp4|woff2|ico)$/i.test(requested)||requested==='sw.js'){res.writeHead(404).end();return;}file=path.resolve(root,requested);if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}}
    if(!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404).end();return;}
    const ext=path.extname(file),types={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml'};res.setHeader('Content-Type',types[ext]||'application/octet-stream');
-   if(ext!=='.html'){fs.createReadStream(file).pipe(res);return;}
+   if(ext!=='.html'){
+    const relative=path.relative(root,file).replaceAll('\\','/');
+    const entry=Object.entries(projected).find(([id,p])=>relative==='stories/'+id+'/package.json'||relative==='stories/'+id+'/'+p.story.experienceFile);
+    if(entry){const value=structuredClone(entry[1].story);if(relative.endsWith('/package.json')){delete value.experience;res.end(JSON.stringify(value));}else res.end(JSON.stringify(value.experience));return;}
+    fs.createReadStream(file).pipe(res);return;
+   }
    let html=fs.readFileSync(file,'utf8');if(file!==path.join(__dirname,'index.html')){
     let selected=url.searchParams.get('labPlayer');if(!selected&&req.headers.referer){const previous=new URL(req.headers.referer);if(previous.origin==='http://'+req.headers.host)selected=previous.searchParams.get('labPlayer');if(selected){url.searchParams.set('labPlayer',selected);res.writeHead(302,{Location:url.pathname+url.search});res.end();return;}}const account=accounts.find(a=>a.uid===selected);if(!account){res.writeHead(400).end('Open this page from Player Lab to select an identity.');return;}
     const scripts=[...html.matchAll(/<script\b[^>]*src=["'][^"']*firebase-[^"']*-compat\.js["'][^>]*><\/script>/g)];if(!scripts.length){res.writeHead(400).end('This page is not connected to the lab.');return;}

@@ -10,5 +10,6 @@ function copy(from,to){fs.mkdirSync(to,{recursive:true});for(const e of fs.readd
 for(const e of fs.readdirSync(root,{withFileTypes:true}))if(e.isFile()&&/\.(html|js|css|ico|png|jpg|jpeg|svg|webp|mp3|mp4)$/.test(e.name)&&!/(archive|backup|migrate|sw\.js)/.test(e.name)){const staging=path.join(out,e.name);if(!/\.(html|js|css)$/.test(e.name)){fs.copyFileSync(path.join(root,e.name),staging);continue;}let s=fs.readFileSync(path.join(root,e.name),'utf8');s=s.replace(/firebase\.initializeApp\(\s*(?:firebaseConfig|\{[\s\S]*?\})\s*\)/g,'firebase.initializeApp('+JSON.stringify(config)+')');if(e.name.endsWith('.html'))s=s.replace('</head>','<script>if(navigator.serviceWorker)navigator.serviceWorker.register=()=>Promise.reject(Error("Disabled in development"));</script></head>');fs.writeFileSync(staging,s);}
 for(const name of ['stories','assets','images','css','js','posters','qr-codes','audio','photos','clue-thumbs'])if(fs.existsSync(path.join(root,name)))copy(path.join(root,name),path.join(out,name));
 fs.copyFileSync(path.join(root,'development/index.html'),path.join(out,'index.html'));
+require('./story-boundaries.cjs').publish(root,out);
 fs.writeFileSync(path.join(out,'development-config.js'),'window.DEVELOPMENT_CONFIG='+JSON.stringify(config)+';');
 console.log('Built isolated development site:',out);

@@ -36,7 +36,7 @@
         const help=document.createElement('p');help.textContent='Read the pockets to the shooter, one letter at a time. The table and board are separate views.';container.append(help);
     }
     function mount(container,config,onWin){
-        let index=0,strikes=0,drag=null,flight=null,frame=0,disposed=false,busy=false,won=false;
+        let proof=[],index=0,strikes=0,drag=null,flight=null,frame=0,disposed=false,busy=false,won=false;
         container.replaceChildren();
         const make=(tag,text)=>{const el=document.createElement(tag);if(text)el.textContent=text;return el;};
         const score=make('p'),message=make('p','Drag back from the ball to aim; release to shoot. The dots preview your path.');message.setAttribute('role','status');
@@ -59,12 +59,12 @@
         }
         async function finish(){
             if(disposed)return;busy=true;shoot.disabled=true;
-            try{await onWin();if(disposed)return;won=true;message.textContent=config.winText||'Challenge complete.';saveAgain.hidden=true;}
+            try{await onWin([...proof]);if(disposed)return;won=true;message.textContent=config.winText||'Challenge complete.';saveAgain.hidden=true;}
             catch(error){if(disposed)return;message.textContent=error.message||'Could not save your win. Please retry.';saveAgain.hidden=false;}
         }
         function settle(result){
             busy=false;flight=null;if(disposed)return;
-            if(matches(result,config.shots[index])){index++;if(index===config.shots.length){info();draw();finish();return;}message.textContent='That shot counts. Continue the routine.';}
+            if(matches(result,config.shots[index])){proof.push(result.pocket);index++;if(index===config.shots.length){info();draw();finish();return;}message.textContent='That shot counts. Continue the routine.';}
             else{strikes++;message.textContent=strikes>=config.maxStrikes?config.maxStrikes+' strikes. This attempt is over. Try again when you are ready.':'That shot did not count toward the routine.';}
             shoot.disabled=strikes>=config.maxStrikes;retry.hidden=strikes<config.maxStrikes;info();draw();
         }
@@ -82,7 +82,7 @@
         canvas.onpointercancel=()=>{drag=null;draw();};
         angle.oninput=()=>{if(busy||won)return;const a=Number(angle.value)*Math.PI/180;drag={vector:{x:Math.cos(a),y:Math.sin(a)},distance:1400};draw();};
         shoot.onclick=()=>{const a=Number(angle.value)*Math.PI/180;fire({x:Math.cos(a),y:Math.sin(a)},1400);};
-        retry.onclick=()=>{index=0;strikes=0;won=false;busy=false;drag=null;retry.hidden=true;shoot.disabled=false;message.textContent='New attempt. Recreate the routine.';info();draw();};saveAgain.onclick=finish;
+        retry.onclick=()=>{proof=[];index=0;strikes=0;won=false;busy=false;drag=null;retry.hidden=true;shoot.disabled=false;message.textContent='New attempt. Recreate the routine.';info();draw();};saveAgain.onclick=finish;
         info();draw();
         return {dispose(){disposed=true;cancelAnimationFrame(frame);canvas.onpointerdown=canvas.onpointermove=canvas.onpointerup=canvas.onpointercancel=null;}};
     }

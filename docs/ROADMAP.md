@@ -4,8 +4,8 @@ This is the current priority list. Historical ideas are preserved in `review/leg
 
 ## Platform first
 
-1. Complete private memory payload separation and membership boundaries. Personal inventory separation, migration and direct access-denial tests are implemented; see PRIVATE_INVENTORY.md for rollout requirements.
-2. Apply explicit, idempotent command validation to puzzle actions, item collection and rewards. Cover duplicate, delayed and competing inputs.
+1. Classify remaining private character fields and finish membership boundaries. Inventory and triggered memory text now have separate delivery paths; see PRIVATE_INVENTORY.md and MEMORY_AND_ACTIONS.md for rollout requirements and scope.
+2. Extend action validation to the remaining puzzle mechanics. Billiards result receipts and piano reservations now have server checks; per-shot simulation, piano performance, maze and workshop commands still need further work.
 3. Finish game membership/join boundaries, party-code ownership and photo-storage access.
 4. Extract session, inventory, memory and navigation responsibilities from large legacy UI pages, keeping behavior covered by browser tests.
 5. Pin story revisions and provide whole-session migrations. Run a complete unrelated fixture story through the same engine.

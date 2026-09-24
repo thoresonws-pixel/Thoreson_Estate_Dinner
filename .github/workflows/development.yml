@@ -30,4 +30,5 @@ jobs:
           workload_identity_provider: projects/634959998634/locations/global/workloadIdentityPools/github/providers/actions
           service_account: github-deploy@thoreson-estate-dev.iam.gserviceaccount.com
       - run: node scripts/migrate-private-inventory.cjs --project thoreson-estate-dev --check
+      - run: node scripts/publish-story-boundaries.cjs --project thoreson-estate-dev --check
       - run: npx firebase deploy --only hosting,database --config firebase.dev.json --project thoreson-estate-dev --non-interactive

@@ -44,7 +44,7 @@
         }
         let developer=false,stopDeveloper=null,storyPackage=null;
         let mazeViews=[];
-        let gameRef,userRef,gameChanged,userChanged,mini=null,pack=null,latest=null,user=null,gameId=null,generation=0,signature='';
+        let grantsRef,grantsChanged,gameRef,userRef,gameChanged,userChanged,mini=null,pack=null,latest=null,user=null,gameId=null,generation=0,signature='';
         function bookletAvailable(game,item){
             if(!item||!game?.players?.[user?.uid])return false;
             const target=pack.interactions.find(i=>i.id===item.playInteraction),tv=game.state?.tv||{};
@@ -59,17 +59,17 @@
             async play(id,pageId){
                 const item=pack?.collections?.find(i=>i.reward.id===id),page=item?.pages?.find(p=>p.id===pageId);
                 if(!page||!bookletAvailable(latest,item))throw Error('This instrument is not currently available.');
-                const selectedGeneration=generation,requestId=crypto.randomUUID(),uid=user.uid;
+                const selectedGeneration=generation,requestId=crypto.randomUUID(),uid=user.uid,revision=latest.state?.experience?.revision||0,privateGeneration=latest.privateGeneration||0;
                 const result=await firebase.database().ref('games/'+gameId).transaction(game=>{
-                    if(selectedGeneration!==generation||!bookletAvailable(game,item)||game.state.tv.songSelection||(page.requiresInventory&&!game.state.tv.inventory?.[page.requiresInventory]))return;
-                    game.state.tv.songSelection={id:requestId,bookletId:id,pageId,interactionId:item.playInteraction,selectedBy:uid};return game;
+                    if(selectedGeneration!==generation||(game?.state?.experience?.revision||0)!==revision||(game?.privateGeneration||0)!==privateGeneration||!bookletAvailable(game,item)||game.state.tv.songSelection||(page.requiresInventory&&!game.state.tv.inventory?.[page.requiresInventory]))return;
+                    game.state.tv.songSelection={id:requestId,bookletId:id,pageId,interactionId:item.playInteraction,selectedBy:uid,revision,privateGeneration};return game;
                 });
                 if(!result.committed)throw Error('Someone else has the piano. Try again when their attempt finishes.');
                 return 'Ready on the TV. Play the notes there using the piano or keyboard.';
             }
         });
         const stopMini=()=>{mini?.dispose();mini=null;if(modal.open)modal.close();queueMicrotask(showMemory);};close.onclick=stopMini;modal.addEventListener('cancel',stopMini);
-        const detachGame=()=>{stopPrivate?.();stopPrivate=null;privateScope='';privatePlayers={};privateError=false;mazeViews.forEach(v=>v.dispose());mazeViews=[];if(gameRef&&gameChanged)gameRef.off('value',gameChanged);gameRef=null;pendingMemories=[];seenMemories=null;if(memoryPopup.open)memoryPopup.close();stopMini();for(const box of [personal,otherInventories])if(box){box.replaceChildren();box._inventorySignature=null;box._peers=null;}};
+        const detachGame=()=>{if(grantsRef&&grantsChanged)grantsRef.off('value',grantsChanged);grantsRef=null;stopPrivate?.();stopPrivate=null;privateScope='';privatePlayers={};privateError=false;mazeViews.forEach(v=>v.dispose());mazeViews=[];if(gameRef&&gameChanged)gameRef.off('value',gameChanged);gameRef=null;pendingMemories=[];seenMemories=null;if(memoryPopup.open)memoryPopup.close();stopMini();for(const box of [personal,otherInventories])if(box){box.replaceChildren();box._inventorySignature=null;box._peers=null;}};
         const detach=()=>{stopDeveloper?.();stopDeveloper=null;developer=false;storyPackage=null;developerPanel.replaceChildren();developerPanel._developerSignature=null;generation++;detachGame();if(userRef&&userChanged)userRef.off('value',userChanged);userRef=null;pack=latest=null;signature='';memory.replaceChildren();inventory?.replaceChildren();if(inventory)inventory._inventorySignature=null;evidence.replaceChildren();evidence._inventorySignature=null;};
         function allowed(game,item){
             if(!game?.players?.[user?.uid])return false;
@@ -130,17 +130,11 @@
                 play.onclick=()=>{
                     if(!allowed(latest,item))return;stopMini();modal.showModal();
                     const selectedGame=gameId,selectedUser=user.uid,selectedGeneration=generation;
-                    const config=PoolShot.challenge(item);
-                    mini=PoolShot.mount(gameSurface,config,async()=>{
+                    const config=PoolShot.challenge(item),attemptGeneration=latest.privateGeneration||0,attemptRevision=latest.state?.experience?.revision||0;
+                    mini=PoolShot.mount(gameSurface,config,async proof=>{
                         if(selectedGeneration!==generation||!allowed(latest,item))throw Error('The table is no longer active. Open it on the TV to continue.');
                         if(!PoolShot.canUnlock(item,privatePlayers[selectedUser])){const message=node('p','Practice complete. The drawer stays shut: the designated toy owner must take the shots.');message.setAttribute('role','status');gameSurface.append(message);return;}
-                        const result=await firebase.database().ref('games/'+selectedGame).transaction(game=>{
-                            if(selectedGeneration!==generation||!allowed(game,item)||!PoolShot.canUnlock(item,privatePlayers[selectedUser]))return;
-                            game.state||={};game.state.tv||={};game.state.tv.puzzles||={};
-                            if(game.state.tv.puzzles[item.id]?.solved)return;
-                            game.state.tv.puzzles[item.id]={solved:true,solvedAt:Date.now(),solvedBy:selectedUser};return game;
-                        });
-                        if(!result.committed&&!result.snapshot.val()?.state?.tv?.puzzles?.[item.id]?.solved)throw Error('Could not save the win. Check your connection and that the table is still open.');
+                        await GameActions.completePool({db:firebase.database(),gameId:selectedGame,uid:selectedUser,item,generation:attemptGeneration,revision:attemptRevision,proof});
                     });
                 };card.append(play);
                 if(item.memory&&!Object.values(latest.players||{}).some(p=>p.characterId===item.memory.characterId)){const fallback=node('details');fallback.append(node('summary',item.memory.fallbackTitle||'A remembered conversation'),node('p',item.memory.text));card.append(fallback);}
@@ -158,9 +152,9 @@
                 if(!gameId){list.replaceChildren(node('p','Choose a game first.'));return;}
                 gameRef=firebase.database().ref('games/'+gameId);
                 gameChanged=async snapshot=>{latest=snapshot.val();if(!latest?.players?.[user.uid]){syncPrivate();stopMini();list.replaceChildren(node('p','Join this game to use its actions.'));return;}
-                    try{const story=await StoryPackage.load(latest.storyId);if(current!==generation)return;storyPackage=story;pack=story.experience;if(!pack){list.replaceChildren(node('p','No actions are available for this story.'));return;}render();}
+                    try{const story=await StoryPackage.load(latest.storyId);if(current!==generation)return;storyPackage=story;pack=story.experience;const own=story.content?.characters?.[latest.players?.[user.uid]?.characterId];if(own&&window.characterDatabase){window.characterDatabase[latest.players[user.uid].characterId]=own;window.loadCharacterData?.();}if(!pack){list.replaceChildren(node('p','No actions are available for this story.'));return;}render();}
                     catch(error){if(current===generation){stopMini();list.replaceChildren(node('p',error.message));}}
-                };gameRef.on('value',gameChanged,error=>{stopMini();list.replaceChildren(node('p',error.message));});
+                };grantsRef=firebase.database().ref('memoryGrants/'+gameId);grantsChanged=()=>{const ref=gameRef;if(ref)ref.once('value').then(s=>{if(current===generation)gameChanged(s);});};grantsRef.on('value',grantsChanged);gameRef.on('value',gameChanged,error=>{stopMini();list.replaceChildren(node('p',error.message));});
             };userRef.on('value',userChanged);
         });
         window.addEventListener('pagehide',()=>{SharedInventory.setBookletActions(null);detach();unsubscribe?.();},{once:true});

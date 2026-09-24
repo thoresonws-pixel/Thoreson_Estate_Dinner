@@ -129,6 +129,8 @@ All newly collected documents, recordings, evidence, keys, and tools now write t
 
 ## Personal inventory and progress-triggered memories
 
+Private memory text is now projected into a protected story dataset rather than delivered in the public package. The TV issues generation-bound grants when conditions are met; phones retrieve only authorized entries. See [memory and action boundaries](docs/MEMORY_AND_ACTIONS.md), including story publication requirements and current legacy-ID limitations.
+
 The phone Inventory tab contains Personal items (the signed-in player’s inventory) and Group discoveries (shared inventory plus compatible historical evidence). Developer accounts can inspect other players’ existing personal inventories, labeled by character. Rendering this inventory does not issue toys or transfer ownership: future bequests must award items into the intended player inventory at the authored story moment.
 
 Inspecting an available TV object records state/tv/inspected/<interactionId>. Interaction memories use whenInspected (defaulting to their own interaction ID) and remain readable after leaving the room. Existing character memories use unlockedBy against shared activeItems/revealedItems/memoryTriggers and collected-item identifiers. Developer access changes whose memories are visible, never whether their trigger has fired. game-memories.js selects available memories; realtime game updates notify the owner and developer observer. Existing memories load into the reader without replaying all popups; newly available interaction memories and other-character developer memories produce a named popup, queued while a phone minigame is running. Legacy own-character memory popups remain handled by the existing dashboard.

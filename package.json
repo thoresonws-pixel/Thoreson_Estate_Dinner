@@ -19,6 +19,7 @@
     "test:lab": "playwright test",
     "doctor": "node scripts/doctor.cjs",
     "test:all": "npm test && npm run test:lab",
-    "print:links": "node scripts/print-links.cjs"
+    "print:links": "node scripts/print-links.cjs",
+    "build:production": "node scripts/build-production.cjs"
   }
 }

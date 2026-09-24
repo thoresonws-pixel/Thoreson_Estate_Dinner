@@ -57,7 +57,7 @@ for(const variant of ['production','development']) {
     await assertFails(db.ref('games/session/state').remove());
     await assertFails(db.ref('games/session').remove());
    }
-   await assertSucceeds(guest.ref('games/session/state/tv/inventory/shared_item').set({name:'Discovered document'}));
+   await assertSucceeds(host.ref('games/session/state/tv/inventory/shared_item').set({name:'Discovered document'}));
    await assertSucceeds(host.ref('games/session/state/experience').set({schemaVersion:1,revision:4,stepId:'search',startedAt:20,pausedAt:30}));
    await assertSucceeds(host.ref('games/session/state/experience').remove());
    await assertFails(guest.ref('games/session/state/experience').set({unknownField:'cannot create malformed progress'}));

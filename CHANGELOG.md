@@ -6,6 +6,9 @@ Record meaningful behavior, compatibility and operational changes here. Entries 
 
 ### Platform foundation
 
+- Projected private memory text out of published packages; added host-issued grants, persistent character claims and scoped realtime memory reads. Production now uses an explicit build directory.
+- Added validated billiards completion receipts and server-enforced piano reservations, including story/revision/generation checks. Discovery triggers are host-controlled. See `docs/MEMORY_AND_ACTIONS.md` for coverage, remaining gaps and required story-data publication before deployment.
+
 - Isolated automated browser tests from manual Player Lab sessions, including ports, Firebase demo projects and saved state. Added setup diagnostics and retained failure traces. PR #2.
 - Added versioned story progression with stale-command rejection and pause/reconnect regression coverage. Existing saved states remain readable. PR #2.
 - Replaced profile-based administrator authority with trusted grants; protected host story progression and added direct rules tests. Administrator provisioning is required before production release. PR #3.
