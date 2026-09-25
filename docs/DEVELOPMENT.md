@@ -2,9 +2,9 @@
 
 ## Daily work
 
-Read CONTRIBUTING.md. Use feature branches and pull requests. Main is protected by required reviews and checks. Both developers can work independently; coordinate overlapping modules rather than making one large shared branch.
+Read CONTRIBUTING.md. Use feature branches and pull requests. Main requires passing checks and resolved review conversations; peer approval is optional. Both developers can work independently; coordinate overlapping modules rather than making one large shared branch.
 
-`npm ci` installs pinned dependencies. `npm run dev` runs Player Lab using Node 22 and Java 21. `npm test` validates JavaScript, all story packages, development build isolation and puzzle/state regressions. `npm run test:lab` runs the real Auth/Database emulator browser test; first install its browser with `npx playwright install chromium`. On Linux use `npx playwright install --with-deps chromium`.
+`npm ci` installs pinned dependencies. `npm run dev` runs Player Lab using Node 22 and Java 21. `npm test` validates JavaScript, all story packages, development build isolation and puzzle/state regressions. `npm run test:lab` starts a disposable, isolated Auth/Database emulator lab and runs the browser suite; first install its browser with `npx playwright install chromium`. On Linux use `npx playwright install --with-deps chromium`.
 
 ## Shared development
 
@@ -37,3 +37,7 @@ Hosting retains a small set of releases. Roll back through Firebase Hosting rele
 ## Incremental code organization
 
 Keep new mechanics in standalone shared modules. The dashboard and experience file remain larger legacy integration points. Extract their affected sections in focused PRs when changing them; a wholesale rewrite during workflow setup would create unnecessary merge conflicts. New stories must remain self-contained packages.
+
+## Administrator migration
+
+Platform administrator grants are managed separately from developer-site membership and game hosting. Follow [account authority and rollout](ACCOUNT_AUTHORITY.md) before releasing the new rules. Production deployment checks that a trusted grant exists; profile `role` values and old invite links cannot provision one. Local Player Lab seeds only its host grant.

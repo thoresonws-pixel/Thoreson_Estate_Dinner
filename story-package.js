@@ -121,7 +121,7 @@
                     if (!shot.start || !Number.isFinite(shot.start.x) || !Number.isFinite(shot.start.y) || shot.start.x <= 50 || shot.start.x >= 310 || shot.start.y <= 50 || shot.start.y >= 490) fail('invalid ball start');
                     if (!['top-left','top-right','middle-left','middle-right','bottom-left','bottom-right'].includes(shot.pocket) || (shot.cushions !== undefined && (!Array.isArray(shot.cushions) || shot.cushions.length > 5 || shot.cushions.some(c => !['top','bottom','left','right'].includes(c))))) fail('invalid pool-shot route');
                 }
-                if (item.memory && (!item.memory.characterId || !item.memory.title || !item.memory.text)) fail('invalid challenge memory');
+                if (item.memory && (!item.memory.characterId || !item.memory.title || (!item.memory.text&&!item.memory.privateTextId))) fail('invalid challenge memory');
             }
             if (item.type === 'objectSequence') {
                 if (!Array.isArray(item.objects) || item.objects.length < 2 || item.objects.length > 16) fail('invalid sequence objects');
@@ -224,7 +224,8 @@
             }
             return validate(p);
         })().catch(e => { cache.delete(resolved); throw e; }));
-        return clone(await cache.get(resolved));
+        const result=clone(await cache.get(resolved));
+        return global.StoryMemoryReader ? global.StoryMemoryReader.hydrate(result) : result;
     }
     // Explicit v1 adapter for existing global-based renderers. Replaces all data,
     // including absent collections, to prevent previous-story data leaking in.

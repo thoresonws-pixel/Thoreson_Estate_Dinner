@@ -20,8 +20,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - run: npm run build:production
       - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
         with:
           workload_identity_provider: projects/634959998634/locations/global/workloadIdentityPools/github/providers/actions
           service_account: github-deploy@thoreson-estate.iam.gserviceaccount.com
+      - name: Verify administrator migration before release
+        run: node scripts/admin-access.cjs --project thoreson-estate --check
+      - run: node scripts/migrate-private-inventory.cjs --project thoreson-estate --check
+      - run: node scripts/publish-story-boundaries.cjs --project thoreson-estate --check
       - run: npx firebase deploy --only hosting,database --project thoreson-estate --non-interactive

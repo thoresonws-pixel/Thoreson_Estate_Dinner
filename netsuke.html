@@ -107,5 +107,5 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ThorsMystery">
 </head>
-<body><main id="pageContent">Loading story…</main><script src="story-package.js"></script><script>StoryPackage.fromContext().then(story=>{document.getElementById('pageContent').innerHTML=story.presentation?.pages?.netsukeStandalone||'This story has no content at this historical address.';}).catch(e=>document.getElementById('pageContent').textContent=e.message);</script></body>
+<body><main id="pageContent">Loading story…</main><script src="story-memory-reader.js"></script><script src="story-package.js"></script><script>StoryPackage.fromContext().then(story=>{document.getElementById('pageContent').innerHTML=story.presentation?.pages?.netsukeStandalone||'This story has no content at this historical address.';}).catch(e=>document.getElementById('pageContent').textContent=e.message);</script></body>
 </html>

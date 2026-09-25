@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": ".",
+    "public": "dist/production",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -17,7 +17,14 @@
       "CONTRIBUTING.md",
       "AGENTS.md",
       "gha-creds-*.json",
-      "playwright.config.cjs"
+      "playwright.config.cjs",
+      "test-results/**",
+      "playwright-report/**",
+      "review/**",
+      "docs/**",
+      "**/*.md",
+      "**/*.bak",
+      ".editorconfig"
     ],
     "headers": [
       {

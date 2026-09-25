@@ -17,9 +17,9 @@
         const expand=text=>String(text||'').replace(/\{\{([a-zA-Z0-9_]+)\}\}/g,(_,id)=>characters[id]?.name||id);
         for(const [id,character]of Object.entries(characters)){
             if(!developer&&id!==characterId)continue;
-            for(const [index,entry]of (character.memories||[]).entries())if(entryUnlocked(entry,game))result.push({id:'character:'+id+':'+index,characterId:id,characterName:character.name||id,title:'Memory',text:expand(entry.text)});
+            for(const [index,entry]of (character.memories||[]).entries())if(entry.text&&entryUnlocked(entry,game))result.push({id:'character:'+id+':'+index,characterId:id,characterName:character.name||id,title:'Memory',text:expand(entry.text)});
         }
-        for(const item of story?.experience?.interactions||[]){const entry=item.memory;if(!entry||(!developer&&entry.characterId!==characterId)||!entryUnlocked(entry,game,item.id))continue;
+        for(const item of story?.experience?.interactions||[]){const entry=item.memory;if(!entry?.text||(!developer&&entry.characterId!==characterId)||!entryUnlocked(entry,game,item.id))continue;
             result.push({id:'interaction:'+item.id,characterId:entry.characterId,characterName:characters[entry.characterId]?.name||entry.characterId,title:entry.title,text:expand(entry.text)});
         }
         return result;

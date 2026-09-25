@@ -996,7 +996,7 @@
         }
 
     </style>
-<script src="story-package.js"></script><script src="story-content.js"></script>
+<script src="story-memory-reader.js"></script><script src="story-package.js"></script><script src="story-content.js"></script>
 <script src="role-engine.js"></script>
 </head>
 <body>
@@ -1644,7 +1644,7 @@
 
                     // Build userSession identical in shape to the legacy system
                     // so all existing functions work unchanged
-                    const isAdmin = userData.role === 'admin';
+                    const isAdmin = await AccountAccess.isPlatformAdmin(database, user.uid);
                     userSession = {
                         username:        playerData.characterId,       // key into characterDatabase
                         displayName:     user.displayName || user.email,
@@ -3007,7 +3007,9 @@
 <script src="shared-inventory.js"></script><script src="case-board.js"></script><script src="cooperative-maze.js"></script>
 <script src="game-memories.js"></script>
 <script src="developer-access.js"></script>
-<script src="phone-actions.js"></script>
+<script src="account-access.js"></script>
+<script src="private-inventory.js"></script>
+<script src="game-actions.js"></script><script src="phone-actions.js"></script>
 <script src="phone-flow-bridge.js"></script>
 </body>
 </html>

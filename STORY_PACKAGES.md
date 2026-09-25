@@ -12,13 +12,13 @@ A package has `schemaVersion: 1`, a stable `id` matching its folder, and `metada
 
 - `version: 1`, optional `title`.
 - `steps`: an ordered nonempty array of unique stable IDs. The first entry is the initial step; `next` names the next step, and an absent `next` ends the current authored flow.
-- Supported `type` values: `title`, `questionnaire`, `placeholder`, `exploration`. Other mechanics require an explicit reusable capability before being authored.
+- Supported `type` values: `title`, `questionnaire`, `placeholder`, `exploration`, `dialogue`. Other mechanics require an explicit reusable capability before being authored.
 - Presentation: `label`, `text`, `phoneText`, `button`, `expiredText`.
-- Optional positive `durationSeconds`: blocks advancing until the shared deadline. Expiry never advances automatically; the host uses the button. An initial timed step is persisted by the TV host.
+- Optional positive `durationSeconds`: blocks advancing until the shared deadline. By default the host advances after expiry. A configured `autoAdvance: true` step is advanced by the connected host UI. An initial timed step is persisted by the TV host.
 - `questionnaire`: `intro`, `savedText`, and `fields`. Each field has a unique `id`, `label`, optional `valueType: "number"`, and `options` of `{value,label}`. Answers are stored under that participant's questionnaire record. `completedAt` is reserved.
 - Optional `map`: site-relative `image`, original `width`/`height`, and `rooms` of `[id,label,x,y,width,height]` in percentages. IDs must be unique and rectangles must remain within the map. Room names and board notes are session state, not changes to package content.
 
-Runtime progress lives at `games/<gameId>/state/experience` as `{stepId, startedAt}`. Firebase server timestamps and server clock offset keep clients aligned. Transactions protect against repeated/stale advancement, and listeners have scoped cleanup. The phone interface does not offer progression controls. These checks are client mechanics, not a replacement for server authorization.
+Runtime progress lives at `games/<gameId>/state/experience` as `{schemaVersion, revision, stepId, startedAt, pausedAt?}`; legacy records without version/revision remain readable. Firebase server timestamps and server clock offset keep clients aligned. Transactions protect against repeated/stale advancement, and listeners have scoped cleanup. The phone interface does not offer progression controls. Runtime checks are paired with host-only progression rules; other game actions still need further authorization work. See docs/ACCOUNT_AUTHORITY.md.
 
 ## Roles and preserved behavior
 
@@ -52,16 +52,12 @@ Optional `content.challenges[challengeId]` supplies prompt, accepted answers, an
 
 ## Authoritative sources and boundary
 
-All reachable loaders, scanner/clue/photo/side-quest viewers, print/reference pages, role displays, invitation/preparation pages and migrated social controls consume JSON packages. Original root characters.js/skills.js/items.js/revelations.js, per-story JS datasets, old template JS, backup.html and authenticated-dashboard-archive.html are historical snapshots, excluded from runtime authoring. They can be archived later; do not edit them to change a game. The old JS import paths are no longer used by the active HTML routes or print generator. Comparison tests read them solely as baselines.
-
+Active loaders and renderers consume JSON packages through the adapters. Retired root and per-story JavaScript datasets, template examples, and backup pages are retained under `review/legacy/`; see `review/manifest.json` for original paths. They are not runtime authoring sources and are excluded from publishing. Do not copy the historical scripts back into a live story.
 The three coming-soon catalog entries retain their existing copied content and are explicitly marked as such; they are not newly authored playable stories. No extra cast, NPC policy, payment flow, new act, backend scheduler or security model was added. The legacy platform still has different visual styles and database mechanisms, but story content and configured behavior for the migrated capabilities come from packages. Root media remains an explicit legacy asset location.
 
 ## Verification
 
-Tests in `../.engine2-work/` extend the independent orbital_archive fixture with a different cast, saboteur/custodian roles, skill prefix, clue, welcome/menu and social phases. Browser coverage exercises historical and new clues, QR printing, standalone scanning, GM reference, private role overlay, role override choices, expert/item scans and cross-story rejection. Social unit tests cover distributions, missing recipients, name tokens, configured events and duplicate claims. Preservation tests verify all previous package content remains present and packages validate.
-
-Earlier opening, independent map/video, 100-seed-per-generator, pregame checklist and printable welcome-packet tests are retained in .engine-work/.pregame-work/.welcome-work. Firebase is mocked in browser tests; release verification compares every published file with reviewed bytes. These are not real-device production-party tests.
-
+The supported checks live in `tests/` and run with `npm run test:all`. See docs/TESTING.md for exact coverage and known gaps. Historical tests outside the repository are not required onboarding steps or evidence that current changes pass.
 
 ## Interior room artwork
 
@@ -122,7 +118,7 @@ The phone computes trajectory and animates locally. Winning uses a game transact
 
 All newly collected documents, recordings, evidence, keys, and tools now write to `state/tv/inventory/<reward.id>`. Story interactions use `type: inventory`, an `itemKind` such as `document`, `recording`, or `tool`, and `isEvidence: true` where relevant. Evidence is an item property, not a separate collection path.
 
-`shared-inventory.js` supplies the common read model and expandable reader for TV Group inventory, the phone Inventory tab, and the phone Case File's Collected evidence section. It merges historical evidence from `state/tv/discoveries` without deleting saved data; canonical inventory entries take precedence. Legacy puzzle completion notices are excluded. Uncollected definitions do not appear. Personal items are read separately from games/<gameId>/players/<uid>/inventory; group items remain in state/tv/inventory.
+`shared-inventory.js` supplies the common read model and expandable reader for TV Group inventory, the phone Inventory tab, and the phone Case File's Collected evidence section. It merges historical evidence from `state/tv/discoveries` without deleting saved data; canonical inventory entries take precedence. Legacy puzzle completion notices are excluded. Uncollected definitions do not appear. Personal items are read through a permission-scoped subscription at `privateSessions/<gameId>/players/<uid>/inventory`; group items remain in `state/tv/inventory`. See [private inventory](docs/PRIVATE_INVENTORY.md) for access rules and migration of older saves.
 
 ## Developer character access
 
@@ -132,6 +128,8 @@ All newly collected documents, recordings, evidence, keys, and tools now write t
 
 
 ## Personal inventory and progress-triggered memories
+
+Private memory text is now projected into a protected story dataset rather than delivered in the public package. The TV issues generation-bound grants when conditions are met; phones retrieve only authorized entries. See [memory and action boundaries](docs/MEMORY_AND_ACTIONS.md), including story publication requirements and current legacy-ID limitations.
 
 The phone Inventory tab contains Personal items (the signed-in player’s inventory) and Group discoveries (shared inventory plus compatible historical evidence). Developer accounts can inspect other players’ existing personal inventories, labeled by character. Rendering this inventory does not issue toys or transfer ownership: future bequests must award items into the intended player inventory at the authored story moment.
 

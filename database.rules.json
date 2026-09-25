@@ -2,8 +2,9 @@
   "rules": {
     "users": {
       "$uid": {
-        ".read": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin')",
-        ".write": "auth != null && (auth.uid === $uid || root.child('users').child(auth.uid).child('role').val() === 'admin')"
+        ".read": "auth != null && (auth.uid === $uid || root.child('platformAdmins').child(auth.uid).val() === true)",
+        ".write": "auth != null && (auth.uid === $uid || root.child('platformAdmins').child(auth.uid).val() === true)",
+        ".validate": "!newData.child('role').exists() || newData.child('role').val() === 'player' || newData.child('role').val() === data.child('role').val() || (auth != null && root.child('platformAdmins').child(auth.uid).val() === true)"
       }
     },
     "games": {
@@ -14,8 +15,61 @@
         "partyCode"
       ],
       "$gameId": {
-        ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && (data.exists() || (newData.child('createdBy').val() === auth.uid && newData.child('unlockId').isString() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('storyId').val() === newData.child('storyId').val() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('gameMode').val() === newData.child('gameMode').val() && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('ownerUid').val() === auth.uid && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('active').val() === true))",
-        ".validate": "!data.exists() || (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('storyId').val() === data.child('storyId').val() && newData.child('unlockId').val() === data.child('unlockId').val() && newData.child('gameMode').val() === data.child('gameMode').val())"
+        ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && ((data.exists() && (newData.exists() || data.child('createdBy').val() === auth.uid)) || (newData.child('createdBy').val() === auth.uid && newData.child('unlockId').isString() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('storyId').val() === newData.child('storyId').val() && root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('gameMode').val() === newData.child('gameMode').val() && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('ownerUid').val() === auth.uid && root.child('gameUnlockKeys').child(root.child('accountGameUnlocks').child(auth.uid).child(newData.child('unlockId').val()).child('key').val()).child('active').val() === true))",
+        ".validate": "(!data.exists() || (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('storyId').val() === data.child('storyId').val() && newData.child('unlockId').val() === data.child('unlockId').val() && newData.child('gameMode').val() === data.child('gameMode').val())) && (!data.exists() || data.child('createdBy').val() === auth.uid || (newData.child('state/experience').exists() === data.child('state/experience').exists() && newData.child('state/experience/schemaVersion').val() === data.child('state/experience/schemaVersion').val() && newData.child('state/experience/revision').val() === data.child('state/experience/revision').val() && newData.child('state/experience/stepId').val() === data.child('state/experience/stepId').val() && newData.child('state/experience/startedAt').val() === data.child('state/experience/startedAt').val() && newData.child('state/experience/pausedAt').val() === data.child('state/experience/pausedAt').val())) && (!data.exists() || data.child('createdBy').val() === auth.uid || newData.child('privateGeneration').val() === data.child('privateGeneration').val()) && (data.child('createdBy').val() === auth.uid || !data.child('state/tv/songSelection').exists() || newData.child('state/tv/songSelection').exists()) && (data.child('createdBy').val() === auth.uid || newData.child('state/tv/currentRoom').val() === data.child('state/tv/currentRoom').val()) && (data.child('createdBy').val() === auth.uid || newData.child('state/tv/activeInteraction').val() === data.child('state/tv/activeInteraction').val())",
+        "players": {
+          "$uid": {
+            "inventory": {
+              ".validate": false
+            },
+            ".validate": "auth != null && (root.child('games').child($gameId).child('createdBy').val() === auth.uid || !root.child('characterClaims').child($gameId).child($uid).exists() || newData.child('characterId').val() === root.child('characterClaims').child($gameId).child($uid).val())"
+          }
+        },
+        "state": {
+          "itemAssignments": {
+            ".validate": false
+          },
+          "activeItems": {
+            "$entry": {
+              ".validate": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (data.exists() && newData.val() === data.val())"
+            }
+          },
+          "revealedItems": {
+            "$entry": {
+              ".validate": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (data.exists() && newData.val() === data.val())"
+            }
+          },
+          "memoryTriggers": {
+            "$entry": {
+              ".validate": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (data.exists() && newData.val() === data.val())"
+            }
+          },
+          "tv": {
+            "inspected": {
+              "$entry": {
+                ".validate": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || data.exists()"
+              }
+            },
+            "inventory": {
+              "$entry": {
+                ".validate": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (data.exists() && newData.child('source').val() === data.child('source').val())"
+              }
+            },
+            "discoveries": {
+              "$entry": {
+                ".validate": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (data.exists() && newData.child('source').val() === data.child('source').val())"
+              }
+            },
+            "puzzles": {
+              "$action": {
+                ".validate": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child($action).child('kind').val() !== 'poolShot') || (newData.child('solved').val() === true && root.child('actionReceipts').child($gameId).child($action).child('generation').val() === (root.child('games').child($gameId).child('privateGeneration').exists() ? root.child('games').child($gameId).child('privateGeneration').val() : 0) && newData.child('solvedBy').val() === root.child('actionReceipts').child($gameId).child($action).child('uid').val() && newData.child('solvedAt').val() === root.child('actionReceipts').child($gameId).child($action).child('solvedAt').val())"
+              }
+            },
+            "songSelection": {
+              ".validate": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (data.exists() && newData.child('id').val() === data.child('id').val() && newData.child('bookletId').val() === data.child('bookletId').val() && newData.child('pageId').val() === data.child('pageId').val() && newData.child('interactionId').val() === data.child('interactionId').val() && newData.child('selectedBy').val() === data.child('selectedBy').val() && newData.child('revision').val() === data.child('revision').val() && newData.child('privateGeneration').val() === data.child('privateGeneration').val()) || (!data.exists() && newData.child('revision').val() === (root.child('games').child($gameId).child('state/experience/revision').exists() ? root.child('games').child($gameId).child('state/experience/revision').val() : 0) && newData.child('privateGeneration').val() === (root.child('games').child($gameId).child('privateGeneration').exists() ? root.child('games').child($gameId).child('privateGeneration').val() : 0) && newData.hasChildren(['id','bookletId','pageId','interactionId','selectedBy']) && newData.child('selectedBy').val() === auth.uid && root.child('games').child($gameId).child('players').child(auth.uid).exists() && root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child(newData.child('interactionId').val()).child('kind').val() === 'noteSequence' && root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child(newData.child('interactionId').val()).child('pages').child(newData.child('pageId').val()).exists() && root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child(newData.child('interactionId').val()).child('pages').child(newData.child('pageId').val()).child('bookletId').val() === newData.child('bookletId').val() && (root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child(newData.child('interactionId').val()).child('pages').child(newData.child('pageId').val()).child('requiresInventory').val() === '' || root.child('games').child($gameId).child('state/tv/inventory').child(root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child(newData.child('interactionId').val()).child('pages').child(newData.child('pageId').val()).child('requiresInventory').val()).exists()) && root.child('games').child($gameId).child('state/tv/activeInteraction').val() === newData.child('interactionId').val() && root.child('games').child($gameId).child('state/tv/currentRoom').val() === root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child(newData.child('interactionId').val()).child('roomId').val() && root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child(newData.child('interactionId').val()).child('allowedSteps').child(root.child('games').child($gameId).child('state/experience/stepId').val()).val() === true && !root.child('games').child($gameId).child('state/experience/pausedAt').exists())"
+            }
+          }
+        }
       }
     },
     "partyCodeIndex": {
@@ -24,18 +78,15 @@
     },
     "venues": {
       ".read": true,
-      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'"
+      ".write": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true"
     },
     "cancelledGames": {
-      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
-      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'"
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+      ".write": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true"
     },
     "adminInvites": {
-      ".read": "auth != null",
-      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
-      "$code": {
-        ".read": true
-      }
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+      ".write": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true"
     },
     "photos": {
       ".read": "auth != null",
@@ -50,7 +101,7 @@
       ".write": false
     },
     "survey": {
-      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
       ".write": false
     },
     "activeItems": {
@@ -74,20 +125,20 @@
       ".write": false
     },
     "$other": {
-      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() === 'admin'",
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
       ".write": false
     },
     "hostAccess": {
-      ".read": "auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true",
-      ".write": "auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true",
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+      ".write": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
       "$uid": {
         ".read": "auth != null && auth.uid === $uid"
       }
     },
     "hostAccessRequests": {
-      ".read": "auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true",
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
       "$uid": {
-        ".read": "(auth != null && auth.token.email === 'thoresonws@gmail.com' && auth.token.email_verified === true) || (auth != null && auth.uid === $uid)",
+        ".read": "(auth != null && root.child('platformAdmins').child(auth.uid).val() === true) || (auth != null && auth.uid === $uid)",
         ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && auth.uid === $uid && !data.exists()",
         ".validate": "newData.hasChildren(['email','displayName','requestedAt'])",
         "email": {
@@ -190,6 +241,84 @@
       ".write": false,
       "$uid": {
         ".read": "auth != null && auth.uid === $uid && auth.token.email_verified === true"
+      }
+    },
+    "platformAdmins": {
+      ".read": "auth != null && root.child('platformAdmins').child(auth.uid).val() === true",
+      ".write": false,
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid"
+      }
+    },
+    "privateSessions": {
+      ".read": false,
+      ".write": false,
+      "$gameId": {
+        ".read": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && root.child('games').child($gameId).exists() && (root.child('games').child($gameId).child('createdBy').val() === auth.uid || (auth.token.email_verified === true && root.child('developerAccess').child(auth.uid).child('inspectAllCharacters').val() === true))",
+        ".write": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && root.child('games').child($gameId).exists() && (root.child('games').child($gameId).child('createdBy').val() === auth.uid)",
+        ".validate": "newData.child('schemaVersion').val() === 1 && newData.child('generation').val() === (root.child('games').child($gameId).child('privateGeneration').exists() ? root.child('games').child($gameId).child('privateGeneration').val() : 0)",
+        "players": {
+          "$uid": {
+            ".read": "(auth != null && auth.token.firebase.sign_in_provider !== 'anonymous') && auth.uid === $uid && root.child('games').child($gameId).child('players').child(auth.uid).exists()"
+          }
+        }
+      }
+    },
+    "characterClaims": {
+      "$gameId": {
+        "$uid": {
+          ".read": "auth != null && (auth.uid === $uid || (auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid))",
+          ".write": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (auth != null && auth.uid === $uid && !data.exists() && newData.isString() && newData.val() === root.child('games').child($gameId).child('players').child(auth.uid).child('characterId').val())"
+        }
+      }
+    },
+    "memoryGrants": {
+      "$gameId": {
+        ".read": "auth != null && (root.child('games').child($gameId).child('players').child(auth.uid).exists() || (auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (auth.token.email_verified === true && root.child('developerAccess').child(auth.uid).child('inspectAllCharacters').val() === true))",
+        ".write": "auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid",
+        "$entry": {
+          ".validate": "newData.child('generation').val() === (root.child('games').child($gameId).child('privateGeneration').exists() ? root.child('games').child($gameId).child('privateGeneration').val() : 0) && newData.child('characterId').isString()"
+        }
+      }
+    },
+    "storyMemoryText": {
+      "$storyId": {
+        ".read": "auth != null && root.child('games').child(root.child('users').child(auth.uid).child('currentGameId').val()).child('createdBy').val() === auth.uid && root.child('games').child(root.child('users').child(auth.uid).child('currentGameId').val()).child('storyId').val() === $storyId",
+        ".write": false,
+        "$entry": {
+          ".read": "auth != null && root.child('games').child(root.child('users').child(auth.uid).child('currentGameId').val()).child('storyId').val() === $storyId && ((root.child('games').child(root.child('users').child(auth.uid).child('currentGameId').val()).child('players').child(auth.uid).exists() && root.child('characterClaims').child(root.child('users').child(auth.uid).child('currentGameId').val()).child(auth.uid).val() === data.child('characterId').val()) || (auth.token.email_verified === true && root.child('developerAccess').child(auth.uid).child('inspectAllCharacters').val() === true)) && root.child('memoryGrants').child(root.child('users').child(auth.uid).child('currentGameId').val()).child($entry).child('generation').val() === (root.child('games').child(root.child('users').child(auth.uid).child('currentGameId').val()).child('privateGeneration').exists() ? root.child('games').child(root.child('users').child(auth.uid).child('currentGameId').val()).child('privateGeneration').val() : 0)"
+        }
+      }
+    },
+    "actionPolicies": {
+      ".read": false,
+      ".write": false
+    },
+    "actionReceipts": {
+      "$gameId": {
+        ".read": "auth != null && (root.child('games').child($gameId).child('players').child(auth.uid).exists() || (auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid))",
+        "$action": {
+          ".write": "(auth != null && root.child('games').child($gameId).child('createdBy').val() === auth.uid) || (auth != null && root.child('games').child($gameId).child('players').child(auth.uid).exists() && root.child('games').child($gameId).child('state/tv/activeInteraction').val() === $action && root.child('games').child($gameId).child('state/tv/currentRoom').val() === root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child($action).child('roomId').val() && root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child($action).child('allowedSteps').child(root.child('games').child($gameId).child('state/experience/stepId').val()).val() === true && !root.child('games').child($gameId).child('state/experience/pausedAt').exists() && root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child($action).child('kind').val() === 'poolShot' && (!data.exists() || data.child('generation').val() !== (root.child('games').child($gameId).child('privateGeneration').exists() ? root.child('games').child($gameId).child('privateGeneration').val() : 0)))",
+          ".validate": "newData.hasChildren(['uid','generation','revision','proof','solvedAt']) && newData.child('uid').val() === auth.uid && newData.child('generation').val() === (root.child('games').child($gameId).child('privateGeneration').exists() ? root.child('games').child($gameId).child('privateGeneration').val() : 0) && newData.child('revision').val() === (root.child('games').child($gameId).child('state/experience/revision').exists() ? root.child('games').child($gameId).child('state/experience/revision').val() : 0) && newData.child('solvedAt').val() === now && newData.child('proof').isString() && (root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child($action).child('requiredItem').val() === '' || root.child('privateSessions').child($gameId).child('players').child(auth.uid).child('inventory').child(root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child($action).child('requiredItem').val()).exists())",
+          "uid": {
+            ".validate": "newData.isString()"
+          },
+          "generation": {
+            ".validate": "newData.isNumber()"
+          },
+          "revision": {
+            ".validate": "newData.isNumber()"
+          },
+          "solvedAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "proof": {
+            ".validate": "newData.val() === root.child('actionPolicies').child(root.child('games').child($gameId).child('storyId').val()).child($action).child('proof').val()"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
       }
     }
   }

@@ -7,10 +7,11 @@ function changeGame(game, experience, players, action, stepId, now=Date.now()) {
  if(action==='reset') {
   next.players=Object.fromEntries(players.map(p=>[p.uid,{characterId:p.characterId,characterName:p.name,displayName:p.name,status:'ready',joinedAt:now,questionnaireComplete:true,waiverSigned:true}]));
   next.state={};
+  next.privateGeneration=(game.privateGeneration||0)+1;
   // Retain session metadata, not legacy progress outside state.
-  for(const key of Object.keys(next))if(!['storyId','storyName','partyName','partyCode','createdBy','createdAt','status','gameMode','unlockId','players','state'].includes(key))delete next[key];
+  for(const key of Object.keys(next))if(!['storyId','storyName','partyName','partyCode','createdBy','createdAt','status','gameMode','unlockId','players','state','privateGeneration'].includes(key))delete next[key];
  }
- next.state||={};next.state.experience={stepId:target.id,startedAt:now};
+ next.state||={};next.state.experience={schemaVersion:1,revision:(game.state?.experience?.revision||0)+1,stepId:target.id,startedAt:now};
  next.state.tv||={};delete next.state.tv.activeInteraction;delete next.state.tv.phoneActionRequest;delete next.state.tv.songSelection;
  return next;
 }
