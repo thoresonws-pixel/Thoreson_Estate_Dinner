@@ -33,12 +33,13 @@ These requirements apply to **every change**, including foundation refactors, te
 - One owner per task branch; simultaneous assistants use separate worktrees. Default new work to updated main. Declare any unmerged prerequisite and PR base explicitly.
 - Save and push reviewed, scoped checkpoints. Do not automatically stash, rebase published branches, accept entire conflict sides, or discard unfamiliar files. Resolve both contributors' intended behaviors and retest the combined result.
 - Treat "ready to test", a working/accepted feature, moving to the next task, and session handoff as checkpoint triggers. Before announcing a testing checkpoint, validate, commit and push the scoped changes and update the PR. Verify the push; if blocked, explicitly say the checkpoint is local only.
-- At each checkpoint, proactively assess integration using the [checkpoint policy](docs/COLLABORATION.md#checkpoint-and-integration-policy). Merge an eligible, human-approved PR into main without requiring another routine permission prompt. Otherwise name the exact missing review, check, prerequisite or compatibility work and recommend the next integration step. Never equate user acceptance of gameplay with GitHub review approval, bypass protections, or push directly to main.
+- At each checkpoint, proactively assess integration using the [checkpoint policy](docs/COLLABORATION.md#checkpoint-and-integration-policy). Merge an eligible, user-accepted PR into main without requiring another routine permission prompt. Otherwise name the exact missing acceptance, check, prerequisite or compatibility work and recommend the next integration step. Peer approval is optional. Do not bypass required checks or push directly to main.
 - Leave a PR handoff with branch/base, changes, tests, remaining work and whether changes are local, pushed, merged or deployed. Never call a pushed branch integrated or live.
 - Preserve uncommitted work. Do not reset, clean, force-push, or overwrite another contributor's changes.
 - Coordinate overlapping modules and package contract changes through an issue or PR. Avoid unrelated formatting/refactors.
 - Run `npm test` and relevant Player Lab checks. Add regression coverage for consequential multiplayer/state changes.
-- Submit a PR; main requires CI and human review. Do not bypass protections for routine feature work.
+- Submit a PR; main requires CI; peer review is optional. Do not bypass protections for routine feature work.
+- Before integrating a change that deletes user data, broadens permissions, or breaks existing saved games, explain the specific impact and obtain the user's explicit decision unless that exact impact was already authorized. Routine fixes and compatible foundation improvements use the normal acceptance-and-tests workflow.
 - Main deploys to development only. Production changes require a deliberate release. Never copy local emulator identities, snapshots, or unsigned tokens to a hosted environment.
 - Story content stays in packages. Extract affected legacy components incrementally rather than creating parallel engines.
 
@@ -47,4 +48,3 @@ Before handing off each change, explicitly check story independence, preservatio
 ## Existing implementation
 
 Some existing code predates this rule and hardcodes Thoreson content, including the initial estate TV prototype. Do not describe that code as already compliant. When modifying an affected area, move its story-specific dependencies behind the package boundary as part of the change. Avoid unrelated wholesale rewrites; document remaining legacy coupling explicitly.
-

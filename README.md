@@ -26,7 +26,7 @@ For the full human and AI “sync to central” routine, read [Collaboration](do
 1. Claim a task and agree on shared interfaces before overlapping work.
 2. Create a feature branch in your own checkout.
 3. Run `npm run test:all`, inspect the TV/phone behavior, and open a pull request.
-4. Have the other developer review it. Merge only after checks pass.
+4. Merge accepted work after checks pass; review by the other developer is optional.
 
 Main is the integration branch and deploys to the separate development site. Production is a deliberate, reviewed release. Current foundation PRs may be stacked: merge their prerequisites first and retarget dependent PRs to main. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
