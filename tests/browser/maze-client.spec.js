@@ -23,6 +23,11 @@ test('maze controller saves only its puzzle when another puzzle was host-solved'
   await expect.poll(async()=>{const d=await(await request.get(root,{headers})).json();return d.games[cfg.gameId].state.tv.puzzles[item.id].revision;}).toBe(1);
   const after=await(await request.get(root,{headers})).json();expect(after.games[cfg.gameId].state.tv.puzzles[pool.id]).toEqual(legacyWin);
   await expect(guide.locator('.cooperative-maze')).not.toContainText('Could not save');
+  const gear=guide.getByRole('button',{name:/Wind gear clockwise/});await expect(gear).toBeVisible();await gear.focus();for(let i=0;i<4;i++)await guide.keyboard.press('ArrowRight');
+  await expect(guide.getByRole('dialog')).toContainText(item.maze.winding.warning.text);
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  const wound=await(await request.get(root,{headers})).json();expect(wound.games[cfg.gameId].state.tv.puzzles[item.id].overloads[uids[0]].mazeId).toBe(m.id);
+  await guide.getByRole('button',{name:'Understood'}).click();await expect(gear).toBeDisabled();
  }finally{await guide.close();await page.close();await request.put(root,{headers,data:before});}
 });
 
