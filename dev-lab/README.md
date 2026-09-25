@@ -1,5 +1,7 @@
 # Local player lab
 
+Use **Open player window** for one switchable player view or one wide window containing every player side by side in a scrollable grid. Each card has its own authenticated identity and starts on Actions. The grid adapts to the current story roster and window width. Reopening reuses the same named window; your browser may require allowing a pop-up for localhost.
+
 Run the actual TV and player pages with independent Firebase Auth identities against local Auth and Realtime Database emulators. No live accounts, game data, or Hosting deployments are involved.
 
 On this computer, start with:

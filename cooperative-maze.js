@@ -9,7 +9,7 @@ function validate(c){
  if(!Array.isArray(m.grid)||m.grid.length<3||m.grid.length>15||m.grid.some(r=>typeof r!=='string'||r.length!==m.grid[0].length||!/^[#.]+$/.test(r))||m.grid[0].length>15)throw Error('Invalid maze grid');
  for(const point of [m.start,m.goal])if(!Array.isArray(point)||point.length!==2||!point.every(Number.isInteger)||m.grid[point[1]]?.[point[0]]!=='.')throw Error('Invalid maze endpoint');
  if(m.start.join()===m.goal.join()||!route(m,m.start))throw Error('Maze goal must be reachable');
- }return true;
+ }if(c.winding){const w=c.winding;if(!Number.isInteger(w.turnsToRepair)||w.turnsToRepair<1||w.turnsToRepair>8||!Number.isFinite(w.cooldownSeconds)||w.cooldownSeconds<1||!Number.isFinite(w.breakdownChance)||w.breakdownChance<0||w.breakdownChance>1||!Number.isFinite(w.graceSeconds)||w.graceSeconds<0||![w.gearImage,w.warning?.portrait].every(x=>typeof x==='string'&&/^stories\/[a-z0-9_/-]+\.png$/i.test(x))||!w.warning?.text||!w.warning?.speakerName)throw Error('Invalid maze winding configuration');}return true;
 }
 function route(m,pos){const q=[[pos,[]]],seen=new Set([pos.join()]);while(q.length){const [p,path]=q.shift();if(p.join()===m.goal.join())return path;for(const [name,[dx,dy]]of Object.entries(directions)){const n=[p[0]+dx,p[1]+dy],k=n.join();if(m.grid[n[1]]?.[n[0]]==='.'&&!seen.has(k)){seen.add(k);q.push([n,[...path,name]]);}}}return null;}
 function assign(s){const active=s.mazeIds.filter(id=>!s.positions[id].done);s.controls={};for(let i=0;i<s.controllers.length;i++)if(i<active.length)s.controls[s.controllers[i]]=active[(i+s.rotation)%active.length];}
@@ -23,20 +23,43 @@ function tick(s,c,now){if(!s||s.status!=='running')return false;
 function move(original,c,uid,command,now){const s=copy(original);if(s.attempt!==command.attempt||s.revision!==command.revision||s.status!=='running')return null;
  if(tick(s,c,now))return s;if(now<(s.resumeAt||0)||!directions[command.direction])return null;
  const id=s.controls?.[uid];if(!id||id!==command.mazeId)return null;const m=c.mazes.find(m=>m.id===id),p=s.positions[id],[dx,dy]=directions[command.direction];
- const hit=m.grid[p.y+dy]?.[p.x+dx]!=='.';if(!hit){p.x+=dx;p.y+=dy;p.done=p.x===m.goal[0]&&p.y===m.goal[1];}
- s.lastMove={uid,mazeId:id,hit,at:now};s.rotation++;s.revision++;if(s.mazeIds.every(id=>s.positions[id].done)){s.status='complete';s.solved=true;s.solvedAt=now;s.solvedBy=uid;s.controls={};}else assign(s);return s;
+ const disconnected=s.fault?.mazeId===id;const hit=!disconnected&&m.grid[p.y+dy]?.[p.x+dx]!=='.';if(!hit&&!disconnected){p.x+=dx;p.y+=dy;p.done=p.x===m.goal[0]&&p.y===m.goal[1];}
+ s.lastMove={uid,mazeId:id,hit,at:now};s.rotation++;s.revision++;if(s.mazeIds.every(id=>s.positions[id].done)){s.status='complete';s.solved=true;s.solvedAt=now;s.solvedBy=uid;s.controls={};}else {assign(s);const w=c.winding;if(w&&!s.fault&&s.guideUids.length>1&&now>=Math.max(s.startedAt+w.graceSeconds*1000,s.faultGraceUntil||0)&&Number.isFinite(command.roll)&&command.roll>=0&&command.roll<w.breakdownChance){const available=s.mazeIds.filter(mid=>!s.positions[mid].done);if(available.length){s.fault={mazeId:available[Math.floor(command.roll/w.breakdownChance*available.length)],at:now};s.windTurns={};}}}return s;
+}
+function wind(original,c,uid,command,now){
+ const w=c.winding;if(!w||!original)return null;const s=copy(original);
+ if(s.attempt!==command.attempt||s.status!=='running'||now<(s.resumeAt||0)||now<(s.windCooldowns?.[command.mazeId]||0)||s.mazeIds[s.guideUids.indexOf(uid)]!==command.mazeId||s.positions[command.mazeId]?.done)return null;
+ if(tick(s,c,now))return s;
+ const id=command.mazeId;if((s.windTurns?.[id]||0)!==command.turn)return null;
+ s.windTurns||={};s.windCooldowns||={};
+ if(s.fault?.mazeId===id){s.windTurns[id]=(s.windTurns[id]||0)+1;if(s.windTurns[id]>=w.turnsToRepair){delete s.fault;s.windTurns[id]=0;s.windCooldowns[id]=now+w.cooldownSeconds*1000;s.faultGraceUntil=now+w.graceSeconds*1000;}}
+ else{s.overloads||={};s.overloads[uid]={at:now,mazeId:id};s.windTurns[id]=0;s.windCooldowns[id]=now+w.cooldownSeconds*1000;}
+ s.revision++;return s;
 }
 const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n;};
 function mount(container,{db,gameId,item,uid,host=false,pack}){
  const ref=db.ref('games/'+gameId);let latest=null,offset=0,disposed=false,pending=false,lastSignature='',selected=null,lastShuffle=null;
  const time=()=>Date.now()+offset,offsetRef=db.ref('.info/serverTimeOffset'),offsetListener=s=>offset=Number(s.val())||0;offsetRef.on('value',offsetListener);
- const shell=el('div');shell.className='cooperative-maze';shell.style.cssText='padding:16px;border:1px solid #a18a54;border-radius:10px;background:#171421;color:#faf5e7';const clock=el('p'),content=el('div'),error=el('p');error.setAttribute('role','status');clock.setAttribute('aria-label','Maze time remaining');shell.append(clock,content,error);container.append(shell);
+ const shell=el('div');shell.className='cooperative-maze';shell.style.cssText='padding:16px;border:1px solid #a18a54;border-radius:10px;background:#171421;color:#faf5e7';const clock=el('p'),content=el('div'),error=el('p');error.setAttribute('role','status');clock.setAttribute('aria-label','Maze time remaining');const gearRoot=el('div');shell.append(clock,content,gearRoot,error);let gear=null,gearKey='';container.append(shell);
  const state=g=>g?.state?.tv?.puzzles?.[item.id];
  function active(g){const tv=g?.state?.tv,step=pack.steps.find(s=>s.id===g?.state?.experience?.stepId);return step?.type==='exploration'&&tv?.currentRoom===item.roomId&&tv.activeInteraction===item.id&&state(g)?.activated===true;}
- async function change(fn){if(disposed||pending)return;pending=true;error.textContent='';try{const now=time();const result=await ref.transaction(g=>{if(!g||!active(g)||(host?g.createdBy!==uid:!g.players?.[uid]))return;const next=fn(state(g),g,now);if(!next)return;g.state.tv.puzzles[item.id]=next;return g;});if(!result.committed)error.textContent='The assignment changed. Check your current color and try again.';}catch(e){error.textContent='Could not save. Check your connection and try again.';}finally{pending=false;}}
+ // Only transact this puzzle: rewriting the game also revalidates unrelated rewards.
+ async function change(fn){
+  if(disposed||pending)return;pending=true;error.textContent='';
+  const expectedAttempt=state(latest)?.attempt;
+  try{
+   const result=await ref.child('state/tv/puzzles/'+item.id).transaction(current=>{
+    const g=latest;
+    if(!current||!g||!active(g)||(host?g.createdBy!==uid:!g.players?.[uid])||current.attempt!==expectedAttempt)return;
+    return fn(current,g,time())||undefined;
+   });
+   if(result.committed)return result.snapshot.val();if(!result.committed)error.textContent='The assignment changed. Check your current color and try again.';
+  }catch(e){error.textContent=e.code==='PERMISSION_DENIED'?'This maze move was rejected. Reopen the device and try again.':'Could not save. Check your connection and try again.';}
+  finally{pending=false;}
+ }
  function button(text,fn){const b=el('button',text);b.type='button';b.style.cssText='min-height:52px;padding:12px 18px;margin:6px;font-size:18px;touch-action:manipulation';b.onclick=fn;return b;}
  function begin(){const members=Object.keys(latest.players||{}).filter(id=>selected?.has(id));const attempt=crypto.randomUUID();change((s,g,now)=>{if(s?.status==='running'||s?.status==='paused'||members.some(id=>!g.players?.[id]))return;return start(item.maze,members,now,attempt)});}
- function draw(){if(disposed||!latest)return;const s=state(latest),key=JSON.stringify([s,active(latest),host?Object.keys(latest.players||{}):null]);updateClock();if(key===lastSignature)return;lastSignature=key;content.replaceChildren();
+ function draw(){if(disposed||!latest)return;const s=state(latest),key=JSON.stringify([s,active(latest),host?Object.keys(latest.players||{}):null]);updateClock();updateGear();if(key===lastSignature)return;lastSignature=key;content.replaceChildren();
  if(!active(latest)){content.append(el('p','Open this device on the TV to continue.'));return;}
  if(!s?.attempt){if(host)lobby();else content.append(el('p','Waiting for the host to start. You will receive either a maze to guide or directional controls.'));return;}
  if(s.shuffled&&lastShuffle!==s.attempt){lastShuffle=s.attempt;if(time()<(s.resumeAt||0))sound();}
@@ -52,22 +75,33 @@ function mount(container,{db,gameId,item,uid,host=false,pack}){
  if(!s.participants.includes(uid)){content.append(el('p','You are not in this attempt. Join the next round.'));return;}
  if(!id){content.append(el('h3','Waiting'),el('p','The remaining mazes have controllers. Stay ready for a new color.'));}
  else{const m=item.maze.mazes.find(m=>m.id===id),p=s.positions[id];const title=el('h3',m.symbol+' '+m.label+' — '+(guideIndex>=0?'GUIDE':'CONTROLLER'));title.style.color=m.color;content.append(title);
- if(guideIndex>=0){content.append(el('p',p.done?'Maze complete!':Object.values(s.controls||{}).includes(id)?'Call your color and a direction. You cannot move the token.':'Waiting for a controller. Plan your next direction.'));const grid=el('div');grid.setAttribute('aria-label',m.label+' maze');grid.style.cssText='display:grid;grid-template-columns:repeat('+m.grid[0].length+',1fr);width:100%;max-width:360px;aspect-ratio:'+m.grid[0].length+'/'+m.grid.length+';border:2px solid '+m.color+';opacity:'+(p.done||Object.values(s.controls||{}).includes(id)?1:.45);
+ if(guideIndex>=0){if(s.fault&&s.mazeIds[(s.mazeIds.indexOf(s.fault.mazeId)+1)%s.mazeIds.length]===id){const broken=item.maze.mazes.find(m=>m.id===s.fault.mazeId);content.append(el('p','Call out: Wind '+broken.label+'!'));}content.append(el('p',p.done?'Maze complete!':s.help>=1&&!Object.values(s.controls||{}).includes(id)?'Waiting for a controller. Plan your next direction.':'Call your color and a direction. You cannot move the token.'));const grid=el('div');grid.setAttribute('aria-label',m.label+' maze');grid.style.cssText='display:grid;grid-template-columns:repeat('+m.grid[0].length+',1fr);width:100%;max-width:360px;aspect-ratio:'+m.grid[0].length+'/'+m.grid.length+';border:2px solid '+m.color+';opacity:'+(s.help<1||p.done||Object.values(s.controls||{}).includes(id)?1:.45);
  m.grid.forEach((row,y)=>[...row].forEach((cell,x)=>{const tile=el('div',p.x===x&&p.y===y?'●':m.goal[0]===x&&m.goal[1]===y?'★':'');tile.style.cssText='display:flex;align-items:center;justify-content:center;font-size:22px;background:'+(cell==='#'?'#514c60':'#fcf3d8')+';color:#121020;min-width:0';grid.append(tile);}));content.append(grid,el('p','● Current position · ★ Goal'));if(s.help>=2&&!p.done){const path=route(m,[p.x,p.y]);content.append(el('p','Route hint: '+path.slice(0,3).join(' → ')));}}
- else{content.append(el('p','Listen for '+m.label+'. Choose a direction; then check your new color.'));const controls=el('div');controls.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);max-width:360px';for(const name of ['up','left','down','right']){const b=button({up:'↑ Up',left:'← Left',down:'↓ Down',right:'→ Right'}[name],()=>{const command={attempt:s.attempt,revision:s.revision,mazeId:id,direction:name};change((v,g,now)=>move(v,item.maze,uid,command,now));});b.disabled=paused;b.style.gridColumn=name==='up'?'2':name==='left'?'1':name==='down'?'2':'3';controls.append(b);}content.append(controls);}
+ else{content.append(el('p','Listen for '+m.label+'. Choose a direction; then check your new color.'));const controls=el('div');controls.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);max-width:360px';for(const name of ['up','left','down','right']){const b=button({up:'↑ Up',left:'← Left',down:'↓ Down',right:'→ Right'}[name],()=>{const command={attempt:s.attempt,revision:s.revision,mazeId:id,direction:name,roll:Math.random()};change((v,g,now)=>move(v,item.maze,uid,command,now));});b.disabled=paused;b.style.gridColumn=name==='up'?'2':name==='left'?'1':name==='down'?'2':'3';controls.append(b);}content.append(controls);}
  }
  if(s.lastMove?.uid===uid&&s.lastMove.hit)content.append(el('p','Thonk! A wall blocked the move. Check your new color.'));
  }
  if(s.help>=1)content.append(el('p',item.maze.helpText||'Guides call the color and a direction. Controllers check their color after every move. Only guides see the routes.'));
  content.append(button('We need help',()=>change(v=>{if(!['running','paused'].includes(v.status)||(!host&&!v.participants.includes(uid)))return;v=copy(v);v.help=Math.min(2,(v.help||0)+1);v.revision++;return v;})));
  }
+ function updateGear(){
+ const s=state(latest),index=s?.guideUids?.indexOf(uid),id=index>=0?s.mazeIds[index]:null;
+ const show=!host&&item.maze.winding&&active(latest)&&s?.status==='running'&&id&&!s.positions[id].done;
+ const key=show?s.attempt+':'+id:'';
+ if(key!==gearKey){gear?.dispose();gear=null;gearKey=key;if(show)gear=global.MazeWinding.mount(gearRoot,item.maze.winding,async()=>{
+ const current=state(latest),command={attempt:current.attempt,mazeId:id,turn:current.windTurns?.[id]||0},before=current.overloads?.[uid]?.at;
+ const result=await change((v,g,now)=>wind(v,item.maze,uid,command,now));
+ if(result?.overloads?.[uid]?.at&&result.overloads[uid].at!==before)gear?.warn();return !!result;
+ });}
+ gear?.update(Math.max(s?.windCooldowns?.[id]||0,s?.resumeAt||0)-time());
+ }
  function lobby(){content.append(el('p','Choose the players taking part. Guides keep a maze; controllers receive changing colors. Halfway through, roles shuffle once.'));
  selected||=new Set(Object.keys(latest.players||{}));for(const [id,p]of Object.entries(latest.players||{})){const label=el('label'),check=el('input');check.type='checkbox';check.checked=selected.has(id);check.onchange=()=>check.checked?selected.add(id):selected.delete(id);label.style.cssText='display:inline-flex;align-items:center;gap:8px;margin:8px';label.append(check,el('span',p.characterName||p.displayName||id));content.append(label);}content.append(button('Start maze challenge',()=>{if(selected.size<2||selected.size>item.maze.mazes.length*2){error.textContent='Select 2–'+item.maze.mazes.length*2+' participants.';return;}begin();}));}
  function updateClock(){const s=state(latest);if(!s?.attempt){clock.textContent='Ready when your group is ready';return;}const now=s.status==='paused'?s.pausedAt:time();const remaining=Math.max(0,Math.ceil((s.deadline-Math.max(now,s.resumeAt||0))/1000));clock.textContent=s.status==='complete'?'All mazes complete':s.status==='expired'?'Attempt finished':Math.floor(remaining/60)+':'+String(remaining%60).padStart(2,'0')+' remaining';}
  function sound(){try{const Audio=global.AudioContext||global.webkitAudioContext;if(!Audio)return;const a=new Audio();for(let i=0;i<3;i++){const o=a.createOscillator(),g=a.createGain();o.type='triangle';o.frequency.value=110+i*65;g.gain.value=.035;o.connect(g);g.connect(a.destination);o.start(a.currentTime+i*.12);o.stop(a.currentTime+i*.12+.15);}setTimeout(()=>a.close(),1000);}catch(_){}}
  const listener=s=>{latest=s.val();draw();};ref.on('value',listener,e=>error.textContent='Could not load the maze. Reopen it to reconnect.');
- const timer=setInterval(()=>{updateClock();const s=state(latest);if(s?.resumeAt&&time()>=s.resumeAt&&shell.dataset.resumed!==s.attempt){shell.dataset.resumed=s.attempt;lastSignature='';draw();}if(host&&s?.status==='running'&&active(latest)&&(time()>=s.deadline||!s.shuffled&&time()>=s.shuffleAt))change(v=>{v=copy(v);return tick(v,item.maze,time())?v:null;});},500);
- return{dispose(){disposed=true;clearInterval(timer);ref.off('value',listener);offsetRef.off('value',offsetListener);shell.remove();}};
+ const timer=setInterval(()=>{updateClock();updateGear();const s=state(latest);if(s?.resumeAt&&time()>=s.resumeAt&&shell.dataset.resumed!==s.attempt){shell.dataset.resumed=s.attempt;lastSignature='';draw();}if(host&&s?.status==='running'&&active(latest)&&(time()>=s.deadline||!s.shuffled&&time()>=s.shuffleAt))change(v=>{v=copy(v);return tick(v,item.maze,time())?v:null;});},500);
+ return{dispose(){disposed=true;gear?.dispose();clearInterval(timer);ref.off('value',listener);offsetRef.off('value',offsetListener);shell.remove();}};
 }
-global.CooperativeMaze={validate,start,move,tick,route,mount};
+global.CooperativeMaze={validate,start,move,wind,tick,route,mount};
 })(typeof window!=='undefined'?window:globalThis);

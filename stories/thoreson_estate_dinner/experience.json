@@ -1251,7 +1251,19 @@
               5
             ]
           }
-        ]
+        ],
+        "winding": {
+          "gearImage": "stories/thoreson_estate_dinner/assets/winding-gear-v1.png",
+          "turnsToRepair": 2,
+          "cooldownSeconds": 10,
+          "breakdownChance": 0.15,
+          "graceSeconds": 10,
+          "warning": {
+            "speakerName": "William Thoreson",
+            "portrait": "stories/thoreson_estate_dinner/assets/william-warning-v1.png",
+            "text": "Now you've done it! You've overloaded the circuits! Don't wind the machine unless it needs to be wound!"
+          }
+        }
       },
       "activatedText": "Eureka! The key fits. The winding handle turns and the lamps flicker to life."
     },
