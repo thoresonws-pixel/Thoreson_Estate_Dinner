@@ -1,6 +1,6 @@
 # Local player lab
 
-Use **Open player windows** for one switchable player window or a separate named window for every player in the loaded story. Separate windows keep their assigned identity across refreshes. Browsers may block multiple pop-ups; the lab lists blocked players so you can open them individually or allow pop-ups for localhost and retry. Reopening reuses the named windows. Window-versus-tab presentation is ultimately controlled by your browser.
+Use **Open player window** for one switchable player view or one wide window containing every player side by side in a scrollable grid. Each card has its own authenticated identity and starts on Actions. The grid adapts to the current story roster and window width. Reopening reuses the same named window; your browser may require allowing a pop-up for localhost.
 
 Run the actual TV and player pages with independent Firebase Auth identities against local Auth and Realtime Database emulators. No live accounts, game data, or Hosting deployments are involved.
 
