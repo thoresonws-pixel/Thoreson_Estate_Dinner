@@ -154,6 +154,10 @@
             if (item.requiresInventory && !p.interactions.some(i => i.type === 'inventory' && i.reward.id === item.requiresInventory)) fail('unknown required inventory');
             if (item.requiresPuzzle && !p.interactions.some(i => (i.maze||['noteSequence','objectSequence','poolShot'].includes(i.type)) && i.id === item.requiresPuzzle)) fail('unknown required puzzle');
         }
+            for(const [roomId,view] of Object.entries(p.map?.roomViews||{}))if(view.hotspots!==undefined){
+                if(!Array.isArray(view.hotspots)||!view.image)fail('invalid room hotspots');const seen=new Set();
+                for(const h of view.hotspots){const target=p.interactions.find(i=>i.id===h.interactionId);if(!target||target.roomId!==roomId||target.parentInteraction||seen.has(h.interactionId)||!Array.isArray(h.rect)||h.rect.length!==4||!h.rect.every(Number.isFinite)||h.rect[0]<0||h.rect[1]<0||h.rect[2]<=0||h.rect[3]<=0||h.rect[0]+h.rect[2]>100||h.rect[1]+h.rect[3]>100)fail('invalid room hotspot target or bounds');seen.add(h.interactionId);}
+            }
         const collections=new Set();
         for(const collection of p.collections||[]){
             id(collection.id,'collection ID');id(collection.reward?.id,'collection inventory ID');

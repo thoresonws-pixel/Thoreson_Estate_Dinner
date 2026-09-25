@@ -3,6 +3,9 @@
     const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
     function mount({pack,getState,save,open,close,panels,mazeContext}){
         const items=pack.interactions||[],list=document.getElementById('objectList');
+        const hotspotView=global.RoomHotspots.mount(document.getElementById('roomView'));
+        const tools=node('div'),highlight=node('button','Show things I can inspect'),testing=node('button','Show object list');highlight.type=testing.type='button';tools.append(highlight,testing);list.before(tools);let showList=false;
+        highlight.onclick=()=>hotspotView.highlight();testing.onclick=()=>{showList=!showList;testing.textContent=showList?'Hide object list':'Show object list';update(getState());};
         const panel=node('dialog');panel.id='interactionDialog';panel.setAttribute('aria-label','Inspect object');
         document.querySelector('.focus').append(panel);panels.push(panel);
         let focus='room',enabled=false,active=null,sequence=[],busy=false,audio=null,lastList='',renderedSolved=false;
@@ -159,9 +162,12 @@
             const focusRoot=active?.parentInteraction||active?.id;
             const roomItems=inspecting?items.filter(i=>(!i.hiddenUntilReady||!locked(i))&&i.roomId===state.currentRoom&&(focus==='object'?(i.id===focusRoot||i.parentInteraction===focusRoot):!i.parentInteraction)):[],signature=JSON.stringify([focus,enabled,state.currentRoom,roomItems.map(i=>[i.id,solved(i),locked(i),!!state.discoveries?.[i.reward.id],!!state.inventory?.[i.reward.id]])]);
             if(signature!==lastList){lastList=signature;list.replaceChildren();if(!inspecting)list.append(node('p',focus==='overview'?'Open a room to inspect its objects.':'Objects will be available during exploration.'));else if(!state.currentRoom)list.append(node('p','Choose a room on the map.'));else if(!roomItems.length)list.append(node('p','No objects to inspect here yet.'));else for(const item of roomItems){const b=node('button',item.name+(locked(item)?' · Locked':(item.type==='inventory'||item.type==='evidence')?(collected(item,state)?' · Collected':' · Item'):(solved(item)?' · Unlocked':'')));b.disabled=!enabled;b.onclick=async()=>{if(busy)return;if(item.personalItemSet&&mazeContext){busy=true;b.disabled=true;try{await PlayerItemSets.ensure(mazeContext,item.personalItemSet);}catch(error){list.append(node('p',error.message));return;}finally{busy=false;b.disabled=false;}}active=item;renderItem();open(panel.id);if(!locked(item))save({['inspected/'+item.id]:{at:Date.now()},...((item.maze||['poolShot','noteSequence'].includes(item.type))?{activeInteraction:item.id,phoneActionRequest:{id:crypto.randomUUID(),interactionId:item.id}}:{})});};list.append(b);}if(!enabled&&roomItems.length)list.append(node('p','Available during exploration.'));}
+            const view=pack.map?.roomViews?.[state.currentRoom],spatial=!!view?.hotspots?.length&&focus==='room'&&enabled;
+            tools.hidden=!spatial;list.hidden=spatial&&!showList;document.getElementById('objectsHeading').textContent=spatial?'Explore the room':'Objects in this room';
+            hotspotView.update(spatial?view:null,spatial?view.hotspots.filter(h=>roomItems.some(i=>i.id===h.interactionId)).map(h=>({...h,label:items.find(i=>i.id===h.interactionId).name})):[],id=>{const index=roomItems.findIndex(i=>i.id===id);list.querySelectorAll('button')[index]?.click();});
             if(panel.open&&active&&!busy&&solved(active)!==renderedSolved)renderItem();
         }
-        global.addEventListener('pagehide',()=>{mazeView?.dispose();global.removeEventListener('keydown',keyboardInput);audio?.close().catch(()=>{});},{once:true});
+        global.addEventListener('pagehide',()=>{hotspotView.dispose();mazeView?.dispose();global.removeEventListener('keydown',keyboardInput);audio?.close().catch(()=>{});},{once:true});
         return api={update,setStep(value){const changed=stepId!==value;stepId=value;if(changed&&active&&panel.open)renderItem();update(getState());},showNotice(notice,back){
             active=null;sequence=[];renderedSolved=false;panel.replaceChildren();
             const speaker=pack.speakers?.[notice.speakerId],illustrated=!!speaker?.portrait;

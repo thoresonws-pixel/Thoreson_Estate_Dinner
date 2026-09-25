@@ -122,7 +122,27 @@
       },
       "music": {
         "image": "stories/thoreson_estate_dinner/assets/music-interior-v1.png",
-        "alt": "Music room with a grand piano, a violin, a brass-horn phonograph, and upholstered listening chairs."
+        "alt": "Music room with a grand piano, a violin, a brass-horn phonograph, and upholstered listening chairs.",
+        "hotspots": [
+          {
+            "interactionId": "piano_melody",
+            "rect": [
+              47,
+              25,
+              35,
+              49
+            ]
+          },
+          {
+            "interactionId": "harmonic_cabinet",
+            "rect": [
+              1,
+              23,
+              16,
+              43
+            ]
+          }
+        ]
       },
       "conservatory": {
         "image": "stories/thoreson_estate_dinner/assets/conservatory-interior-v1.png",
