@@ -33,7 +33,20 @@ function mount(container,{db,gameId,item,uid,host=false,pack}){
  const shell=el('div');shell.className='cooperative-maze';shell.style.cssText='padding:16px;border:1px solid #a18a54;border-radius:10px;background:#171421;color:#faf5e7';const clock=el('p'),content=el('div'),error=el('p');error.setAttribute('role','status');clock.setAttribute('aria-label','Maze time remaining');shell.append(clock,content,error);container.append(shell);
  const state=g=>g?.state?.tv?.puzzles?.[item.id];
  function active(g){const tv=g?.state?.tv,step=pack.steps.find(s=>s.id===g?.state?.experience?.stepId);return step?.type==='exploration'&&tv?.currentRoom===item.roomId&&tv.activeInteraction===item.id&&state(g)?.activated===true;}
- async function change(fn){if(disposed||pending)return;pending=true;error.textContent='';try{const now=time();const result=await ref.transaction(g=>{if(!g||!active(g)||(host?g.createdBy!==uid:!g.players?.[uid]))return;const next=fn(state(g),g,now);if(!next)return;g.state.tv.puzzles[item.id]=next;return g;});if(!result.committed)error.textContent='The assignment changed. Check your current color and try again.';}catch(e){error.textContent='Could not save. Check your connection and try again.';}finally{pending=false;}}
+ // Only transact this puzzle: rewriting the game also revalidates unrelated rewards.
+ async function change(fn){
+  if(disposed||pending)return;pending=true;error.textContent='';
+  const expectedAttempt=state(latest)?.attempt;
+  try{
+   const result=await ref.child('state/tv/puzzles/'+item.id).transaction(current=>{
+    const g=latest;
+    if(!current||!g||!active(g)||(host?g.createdBy!==uid:!g.players?.[uid])||current.attempt!==expectedAttempt)return;
+    return fn(current,g,time())||undefined;
+   });
+   if(!result.committed)error.textContent='The assignment changed. Check your current color and try again.';
+  }catch(e){error.textContent=e.code==='PERMISSION_DENIED'?'This maze move was rejected. Reopen the device and try again.':'Could not save. Check your connection and try again.';}
+  finally{pending=false;}
+ }
  function button(text,fn){const b=el('button',text);b.type='button';b.style.cssText='min-height:52px;padding:12px 18px;margin:6px;font-size:18px;touch-action:manipulation';b.onclick=fn;return b;}
  function begin(){const members=Object.keys(latest.players||{}).filter(id=>selected?.has(id));const attempt=crypto.randomUUID();change((s,g,now)=>{if(s?.status==='running'||s?.status==='paused'||members.some(id=>!g.players?.[id]))return;return start(item.maze,members,now,attempt)});}
  function draw(){if(disposed||!latest)return;const s=state(latest),key=JSON.stringify([s,active(latest),host?Object.keys(latest.players||{}):null]);updateClock();if(key===lastSignature)return;lastSignature=key;content.replaceChildren();
